@@ -1,0 +1,242 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F7-1",
+  "cas": "Révolution haïtienne — indépendance 1791-1804",
+  "periode": "1791-1804",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI statique 3.5→3.5 · L(t)=0.05 effondrée · E=0.90 ancre supérieure E_split · mécanisme pur défection L(t) pas EROI]",
+  "cluster_note": "WP-F7-1 = ancre supérieure E_split du corpus (E=0.90) et L0=0.05 = valeur minimale programme. Cluster C1 ici non par EROI déclinant mais par L(t) armée coloniale effondrée : mécanisme de bascule par défection, pas par biophysique. EROI statique (EROI_start=EROI_end=3.5). T=1.0/R=0.10 = tension maximale / résistance quasi-nulle. Sa=6 cohérent avec organisation insurrectionnelle clanique.",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "trajectoire_attendue_libelle": "(a) inversion L(t) maximale — bascule (a) par effondrement L(t) armée coloniale française (0.05) et E=0.90 (fracture esclavagiste maximale). A_r_c_eff = A_r_c × L(t) → 0 malgré A_r_c nominale non nulle. Mécanisme pur de défection précédant la bascule.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire — Caraïbes africaine diaspora",
+  "sa_p6_modulation": false,
+  "sa_note": "Révolution haïtienne → Sa=6 (famille communautaire africaine, héritage diaspora bantou + créolisation caraïbéenne, Todd 1990). Cohésion communautaire forte — cohérent avec organisation insurrectionnelle Bois Caïman et réseaux marrons. p6 nominal, pas de correction ×1.5. CONTRASTE avec WP-C1 Haïti 2010 (même territoire, Sa=4) : Sa haïtien contesté dans littérature — V6.2 retient Sa=6 pour période coloniale (population majoritairement africaine) vs Sa=4 pour période contemporaine (société post-coloniale hybride).",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. I0=2.0 < 2.5 : plancher I_min actif dès t=0. Vérifier que I_min ne crée pas de résistance artificielle sur trajectoire (a) pure. T=1.0/R=0.10 : tester si I_min crée une résistance fictive sur cette trajectoire extrême.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Dubois, Laurent — Avengers of the New World: The Story of the Haitian Revolution (2004)",
+      "type": "N3 — Historique",
+      "acces": "Harvard University Press",
+      "variables_concernees": ["E_split", "gamma", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S2",
+      "titre": "James, C.L.R. — The Black Jacobins: Toussaint L'Ouverture and the San Domingo Revolution (1938)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Secker & Warburg / Vintage",
+      "variables_concernees": ["L_t", "gamma", "E_split", "A_r_c"]
+    },
+    {
+      "id": "S3",
+      "titre": "Geggus, David — Haitian Revolutionary Studies (2002)",
+      "type": "N3 — Historique",
+      "acces": "Indiana University Press",
+      "variables_concernees": ["E_split", "Cs", "A_d_eff", "L_t"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Fick, Carolyn — The Making of Haiti: The Saint Domingue Revolution from Below (1990)",
+      "type": "N3 — Historique/Social",
+      "acces": "University of Tennessee Press",
+      "variables_concernees": ["gamma", "E_split", "A_d_eff"]
+    },
+    {
+      "id": "S6",
+      "titre": "Popkin, Jeremy — A Concise History of the Haitian Revolution (2012)",
+      "type": "N3 — Historique",
+      "acces": "Wiley-Blackwell",
+      "variables_concernees": ["L_t", "A_r_c", "Cs"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E=0.90 = valeur MAXIMALE programme (ancre supérieure E_split, Instructions V6.2). Fracture esclavagiste maximale : ~500 000 esclaves (90% population) vs ~30 000 Blancs + ~30 000 affranchis. Structure tripartite mais fracture E_split vers esclavage = maximale du corpus.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Dubois (2004) démographie Saint-Domingue 1791 + Geggus (2002) structure sociale",
+        "valeur_indicateur": "À REMPLIR — 90% population en esclavage = fracture E_split maximale possible",
+        "coherence": "Valeur cible E_split~0.85-0.95 — ancre supérieure corpus : fracture juridiquement totale"
+      },
+      "valeur_normative_v62": 0.90,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.70 attendu (Instructions V6.2). Cohésion culturelle insurrectionnelle forte : réseaux marrons structurés, cérémonie Bois Caïman (août 1791), organisation Toussaint Louverture. γ très élevé pour un mouvement esclavagiste.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "James (1938) organisation Toussaint + Fick (1990) réseaux marrons et communication",
+        "valeur_indicateur": "À REMPLIR — organisation insurrectionnelle documentée : 100 000 esclaves en 10 jours",
+        "coherence": "Valeur cible γ~0.65-0.75 — organisation insurrectionnelle extrêmement rapide = γ très élevé"
+      },
+      "valeur_normative_v62": 0.70,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive administration coloniale française T=0 (1791). Administration coloniale fonctionnelle pour les colons mais nulle pour esclaves. Coder la capacité redistributive effective pour la population totale.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Geggus (2002) administration coloniale Saint-Domingue + Popkin (2012) institutions",
+        "valeur_indicateur": "À REMPLIR — administration efficace pour colons, nulle pour 90% population",
+        "coherence": "Valeur cible A_d_eff~1.5-3.0/10 (pondérée population totale : redistribution quasi-nulle pour esclaves)"
+      },
+      "valeur_normative_v62": 2.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : milices coloniales + armée française. DÉFI : A_r_c_eff = A_r_c × L(t) → 0 car L(t)=0.05. Répression nominalement élevée mais effectivement nulle par effondrement L(t). Coder A_r_c nominale T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Dubois (2004) capacité militaire coloniale + James (1938) analyse défection armée française",
+        "valeur_indicateur": "À REMPLIR — armée française nominalement présente mais défaite par fièvre jaune + défection",
+        "coherence": "Valeur cible A_r_c nominale ~0.55-0.70 (mais A_r_c_eff → 0 par L(t)=0.05)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 1791-1804. A_r_ne=0.00 = ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "XVIIIe siècle : aucune technologie de surveillance systémique. A_r_ne=0.00 obligatoire pour tous WP antérieurs à ~1990.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime colonial T=0 (1791). Très faible : administration coloniale discréditée par Révolution française (contradiction liberté/esclavage), conflits entre colons et métropole, légitimité nulle pour 90% population.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Dubois (2004) crise légitimité coloniale post-1789 + Geggus (2002) attitude colons",
+        "valeur_indicateur": "À REMPLIR — contradiction liberté/esclavage post-1789 = Cs effondrée",
+        "coherence": "Valeur cible Cs~0.10-0.20 (régime colonial totalement illégitime pour majorité population)"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté armée coloniale T=0 (L0=0.05 conditions initiales). HARDCODÉ défi : L0=0.05 = valeur minimale programme (colonie en déroute, armée française décimée par fièvre jaune, mutineries). L(t) PRÉCÈDE la bascule — mécanisme pur de défection.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "James (1938) défection armée française + Popkin (2012) fièvre jaune expédition Leclerc",
+        "valeur_indicateur": "À REMPLIR — expédition Leclerc 1802 : 50 000 soldats, 80% morts fièvre jaune",
+        "coherence": "Valeur cible L_t~0.05 — armée coloniale quasi-inexistante, L(t) effondrée avant bascule"
+      },
+      "valeur_normative_v62": 0.05,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.5,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE C1 — mécanisme bascule par L(t), pas EROI (EROI_start=EROI_end=3.5)",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI statique 3.5→3.5. Saint-Domingue 1791 : économie de plantation sucrière — EROI agricole modéré mais stable. Mécanisme de bascule = L(t) effondrée, PAS déclin EROI. Cmd_linear requis par conformité C1.",
+      "justification": "Saint-Domingue 1791 = économie de plantation la plus productive des Amériques (40% sucre mondial). EROI agricole statique ~3-4. C1 ici non par EROI déclinant mais par L(t)=0.05 (armée coloniale effondrée). Instructions V6.2 : 'mécanisme de bascule par L(t) et non EROI'.",
+      "sanity_check": {
+        "indicateur": "Production sucrière Saint-Domingue 1789-1791 + données agricoles coloniales",
+        "valeur_indicateur": "EROI plantation stable confirmé — Saint-Domingue = 1/3 commerce extérieur français",
+        "coherence": "CONFIRMÉ — EROI=3.5 statique cohérent : bascule causée par L(t), pas EROI"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Révolution haïtienne → Sa=6 (famille communautaire africaine, héritage diaspora bantou + créolisation caraïbéenne, Todd 1990). CONTRASTE avec WP-C1 Haïti 2010 (Sa=4).",
+      "justification": "Todd classe les sociétés d'Afrique subsaharienne en famille communautaire. Population de Saint-Domingue 1791 majoritairement africaine (600 000 dont ~500 000 esclaves nés en Afrique ou Caraïbes de 1ère génération). Sa=6 pour période révolutionnaire. WP-C1 Haïti 2010 retient Sa=4 (hybridation post-coloniale). Documenter divergence Sa en S4.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1791 — nuit de Bois Caïman, début insurrection août 1791). Source : Instructions V6.2.",
+    "S0": 1.5,
+    "L0": 0.05,
+    "C0": 0.10,
+    "I0": 2.0,
+    "I0_note": "I0=2.0 < 2.5 — plancher I_min actif dès t=0. Vérifier que I_min ne crée pas de résistance artificielle sur trajectoire (a) pure. L0=0.05 = valeur minimale programme : armée coloniale effondrée AVANT la bascule — mécanisme causal clé."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C1 — cmd_linear obligatoire par conformité C1 (EROI_start=EROI_end).",
+    "T": 1.0,
+    "Mob": 0.05,
+    "R": 0.10,
+    "Ref": 0.10,
+    "Rc": 0.15,
+    "Rn": 0.0,
+    "E": 0.90,
+    "gamma": 0.70,
+    "EROI": 3.5,
+    "EROI_start": 3.5,
+    "EROI_end": 3.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 statique — EROI_start=EROI_end=3.5 par conformité C1. Mécanisme bascule = L(t), pas EROI.",
+    "EROI": {
+      "start": 3.5,
+      "end": 3.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. I0=2.0 < 2.5 + T=1.0/R=0.10. Vérifier que I_min ne crée pas de résistance artificielle sur (a) pure. Tester si A_r_c_eff = A_r_c × L(t) → 0 est bien capturé."
+  },
+  "alertes_conv_a": [
+    "MÉCANISME CLÉ : A_r_c_eff = A_r_c × L(t) → 0 malgré A_r_c nominale non nulle. L(t)=0.05 PRÉCÈDE la bascule — documenter explicitement en S2 que la défection de l'armée coloniale est la cause, pas la conséquence du soulèvement.",
+    "E=0.90 = valeur MAXIMALE programme (ancre supérieure E_split). Distinguer structure tripartite (colons/affranchis/esclaves) : E_split mesure fracture principale (esclavage). Si CONV-E code < 0.80, documenter divergence.",
+    "I0=2.0 < 2.5 : I_min actif dès t=0. Vérifier que le plancher I_min ne crée pas de résistance fictive ralentissant (a). Si trajectoire (a) observée mais avec retard anormal, c'est I_min artificiel — documenter en S3.",
+    "EROI statique 3.5 : mécanisme C1 ici = L(t) effondrée, pas EROI déclinant. Documenter distinction en S1. Contraste avec WP-F3 (même T=1.0/R=0.10 mais EROI déclinant → issue (d) vs ici EROI stable + L(t)→0 → issue (a)).",
+    "γ=0.70 = parmi les plus élevés du corpus. Organisation Bois Caïman + réseaux marrons. Contraste avec WP-C1 Haïti 2010 (γ=0.25) : même territoire, 220 ans d'écart, γ effondré. Documenter en note comparative S3."
+  ],
+  "defi_mepa": "WP ancre supérieure E_split du corpus (E=0.90) et L0 minimale programme (L0=0.05). Démontrer A_r_c_eff = A_r_c × L(t) → 0 malgré A_r_c nominale non nulle : c'est l'effondrement de L(t) armée coloniale (fièvre jaune + désertions + contradictions révolution française) qui PRÉCÈDE et cause la bascule, pas la montée de F. Mécanisme pur de défection institutionnelle. Vérifier que I_min (I0=2.0) ne génère pas de résistance fictive sur (a) pure. Contraste fondamental avec WP-F3 (même T/R, EROI déclinant → (d)) : quand EROI est statique et L(t) effondrée, la bascule est (a), pas (d) — EROI est le discriminant structural entre les deux mécanismes."
+}

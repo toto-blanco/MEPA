@@ -1,0 +1,252 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-C6-1",
+  "cas": "Chine Xi Jinping 2012-2026",
+  "periode": "2012-2026",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [A_r_ne=0.85 max programme · EROI transition charbon→renouvelable · F<R structurel · substitution A_r_ne/A_i · WP robustesse final corpus]",
+  "cluster_note": "WP-C6-1 = WP de robustesse final du corpus V6.2. A_r_ne=0.85 = VALEUR MAXIMALE programme → F<R structurel (aucune bascule endogène possible). Substitution A_r_ne/A_i face à légitimité déclinante = trajectoire (h_ne). (a) requiert G exogène nécessairement. Premier cas transition N0 fossile→renouvelable en temps réel (black-outs 2021 = signal précurseur). κ boomerang : sensibilité A_r_ne élevée sur trajectoire. Système contemporain actif — résultat inconnu 2026.",
+  "trajectoire_attendue": "(h) Stabilité",
+  "trajectoire_attendue_libelle": "(h) numérique sous tension — A_r_ne=0.85 maintient F<R structurellement. Légitimité de performance déclinante compensée par surveillance numérique massive. (a) endogène impossible sans G exogène. Transition N0 charbon→renouvelable = risque structurel de moyen terme.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Chine",
+  "sa_p6_modulation": false,
+  "sa_note": "Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois (I6, I8, C6). p6 nominal, pas de correction ×1.5. Sa=6 cohérent avec résilience autoritaire : maintien (h) sous tension malgré légitimité de performance déclinante.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. A_r_ne=0.85 max programme → sensibilité κ boomerang (Stratification V6.2). Système contemporain actif (résultat inconnu 2026). WP de robustesse final : valider que tous les mécanismes corpus sont cohérents avec ce cas extrême. 10 passes.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "McGregor, Richard — Xi Jinping: The Backlash (2019)",
+      "type": "N3 — Politologique",
+      "acces": "Penguin Books",
+      "variables_concernees": ["gamma", "E_split", "Cs", "L_t"]
+    },
+    {
+      "id": "S2",
+      "titre": "Buckley, Chris — The Reeducation of China (2020)",
+      "type": "N3 — Journalistique/Politique",
+      "acces": "NYT Books",
+      "variables_concernees": ["A_r_ne", "A_r_c", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Dikötter, Frank — China After Mao: The Rise of a Superpower (2022)",
+      "type": "N3 — Historique",
+      "acces": "Bloomsbury",
+      "variables_concernees": ["Cs", "gamma", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "IEA — China Energy Review 2012-2024",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "https://www.iea.org/",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S6",
+      "titre": "V-DEM China dataset 2012-2024",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "L_t"]
+    },
+    {
+      "id": "S7",
+      "titre": "Roberts, Margaret — Censored: Distraction and Diversion Inside China's Great Firewall (2018)",
+      "type": "N3 — Politologique",
+      "acces": "Princeton University Press",
+      "variables_concernees": ["A_r_ne"]
+    },
+    {
+      "id": "S8",
+      "titre": "World Bank — China Economic Update 2012-2024",
+      "type": "N1 — Économique",
+      "acces": "https://www.worldbank.org/",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture élite PCC/technocratie + nouvelles élites privées (Alibaba, Tencent) vs masse populaire + paysannerie migrante. E=0.50 attendu. Xi : campagne anti-corruption = consolidation E_split (élimination concurrents) autant que redistribution.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM China elite power index + Gini BM Chine 2012-2024",
+        "valeur_indicateur": "À REMPLIR — Gini Chine ~0.47-0.50 (2012-2024) : inégalités structurellement élevées",
+        "coherence": "Valeur cible E_split~0.45-0.55 (fracture élite PCC/privé vs masse — stable sous Xi)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.55 attendu (Instructions V6.2). Cohésion idéologique PCC sous Xi : nationalisme renforcé (Rêve chinois), doctrine Xi Jinping Pensée = nouvelle doctrine. Mais légitimité de performance déclinante (immobilier, COVID, jeunes chômeurs). γ maintenu par nationalisme + répression, pas par conviction.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McGregor (2019) nationalisme Xi + sondages Edelman Trust Barometer Chine",
+        "valeur_indicateur": "À REMPLIR — doctrine Xi Jinping : institutionnalisée 2017, cohésion maintenue par nationalisme",
+        "coherence": "Valeur cible γ~0.50-0.60 — cohésion doctrinale maintenue par nationalisme + répression"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S3, S8",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive PCC T=0 (2012). Programmes sociaux Xi : retraite universelle, santé rurale, lutte contre pauvreté (2020 = fin pauvreté absolue officielle). A_d_eff maintenu élevé par rente économique. Déclinant si EROI transite charbon→renouvelable.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "BM China dépenses sociales 2012-2024 + campagne anti-pauvreté Xi",
+        "valeur_indicateur": "À REMPLIR — dépenses sociales Chine : ~14% PIB 2024, en hausse sous Xi",
+        "coherence": "Valeur cible A_d_eff~6.5-8.0/10 (redistribution institutionnelle forte, soutenue par EROI)"
+      },
+      "valeur_normative_v62": 7.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique : APL + PAP (People's Armed Police) + Xinjiang camps (1M+). Répression structurelle Xi plus intensive que Deng/Jiang/Hu. INTERACTION avec A_r_ne=0.85 : A_r_c classique sous-staffée vs surveillance numérique massive.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Buckley (2020) répression Xinjiang + V-DEM physical violence index Chine 2012-2024",
+        "valeur_indicateur": "À REMPLIR — camps Xinjiang : ~1M internés (2017-2022) = A_r_c maximale parmi WP chinois",
+        "coherence": "Valeur cible A_r_c~0.60-0.75 (répression structurelle Xi la plus intense depuis Tiananmen)"
+      },
+      "valeur_normative_v62": 0.68,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.85,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2 + S7",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.85 = VALEUR MAXIMALE programme. Chine Xi : Grande Muraille numérique (GFW), Sesame Credit, surveillance faciométrique (~700M caméras CCTV 2021), SCS, surveillance totale Xinjiang. Système de surveillance le plus développé documenté dans le corpus.",
+      "justification": "Roberts (2018) : Chine = système de censure/surveillance numérique le plus sophistiqué. Grande Muraille numérique (GFW), surveillance faciométrique (SenseTime/Megvii : 700M caméras), Sesame Credit Alibaba/Tencent, surveillance Xinjiang (IJOP app). A_r_ne=0.85 → F<R structurel : aucune mobilisation ne peut atteindre le seuil (a) sans G exogène. Second plus élevé = WP-I4 Allemagne nazie (0.70) — écart significatif.",
+      "sanity_check": {
+        "indicateur": "Roberts (2018) Great Firewall + données CCTV density Chine 2024",
+        "valeur_indicateur": "700M caméras + GFW + SCS documentés — A_r_ne=0.85 maximum confirmé",
+        "coherence": "CONFIRMÉ — A_r_ne=0.85 cohérent avec système surveillance numérique le plus développé du corpus"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité PCC T=0 (2012, prise de pouvoir Xi). Cs modérée à élevée en 2012 : légitimité de performance robuste (30 ans croissance). Déclinante sous Xi : immobilier (Evergrande), COVID politique zéro, jeunes chômeurs ~20% (2023), ralentissement croissance.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Dikötter (2022) légitimité PCC + Edelman Trust Barometer China 2012-2024",
+        "valeur_indicateur": "À REMPLIR — confiance PCC 2012 élevée (>80% Edelman), déclinante 2021-2024",
+        "coherence": "Valeur cible Cs~0.60-0.75 T=0 (légitimité performance élevée 2012, trajectoire déclinante)"
+      },
+      "valeur_normative_v62": 0.68,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté APL + appareils PCC T=0 (L0=0.65 conditions initiales). Xi : consolidation loyauté via campagne anti-corruption (élimination rivaux : Bo Xilai, Zhou Yongkang). APL loyauté institutionnelle forte après réforme militaire 2015-2016.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McGregor (2019) consolidation Xi + V-DEM loyauté forces sécurité Chine 2012-2024",
+        "valeur_indicateur": "À REMPLIR — réforme militaire Xi 2015-16 + anti-corruption = loyauté APL renforcée",
+        "coherence": "Valeur cible L_t~0.65 (cohérente avec L0=0.65 — loyauté institutionnelle APL/PCC robuste)"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 8.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE ou légèrement déclinant — C4 transition charbon→renouvelable en cours (EROI=8 valeur de transition)",
+      "source_id": "Instructions V6.2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=8.0 statique (valeur unique, transition en cours). Chine Xi 2012-2026 : transition charbon (EROI ~10-12) → renouvelables (EROI solaire ~5-8, éolien ~15-20). Valeur transitoire=8.0 reflète le mélange charbon déclinant + renouvelables montants. Black-outs 2021 = signal précurseur de la tension de transition. cmd_linear = {} (objet vide).",
+      "justification": "IEA China Energy Review 2024 : Chine = transition énergétique la plus rapide de l'histoire (200 GW solaire/an 2023). EROI=8.0 = valeur de transition entre charbon (haut EROI, déclinant) et renouvelables (EROI variable selon technologie). Black-outs 2021 = signal précurseur documenté (Instructions V6.2). Valeur stable sur t_max=300 = approximation raisonnable de la transition.",
+      "sanity_check": {
+        "indicateur": "IEA China Energy Review + données production charbon/renouvelables Chine 2024",
+        "valeur_indicateur": "EROI transition ~7-9 documenté — black-outs 2021 confirment tension de transition",
+        "coherence": "CONFIRMÉ — EROI=8.0 statique cohérent avec phase de transition énergétique 2012-2026"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois.",
+      "justification": "Todd (1990) : Chine = famille communautaire exogame. Sa=6 = résilience autoritaire — cohérent avec maintien (h) sous tension numérique. Trois WP chinois (I6, I8, C6) avec Sa=6 = mêmes structurels anthropologiques, trajectoires différentes selon EROI/Cs/A_r_ne.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 2012 — prise de pouvoir Xi Jinping, 18e Congrès PCC). Source : Instructions V6.2.",
+    "S0": 0.9,
+    "L0": 0.65,
+    "C0": 0.08,
+    "I0": 5.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C4 — cmd_linear = {} (objet vide). ZONE STRESS : 10 passes. A_r_ne=0.85 MAXIMUM PROGRAMME.",
+    "T": 0.65,
+    "Mob": 0.40,
+    "R": 0.60,
+    "Ref": 0.10,
+    "Rc": 0.70,
+    "Rn": 0.85,
+    "E": 0.50,
+    "gamma": 0.55,
+    "EROI": 8.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. WP de robustesse final corpus. A_r_ne=0.85 max programme → sensibilité κ boomerang. Système contemporain actif. Valider F<R structurel sur 10 passes. Tester G exogène sur passes 8-10."
+  },
+  "alertes_conv_a": [
+    "A_r_ne=0.85 = VALEUR MAXIMALE PROGRAMME — F<R STRUCTUREL : documenter dans le runner que F/R < theta_FR=0.75 à TOUT moment sur t_max=300 grâce à Rn=0.85. C'est la définition mécanique de (h_ne) : aucune bascule endogène possible. Si F/R approche 0.75 dans une passe, c'est une anomalie paramétrique à documenter immédiatement.",
+    "κ BOOMERANG (Stratification V6.2) : sensibilité Rn=0.85 sur trajectoire. Tester sur passes 6-10 : Rn=0.75 (−0.10) → vérifier si trajectoire bascule. C'est la question clé de robustesse : quelle valeur minimale de Rn maintient F<R structurel ? Documenter le seuil critique en S3.",
+    "SUBSTITUTION A_r_ne/A_i : documenter en S3 que Xi substitue surveillance numérique massive (A_r_ne=0.85) à la légitimité de performance déclinante (Cs déclinante). Mécanisme unique dans le corpus — (h_ne) = stabilité maintenue par surveillance, non par légitimité. Comparer avec WP-I9 Singapour (A_r_ne=0.55 ciblée + A_d_eff=0.85) : deux modèles de (h) différents.",
+    "TRANSITION N0 FOSSILE→RENOUVELABLE EN TEMPS RÉEL : premier cas corpus. Black-outs 2021 = signal précurseur à dater en S1. Documenter la tension de transition EROI : charbon déclinant (EROI ~10-12) + renouvelables montants (EROI solaire ~5-8) = EROI=8.0 transitoire. Si EROI tombe sous 5.0 sans compensation renouvelable, risque passage C1 (chantier V7).",
+    "SYSTÈME CONTEMPORAIN ACTIF — RÉSULTAT INCONNU 2026 : risque narrative smoothing maximum du corpus (avec WP-C5 Iran). Sur passes 8-10, tester scénario G exogène (conflit Taiwan = G exogène déstabilisateur?) — documenter sans forecast. Ne pas ajuster Rn pour 'prédire' un résultat."
+  ],
+  "defi_mepa": "WP de robustesse FINAL du corpus V6.2 — valide la cohérence de tous les mécanismes précédents sur le cas extrême contemporain. A_r_ne=0.85 = MAXIMUM PROGRAMME → F<R structurel : aucune bascule (a) endogène. Substitution A_r_ne/A_i = trajectoire (h_ne) : documenter en S3 le mécanisme de substitution surveillance/légitimité, unique dans le corpus. κ boomerang : tester le seuil critique de Rn en dessous duquel (h) n'est plus garanti. Premier cas transition N0 fossile→renouvelable en temps réel : black-outs 2021 = signal précurseur, EROI=8.0 transitoire = valeur instable à moyen terme (chantier V7). Contraste final avec WP-I6 (Chine 1989, A_r_ne=0.45) : même pays, même PCC, +35 ans de technologie de surveillance → différence 0.45 vs 0.85 = mesure empirique de l'effet surveillance numérique sur trajectoire institutionnelle."
+}

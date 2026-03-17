@@ -1,0 +1,242 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F6-1",
+  "cas": "Empire Ottoman",
+  "periode": "1908-1922",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 5.0→2.0 · cmd_linear · Δτ critique dépassé · A_i Jeunes-Turcs tardive · I0=2.5 frontière I_min · transition 2 phases]",
+  "cluster_note": "WP-F6-1 = trajectoire (c)→(d) avec A_i tardive. A_i Jeunes-Turcs (1908) arrive après le Δτ critique : trajectoire (c) trop avancée. EROI déclinant 5.0→2.0 → I sous seuil de maintenance avant C. Phase de latence à capturer explicitement. Bifurcation kémaliste (1923) = A_i parallèle sur ruines (hors t_max, à mentionner en S6). I0=2.5 = frontière I_min. ZONE STRESS : transition 2 phases C1.",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(c)→(d) A_i tardive — Phase (c) latence 1908-1915 (Δτ critique dépassé, A_i Jeunes-Turcs insuffisante) → Phase (d) effondrement 1915-1922 (EROI < seuil maintenance, I effondré avant C). Bifurcation kémaliste 1923 = hors t_max.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Moyen-Orient/Islam",
+  "sa_p6_modulation": false,
+  "sa_note": "Empire Ottoman → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient/Islam). Sa=6 = résilience autoritaire — cohérent avec résistance déclin lent de l'empire (XIXe-XXe siècle) avant effondrement terminal 1922. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. Trajectoire (c)→(d) avec phase de latence à capturer explicitement. I0=2.5 frontière I_min. EROI 5.0→2.0 transition de phase centrale. A_i tardive = variable sensible. 10 passes pour valider timing bascule (c)→(d).",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Fromkin, David — A Peace to End All Peace: The Fall of the Ottoman Empire (1989)",
+      "type": "N3 — Historique",
+      "acces": "Avon Books",
+      "variables_concernees": ["E_split", "gamma", "L_t", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Zürcher, Erik — Turkey: A Modern History (1993)",
+      "type": "N3 — Historique",
+      "acces": "I.B. Tauris",
+      "variables_concernees": ["gamma", "A_d_eff", "Cs", "L_t"]
+    },
+    {
+      "id": "S3",
+      "titre": "Owen, Roger — The Middle East in the World Economy 1800-1914 (1981)",
+      "type": "N3 — Économique/Historique",
+      "acces": "Methuen",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Hanioğlu, M. Şükrü — A Brief History of the Late Ottoman Empire (2008)",
+      "type": "N3 — Historique",
+      "acces": "Princeton University Press",
+      "variables_concernees": ["E_split", "gamma", "A_r_c", "Cs"]
+    },
+    {
+      "id": "S6",
+      "titre": "Quataert, Donald — The Ottoman Empire, 1700-1922 (2000)",
+      "type": "N3 — Historique/Économique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["A_d_eff", "EROI", "E_split"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture élite ottoman-turque (CUP/Jeunes-Turcs) vs populations non-turques (Arabes, Arméniens, Grecs, Kurdes) + paysannerie anatolienne. Fracture multidimensionnelle : ethnique + classe. E=0.55 attendu.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Hanioğlu (2008) fracture ethno-nationale + Owen (1981) structure économique ottomane",
+        "valeur_indicateur": "À REMPLIR — populations non-turques ~40% empire : fracture E_split élevée",
+        "coherence": "Valeur cible E_split~0.50-0.60 (fracture ethno-nationale + classe, déclin économique accélère)"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.45 attendu (Instructions V6.2). Cohésion CUP/Jeunes-Turcs : nationalisme turc en construction mais doctrine fragile (panislamisme vs laïcité vs pantouranisme). Cohésion modérée sur base nationaliste naissante.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Zürcher (1993) cohésion CUP + Hanioğlu (2008) doctrine Jeunes-Turcs",
+        "valeur_indicateur": "À REMPLIR — CUP : organisation réelle mais divisions internes (nationalistes vs islamistes)",
+        "coherence": "Valeur cible γ~0.40-0.50 — nationalisme turc naissant, fragmentation doctrinale interne"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive Empire Ottoman T=0 (1908). Administration sultane en déclin structurel (tanzimat incomplets, dette extérieure). Owen (1981) : pénétration marchande européenne = captation surplus par capitulations. A_d_eff faible et déclinant.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Owen (1981) économie ottoman déclinante + Quataert (2000) dette publique",
+        "valeur_indicateur": "À REMPLIR — dette ottomane : sous administration étrangère (OPDA) depuis 1881",
+        "coherence": "Valeur cible A_d_eff~2.5-4.0/10 (administration fonctionnelle mais redistribution sous-contrôle étranger)"
+      },
+      "valeur_normative_v62": 3.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : armée ottomane + hamidiye. T=0 (1908) : armée en réforme mais encore fonctionnelle. Génocide arménien (1915-1916) = A_r_c maximale phase (d). Coder valeur T=0 (1908).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Fromkin (1989) armée ottomane + Hanioğlu (2008) capacité répression 1908",
+        "valeur_indicateur": "À REMPLIR — armée ottomane : réforme en cours, capacité réelle déclinante vs potentiel théorique",
+        "coherence": "Valeur cible A_r_c~0.50-0.65 T=0 (armée opérationnelle mais en déclin structurel)"
+      },
+      "valeur_normative_v62": 0.57,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.05,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.05. Empire Ottoman 1908-1922 : télégraphe d'État + presse contrôlée minimalement. Surveillance proto-institutionnelle très faible. Valeur minimale non-nulle distingue de l'absence absolue.",
+      "justification": "Empire Ottoman 1908-1922 : réseau télégraphique d'État (hérité XIXe s.) + presse en partie contrôlée. Surveillance minimale mais existante. Rn=0.05 cohérent avec Rn commandes.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime ottomane T=0 (1908, Révolution Jeunes-Turcs). Cs en chute : défaites militaires successives (1877-78, 1912-13 guerres balkaniques), dette étrangère, perte territoires. Révolution 1908 = tentative restauration Cs.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Zürcher (1993) légitimité ottoman post-1908 + Fromkin (1989) opinion publique",
+        "valeur_indicateur": "À REMPLIR — défaites balkaniques 1912-13 : Cs effondrée malgré révolution 1908",
+        "coherence": "Valeur cible Cs~0.25-0.40 (légitimité fragilisée par défaites, révolution 1908 tentative restauration)"
+      },
+      "valeur_normative_v62": 0.32,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté armée + administration T=0 (L0=0.35 conditions initiales). Armée : loyauté au Sultan formelle mais CUP a infiltré les officiers. Administration : loyauté fragmentée par nationalités et intérêts.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Fromkin (1989) loyauté armée ottomane + Hanioğlu (2008) infiltration CUP",
+        "valeur_indicateur": "À REMPLIR — loyauté fragmentée : officiers CUP vs officiers sultanistes vs nationalités",
+        "coherence": "Valeur cible L_t~0.35 (cohérente avec L0=0.35 — loyauté divisée, CUP infiltration partielle)"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.5,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 (EROI_start=5.0, EROI_end=2.0 sur t_max)",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=5.0, EROI_end=2.0. Empire Ottoman 1908-1922 : économie agro-pastorale sous pression (pénétration marchande européenne, dettes, guerre). Owen (1981) : EROI déclinant par captation surplus + destruction guerre 1914-1918. Déclin linéaire sur 300 pas.",
+      "justification": "Owen (1981) : économie ottomane en déclin structurel depuis XIXe siècle. EROI_start=5.0 (1908 : empire encore fonctionnel) → EROI_end=2.0 (1922 : ruines post-WWI). EROI = seuil critique C1 dès t≈150 (1915 environ, génocide + WWI). Déclin conforme à trajectoire (c)→(d).",
+      "sanity_check": {
+        "indicateur": "Owen (1981) EROI économique ottoman + Quataert (2000) données production 1908-1922",
+        "valeur_indicateur": "Déclin économique ottoman documenté — EROI déclinant confirmé par statistiques",
+        "coherence": "CONFIRMÉ — EROI 5.0→2.0 cohérent avec déclin économique ottoman documenté 1908-1922"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Empire Ottoman → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient/Islam).",
+      "justification": "Todd (1990) : Moyen-Orient = famille communautaire exogame. Sa=6 = résilience autoritaire — cohérent avec déclin lent de l'empire sur un siècle avant effondrement terminal 1922. Phase de latence (c) maintenue par résilience Sa=6.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1908 — Révolution des Jeunes-Turcs, rétablissement Constitution 1876). Source : Instructions V6.2.",
+    "S0": 1.1,
+    "L0": 0.35,
+    "C0": 0.10,
+    "I0": 2.5,
+    "I0_note": "I0=2.5 = frontière exacte I_min. Empire Ottoman 1908 : institutions encore formellement fonctionnelles mais capacité minimale. Surveiller activation I_min dans le runner — analogue WP-I2 et WP-I4. Phase de latence (c) doit précéder franchissement I_min."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 — cmd_linear obligatoire. ZONE STRESS : 10 passes.",
+    "T": 0.85,
+    "Mob": 0.15,
+    "R": 0.25,
+    "Ref": 0.10,
+    "Rc": 0.40,
+    "Rn": 0.05,
+    "E": 0.55,
+    "gamma": 0.45,
+    "EROI": 3.5,
+    "EROI_start": 5.0,
+    "EROI_end": 2.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 5.0→2.0 sur 300 pas.",
+    "EROI": {
+      "start": 5.0,
+      "end": 2.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. Trajectoire (c)→(d) avec phase latence à capturer. I0=2.5 frontière I_min. Timing bascule (c)→(d) = variable sensible principale. Documenter t_latence et t_bascule sur 10 passes."
+  },
+  "alertes_conv_a": [
+    "DEUX PHASES OBLIGATOIRES : Phase (c) latence (A_i Jeunes-Turcs insuffisante) → Phase (d) effondrement (EROI < seuil maintenance). Documenter t_latence (durée Phase (c)) et t_bascule ((c)→(d)) sur 10 passes STRESS. Δτ latence doit être positif et documenté.",
+    "A_i TARDIVE = MÉCANISME CLÉ : A_i Jeunes-Turcs (1908) arrive après Δτ critique (trajectoire (c) trop avancée). Documenter en S3 le concept de Δτ critique : il existe un délai au-delà duquel A_i ne peut plus inverser la trajectoire. Comparer avec WP-I8 (A_i précoce → (h)) et WP-I7 (A_i inversée → (d)).",
+    "I0=2.5 FRONTIÈRE I_min : identifier dans le runner le moment t_Imin où I < 2.5 (activation contrainte). Distinguer t_Imin (contrainte biophysique) de t_bascule (basculement institutionnel) — ces deux événements ne coïncident pas nécessairement.",
+    "BIFURCATION KÉMALISTE (1923) hors t_max : documenter en S6 que la République turque = A_i parallèle sur ruines ottomanes. Pas dans la simulation (hors t_max=300) mais signal de résilience institutionnelle post-(d). Analogue à la NEP soviétique (WP-I2) comme contrainte A_d_max post-(a).",
+    "EROI=3.5 = valeur centrale (5.0+2.0)/2 : cohérence arithmétique. Mais attention : le déclin n'est pas homogène — la WWI (1914-1918) = choc brutal. Documenter si une accélération non-linéaire du déclin EROI serait plus réaliste (chantier V7)."
+  ],
+  "defi_mepa": "Trajectoire (c)→(d) avec phase de latence explicite : A_i Jeunes-Turcs (1908) arrive après le Δτ critique — trajectoire (c) trop avancée pour être inversée. Démontrer en S3 le concept de Δτ critique : seuil temporel au-delà duquel A_i institutionnelle est insuffisante. EROI déclinant 5.0→2.0 → I sous seuil de maintenance avant C = mécanisme déterminant de Phase (d). I0=2.5 frontière I_min : surveiller activation. Bifurcation kémaliste 1923 = A_i parallèle sur ruines = hors t_max, à documenter en S6 comme signal de résilience institutionnelle post-(d) sur substrat nouveau."
+}

@@ -1,0 +1,233 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I5-1",
+  "cas": "Espagne — Guerre civile",
+  "periode": "1931-1939",
+  "cluster": "C3",
+  "cluster_libelle": "C3 — Viscosité anthropologique [EROI statique 7.5 · Sa=4 discriminant · fragmentation E_split républicain CNT/PCE/POUM/PSOE · seul WP trajectoire (γ) pur C3]",
+  "cluster_note": "WP-I5-1 = seul WP trajectoire (γ) pur du corpus (Instructions V6.2 : 'seul WP trajectoire (g) pur'). Sa=4/C3 : Sa comme variable discriminante. Résultat dépend finement équilibre Rc/Rn. Q5_stab externe asymétrique (Légion Condor > aide soviétique) détermine l'issue. Fragmentation E_split républicain (CNT/PCE/POUM/PSOE) → F_effectif < somme F_partiels. T=0.95 ne suffit pas à produire (a) car fragmentation bloque cristallisation.",
+  "trajectoire_attendue": "(γ) Transformation forcée",
+  "trajectoire_attendue_libelle": "(γ)→(h) autoritaire — G exogène asymétrique (Légion Condor + Mussolini > aide soviétique) détermine issue. Fragmentation républicaine empêche (a) endogène malgré T=0.95. Franco impose (h) autoritaire par force extérieure après victoire militaire 1939.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Espagne",
+  "sa_p6_modulation": false,
+  "sa_note": "Espagne → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Espagne/Italie/Amérique latine). Sa=4 discriminant : C3 + Sa=4 → fragmentation factions sans doctrine unifiée. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. Seul WP (γ) pur du corpus — mécanisme G exogène asymétrique + Sa comme variable discriminante. Résultat dépend finement équilibre Rc/Rn (Stratification V6.2). Valider que T=0.95 ne produit pas (a) malgré haute tension.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Preston, Paul — Franco: A Biography (1994)",
+      "type": "N3 — Biographique/Historique",
+      "acces": "HarperCollins",
+      "variables_concernees": ["L_t", "gamma", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S2",
+      "titre": "Beevor, Antony — La Guerre d'Espagne (2006)",
+      "type": "N3 — Historique/Militaire",
+      "acces": "Calmann-Lévy",
+      "variables_concernees": ["E_split", "A_r_c", "gamma", "L_t"]
+    },
+    {
+      "id": "S3",
+      "titre": "Carr, Raymond — Spain 1808-1939 (1966)",
+      "type": "N3 — Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["E_split", "Cs", "A_d_eff", "Sa"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Payne, Stanley — The Spanish Civil War, the Soviet Union, and Communism (2004)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Yale University Press",
+      "variables_concernees": ["gamma", "A_r_c", "E_split"]
+    },
+    {
+      "id": "S6",
+      "titre": "Thomas, Hugh — The Spanish Civil War (1961, rév. 1977)",
+      "type": "N3 — Historique",
+      "acces": "Hamish Hamilton",
+      "variables_concernees": ["E_split", "Cs", "L_t", "A_d_eff"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture oligarchie latifundiste + Église + armée vs paysannerie + prolétariat urbain + régionalismes (Catalogne, Pays Basque). FRAGMENTATION INTERNE : côté républicain lui-même fragmenté (CNT/FAI/PCE/POUM/PSOE/nationalistes régionaux) → E_split effectif < E_split nominal.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Carr (1966) structure sociale Espagne 1931 + Beevor (2006) fragmentation républicaine",
+        "valeur_indicateur": "À REMPLIR — latifundisme : ~2% population contrôle 67% terres dans le Sud",
+        "coherence": "Valeur cible E_split~0.55-0.65 (fracture réelle mais fragmentée côté républicain → efficacité réduite)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.40 attendu (Instructions V6.2). Côté nationaliste : cohésion doctrinale franquiste modérée (Falange + monarchistes + Carlistcs = coalition disparate mais disciplinée militairement). Côté républicain : γ faible (factions incompatibles). Coder γ côté gagnant (franquiste) T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Preston (1994) cohésion nationaliste + Payne (2004) discipline militaire Franco",
+        "valeur_indicateur": "À REMPLIR — coalition nationaliste : discipline militaire forte, doctrine idéologique composite",
+        "coherence": "Valeur cible γ~0.35-0.45 (cohésion militaire forte, cohésion doctrinale modérée côté franquiste)"
+      },
+      "valeur_normative_v62": 0.40,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive Deuxième République T=0 (1931). Réforme agraire tentée mais bloquée par grands propriétaires. Administration républicaine : fonctionnelle mais redistribution limitée structurellement.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Carr (1966) réforme agraire Deuxième République + Thomas (1961) capacité administrative",
+        "valeur_indicateur": "À REMPLIR — réforme agraire 1932 : bloquée par Cour constitutionnelle + résistance propriétaires",
+        "coherence": "Valeur cible A_d_eff~3.0-5.0/10 (administration fonctionnelle mais redistribution structurellement bloquée)"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : armée nationaliste (Légion, Regulares), GC (Guardia Civil). T=0 (1931) : répression structurelle de l'État républicain + paramilitaires nationalistes. Q5_stab asymétrique (Légion Condor) = amplificateur A_r_c côté franquiste.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Beevor (2006) capacité militaire nationaliste + Légion Condor effectifs",
+        "valeur_indicateur": "À REMPLIR — Légion Condor : 19 000 Allemands + 70 000 Italiens = A_r_c franquiste massivement amplifiée",
+        "coherence": "Valeur cible A_r_c~0.55-0.70 T=0 (répression structurelle disponible, amplifiée par Q5_stab externe)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.10,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.10. Espagne 1931-1939 : radio franquiste (Radio Nacional de España) + presse nationaliste = proto-surveillance médiatique. Valeur faible mais non nulle.",
+      "justification": "Espagne 1931-1939 : Radio Nacional de España côté franquiste + propagande Falange. Pas de surveillance numérique mais radio de masse = vecteur de contrôle social. Rn=0.10 cohérent avec Rn commandes.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité Deuxième République T=0 (1931). Légitimité initiale réelle (élections avril 1931) mais rapidement dégradée par réformes bloquées, insurrections (Asturies 1934), instabilité gouvernementale.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Thomas (1961) légitimité Deuxième République + Carr (1966) sondages attitude population",
+        "valeur_indicateur": "À REMPLIR — République : légitimité électorale réelle 1931 mais dégradée 1933-1936",
+        "coherence": "Valeur cible Cs~0.30-0.45 (légitimité initiale réelle mais déclinante)"
+      },
+      "valeur_normative_v62": 0.38,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté armée espagnole T=0 (L0=0.35 conditions initiales). Armée profondément divisée : ~1/3 officiers rallient Franco, ~1/3 restent loyaux République, ~1/3 attentistes. Loyauté institutionnelle fragile.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Preston (1994) division officiers espagnols + Beevor (2006) putsch juillet 1936",
+        "valeur_indicateur": "À REMPLIR — putsch 1936 : ~half armée avec Franco, reste fragmenté",
+        "coherence": "Valeur cible L_t~0.35 (cohérente avec L0=0.35 — loyauté divisée au tiers)"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 7.5,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C3 (économie agricole-industrielle stable 1931-1939)",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=7.5 statique. Espagne 1931-1939 : économie mixte agricole-industrielle stable. Pas de choc biophysique majeur. C3 : Sa discriminant, EROI statique. cmd_linear = {} (objet vide).",
+      "justification": "Espagne 1931-1939 : EROI agricole-industriel ~6-8 (économie semi-industrialisée, mines d'Asturies, agriculture méditerranéenne). Pas de déclin biophysique structurel — la trajectoire est déterminée par C3 (viscosité anthropologique) et G exogène asymétrique, pas par l'EROI.",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI économie espagnole interwar + données production industrielle 1930s",
+        "valeur_indicateur": "EROI espagnol stable ~6-8 interwar — confirmé",
+        "coherence": "CONFIRMÉ — EROI=7.5 statique cohérent avec économie espagnole stable 1931-1939"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Espagne → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Espagne/Italie). Sa=4 DISCRIMINANT en C3 : fragmentation factions sans doctrine unifiée.",
+      "justification": "Todd (1990) : Espagne = famille nucléaire égalitaire. Sa=4 en C3 = viscosité anthropologique : mobilisation se fragmente en factions (CNT/PCE/POUM/PSOE) sans synthèse. Contraste avec Sa=7 (Allemagne) ou Sa=6 (Russie) : même E_split élevé, issue différente par viscosité Sa=4.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1931 — proclamation Deuxième République espagnole). Source : Instructions V6.2.",
+    "S0": 1.2,
+    "L0": 0.35,
+    "C0": 0.10,
+    "I0": 3.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C3 — cmd_linear = {} (objet vide).",
+    "T": 0.95,
+    "Mob": 0.20,
+    "R": 0.30,
+    "Ref": 0.10,
+    "Rc": 0.55,
+    "Rn": 0.10,
+    "E": 0.60,
+    "gamma": 0.40,
+    "EROI": 7.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Seul WP (γ) pur C3. Valider que T=0.95 ne produit pas (a) endogène malgré haute tension — fragmentation bloque cristallisation. Résultat dépend finement Rc/Rn."
+  },
+  "alertes_conv_a": [
+    "T=0.95 NE DOIT PAS produire (a) endogène : défi central. La fragmentation républicaine (CNT/PCE/POUM/PSOE = factions incompatibles) fait que F_effectif < somme F_partiels — bloquer la cristallisation malgré tension élevée. Documenter mécanisme en S3.",
+    "Q5_stab ASYMÉTRIQUE : Légion Condor + Italie Mussolini >> aide soviétique. Documenter en S5 cette asymétrie comme mécanisme hors-modèle déterminant de l'issue — sans Q5_stab franquiste, trajectoire serait différente.",
+    "Sa=4 DISCRIMINANT C3 : viscosité anthropologique → fragmentation. Contraster avec WP-T1 (Sa=2, G exogène → (γ)) et WP-I5 (Sa=4, G exogène → (γ) aussi) : Sa=4 + C3 = fragmentation interne qui empêche (a) et rend décisif le G exogène.",
+    "Rc/Rn ÉQUILIBRE SENSIBLE (Stratification V6.2) : Rc=0.55 vs Rn=0.10. Modifier l'un ou l'autre change le résultat. Documenter la sensibilité dans les 5 passes — c'est le paramètre de calibration principal de ce WP.",
+    "Contraste WP-T1 (Guerre de Sécession, aussi (γ)) : WP-T1 = G exogène positif (victoire Union) → (γ)→(a). WP-I5 = G exogène asymétrique franquiste → (γ)→(h) autoritaire. Même label D4 (γ), mécanismes et issues différents. Documenter en S3."
+  ],
+  "defi_mepa": "Seul WP (γ) pur C3 du corpus. Démontrer que T=0.95 ne suffit pas à produire (a) car fragmentation républicaine (CNT/PCE/POUM/PSOE) bloque la cristallisation : F_effectif < somme F_partiels. Sa=4 en C3 = viscosité anthropologique discriminante. Q5_stab asymétrique (Légion Condor >> aide soviétique) détermine l'issue finale → (h) autoritaire franquiste. Rc/Rn = équilibre sensible à calibrer sur 5 passes. Distinguer de WP-T1 (même label (γ) D4, G exogène aussi, mais issue (γ)→(a) vs ici (γ)→(h)) : la direction du G exogène et la Sa déterminent l'issue post-(γ)."
+}

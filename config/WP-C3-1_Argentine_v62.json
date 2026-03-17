@@ -1,0 +1,240 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-C3-1",
+  "cas": "Argentine 2001-2024",
+  "periode": "2001-2024",
+  "cluster": "C5",
+  "cluster_libelle": "C5 — Complexité et latence [EROI pampéen compensateur 9.0 · cycles Turchin 10-12 ans · t_max=500 · (a) électoraux intercalés · overlap C3 · I ≥ 2.0 par EROI compensateur]",
+  "cluster_note": "WP-C3-1 = cycles Turchin documentés empiriquement (2001, 2011-12, 2023). EROI pampéen ≈8-12 empêche (d) malgré 5 crises en 23 ans. (a) électorale 2023 (Milei) : Cs effondrée + E>0.55 + doctrine libertarienne + Sa=4. I ne descend jamais sous 2.0 (EROI compensateur). Système contemporain actif — résultat 2024 partiellement connu. t_max=500 pour capter futur cycles potentiels.",
+  "trajectoire_attendue": "(c) Stase / ambigu",
+  "trajectoire_attendue_libelle": "(c) cyclique + (a) électoraux — oscillations (c) cycliques Turchin Δτ ≈ 10-12 ans entrecoupées de pics (a) électoraux (Milei 2023). EROI pampéen empêche basculement (d). I ≥ 2.0 structurellement maintenu.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Amérique latine",
+  "sa_p6_modulation": false,
+  "sa_note": "Argentine → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Amérique latine/Europe méridionale). Sa=4 cohérent avec cycles (a) électoraux fréquents et instabilité institutionnelle chronique. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. t_max=500 cycles Turchin. Système contemporain actif (résultat partiellement inconnu — Milei 2023+). Risque narrative smoothing élevé. Nb de cycles sensible p5/p6. 10 passes pour valider périodicité Turchin.",
+  "t_max": 500,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Levitsky, Steven & Murillo, María Victoria — Argentine Democracy: The Politics of Institutional Weakness (2005)",
+      "type": "N3 — Politologique",
+      "acces": "Penn State University Press",
+      "variables_concernees": ["E_split", "gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S2",
+      "titre": "Wolff, Jonas — Argentinien: Die Wirtschaft und die Demokratie im Wandel (2005)",
+      "type": "N3 — Économique/Politique",
+      "acces": "HSFK",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Stiglitz, Joseph — The Roaring Nineties: A New History of the World's Most Prosperous Decade (2003)",
+      "type": "N3 — Économique",
+      "acces": "W.W. Norton",
+      "variables_concernees": ["EROI", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Turchin, Peter — Ages of Discord: A Structural-Demographic Analysis of American History (2016)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Beresta Books",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S6",
+      "titre": "Banco Mundial — Argentina Economic Update 2001-2024",
+      "type": "N1 — Économique",
+      "acces": "https://www.worldbank.org/",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S7",
+      "titre": "V-DEM Argentina dataset 2001-2024",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "L_t", "A_r_c"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture oligarchie agro-exportatrice (Sociedad Rural) + élites financières vs syndicats (CGT) + péronisme + classes moyennes. E=0.55 attendu. EROI pampéen compense mais ne résout pas la fracture.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Levitsky & Murillo (2005) fractures sociales + Gini BM Argentine 2001-2024",
+        "valeur_indicateur": "À REMPLIR — Gini Argentine ~0.42-0.50 : fracture modérée à élevée selon les crises",
+        "coherence": "Valeur cible E_split~0.50-0.60 (fracture réelle, cyclique — s'élargit en crise, se réduit en phase haute)"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.45 attendu (Instructions V6.2). Péronisme = doctrine de cohésion modérée : organisation syndicale réelle mais doctrine fragmentée (péronisme de gauche/droite/centre). γ croissant lors des pics (a) électoraux.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Levitsky & Murillo (2005) cohésion péroniste + Turchin (2016) cycles asabiya",
+        "valeur_indicateur": "À REMPLIR — péronisme : organisation syndicale forte mais pluralisme idéologique interne",
+        "coherence": "Valeur cible γ~0.40-0.50 — cohésion organisationnelle modérée, doctrine flexible"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État argentin T=0 (2001, crise). Plans sociaux, Asignación Universal por Hijo (2009), mais défaut 2001-2002 = effondrement A_d_eff momentané. EROI pampéen finance la redistribution en phase haute.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "BM Argentine dépenses sociales 2001-2024 + Wolff (2005) redistribution péroniste",
+        "valeur_indicateur": "À REMPLIR — dépenses sociales : cycliques avec EROI soja (~30-35% PIB phases hautes)",
+        "coherence": "Valeur cible A_d_eff~4.0-6.0/10 T=0 (redistribution péroniste réelle mais cyclique)"
+      },
+      "valeur_normative_v62": 4.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique T=0 (2001). Forces de sécurité : répression protestas 2001 (~39 morts). Mais démocratie consolidée = A_r_c bornée institutionnellement. Pas de retour dictature 1976.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM physical violence index Argentine 2001 + Human Rights Watch Argentine",
+        "valeur_indicateur": "À REMPLIR — répression 2001 documentée mais limitée par cadre démocratique",
+        "coherence": "Valeur cible A_r_c~0.35-0.50 (répression limitée par démocratie consolidée)"
+      },
+      "valeur_normative_v62": 0.42,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.10,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.10. Argentine 2001-2024 : surveillance numérique minimale dans un État démocratique. Réseaux sociaux omniprésents mais sans surveillance étatique systémique.",
+      "justification": "Argentine 2001-2024 : démocratie libérale sans surveillance numérique étatique massive. Rn=0.10 = valeur minimale pour système contemporain avec infrastructure numérique existante. Distincte de régimes autoritaires (Chine, Iran).",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — crédibilité régime T=0 (2001, crise). Cs effondrée : 5 présidents en 2 semaines (déc. 2001). Cycles : Cs se restaure en phase haute (Kirchner 2003-2008), re-effondre en crise (2018-2023). Coder valeur T=0 (2001).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Latinobarómetro Argentina 2001 + V-DEM government legitimacy 2001",
+        "valeur_indicateur": "À REMPLIR — confiance institutions Argentine 2001 : quasi-nulle post-crise",
+        "coherence": "Valeur cible Cs~0.15-0.25 T=0 (Cs quasi-effondrée en 2001, cycliquement volatile)"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — loyauté armée + institutions T=0 (L0=0.45 conditions initiales). Forces armées : loyauté institutionnelle maintenue post-1983 (démocratie consolidée). Mais institutions civiles : loyauté cyclique avec alternances électorales.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Levitsky & Murillo (2005) loyauté institutions démocratiques + V-DEM Argentine",
+        "valeur_indicateur": "À REMPLIR — armée : loyauté institutionnelle documentée post-1983",
+        "coherence": "Valeur cible L_t~0.45 (cohérente avec L0=0.45 — loyauté institutionnelle démocratique stable)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 9.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE compensateur — C5 (EROI pampéen ~8-12, valeur centrale 9.0). cmd_linear = {} (objet vide).",
+      "source_id": "Instructions V6.2 + S6",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=9.0 statique compensateur. Argentine 2001-2024 : EROI agricole pampéen ~8-12 (soja, maïs, blé, bœuf). Ressource biophysique qui empêche (d) malgré 5 crises en 23 ans. I ne descend jamais sous 2.0 grâce à ce compensateur. cmd_linear = {} (objet vide).",
+      "justification": "Argentine 2001-2024 : secteur agro-exportateur pampéen = EROI exceptionnel pour économie en crise. Soja : EROI ~8-10, maïs : ~7-9, blé : ~6-8, élevage : variable. Prix internationaux +500% 2001-2011 = EROI effectif amplifié. Empêche structurellement (d) : I maintenu ≥ 2.0 même en crise aiguë.",
+      "sanity_check": {
+        "indicateur": "BM Argentine production agricole + Wolff (2005) EROI pampéen estimations",
+        "valeur_indicateur": "EROI pampéen ~8-12 confirmé — soja export revenue +500% 2001-2011",
+        "coherence": "CONFIRMÉ — EROI=9.0 statique compensateur cohérent avec données agricoles Argentine"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Argentine → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Amérique latine/Espagne).",
+      "justification": "Todd (1990) : Argentine/Amérique latine = famille nucléaire égalitaire. Sa=4 cohérent avec cycles (a) électoraux fréquents (péronisme = mobilisation égalitaire) et instabilité chronique sans rupture autoritaire durable post-1983.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 2001 — crise financière, défaut souverain décembre 2001). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.45,
+    "C0": 0.10,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique compensateur C5 — cmd_linear = {} (objet vide). t_max=500.",
+    "T": 0.80,
+    "Mob": 0.30,
+    "R": 0.35,
+    "Ref": 0.10,
+    "Rc": 0.35,
+    "Rn": 0.10,
+    "E": 0.55,
+    "gamma": 0.45,
+    "EROI": 9.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 500,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. t_max=500 pour capter cycles Turchin. Système contemporain actif (Milei 2023+). Nb de cycles sensible p5/p6. Valider périodicité Δτ ≈ 10-12 pas sur 10 passes."
+  },
+  "alertes_conv_a": [
+    "CYCLES TURCHIN Δτ ≈ 10-12 PAS : documenter les t_min S (creux de crise) correspondant aux crises historiques (2001, 2011-12, 2023). Sur t_max=500, 3-5 oscillations attendues. Si Δτ < 5 ou > 25, anomalie p5/p6 — documenter dans les passes 6-10.",
+    "EROI COMPENSATEUR = PLANCHER I ≥ 2.0 : documenter explicitement en S1 que l'EROI pampéen empêche I < 2.0. Tester sur 10 passes : si I descend sous 2.0 dans une passe, c'est une anomalie paramétrique. L'EROI=9.0 est le mécanisme qui distingue Argentine (cycles sans (d)) de Liban (EROI=1.5 → (d)).",
+    "(a) ÉLECTORALE MILEI 2023 : Cs effondrée + E>0.55 + doctrine libertarienne + Sa=4 = conditions suffisantes (a) électoral. Documenter en S3 la distinction (a) électoral (institutionnalisé, dans le cadre démocratique) vs (a) révolutionnaire (WP-F7, WP-I2). Résultat post-2023 = incertitude documentée.",
+    "SENSIBILITÉ p5/p6 (Stratification V6.2) : ces deux paramètres contrôlent la vitesse d'absorption de C et la mobilisation. Sur 10 passes, tester p5 ±0.01 et p6 ±0.02. Documenter leur impact sur le nombre de cycles et la périodicité Turchin.",
+    "SYSTÈME CONTEMPORAIN ACTIF — Milei 2023+ : risque narrative smoothing élevé. Ne pas ajuster paramètres pour 'prédire' le résultat Milei. Documenter l'incertitude : plusieurs scénarios possibles (consolidation libertarienne, effondrement économique, retour péroniste) à t>200."
+  ],
+  "defi_mepa": "Trajectoire (c) cyclique + (a) électoraux unique dans le corpus. EROI pampéen compensateur = plancher structurel I ≥ 2.0 : empêche (d) malgré 5 crises en 23 ans — documenter le mécanisme compensateur en S1. Cycles Turchin Δτ ≈ 10-12 pas : calibrer p5/p6 pour reproduire la périodicité historique (2001, 2011-12, 2023) sur 10 passes STRESS. (a) électoraux : distinguer (a) institutionnalisé démocratique (Milei 2023 = dans cadre démocratie) vs (a) révolutionnaire extra-institutionnel (WP-F7, I2). Système contemporain actif = résultat futur inconnu — documenter l'incertitude sans narrative smoothing."
+}

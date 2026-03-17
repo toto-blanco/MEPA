@@ -1,0 +1,348 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "$description": "FICHE ARCHIVE — WP-EXT-5, Islande 2008-2013 — Hors corpus 27 WP V6.2. Candidat V7.",
+  "$arbitrage": {
+    "date": "2026-03-11",
+    "autorite": "Architecte Système MEPA V6.2",
+    "statut": "ARCHIVE V6.2 — Islande déplacée WP-EXT-5. Candidat possible V7. Ne pas injecter dans pipeline V6.2.",
+    "points_tranches": 8,
+    "source_arbitrage": "Décision Architecture Mars 2026 — Stratification V6.2 : WP-C1 migré vers Haïti 2010-2024."
+  },
+  "wp_id": "WP-EXT-5",
+  "cas": "Islande — Crise financière et révolution pacifique 2008-2013",
+  "periode": "2008-2013",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI géothermique ≈35 préservé · A_r_ne citoyenne inversée]",
+  "trajectoire_attendue": "(e) Réforme institutionnelle",
+  "trajectoire_attendue_libelle": "(e) A_i réussie pacifique",
+  "sa": 2,
+  "sa_type_todd": "Famille nucléaire absolue — monde anglophone/nordique libéral",
+  "zone_stratification": "LOI PHYSIQUE — 3 passes de vérification",
+  "raison_loi_physique": "EROI=35 géothermique (ancre max corpus). Déterminisme inverse : résistance institutionnelle impose (e). Issue historiquement connue.",
+  "t_max": 300,
+  "theta_C": 0.3,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "ARCHIVE — Hors corpus V6.2 — Candidat V7 si P5 nécessite cas de contrôle Sa=2",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "BP Statistical Review of World Energy 2008-2013",
+      "type": "N1 — Biophysique",
+      "acces": "https://www.bp.com/en/global/corporate/energy-economics/statistical-review.html",
+      "variables_concernees": [
+        "EROI"
+      ]
+    },
+    {
+      "id": "S2",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990) + Après la démocratie (2008)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": [
+        "Sa"
+      ]
+    },
+    {
+      "id": "S3",
+      "titre": "Turchin, Peter — Ages of Discord (2016)",
+      "type": "N3 — Sociologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": [
+        "E_split",
+        "gamma"
+      ]
+    },
+    {
+      "id": "S4",
+      "titre": "Gylfason, Thorvaldur — From Collapse to Constitution (2012)",
+      "type": "N4 — Économique/institutionnel",
+      "acces": "Bibliographie MEPA V6.1",
+      "variables_concernees": [
+        "A_d_eff",
+        "Cs",
+        "gamma"
+      ]
+    },
+    {
+      "id": "S5",
+      "titre": "Bergmann, Eirikur — Iceland and the International Financial Crisis (2014)",
+      "type": "N4 — Économique",
+      "acces": "Palgrave Macmillan",
+      "variables_concernees": [
+        "A_d_eff",
+        "E_split",
+        "Cs"
+      ]
+    },
+    {
+      "id": "S6",
+      "titre": "Johnsen, Gudrun — Bringing Down the Banking System (2014)",
+      "type": "N4 — Économique",
+      "acces": "Palgrave Macmillan",
+      "variables_concernees": [
+        "A_d_eff",
+        "E_split",
+        "L_t"
+      ]
+    },
+    {
+      "id": "S7",
+      "titre": "V-DEM Iceland dataset 2008-2013",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": [
+        "E_split",
+        "Cs",
+        "A_r_c"
+      ]
+    },
+    {
+      "id": "S8",
+      "titre": "Freedom House — Freedom in the World 2008-2013 (Iceland)",
+      "type": "N5 — Politique",
+      "acces": "https://freedomhouse.org/",
+      "variables_concernees": [
+        "A_r_c",
+        "A_r_ne",
+        "Cs"
+      ]
+    },
+    {
+      "id": "S9",
+      "titre": "Ólafsson, Stefán — The Welfare State in Iceland and the Economic Crisis (2011)",
+      "type": "N4 — Économique/sociologique",
+      "acces": "À préciser",
+      "variables_concernees": [
+        "A_d_eff",
+        "L_t"
+      ]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S5, S6, S7",
+      "niveau_source": "N3/N4",
+      "justification": "À REMPLIR. Valeur normative V6.1 calibrée : E=0.45 (commande de simulation). Le codage CONV-E doit confirmer ou documenter un écart. Indicateurs : fracture entre oligarchie financière (9 familles / 'banksters') et establishment politique, proportion diplômés sans emploi qualifié pré-crise 2007-2008, discours alternatifs organisés avant le choc. E_split=0.45 dans les commandes V6.1 = condition initiale de simulation T=0.",
+      "sanity_check": {
+        "indicateur": "V-DEM 'elite power index' + Turchin Elite Overproduction Index Islande 2007-2008",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "Valeur cible E=0.45 — fracture naissante/modérée cohérente avec oligarchie financière concentrée mais élites politiques encore partiellement fonctionnelles"
+      },
+      "valeur_normative_v61": 0.45,
+      "note_arbitrage": "Valeur normative V6.1 : E=0.45. CONV-E code indépendamment ; si écart > 0.15, confrontation sources requise avant arrêt valeur finale."
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S3, S4",
+      "niveau_source": "N3/N4",
+      "justification": "À REMPLIR. Valeur normative V6.1 calibrée : γ=0.55 (commande de simulation). La valeur 0.55 est la condition initiale T=0 pour la simulation, pas une valeur à T=2 post-émergence Kitchenware. Indicateurs : existence d'organisations pivots pré-crise, doctrine constitutionnelle esquissée, structuration du mouvement Kitchenware (janvier 2009). γ=0.55 = organisation partielle avec programme crédible (Assemblée Constituante 2010 = confirmation rétrospective).",
+      "sanity_check": {
+        "indicateur": "Existence et structuration du mouvement Kitchenware (jan 2009) + Commission constitutionnelle 2010 (Gylfason 2012)",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "Valeur cible γ=0.55 — organisation partielle-forte cohérente avec démocratie fonctionnelle + réforme constitutionnelle formelle aboutie"
+      },
+      "valeur_normative_v61": 0.55,
+      "note_arbitrage": "Valeur normative V6.1 : γ=0.55. CONV-E documente l'écart si son codage ≠ 0.55. La justification textuelle utilise γ (symbole grec), jamais 'g' ni 'gamma'."
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S4, S5, S6, S9",
+      "niveau_source": "N4",
+      "justification": "À REMPLIR. Valeur normative V6.1 calibrée : R=0.55 (commande A_d_eff normalisée). Indicateurs chiffrés obligatoires : dette publique nette en % PIB (2008, hors banques privées), inflation 2008-2009, capacité à maintenir services sociaux (welfare expenditure/PIB). DISTINCTION CRITIQUE : A_d_eff mesure la capacité redistributive de l'État public, pas la solvabilité bancaire. L'Islande a maintenu son État-providence — faillite bancaire privée ≠ faillite redistributive publique.",
+      "sanity_check": {
+        "indicateur": "IMF Iceland Article IV 2009 : dette publique nette, GFCF, welfare expenditure",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "Valeur cible R=0.55 → A_d_eff ≈ 5.5/10 — cohérent avec État-providence maintenu sous contrainte"
+      },
+      "valeur_normative_v61_cmd": 0.55,
+      "note_arbitrage": "Commande R=0.55 dans V6.1. Correspond à A_d_eff ≈ 5.5/10 sur l'échelle MEPA Full."
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S7, S8",
+      "niveau_source": "N5",
+      "justification": "À REMPLIR. Valeur normative V6.1 : Rc=0.10. Islande = démocratie consolidée, Freedom House 'Free' (1/7 droits politiques). Quelques arrestations symboliques lors des manifestations Kitchenware (janvier 2009) mais pas de répression systématique. A_r_c=0.10 = niveau minimal non nul dans une démocratie où la police encadre les manifestations.",
+      "sanity_check": {
+        "indicateur": "Freedom House Political Rights Islande 2008-2013 + V-DEM physical violence index",
+        "valeur_indicateur": "À REMPLIR — score attendu : 1/7 Freedom House, très bas V-DEM",
+        "coherence": "Valeur cible Rc=0.10 cohérente avec démocratie nordique consolidée"
+      },
+      "valeur_normative_v61": 0.1,
+      "note_arbitrage": "Commande Rc=0.10 dans V6.1. Niveau minimal non nul."
+    },
+    "A_r_ne": {
+      "valeur": 0.15,
+      "echelle": "[0, 1]",
+      "source_id": "S4, S8",
+      "niveau_source": "N3/N4",
+      "justification": "DÉCISION ARBITRAGE — Rn=0.15 (Instructions V6.1, fiche WP-C1-1). Cette valeur NON NULLE reflète le concept V6.1 d'A_r_ne INVERSÉE (citoyenne → contre l'État, 2009). L'Islande 2008-2013 présente un usage massif des réseaux numériques par les citoyens pour coordonner la mobilisation (Kitchenware Revolution) et contre-surveiller les élites financières. Ce mécanisme est DISTINCT de la surveillance étatique numérique : Rn=0.15 encode ici la capacité numérique citoyenne comme facteur de mobilisation, avec signe inversé conceptuellement. Le Guide MEPA V6.1 documente ce cas comme chantier V7 (formalisation A_r_ne_citoyenne vs A_r_ne_étatique). La valeur 0.15 est la valeur normative calibrée pour la simulation. NE PAS REMETTRE À ZÉRO.",
+      "sanity_check": {
+        "indicateur": "Freedom House 'Freedom on the Net' Islande 2011 + usage réseaux sociaux Kitchenware Revolution 2009",
+        "valeur_indicateur": "Score 6/100 (très libre) — usage internet massif documenté",
+        "coherence": "CONFIRMÉ — Rn=0.15 encodes A_r_ne inversée (citoyenne), pas étatique"
+      },
+      "valeur_normative_v61": 0.15,
+      "alerte_codage": "ATTENTION CONV-B : lors de l'audit κ, A_r_ne=0.15 (non zéro) est la valeur normative correcte V6.1. L'accord inter-codeurs doit être évalué contre 0.15, PAS contre 0.00. Toute fiche codant 0.00 par défaut est en désaccord sur cette variable.",
+      "note_arbitrage": "Arbitrage tranché : 0.15 (V6.1) sur 0.00 (template). Motif : concept A_r_ne inversée documenté dans le défi WP-C1-1. Valeur hardcodée dans ce mètre étalon — elle peut être discutée lors de l'audit CONV-B mais ne peut être modifiée sans décision d'Architecte."
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S4, S5, S7, S8",
+      "niveau_source": "N4/N5",
+      "justification": "À REMPLIR. Scorer en T=0 (état 2007-début 2008, PRÉ-crise aiguë). Indicateurs : confiance dans les institutions démocratiques pré-crash, crédibilité du gouvernement Haarde (Cs gouvernement ≠ Cs institutions démocratiques). La démission du gouvernement Haarde (jan 2009) + élections anticipées = mécanisme de restauration Cs institutionnel. Attendu : Cs modéré en T=0, avec trajectoire chute 2008 puis remontée 2010-2013.",
+      "sanity_check": {
+        "indicateur": "Sondages confiance institutions Islande 2007-2011 (Eurobarometer ou Gallup Iceland)",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "À VÉRIFIER — attendu Cs pré-crise modéré-élevé (démocratie consolidée) avec chute 2008"
+      }
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S6, S9",
+      "niveau_source": "N3/N5",
+      "justification": "À REMPLIR. Valeur normative V6.1 : L0=0.60 (condition initiale). L(t) = loyauté police + bureaucratie (pas d'armée propre, défense OTAN). Absence documentée de défection militaire ou policière. Police a encadré sans réprimer les manifestations Kitchenware. Bureaucratie d'État restée loyale aux institutions démocratiques.",
+      "sanity_check": {
+        "indicateur": "Absence de défection institutionnelle documentée — sources S6/S9 + presse islandaise",
+        "valeur_indicateur": "À VÉRIFIER",
+        "coherence": "Valeur cible L0=0.60 cohérente avec loyauté institutionnelle maintenue en démocratie nordique consolidée"
+      },
+      "valeur_normative_v61_ci": 0.6,
+      "note_arbitrage": "Condition initiale L0=0.60 (Instructions V6.1). Écart avec template (0.45) tranché en faveur de V6.1."
+    },
+    "EROI": {
+      "valeur": 35.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE",
+      "source_id": "S1",
+      "niveau_source": "N1",
+      "justification": "DÉCISION ARBITRAGE — EROI=35.0 statique (Instructions V6.1 + Stratification V6.1 TABLE 8). Cette valeur représente l'EROI du système énergétique productif islandais (géothermie + hydroélectricité), PAS le mix énergétique total incluant les importations pétrolières. Motif du choix conceptuel V6.1 : l'EROI=35 encode le DÉCOUPLAGE BIOPHYSIQUE entre le crash financier et la capacité productive réelle de l'économie islandaise. C'est une ancre conceptuelle ('EROI géothermique = bouclier A_d_max contre le crash') et une ancre de calibration du corpus (valeur maximale LOI PHYSIQUE). Le codage observationnel CONV-E à EROI=12 (mix total) est légitime empiriquement mais contredit la logique théorique du cluster C4 : si EROI=12, l'Islande perd son statut d'ancre EROI max et le clustering C4 n'est plus justifié.",
+      "sanity_check": {
+        "indicateur": "BP Statistical Review 2010 + IEA Iceland Energy Profile 2009 : part géothermique + hydroélectrique dans le mix électrique (≈99%)",
+        "valeur_indicateur": "EROI géothermique : 3.5-9 (Carbajales-Dale 2014), hydroélectrique : 30-50. EROI géothermique islandais spécifique (haute entalpie) : 9-35.",
+        "coherence": "CONFIRMÉ pour valeur haute — EROI=35 = ancre max corpus LOI PHYSIQUE"
+      },
+      "valeur_normative_v61": 35.0,
+      "eroi_mode": "statique (préservé sur toute la période 2008-2013 — crise financière sans impact sur N0)",
+      "note_arbitrage": "Arbitrage tranché : 35.0 (V6.1 normatif) sur 12.0 (observationnel CONV-E). Motif : cohérence théorique cluster C4 + rôle d'ancre corpus. La divergence CONV-E (12.0 vs 35.0) est documentée comme désaccord de cadrage conceptuel (mix total vs système productif géothermique), PAS comme erreur factuelle. À documenter en S7 comme tension conceptuelle EROI.",
+      "tension_documentee": "EROI mix total (≈12.0, CONV-E) vs EROI système productif géothermique (35.0, V6.1). Les deux valeurs sont défendables. V6.1 fait le choix du découplage biophysique comme ancre théorique. Chantier V7 : formaliser EROI sectoriel vs EROI total."
+    },
+    "Sa": {
+      "valeur": 2,
+      "type_todd": "Famille nucléaire absolue",
+      "source_id": "S2",
+      "niveau_source": "N2",
+      "justification": "Todd (1990) : Islande classée famille nucléaire absolue, variante nordique. Sa=2 = propagation idéologique fluide, instabilité systémique potentiellement haute. Confirme trajectoire réformiste rapide possible (élections anticipées jan 2009, Assemblée Constituante 2010).",
+      "sanity_check": {
+        "indicateur": "Todd, L'Invention de l'Europe (1990), carte anthropologique Scandinavie",
+        "valeur_indicateur": "Classification confirmée Sa=2",
+        "coherence": "CONFIRMÉ"
+      },
+      "modulation_p6": false,
+      "note_modulation": "Sa=2 → p6 nominal (pas de correction × 1.5). Correction uniquement pour Sa=7."
+    }
+  },
+  "conditions_initiales": {
+    "$source": "Instructions V6.1, fiche WP-C1-1 — VALEURS NORMATIVES",
+    "$note_arbitrage": "Valeurs V6.1 retenues sur valeurs du template. Motif : calibration historique explicite dans Instructions V6.1.",
+    "S0": 1.0,
+    "L0": 0.6,
+    "C0": 0.1,
+    "I0": 4.5,
+    "I0_note": "Institutions islandaises robustes — EROI géothermique = bouclier A_d_max contre le crash. I=4.5 reflète complexité institutionnelle réelle (État-providence nordique consolidé mais pas maximal).",
+    "divergences_template": {
+      "L0": {
+        "template": 0.45,
+        "v61": 0.6,
+        "retenu": 0.6,
+        "motif": "Calibration V6.1 explicite : loyauté appareils élevée en démocratie nordique consolidée"
+      },
+      "I0": {
+        "template": 7.5,
+        "v61": 4.5,
+        "retenu": 4.5,
+        "motif": "I=4.5 = valeur mesurée dans les WP de référence (WP-F4, WP-I9 comparables). I=7.5 du template était une estimation haute non calibrée."
+      }
+    }
+  },
+  "commandes": {
+    "$source": "Instructions V6.1, fiche WP-C1-1 — VALEURS NORMATIVES DÉFINITIVES",
+    "$note_arbitrage": "Ces valeurs sont les commandes de simulation T=0. Elles encodent l'état initial du système, pas les valeurs observées en fin de période.",
+    "T": 0.8,
+    "Mob": 0.55,
+    "R": 0.55,
+    "Ref": 0.1,
+    "Rc": 0.1,
+    "Rn": 0.15,
+    "E": 0.45,
+    "gamma": 0.55,
+    "EROI": 35.0,
+    "Pop": 1.0,
+    "divergences_codage_conv_e": {
+      "T": {
+        "conv_e": 0.7,
+        "v61": 0.8,
+        "retenu": 0.8,
+        "motif": "Tension sociale forte pré-crise confirmée par choc bancaire brutal"
+      },
+      "Mob": {
+        "conv_e": "0.25–0.30",
+        "v61": 0.55,
+        "retenu": 0.55,
+        "motif": "Calibration historique V6.1 : société nordique, Sa=2 efficace — mobilité élevée malgré crash (voir table Mob)"
+      },
+      "R": {
+        "conv_e": "2.0–4.0 (A_d_eff échelle 0-10)",
+        "v61": 0.55,
+        "retenu": 0.55,
+        "motif": "R=commande normalisée (0-1). R=0.55 ≈ A_d_eff=5.5/10. Cohérent avec État-providence maintenu."
+      },
+      "Ref": {
+        "conv_e": 0.55,
+        "v61": 0.1,
+        "retenu": 0.1,
+        "motif": "ARBITRAGE CLÉ : Ref=0.10 est la valeur de DÉPART de simulation (T=0), pas la mesure de la réforme observée. Tous les WP V6.1 démarrent à Ref=0.10. La réforme EST le résultat de la simulation, pas son input."
+      },
+      "Rn": {
+        "conv_e": 0.0,
+        "v61": 0.15,
+        "retenu": 0.15,
+        "motif": "A_r_ne inversée (citoyenne) — concept WP-C1 documenté dans le Défi V6.1. Valeur hardcodée."
+      },
+      "gamma": {
+        "conv_e": 0.25,
+        "v61": 0.55,
+        "retenu": 0.55,
+        "motif": "γ=0.55 = condition initiale calibrée T=0. CONV-E avait codé γ=0.25 comme état strictement pré-Kitchenware. V6.1 intègre le potentiel organisationnel latent."
+      },
+      "EROI": {
+        "conv_e": 12.0,
+        "v61": 35.0,
+        "retenu": 35.0,
+        "motif": "Ancre EROI géothermique — voir note EROI ci-dessus."
+      }
+    }
+  },
+  "defi_mepa": "RUPTURE FONDATRICE Arc Contemporain : A_r_ne INVERSÉE (citoyenne → contre l'État, 2009). EROI géothermique = découplage A_d_max biophysique / crash financier. A_i juridique crédible (20+ banquiers emprisonnés) → Cs restaurée. Variable A_r_ne_citoyenne vs A_r_ne_étatique à formaliser en V7.",
+  "alertes_globales": [
+    "EROI=35 est une ANCRE CONCEPTUELLE (système géothermique), pas l'EROI du mix énergétique total (≈12). Documenter cette tension en S7.",
+    "Ref=0.10 est la valeur de départ universel — la trajectoire (e) est le RÉSULTAT de simulation, pas son input initial.",
+    "Rn=0.15 encode A_r_ne INVERSÉE (citoyenne). Ne pas modifier sans décision d'Architecte.",
+    "Sa=2 → p6 nominal (pas de correction × 1.5). Confirmer dans audit_log.",
+    "Zone LOI PHYSIQUE → 3 passes de vérification seulement. Ne pas sur-auditer.",
+    "Divergences CONV-E documentées dans commandes.divergences_codage_conv_e — à soumettre à audit κ CONV-B."
+  ],
+  "contrainte_calibration_bayesienne": "WP-C1 est une ancre EROI max du corpus. p8/p9 calibrés sur ce WP définissent la borne supérieure EROI pour la calibration bayésienne de la Phase 1.",
+  "$note_archive": "Ce fichier était WP-C1-1 dans V6.1. Renommé WP-EXT-5 lors du verrouillage corpus V6.2 (Mars 2026). Conserver pour les tests P5 Popper (Sa nucléaire absolu → (e)). Ne pas modifier sans décision Architecte.",
+  "$note_decision_v62": "Décision architecture Mars 2026 : WP-EXT-5 déplacé hors corpus principal V6.2. Raison : remplacement par WP-C1-1 (Haïti) comme ancre contemporaine C1. Rôle conservé : cas étalon trajectoire (e) pure pour validation Proposition P5. Conditions P5 : Sa=2 (nucléaire absolu) + A_r_ne<0.2 + EROI=35 (géothermique) + A_i juridique accessible. Réintégration corpus prévue en V7 si test P5 formel requis."
+}

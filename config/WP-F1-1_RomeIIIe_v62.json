@@ -1,0 +1,241 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F1-1",
+  "cas": "Rome — Crise du IIIe siècle",
+  "periode": "235-284",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 4.5→1.8 · cmd_linear obligatoire · WP fondateur calibration bayésienne · T croissant]",
+  "cluster_note": "WP-F1-1 = WP fondateur C1 du programme. Ancrage calibration bayésienne EROI. Trajectoire (c)→(d) : déclin lent — EROI 4.5→1.8 entraîne I sous seuil de maintenance AVANT explosion de C. Signal CSD (Critical Slowing Down) : variance croissante de S avant effondrement. E_split=0.20 = borne inférieure programme.",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(c)→(d) déclin lent — Phase (c) : stase sous pression croissante (S oscillant, I déclinant lentement) ; Phase (d) : franchissement seuil I_min, effondrement institutionnel progressif. Signal CSD précède bascule.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Europe romaine latine",
+  "sa_p6_modulation": false,
+  "sa_note": "Rome IIIe siècle → Sa=4 (famille nucléaire égalitaire, monde romain latin, Todd 1990). Instabilité chronique, mobilité sénatoriale/équestre — cohérent avec 50 empereurs soldats en 50 ans. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. WP fondateur calibration bayésienne C1. EROI 4.5→1.8 impose trajectoire (c)→(d) mais avec sensibilité paramétrique sur timing bascule (c)→(d). 5 passes nécessaires pour valider signal CSD et ancrage calibration.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Gibbon, Edward — The Decline and Fall of the Roman Empire (1776-1789)",
+      "type": "N3 — Historique",
+      "acces": "Bibliographie MEPA / éditions modernes",
+      "variables_concernees": ["E_split", "gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S2",
+      "titre": "Wickham, Chris — The Inheritance of Rome: Illuminating the Dark Ages (2009)",
+      "type": "N3 — Historique",
+      "acces": "Viking/Penguin",
+      "variables_concernees": ["A_d_eff", "L_t", "Cs", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Smil, Vaclav — Energy in World History (1991)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Westview Press",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Tainter, Joseph — The Collapse of Complex Societies (1988)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S6",
+      "titre": "Ward-Perkins, Bryan — The Fall of Rome and the End of Civilization (2005)",
+      "type": "N3 — Archéologique/Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["A_d_eff", "Cs", "EROI"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E_split=0.20 = borne inférieure programme (Instructions V6.2). Fracture modérée : oligarchie sénatoriale vs ordre équestre vs armée vs plèbe. Moins cristallisée que C2 — fracture diffuse.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Sources prosopographiques romaines IIIe siècle + Gibbon analyse élites",
+        "valeur_indicateur": "À REMPLIR — fracture oligarchique modérée mais diffuse : ~0.15-0.25",
+        "coherence": "Valeur cible E_split~0.20 — borne inférieure programme, fracture diffuse non cristallisée"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ faible attendu : cohésion culturelle romaine en érosion (IIIe siècle = crise identitaire, soldats-empereurs barbares, fragmentation légions). γ~0.20-0.30.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Cohésion idéologique corps légionnaire IIIe siècle + fragmentation imperium",
+        "valeur_indicateur": "À REMPLIR — 50 empereurs en 50 ans = signal γ faible/déclinant",
+        "coherence": "Valeur cible γ~0.25 — cohésion en déclin, empire fragmenté militairement"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S5, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive Empire romain IIIe siècle T=0 (235). Administration impériale encore fonctionnelle mais en déclin : inflation monétaire (débasement denarius), levées fiscales croissantes, routes et annone sous pression.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tainter (1988) analyse coûts administratifs Rome IIIe + Ward-Perkins archéologie déclin",
+        "valeur_indicateur": "À REMPLIR — administration encore fonctionnelle mais rendements décroissants",
+        "coherence": "Valeur cible A_d_eff~4.0-6.0/10 — Empire encore structuré mais en érosion"
+      },
+      "valeur_normative_v62": 5.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : légions impériales, garde prétorienne. IIIe siècle : violence politique endémique (assassinats d'empereurs) mais capacité répressive structurelle maintenue.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gibbon (1776) analyse garde prétorienne + taux de violence politique IIIe siècle",
+        "valeur_indicateur": "À REMPLIR — instabilité politique élevée mais répression structurelle maintenue",
+        "coherence": "Valeur cible A_r_c~0.45-0.60 (répression institutionnelle maintenue malgré chaos politique)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 235-284. A_r_ne=0.00 ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "IIIe siècle ap. J.-C. : aucune technologie de surveillance numérique. Valeur 0.00 obligatoire pour tous WP antérieurs à ~1990.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime T=0 (235, assassinat Sévère Alexandre). Empire encore légitime mais crise de légitimité amorçée : débasement monétaire, instabilité dynastique, pression externe.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gibbon (1776) analyse légitimité impériale IIIe + Wickham (2009) institutions",
+        "valeur_indicateur": "À REMPLIR — légitimité impériale encore présente mais déclinante",
+        "coherence": "Valeur cible Cs~0.40-0.55 (empire encore légitime en 235, crise naissante)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté légions + administration T=0 (235). L0=0.55 indiqué conditions initiales. Empire encore structuré — légions loyales à leurs généraux, administration annone fonctionnelle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Sources prosopographiques légions romaines IIIe siècle + Gibbon analyse légitimité légionnaire",
+        "valeur_indicateur": "À REMPLIR — loyauté conditionnelle (légions élisent empereurs) : ~0.45-0.60",
+        "coherence": "Valeur cible L_t~0.55 cohérente avec conditions initiales L0=0.55"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.15,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 (EROI_start=4.5, EROI_end=1.8 sur t_max)",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=4.5, EROI_end=1.8. Rome IIIe : agriculture méditerranéenne sous pression (déforestation, épuisement sols), déclin commerce, effondrement réseau routes. Déclin linéaire sur 300 pas.",
+      "justification": "Smil (1991) : EROI agricole romain ~4-6 au Haut-Empire. IIIe siècle : déforestation, débasement monétaire détruit commerce, épidémies (Peste Cyprienne) réduisent main-d'œuvre agricole. EROI_end=1.8 = seuil critique avant effondrement Ve siècle. Déterminisme WP fondateur calibration C1.",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI agricole méditerranéen + Tainter (1988) coûts complexité",
+        "valeur_indicateur": "EROI déclinant confirmé : débasement + épidémies + pression frontières",
+        "coherence": "CONFIRMÉ — EROI 4.5→1.8 cohérent avec données archéologiques déclin IIIe"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Rome latine → Sa=4 (famille nucléaire égalitaire, monde romain, Todd 1990)",
+      "justification": "Todd classe le monde romain latin en famille nucléaire égalitaire. Sa=4 = instabilité chronique — cohérent avec 50 empereurs en 50 ans et rébellions légionnaires répétées.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 235 ap. J.-C. — assassinat Sévère Alexandre, début Crise du IIIe siècle). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.55,
+    "C0": 0.10,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 — cmd_linear obligatoire.",
+    "T": 0.80,
+    "Mob": 0.10,
+    "R": 0.30,
+    "Ref": 0.10,
+    "Rc": 0.45,
+    "Rn": 0.0,
+    "E": 0.20,
+    "gamma": 0.25,
+    "EROI": 3.15,
+    "EROI_start": 4.5,
+    "EROI_end": 1.8,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 4.5→1.8 sur 300 pas.",
+    "EROI": {
+      "start": 4.5,
+      "end": 1.8
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. WP fondateur calibration bayésienne. Valider signal CSD (variance croissante S avant bascule) et timing (c)→(d)."
+  },
+  "alertes_conv_a": [
+    "DEUX PHASES SÉQUENTIELLES : Phase (c) stase sous pression (S oscillant, I déclinant) → Phase (d) franchissement I_min, effondrement progressif. Documenter t_b de bascule (c)→(d).",
+    "E_split=0.20 = borne inférieure programme. Si CONV-E code > 0.35, documenter divergence en S1 — fracture romaine est diffuse, pas cristallisée.",
+    "Signal CSD obligatoire : variance croissante de S avant effondrement. Vérifier que le runner produit ce signal précurseur et le dater.",
+    "EROI fondateur C1 : toute modification de EROI_start/EROI_end affecte la calibration de tous les WP C1 suivants (F2, F3, F7, I2, I7, C4). Ne pas ajuster sans validation corpus complet.",
+    "I0=3.5 : seuil I_min non actif à T=0 (I0 > 2.5). Contrainte I_min s'active progressivement avec déclin EROI — documenter t_Imin (premier pas où I < 2.5)."
+  ],
+  "defi_mepa": "WP fondateur de la calibration bayésienne C1 V6.2. Démontrer que la chute EROI 4.5→1.8 entraîne I sous le seuil de maintenance AVANT que C n'explose — c'est le mécanisme définitionnel de (c)→(d) vs (c)→(a). Signal CSD (Critical Slowing Down) : variance croissante de S avant effondrement = précurseur à documenter en S3. E_split=0.20 = borne inférieure programme — vérifier que cette valeur basse est cohérente avec absence de rupture (a) malgré T=0.80. Ordre équestre/sénatorial fermé : Mob=0.10 (ascenseur social en déclin)."
+}

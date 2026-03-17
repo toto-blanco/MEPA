@@ -1,0 +1,901 @@
+{
+  "name": "MEPA V6.2 -- Pipeline WF2 Protocole Complet",
+  "nodes": [
+    {
+      "id": "mepa-n0-trigger",
+      "name": "▶ Démarrage Manuel",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        340
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "mepa-nA-read-file",
+      "name": "Nœud A — Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        340
+      ],
+      "parameters": {
+        "filePath": "={{ $env.MEPA_FICHE_PATH || '/data/mepa/config/WP-C1-1_Haiti_v62.json' }}",
+        "options": {}
+      },
+      "notes": "Lit la fiche WP JSON depuis le disque. Chemin configurable via variable d'environnement MEPA_FICHE_PATH ou paramètre direct. Valeur par défaut : WP-C1-1 Haïti (ancre plancher corpus V6.2)."
+    },
+    {
+      "id": "mepa-nB-extract",
+      "name": "Nœud B — Decode JSON [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// Nœud B — Decode Binary → JSON (No-FS)\n// Remplace \"Extract From File\" qui encapsule sous une clé \"data\" parasite\n// Retourne le JSON de la fiche directement à la racine pour le Nœud 2\n\nconst binaryData = $input.item.binary.data;\nconst raw = Buffer.from(binaryData.data, 'base64').toString('utf-8');\nreturn { json: JSON.parse(raw) };"
+      },
+      "notes": "Remplace Extract From File (v1.123 incompatible JSON). Décode le binaire et retourne le JSON de la fiche directement à la racine — sans encapsulation 'data' parasite."
+    },
+    {
+      "id": "mepa-n2-audit",
+      "name": "Nœud 2 — Audit C1→C13 [mepa_node2_audit_v62.js v2.1 No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        340
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// ══════════════════════════════════════════════════════════════════════════\n// NŒUD 2 — MEPA V6.2 No-FS (V6.3 FORTIFIÉ) : Audit de Conformité COMPLET\n// Correctif A6 — 2026-03-16 : Réintégration C7, C9, C10, C11\n// Contrôles actifs : C1-C13 (C13 en premier — détection NC)\n// Sorties : VALIDE | INVALIDE | DONNEES_INSUFFISANTES\n// ══════════════════════════════════════════════════════════════════════════\n\n\"use strict\";\n\nconst fiche = $input.item.json;\nconst MEPA_SCRIPTS_DIR = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\n// ── Chargement mepa_constants.json via env ─────────────────────────────────\nlet CONSTANTS = null;\ntry {\n  const rawConstants = $env.MEPA_CONSTANTS_JSON;\n  if (rawConstants) CONSTANTS = JSON.parse(rawConstants);\n} catch (_) { CONSTANTS = null; }\n\n// ── Constantes embarquées (fallback BUG-007 inclus — 9 labels) ────────────\nconst LABELS_D4 = (CONSTANTS?.labels_trajectoire_d4?.labels) || [\n  \"(a) Rupture transformatrice\",\n  \"(b) Répression réussie\",\n  \"(c) Stase / ambigu\",\n  \"(d) Effondrement progressif\",\n  \"(d) Dissolution\",\n  \"(e) Réforme institutionnelle\",\n  \"(h) Stabilité\",\n  \"(h)/(e) Stabilité ou réforme lente\",\n  \"(γ) Transformation forcée\",\n];\n\nconst BORNES_CMD = (CONSTANTS?.bornes_commandes) || {\n  T:{min:0,max:2},Mob:{min:0,max:1},R:{min:0,max:10},Ref:{min:0,max:1},\n  Rc:{min:0,max:1},Rn:{min:0,max:1},E:{min:0,max:1},gamma:{min:0,max:1},\n  EROI:{min:1.01,max:200},Pop:{min:0,max:10}\n};\n\nconst NC_BLOQUANTES = new Set(\n  CONSTANTS?.nc_protocol?.variables_nc_bloquantes ||\n  [\"E_split\",\"gamma\",\"EROI\",\"Sa\"]\n);\n\n// ── C9 : Whitelist clés racine autorisées ──────────────────────────────────\nconst RACINE_AUTORISEES = new Set([\n  \"$schema\",\"$description\",\"$statut\",\"$audit\",\n  \"$arbitrage\",\"$note_archive\",\"$note_correction\",\n  \"wp_id\",\"cas\",\"periode\",\"cluster\",\"cluster_libelle\",\"cluster_note\",\n  \"trajectoire_attendue\",\"trajectoire_attendue_libelle\",\"trajectoire_forcee\",\n  \"sa\",\"sa_type_todd\",\"sa_p6_modulation\",\"sa_note\",\n  \"sources_utilisees\",\"variables\",\n  \"conditions_initiales\",\"conditions_initiales_finales\",\n  \"commandes\",\"commandes_finales\",\"cmd_linear\",\n  \"parametres_simulation\",\"alertes_actives\",\"alertes_conv_a\",\n  \"defi_mepa\",\"params_p\",\n  \"raison_loi_physique\",\"zone_stratification\",\"t_max\",\"theta_C\",\"theta_I\",\n  \"date_codage\",\"codeur\",\"statut\",\n  \"_conv_e_meta\",\"_pipeline_message\"  // métadonnées pipeline CONV-E\n]);\n\n// ── C10 : Contraintes spécifiques par WP ──────────────────────────────────\nconst CONTRAINTES_WP = {\n  \"WP-C1-1\":  { EROI_max: 2.5,  cmd_linear_requis: true  },\n  \"WP-C4-1\":  { EROI_max: 2.0                            },\n  \"WP-F1-1\":  { cmd_linear_requis: true                  },\n  \"WP-F2-1\":  { cmd_linear_requis: true, A_r_ne_max: 0.00},\n  \"WP-F3-1\":  { cmd_linear_requis: true                  },\n  \"WP-F10-1\": { t_max: 80                                },\n  \"WP-I10-1\": { cmd_linear_requis: true                  },\n  // WP-EXT : hors corpus principal V6.2 — reconnu si injecté pour test P5\n  \"WP-EXT-5\": { EROI_min: 30, note: \"Islande — étalon (e). Sa=2 nucléaire absolu. Hors 27 WP. Candidat V7.\" },\n};\n\nconst CMD_OBLIGATOIRES = [\"T\",\"Mob\",\"R\",\"Ref\",\"Rc\",\"Rn\",\"E\",\"gamma\",\"EROI\",\"Pop\"];\nconst THETA_C = {min:0.10, max:0.60};\nconst THETA_I = {min:0.05, max:0.50};\nconst SA_VALIDES = new Set([2,4,6,7]);\n\nconst erreurs  = [];\nconst warnings = [];\n\nfunction _isNC(val) { return typeof val === \"string\" && val.trim().toUpperCase() === \"NC\"; }\nfunction _toNum(val) {\n  if (_isNC(val) || val === null || val === undefined) return null;\n  const n = Number(val); return isNaN(n) ? null : n;\n}\n\n// ── C13 [PREMIER] — Détection NC bloquant ─────────────────────────────────\nconst cmd  = fiche.cmd || fiche.commandes || {};\nconst vars = fiche.variables || {};\nconst nc_bl  = [];\nconst nc_nbl = [];\n\nfor (const [k, v] of Object.entries({ ...cmd, ...vars })) {\n  if (_isNC(v)) {\n    if (NC_BLOQUANTES.has(k)) nc_bl.push(k);\n    else nc_nbl.push(k);\n  }\n}\n\nif (nc_bl.length > 0) {\n  return [{\n    json: {\n      statut_audit:      \"DONNEES_INSUFFISANTES\",\n      wp_id:             fiche.wp_id || \"?\",\n      nb_erreurs:        0,\n      nc_bloquantes:     nc_bl,\n      nc_non_bloquantes: nc_nbl,\n      audit_log: { statut: \"DONNEES_INSUFFISANTES\", erreurs: [], warnings: [], controles: { C13: \"FAIL_BLOQUANT\" } },\n      message: `[NC BLOQUANT] Variables insuffisantes : ${nc_bl.join(\", \")}`\n    }\n  }];\n}\n\n// ── C1 — Champs obligatoires ──────────────────────────────────────────────\nlet ok = true;\nfor (const f of [\"wp_id\",\"sa\",\"t_max\",\"theta_C\",\"theta_I\"]) {\n  if (fiche[f] === undefined || fiche[f] === null) {\n    erreurs.push(`C1 - Champ obligatoire manquant : '${f}'`); ok = false;\n  }\n}\n\n// ── C2 — Clés cmd obligatoires ────────────────────────────────────────────\nfor (const k of CMD_OBLIGATOIRES) {\n  if (!(k in cmd)) { erreurs.push(`C2 - Clé cmd manquante : '${k}'`); ok = false; }\n}\n\n// ── C3 — Plages physiques ─────────────────────────────────────────────────\nfor (const [k, v] of Object.entries(cmd)) {\n  const num = _toNum(v);\n  if (num === null) continue;\n  const b = BORNES_CMD[k];\n  if (b && (num < b.min || num > b.max)) {\n    erreurs.push(`C3 - ${k}=${num} hors bornes [${b.min},${b.max}]`); ok = false;\n  }\n}\n\n// ── C4 — Nomenclature D6 : 'gamma' présent, 'g' absent ───────────────────\nif (\"g\" in cmd)     { erreurs.push(\"C4 - Clé 'g' dans cmd. Utiliser 'gamma'.\"); ok = false; }\nif (!(\"gamma\" in cmd)) { erreurs.push(\"C4 - Clé 'gamma' absente.\"); ok = false; }\n\n// ── C5 — Labels D4 ───────────────────────────────────────────────────────\nconst traj = fiche.trajectoire_attendue;\nif (traj && !LABELS_D4.includes(traj)) {\n  erreurs.push(`C5 - Label D4 non conforme : '${traj}'. Valides : ${LABELS_D4.join(\" | \")}`);\n  ok = false;\n}\n\n// ── C6 — Sa valide ───────────────────────────────────────────────────────\nconst sa = parseInt(fiche.sa);\nif (!SA_VALIDES.has(sa)) { erreurs.push(`C6 - Sa=${sa} invalide (valides: 2,4,6,7)`); ok = false; }\n\n// ── C7 — Sa=7 : sa_p6_modulation documenté ───────────────────────────────\nif (sa === 7) {\n  const p6_flag = fiche.sa_p6_modulation === true || fiche.sa_p6_modulation === \"true\";\n  if (!p6_flag) {\n    warnings.push(\"C7 - Sa=7 : sa_p6_modulation non documenté. Runner applique p6×1.5 automatiquement (règle absolue V6.2).\");\n  }\n}\n\n// ── C8 — theta_C / theta_I dans plages ───────────────────────────────────\nconst tc = _toNum(fiche.theta_C);\nconst ti = _toNum(fiche.theta_I);\nif (tc !== null && (tc < THETA_C.min || tc > THETA_C.max))\n  erreurs.push(`C8 - theta_C=${tc} hors [${THETA_C.min},${THETA_C.max}]`);\nif (ti !== null && (ti < THETA_I.min || ti > THETA_I.max))\n  erreurs.push(`C8 - theta_I=${ti} hors [${THETA_I.min},${THETA_I.max}]`);\n\n// ── C9 — Whitelist clés racine (exécuté APRÈS C13) ───────────────────────\nconst cles_extra = Object.keys(fiche).filter(k => !RACINE_AUTORISEES.has(k));\nif (cles_extra.length > 0) {\n  erreurs.push(`C9 - Clés non autorisées à la racine : [${cles_extra.join(\", \")}]`);\n  ok = false;\n}\n\n// ── C10 — Contraintes spécifiques par WP ─────────────────────────────────\nconst wp_id = fiche.wp_id || \"WP-INCONNU\";\nif (wp_id && CONTRAINTES_WP[wp_id]) {\n  const ctr  = CONTRAINTES_WP[wp_id];\n  const eroi = _toNum(cmd.EROI);\n  const rn   = _toNum(cmd.Rn);\n  if (ctr.EROI_max !== undefined && eroi !== null && eroi > ctr.EROI_max) {\n    erreurs.push(`C10 - ${wp_id} : EROI=${eroi} > max autorisé ${ctr.EROI_max}`); ok = false;\n  }\n  if (ctr.A_r_ne_max !== undefined && rn !== null && rn > ctr.A_r_ne_max) {\n    erreurs.push(`C10 - ${wp_id} : Rn=${rn} > A_r_ne_max=${ctr.A_r_ne_max}`); ok = false;\n  }\n  if (ctr.t_max !== undefined && fiche.t_max !== undefined && fiche.t_max !== ctr.t_max) {\n    warnings.push(`C10 - ${wp_id} : t_max=${fiche.t_max}, valeur recommandée=${ctr.t_max}`);\n  }\n}\n\n// ── C11 — cmd_linear obligatoire pour Cluster C1 ─────────────────────────\nconst cluster = fiche.cluster || \"\";\nconst has_cmd_linear = fiche.cmd_linear != null\n  && typeof fiche.cmd_linear === \"object\"\n  && Object.keys(fiche.cmd_linear).filter(k => k !== \"note\").length > 0;\nif (cluster === \"C1\" && !has_cmd_linear) {\n  erreurs.push(\"C11 - Cluster C1 : cmd_linear.EROI obligatoire ({start, end}). Absent.\");\n  ok = false;\n}\n\n// ── C12 — Sa = entier ────────────────────────────────────────────────────\nif (typeof fiche.sa !== \"number\" && isNaN(parseInt(fiche.sa)))\n  erreurs.push(\"C12 - Sa doit être un entier.\");\n\nif (nc_nbl.length > 0)\n  warnings.push(`NC non-bloquantes : ${nc_nbl.join(\", \")} — fallbacks appliqués.`);\n\n// ── Construction runner_config ────────────────────────────────────────────\nconst P_DEFAULTS = {\n  p1:0.08, p2:0.045, p2b:0.06, p3:0.02, p4:0.4, p5:0.05,\n  p6:0.12, p7:0.04, p8:0.03, p9:0.06, p10:0.8,\n  p11a:0.6, p11b:0.15, p13:1.2, lam:0.68, mu:0.38, nu:0.62, rho:0.06\n};\nconst params_runner = {\n  ...P_DEFAULTS,\n  ...(fiche.parametres_simulation || fiche.params || {}),\n  theta_C: tc || 0.30,\n  theta_I: ti || 0.22\n};\nconst configPath = `/tmp/${wp_id}_runner_config.json`;\nconst resultPath = `/tmp/${wp_id}_result.json`;\nconst n1Path     = `/tmp/${wp_id}_n1_sensitivity.json`;\n\nconst runner_config = {\n  wp_id,\n  cas:                  fiche.cas || \"\",\n  cluster,\n  trajectoire_attendue: fiche.trajectoire_attendue || \"\",\n  sa,\n  y0:                   fiche.conditions_initiales || fiche.y0 || {},\n  t_max:                fiche.t_max || 300,\n  theta_C:              tc || 0.30,\n  theta_I:              ti || 0.22,\n  cmd,\n  cmd_linear:           Object.fromEntries(\n    Object.entries(fiche.cmd_linear || {}).filter(([k]) => k !== \"note\")\n  ),\n  params:               params_runner,\n};\n\nconst llm_context = {\n  wp_id, cluster, sa,\n  cas:                  fiche.cas || \"\",\n  periode:              fiche.periode || \"\",\n  trajectoire_attendue: fiche.trajectoire_attendue || \"\",\n  mepa_full_vars:       vars,\n  defi_mepa:            fiche.defi_mepa || \"\",\n  alertes:              fiche.alertes_conv_a || fiche.alertes || [],\n  gamma:                cmd.gamma,\n};\n\nconst statut = erreurs.length === 0 ? \"VALIDE\" : \"INVALIDE\";\nconst runner_cmd = `/usr/bin/python3 ${MEPA_SCRIPTS_DIR}/mepa_runner_v2_gamma.py ${configPath}`;\nconst n1_cmd     = `/usr/bin/python3 ${MEPA_SCRIPTS_DIR}/mepa_sensitivity_n1.py ${configPath} ${n1Path}`;\n\nreturn [{\n  json: {\n    statut_audit:        statut,\n    wp_id,\n    nb_erreurs:          erreurs.length,\n    nc_bloquantes:       nc_bl,\n    nc_non_bloquantes:   nc_nbl,\n    runner_config_json:  JSON.stringify(runner_config),\n    runner_config_path:  configPath,\n    result_path:         resultPath,\n    n1_path:             n1Path,\n    runner_cmd,\n    n1_cmd,\n    llm_context,\n    audit_log: {\n      statut, erreurs, warnings,\n      controles: {\n        C1:  !erreurs.some(e=>e.startsWith(\"C1\")),\n        C2:  !erreurs.some(e=>e.startsWith(\"C2\")),\n        C3:  !erreurs.some(e=>e.startsWith(\"C3\")),\n        C4:  !erreurs.some(e=>e.startsWith(\"C4\")),\n        C5:  !erreurs.some(e=>e.startsWith(\"C5\")),\n        C6:  !erreurs.some(e=>e.startsWith(\"C6\")),\n        C7:  warnings.some(w=>w.startsWith(\"C7\")) ? \"WARN\" : \"OK\",\n        C8:  !erreurs.some(e=>e.startsWith(\"C8\")),\n        C9:  !erreurs.some(e=>e.startsWith(\"C9\")),\n        C10: !erreurs.some(e=>e.startsWith(\"C10\")),\n        C11: !erreurs.some(e=>e.startsWith(\"C11\")),\n        C12: !erreurs.some(e=>e.startsWith(\"C12\")),\n        C13: \"OK\"\n      }\n    },\n    message: statut === \"VALIDE\"\n      ? `[VALIDE] ${wp_id} — audit C1-C13 OK${nc_nbl.length ? ` (NC non-bl: ${nc_nbl.join(\",\")})` : \"\"}`\n      : `[INVALIDE] ${wp_id} — ${erreurs.length} erreur(s)`\n  }\n}];\n"
+      },
+      "notes": "13 contrôles — C13 en premier (détection NC).\nSorties : VALIDE | INVALIDE | DONNEES_INSUFFISANTES.\nDélègue à /data/mepa/scripts/mepa_node2_audit_v62.js v2.0."
+    },
+    {
+      "id": "mepa-n2-router",
+      "name": "Router — VALIDE / INVALIDE / NC",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        280,
+        340
+      ],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-valide",
+                    "leftValue": "={{ $json.statut_audit }}",
+                    "rightValue": "VALIDE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "0",
+              "renameOutput": true,
+              "outputDescription": "VALIDE — pipeline continue"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-invalide",
+                    "leftValue": "={{ $json.statut_audit }}",
+                    "rightValue": "INVALIDE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "1",
+              "renameOutput": true,
+              "outputDescription": "INVALIDE — erreur structurelle"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-nc",
+                    "leftValue": "={{ $json.statut_audit }}",
+                    "rightValue": "DONNEES_INSUFFISANTES",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "2",
+              "renameOutput": true,
+              "outputDescription": "DONNEES_INSUFFISANTES — NC bloquant"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mepa-alert-invalide",
+      "name": "⚠ Alerte INVALIDE — Recodage CONV-E requis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        640
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// NŒUD ALERTE — Pipeline suspendu (fiche INVALIDE)\n// Retourne le payload d'erreur pour notification CONV-B / Architecte\n\n\"use strict\";\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id || \"?\";\nconst audit  = data.audit_log || {};\n\nreturn {\n  json: {\n    status:       \"PIPELINE_SUSPENDU\",\n    wp_id,\n    motif:        \"INVALIDE\",\n    nb_erreurs:   data.nb_erreurs || 0,\n    erreurs:      audit.erreurs   || [],\n    warnings:     audit.warnings  || [],\n    controles:    audit.controles || {},\n    action_requise: \"Recodage CONV-E — corriger les erreurs structurelles avant relance.\",\n    message:      `[PIPELINE STOP] ${wp_id} — ${data.nb_erreurs} erreur(s). ${data.message || \"\"}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-alert-nc",
+      "name": "⚠ Alerte NC BLOQUANT — Escalade Architecte",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        790
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// NŒUD ALERTE NC — Pipeline suspendu (DONNEES_INSUFFISANTES)\n// Distinct de INVALIDE : la fiche est bien formée, les sources sont insuffisantes\n\n\"use strict\";\nconst data  = $input.item.json;\nconst wp_id = data.wp_id || \"?\";\n\nreturn {\n  json: {\n    status:       \"PIPELINE_SUSPENDU\",\n    wp_id,\n    motif:        \"DONNEES_INSUFFISANTES\",\n    nc_bloquantes:    data.nc_bloquantes    || [],\n    nc_non_bloquantes: data.nc_non_bloquantes || [],\n    action_requise: (\n      \"Escalade Architecte. \" +\n      \"Enrichissement des sources historiques requis pour : \" +\n      (data.nc_bloquantes || []).join(\", \") +\n      \". La fiche est structurellement valide (pas de recodage CONV-E).\"\n    ),\n    message: `[NC BLOQUANT] ${wp_id} — ${data.message || \"\"}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n8a-convb-cci",
+      "name": "Noeud 8a -- CONV-B CCI [Codage Independant + CCI Pre-Simulation]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 8a -- CONV-B Codage Independant + CCI (PRE-SIMULATION)\n// Guide Survie Etape 1b+2 : CONV-B code en parallele, CCI AVANT simulation\n// Les valeurs resolues serviront d'entree au runner\n\"use strict\";\nconst https = require(\"https\");\nconst { execSync } = require(\"child_process\");\nconst fs    = require(\"fs\");\n\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\nconst SCRIPTS = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\nconst fiche_input = data.llm_context?.mepa_full_vars || {};\nconst cas     = data.llm_context?.cas     || \"\";\nconst periode = data.llm_context?.periode || \"\";\nconst cluster = data.llm_context?.cluster || \"\";\n\n// Sources neutralisees : sans scores CONV-E, sans justifications\nconst sources_neutres = JSON.stringify(\n  Object.fromEntries(\n    Object.entries(fiche_input).map(([k, v]) => [\n      k, { echelle: v.echelle, origine: v.origine,\n           source_id: v.source_id, niveau_source: v.niveau_source,\n           // sanity_check.valeur_indicateur supprimé — brise le double aveugle\n           sanity_check: v.sanity_check ? { indicateur: v.sanity_check.indicateur } : null }\n    ])\n  )\n);\n\n// Variables hardcodees (EROI, Sa, A_r_ne si V6.2 normative)\nconst vars_hardcodees = Object.fromEntries(\n  Object.entries(fiche_input)\n    .filter(([k, v]) => v.valeur !== null && v.valeur !== undefined\n                     && (v.source_id?.includes('hardcod') || v.source_id?.includes('normative') || v.source_id?.includes('V6.2')))\n    .map(([k, v]) => [k, v.valeur])\n);\n\nconst SYSTEM = `Tu es CONV-B, l'Auditeur Scientifique MEPA V6.2.\nTu codes independamment les 9 variables critiques du WP.\nTu ne vois PAS les scores de CONV-E. Double aveugle strict.\n\nVARIABLES HARDCODEES (ne pas recoder, marquer accord=true) :\n${JSON.stringify(vars_hardcodees)}\n\nGRILLE D'ANCRAGE V6.2 :\nE_split [0,1] : 0.0-0.2=cohesion, 0.4-0.6=fracture naissante, 0.8-1.0=fracture critique\ngamma [0,1] : 0.0-0.2=desorganise, 0.4-0.6=organisation partielle, 0.8-1.0=forte\nA_d_eff [0,10] : 0-2=effondrement, 4-6=trappe, 8-10=surplus\nA_r_c [0,1] : 0.0-0.2=absente, 0.4-0.6=selective, 0.8-1.0=massive\nA_r_ne [0,1] : 0.0-0.2=absente, 0.4-0.6=partielle, 0.8-1.0=totale\nCs [0,1] : 0.0-0.2=effondree, 0.4-0.6=contestee, 0.8-1.0=solide\nL_t [0,1] : 0.0-0.2=effondree, 0.4-0.6=conditionnelle, 0.8-1.0=solide\nEROI [valeur reelle] : <3=effondrement, 3-5=critique, 5-10=standard, >10=performant\nSa {2,4,6,7} : nucleaire absolu=2, egalitaire=4, communautaire=6, souche=7\n\nReponds UNIQUEMENT en JSON pur sans markdown.`;\n\nconst USER = `WP: ${wp_id} | Cas: ${cas} | Periode: ${periode} | Cluster: ${cluster}\n\nSources pour codage independant:\n${sources_neutres.slice(0, 2500)}\n\nFormat obligatoire:\n{\n  \"wp_id\": \"${wp_id}\",\n  \"codeur\": \"CONV-B\",\n  \"date_codage\": \"${new Date().toISOString()}\",\n  \"variables_conv_b\": {\n    \"E_split\": {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"gamma\":   {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"A_d_eff\": {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"A_r_c\":   {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"A_r_ne\":  {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"Cs\":      {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"L_t\":     {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"EROI\":    {\"valeur\": 0.0, \"indicateur\": \"...\", \"source_utilisee\": \"...\", \"justification\": \"...\"},\n    \"Sa\":      {\"valeur\": 0,   \"source_utilisee\": \"Todd (1990)\", \"justification\": \"...\"}\n  }\n}`;\n\nconst payload = JSON.stringify({\n  model: \"claude-sonnet-4-20250514\", max_tokens: 2000,\n  system: SYSTEM, messages: [{ role: \"user\", content: USER }]\n});\n\nconst conv_b_data = await new Promise((resolve, reject) => {\n  const req = https.request({\n    hostname: \"api.anthropic.com\", path: \"/v1/messages\", method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\",\n      \"x-api-key\": ANTHROPIC_API_KEY, \"anthropic-version\": \"2023-06-01\" }\n  }, (res) => {\n    let body = \"\";\n    res.on(\"data\", c => body += c);\n    res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n        const t = JSON.parse(body).content?.[0]?.text || \"{}\";\n        resolve(JSON.parse(t.replace(/```json|```/g,\"\").trim()));\n      } catch(e) { reject(new Error(`Parse CONV-B: ${e.message}`)); }\n    });\n  });\n  req.setTimeout(90000, () => { req.destroy(); reject(new Error(\"Timeout 90s\")); });\n  req.on(\"error\", reject);\n  req.write(payload); req.end();\n});\n\n// Sauvegarder fiche CONV-B\nconst fiche_b_path = `/tmp/${wp_id}_fiche_conv_b.json`;\nfs.writeFileSync(fiche_b_path, JSON.stringify(conv_b_data, null, 2));\n\n// Construire fiche CONV-E pour kappa_calculator\nconst fiche_e_data = {\n  wp_id, codeur: \"CONV-E\",\n  date_codage: new Date().toISOString(),\n  variables: Object.fromEntries(\n    Object.entries(fiche_input).map(([k, v]) => [\n      k, { valeur: v.valeur ?? v.valeur_normative_v62 ?? null }\n    ])\n  ),\n  sa: data.llm_context?.sa ?? null\n};\nconst fiche_e_path = `/tmp/${wp_id}_fiche_conv_e_kappa.json`;\nfs.writeFileSync(fiche_e_path, JSON.stringify(fiche_e_data, null, 2));\n\n// Lancer kappa calculator\nconst cci_path = `/tmp/${wp_id}_cci_result.json`;\nlet cci_result = null;\nlet cci_error  = null;\ntry {\n  execSync(`/usr/bin/python3 ${SCRIPTS}/mepa_kappa_calculator.py ${fiche_e_path} ${fiche_b_path} ${cci_path}`,\n    { encoding: \"utf8\", maxBuffer: 5*1024*1024 });\n  cci_result = JSON.parse(execSync(`cat ${cci_path}`, { encoding: \"utf8\" }));\n} catch(e) { cci_error = e.message; }\n\nconst cci_global  = cci_result?.cci ?? null;\nconst verdict_cci = cci_result?.verdict ?? \"NON_CALCULE\";\nconst desaccords  = (cci_result?.details || []).filter(d => d.accord === false);\nconst need_human  = desaccords.some(d =>\n  d.action === \"CONFRONTATION_OBLIGATOIRE\" || d.action === \"CONFRONTATION_SOURCES\");\n\n// Scores resolus automatiquement\nconst scores_resolus = {};\nfor (const d of cci_result?.resolution || []) {\n  if (d.action === \"MOYENNE\") scores_resolus[d.variable] = d.valeur_retenue;\n}\n\nreturn {\n  json: {\n    ...data,\n    conv_b_data, fiche_b_path, cci_result, cci_global, verdict_cci,\n    desaccords, scores_resolus, need_human_review: need_human, cci_error,\n    message: cci_error\n      ? `[ERREUR CCI] ${cci_error.slice(0,150)}`\n      : `CCI=${cci_global?.toFixed(3)} -- ${verdict_cci} -- humain requis: ${need_human ? \"OUI\" : \"NON\"}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n8b-router-cci",
+      "name": "Router CCI -- AUTO / WAIT_HUMAIN",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        760,
+        340
+      ],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-cci-auto",
+                    "leftValue": "={{ $json.need_human_review }}",
+                    "rightValue": false,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "0",
+              "renameOutput": true,
+              "outputDescription": "AUTO -- CCI OK, pas de desaccord humain requis"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-cci-wait",
+                    "leftValue": "={{ $json.need_human_review }}",
+                    "rightValue": true,
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "1",
+              "renameOutput": true,
+              "outputDescription": "WAIT -- desaccord CCI, intervention humaine requise"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mepa-n8c-wait-cci",
+      "name": "Noeud 8c -- WAIT Validation CCI [Humain]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        540
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 8c -- WAIT Validation CCI Humaine\n// Guide Survie : intervention humaine si desaccord > 2*seuil ou variable categorielle\n\"use strict\";\nconst data = $input.item.json;\nreturn {\n  json: {\n    ...data,\n    status: \"WAIT_CCI_VALIDATION\",\n    instructions_humain: (data.desaccords || []).map(d => ({\n      variable: d.variable, action: d.action,\n      val_conv_e: d.val_a, val_conv_b: d.val_b, detail: d.detail\n    })),\n    message: `[WAIT] ${(data.desaccords||[]).length} desaccord(s) CCI necessitent validation humaine avant simulation.`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n8d-inject",
+      "name": "Noeud 8d -- Injection Valeurs Resolues [Post-CCI]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 8d -- Injection Valeurs Resolues (post-CCI) dans runner_config\n// Protocole : runner tourne sur valeurs FINALES apres resolution inter-codeurs\n\"use strict\";\nconst data = $input.item.json;\n\nconst scores_resolus = data.scores_resolus || {};\nconst fiche_input    = data.llm_context?.mepa_full_vars || {};\n\n// Construire les commandes avec les valeurs resolues\n// Priorite : scores_resolus (post-CCI) > valeur fiche CONV-E\nconst cmd_base = { ...(data.llm_context?.cmd_brut || {}) };\n\n// Mapper variables MEPA -> commandes runner\nconst VAR_TO_CMD = {\n  'gamma':   'gamma',   // γ organisationnel → cmd.gamma\n  'A_r_c':   'Rc',      // répression classique → cmd.Rc\n  'A_r_ne':  'Rn',      // répression numérique → cmd.Rn\n  'E_split':  'E',      // fracture élite → cmd.E [CORRECTIF A3]\n  'Cs':      'Mob',     // crédibilité/mobilisation → cmd.Mob [CORRECTIF A3]\n  // A_d_eff → cmd.R : CONV-E code R directement dans commandes_mises_a_jour\n  // L_t → conditions_initiales.L0 : géré séparément ci-dessous\n};\n\n// Correction L0 depuis scores_resolus si L_t résolu post-CCI [CORRECTIF A3]\nif (scores_resolus['L_t'] !== undefined) {\n  let runner_cfg_l0 = {};\n  try { runner_cfg_l0 = JSON.parse(data.runner_config_json || \"{}\"); } catch(e) {}\n  if (!runner_cfg_l0.y0) runner_cfg_l0.y0 = [1.0, 0.3, 0.1, 4.0];\n  if (Array.isArray(runner_cfg_l0.y0)) {\n    runner_cfg_l0.y0[1] = scores_resolus['L_t']; // index 1 = L0\n  } else if (typeof runner_cfg_l0.y0 === 'object') {\n    runner_cfg_l0.y0['L'] = scores_resolus['L_t'];\n    runner_cfg_l0.y0['L0'] = scores_resolus['L_t'];\n  }\n}\n\nfor (const [var_name, cmd_key] of Object.entries(VAR_TO_CMD)) {\n  if (scores_resolus[var_name] !== undefined) {\n    cmd_base[cmd_key] = scores_resolus[var_name];\n  }\n}\n\n// Mettre a jour le runner_config_json avec les valeurs resolues\nlet runner_config = {};\ntry {\n  runner_config = JSON.parse(data.runner_config_json || \"{}\");\n} catch(e) {}\n\n// Appliquer les corrections de commandes\nif (Object.keys(cmd_base).length > 0) {\n  runner_config.cmd = { ...(runner_config.cmd || {}), ...cmd_base };\n}\n\n// Sauvegarder config mise a jour\nconst { execSync } = require(\"child_process\");\nconst fs = require(\"fs\");\nconst config_path = `/tmp/${data.wp_id}_runner_config.json`;\nconst config_json_updated = JSON.stringify(runner_config);\nfs.writeFileSync(config_path, config_json_updated);\n\nreturn {\n  json: {\n    ...data,\n    runner_config_json: config_json_updated,\n    runner_config_path: config_path,\n    valeurs_finales: {\n      ...Object.fromEntries(\n        Object.entries(fiche_input).map(([k, v]) => [\n          k, scores_resolus[k] ?? v.valeur ?? v.valeur_normative_v62 ?? null\n        ])\n      ),\n      ...scores_resolus\n    },\n    message: `Valeurs resolues injectees -- ${Object.keys(scores_resolus).length} variables resolues par CCI`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n3-write-config",
+      "name": "Nœud 3 — Write runner_config.json [/tmp/] [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        340
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// NŒUD 3 — Write Config File (No-FS via stdin)\n// Architecture No-FS : transmet runner_config_json via stdin au lieu d'écriture disque directe\n// Le runner Python reçoit le JSON sur stdin si aucun chemin fourni en arg\n\n\"use strict\";\nconst data = $input.item.json;\n\nif (data.statut_audit === \"DONNEES_INSUFFISANTES\") {\n  return { json: { ...data, status: \"NC_BLOQUANT\" } };\n}\n\nconst configJson = data.runner_config_json;\nif (!configJson) throw new Error(`[N3] runner_config_json absent — wp_id=${data.wp_id}`);\n\nconst MEPA_SCRIPTS_DIR = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\nconst wp_id       = data.wp_id;\nconst configPath  = data.runner_config_path || `/tmp/${wp_id}_runner_config.json`;\nconst resultPath  = data.result_path        || `/tmp/${wp_id}_result.json`;\nconst n1Path      = data.n1_path            || `/tmp/${wp_id}_n1_sensitivity.json`;\n\n// No-FS : passer le JSON via echo | /usr/bin/python3 (heredoc shell — évite writeFileSync)\n// Le runner accepte le JSON sur stdin quand l'arg est \"-\"\nconst runner_cmd = `echo '${configJson.replace(/'/g, \"'\\\\''\")}' | /usr/bin/python3 ${MEPA_SCRIPTS_DIR}/mepa_runner_v2_gamma.py - ${resultPath}`;\nconst n1_cmd     = `echo '${configJson.replace(/'/g, \"'\\\\''\")}' | /usr/bin/python3 ${MEPA_SCRIPTS_DIR}/mepa_sensitivity_n1.py - ${n1Path}`;\n\nreturn {\n  json: {\n    status:             \"CONFIG_READY\",\n    statut_audit:       data.statut_audit,\n    wp_id,\n    runner_config_json: configJson,\n    runner_config_path: configPath,\n    result_path:        resultPath,\n    n1_path:            n1Path,\n    runner_cmd,\n    n1_cmd,\n    llm_context:        data.llm_context    || {},\n    audit_log:          data.audit_log      || {},\n    nc_non_bloquantes:  data.nc_non_bloquantes || [],\n    message:            `Config prête pour ${wp_id} — No-FS mode`\n  }\n};\n"
+      }
+    },
+    {
+      "id": "mepa-n4-runner",
+      "name": "Nœud 4 — Execute Runner [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1480,
+        140
+      ],
+      "parameters": {
+        "jsCode": "// NŒUD 4 — Execute Runner (No-FS via execSync)\n\"use strict\";\nconst SCRIPTS = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\nconst { execSync } = require(\"child_process\");\n\nconst data = $input.item.json;\nconst configJson = data.runner_config_json;\nconst configPath = data.runner_config_path || `/tmp/${data.wp_id}_runner_config.json`;\nconst resultPath  = data.result_path        || `/tmp/${data.wp_id}_result.json`;\n\n// Écrire la config sur disque puis lancer le runner\nexecSync(`printf '%s' '${configJson.replace(/'/g, \"'\\''\")}' > ${configPath}`);\n\nlet stdout = \"\", stderr = \"\", exitCode = 0;\ntry {\n  stdout = execSync(\n    `/usr/bin/python3 /data/mepa/scripts/mepa_runner_v2_gamma.py ${configPath}`,\n    { encoding: \"utf8\", maxBuffer: 10 * 1024 * 1024 }\n  );\n} catch (e) {\n  stdout = e.stdout || \"\";\n  stderr = e.stderr || \"\";\n  exitCode = e.status || 1;\n}\n\nreturn {\n  json: {\n    ...data,\n    stdout, stderr, exitCode,\n    wp_id:              data.wp_id,\n    result_path:        resultPath,\n    n1_path:            data.n1_path,\n    n1_cmd:             data.n1_cmd,\n    llm_context:        data.llm_context,\n    audit_log:          data.audit_log,\n    nc_non_bloquantes:  data.nc_non_bloquantes || []\n  }\n};"
+      },
+      "notes": "Exécute : python3 /data/mepa/scripts/mepa_runner_v2_gamma.py <config>\nCorrections V2.0 : y0 dict→liste (ARCH-013), theta injection (ARCH-014),\ngarde-fou NC bloquant (RuntimeError), /data/mepa/ (ARCH-015)."
+    },
+    {
+      "id": "mepa-n4b-n1",
+      "name": "Nœud 4b — Execute Sensibilité N1 [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1480,
+        540
+      ],
+      "parameters": {
+        "jsCode": "// NŒUD 4b — Execute Sensibilité N1 (No-FS via execSync)\n\"use strict\";\nconst SCRIPTS = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\nconst { execSync } = require(\"child_process\");\n\nconst data = $input.item.json;\nconst configPath = data.runner_config_path || `/tmp/${data.wp_id}_runner_config.json`;\nconst n1Path     = data.n1_path            || `/tmp/${data.wp_id}_n1_sensitivity.json`;\n\n// Convertir y0 dict → liste [S0, L0, C0, I0] pour mepa_sensitivity_n1.py\nconst config = JSON.parse(data.runner_config_json);\nconst y0raw  = config.y0 || {};\nconfig.y0 = [\n  y0raw.S0 ?? y0raw.S ?? 1.0,\n  y0raw.L0 ?? y0raw.L ?? 0.5,\n  y0raw.C0 ?? y0raw.C ?? 0.1,\n  y0raw.I0 ?? y0raw.I ?? 3.5\n];\nconst configJsonFixed = JSON.stringify(config);\n\n// Écrire la config corrigée sur disque\nexecSync(`printf '%s' '${configJsonFixed.replace(/'/g, \"'\\''\")}' > ${configPath}`);\n\nlet stdout = \"\", stderr = \"\", exitCode = 0;\ntry {\n  stdout = execSync(\n    `/usr/bin/python3 /data/mepa/scripts/mepa_sensitivity_n1.py ${configPath} ${n1Path}`,\n    { encoding: \"utf8\", maxBuffer: 10 * 1024 * 1024 }\n  );\n} catch (e) {\n  stdout = e.stdout || \"\";\n  stderr = e.stderr || \"\";\n  exitCode = e.status || 1;\n}\n\nreturn {\n  json: {\n    ...data,\n    stdout, stderr, exitCode,\n    wp_id:             data.wp_id,\n    n1_path:           n1Path,\n    llm_context:       data.llm_context,\n    audit_log:         data.audit_log,\n    nc_non_bloquantes: data.nc_non_bloquantes || []\n  }\n};"
+      },
+      "notes": "Parallèle au runner — analyse de sensibilité individuelle."
+    },
+    {
+      "id": "mepa-n5-parse",
+      "name": "Nœud 5 — Parse Runner Result [_result.json] [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1720,
+        140
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\"use strict\";\nconst { execSync } = require(\"child_process\");\nconst data    = $input.item.json;\nconst wp_id   = data.wp_id || \"WP-INCONNU\";\nconst resultPath = data.result_path || `/tmp/${wp_id}_result.json`;\nconst exitCode   = data.exitCode ?? 0;\nconst stderr     = data.stderr || \"\";\nif (exitCode !== 0) {\n  return {\n    json: {\n      status: \"RUNNER_ERROR\",\n      wp_id, exitCode, stderr,\n      result_path: resultPath,\n      message: `Runner erreur — exit=${exitCode}. stderr: ${stderr.slice(0,200)}`\n    }\n  };\n}\nlet resultData = null;\nlet parseError = null;\ntry {\n  const raw = execSync(`cat ${resultPath}`, { encoding: \"utf8\" });\n  resultData = JSON.parse(raw);\n} catch (e) {\n  parseError = e.message;\n}\nif (!resultData) {\n  return {\n    json: {\n      status: \"RUNNER_ERROR\",\n      wp_id, exitCode, stderr, parseError, resultPath,\n      message: `Lecture résultat échouée : ${parseError}`\n    }\n  };\n}\nconst sim  = resultData.simulation || {};\nconst vrd  = resultData.verdict    || {};\nconst meta = resultData.meta       || {};\nreturn {\n  json: {\n    status:            \"RUNNER_OK\",\n    wp_id,\n    result_path:       resultPath,\n    result_data:       resultData,\n    traj_diagn:        sim.traj,\n    t_bascule:         sim.t_bascule,\n    dC_rel:            sim.dC_rel,\n    dI_rel:            sim.dI_rel,\n    concordance:       vrd.concordance_attendue,\n    robustesse:        vrd.robustesse,\n    theta_C_effectif:  meta.theta_C_effectif,\n    theta_I_effectif:  meta.theta_I_effectif,\n    nc_non_bloquantes: meta.nc_non_bloquantes || [],\n    statut_nc:         meta.statut_nc || \"OK\",\n    llm_context:       data.llm_context || {},\n    n1_path:           data.n1_path,\n    n1_cmd:            data.n1_cmd,\n    audit_log:         data.audit_log || {}\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n5b-parse-n1",
+      "name": "Nœud 5b — Parse Sensibilité N1 [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1720,
+        540
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\"use strict\";\nconst { execSync } = require(\"child_process\");\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id;\nconst n1Path = data.n1_path || `/tmp/${wp_id}_n1_sensitivity.json`;\nlet rapport_n1 = null;\nlet n1Error    = null;\ntry {\n  const raw = execSync(`cat ${n1Path}`, { encoding: \"utf8\" });\n  rapport_n1 = JSON.parse(raw);\n} catch (e) {\n  n1Error = `Lecture N1 : ${e.message}`;\n}\nconst verdictN1     = rapport_n1?.resume?.verdict_n1 || \"NON_CALCULÉ\";\nconst varsSensibles = rapport_n1?.resume?.variables_sensibles_cmd || [];\nconst recommandation = rapport_n1?.recommandation_n2 || null;\nconst n1ResumeLlm = rapport_n1 ? {\n  verdict:             verdictN1,\n  variables_sensibles: varsSensibles,\n  top3_pivot:          recommandation?.variables_pivot?.slice(0,3) || [],\n  traj_baseline:       rapport_n1.traj_baseline,\n  note_s4:             verdictN1 === \"SENSIBLE\"\n    ? `Système sensible sur : ${varsSensibles.join(\", \")}. Documenter en S4 + S7.`\n    : \"Diagnostic robuste — stable sous perturbation ±20%.\"\n} : {\n  verdict:  \"NON_CALCULÉ\",\n  note_s4:  \"Rapport N1 non disponible.\",\n  erreur:   n1Error\n};\nreturn {\n  json: {\n    ...data,\n    rapport_n1,\n    verdict_n1:    verdictN1,\n    n1_resume_llm: n1ResumeLlm,\n    n1_error:      n1Error\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n6-llm",
+      "name": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        340
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// NŒUD 6 — Rédaction LLM CONV-A (No-FS)\n// Correctif A2 — 2026-03-16 : Merge déterministe depuis Nœud 5 (runner) + Nœud 5b (N1)\n// Supprime la race condition execSync(cat n1_path) précédente.\n// Appel API Anthropic — résultats en mémoire, pas d'écriture disque dans ce nœud.\n\n\"use strict\";\nconst https = require(\"https\");\nconst { execSync } = require(\"child_process\");\n\n// ── Merge deux branches : Nœud 5 (main) + Nœud 5b (sensibilité N1) ─────────\n// $input.all() retourne les items des deux branches du Merge n8n\nconst _items = $input.all();\n\n// Branche principale = celle qui contient result_data (runner)\nconst _dataMain = _items.find(i => i.json.result_data != null)?.json\n               || _items[0]?.json\n               || {};\n\n// Branche N1 = celle qui contient rapport_n1 sans result_data (sensibilité)\nconst _dataN1 = _items.find(i => i.json.rapport_n1 != null && i.json.result_data == null)?.json\n              || _items.find(i => i.json.rapport_n1 != null)?.json\n              || {};\n\n// Données fusionnées — result_data vient de la branche principale\nconst data = { ..._dataMain };\n\n// rapport_n1 : priorité à la branche 5b (déterministe), fallback disque supprimé\nlet rapport_n1 = _dataN1.rapport_n1 || _dataMain.rapport_n1 || null;\nconst wp_id       = data.wp_id;\nconst ctx         = data.llm_context || {};\nconst sim         = data.result_data?.simulation || {};\nconst vrd         = data.result_data?.verdict    || {};\nconst n1          = data.n1_resume_llm           || {};\nconst ncWarnings  = data.nc_non_bloquantes       || [];\n\n// Préparer les données stress-tests pour le prompt\nconst stress_n1 = data.result_data?.simulation?.stress_n1 || {};\nconst stress_n2 = data.result_data?.simulation?.stress_n2 || [];\nconst stress_n2_str = stress_n2.length > 0\n  ? stress_n2.map(s => `${s.label}: ${s.traj}`).join(\" | \")\n  : \"Non calculé\";\nconst tableau_s2 = data.result_data?.simulation?.tableau_S2 || [];\nconst tableau_s2_str = tableau_s2.length > 0\n  ? tableau_s2.map(r => `t=${r.t}: F=${r.F?.toFixed(4)||\"?\"} R=${r.R?.toFixed(4)||\"?\"} FR=${r.FR?.toFixed(4)||\"?\"}`).join(\"\\n\")\n  : \"Non disponible\";\n\nconst prompt_conva = `Tu es CONV-A (Rédacteur MEPA V6.2 Fortifiée).\nRédige le rapport complet S1→S7 pour le WP suivant.\n\nIDENTITÉ WP :\n- WP-ID : ${wp_id}\n- Cas : ${ctx.cas || \"?\"}\n- Période : ${ctx.periode || \"?\"}\n- Cluster : ${ctx.cluster || \"?\"}\n- Sa : ${ctx.sa || \"?\"}\n- Trajectoire attendue : ${ctx.trajectoire_attendue || \"?\"}\n\nVARIABLES MEPA (codées par CONV-E) :\n${JSON.stringify(ctx.mepa_full_vars || {}, null, 2)}\n\nRÉSULTATS SIMULATION EXACTS (mepa_runner_v2_gamma v2.1) :\n⚠ UTILISE UNIQUEMENT CES VALEURS — NE PAS INVENTER DE CHIFFRES\n- Trajectoire diagnostiquée : ${sim.traj || \"?\"}\n- t_bascule : ${sim.t_bascule ?? \"null — aucune bascule F>R détectée\"}\n- ΔC_rel : ${sim.dC_rel ?? \"null\"} | ΔI_rel : ${sim.dI_rel ?? \"null\"}\n- FR_max : ${sim.FR_max ?? \"?\"} | FR_final : ${sim.FR_final ?? \"?\"}\n- C_max : ${sim.C_max ?? \"?\"} | C_final : ${sim.C_final ?? \"?\"}\n- S_final : ${sim.S_final ?? \"?\"} | L_final : ${sim.L_final ?? \"?\"}\n- Robustesse N1 : ${vrd.robustesse || \"?\"} — Trajs N1 : ${JSON.stringify(vrd.trajs_set_n1 || [])}\n- Concordance : ${vrd.concordance_attendue ? \"OUI\" : \"NON\"}\n- Stress N1 optimiste : ${stress_n1.optimiste?.traj || \"?\"} | pessimiste : ${stress_n1.pessimiste?.traj || \"?\"}\n- Stress N2 (8 combinaisons) : ${stress_n2_str}\n- Sensibilité N1 : ${n1.verdict || \"NON_CALCULÉ\"} — ${n1.note_s4 || \"\"}\n${ncWarnings.length > 0 ? `\\nVARIABLES NC NON-BLOQUANTES : ${ncWarnings.join(\", \")}\\nAppliquer le Silence Socratique V6.2.` : \"\"}\n\nTABLEAU F(t)/R(t) EXACT DU RUNNER (à reproduire tel quel en S2) :\n${tableau_s2_str}\n\nRÈGLES RÉDACTION V6.2 — OBLIGATOIRES :\n1. γ s'écrit avec le symbole Unicode γ (U+03B3). Jamais \"g\", jamais \"gamma\".\n2. S2 OBLIGATOIRE : reproduire le tableau F(t)/R(t) ci-dessus avec les valeurs EXACTES.\n   Mentionner explicitement FR_max=${sim.FR_max ?? \"?\"} dans le corps du texte.\n3. VALEURS NULL : si t_bascule/dC_rel/dI_rel sont null, l'écrire explicitement dans S2\n   avec explication : \"aucune bascule F>R détectée — F reste inférieur à R sur toute la simulation\".\n4. DISCORDANCE (règle anti-narrative-smoothing §4.3 Manuel Gouvernance) :\n   Si trajectoire diagnostiquée ≠ attendue, écrire en S2 EXACTEMENT ce format :\n   \"Divergence documentée — la simulation produit (X) au lieu de (Y) attendue.\n   [Condition technique non atteinte : ex. F reste < R sur toute la simulation, t_bascule=null].\n   Potentielle zone de réfutation [RF1: EROI<5 sans techno / RF2: absence (a)/(d) malgré E_split>0.7 / RF3: complexité croissante avec EROI déclinant] si confirmée sur d'autres cas.\"\n   \n   INTERDIT (narrative smoothing) :\n   - Toute phrase du type \"ce résultat est cohérent avec [événement historique]\"\n   - Toute justification a posteriori de la divergence par l'histoire\n   - Toute phrase critiquant le modèle (\"incapacité du runner\", \"limite du modèle\")\n   - Tout effort pour \"expliquer\" pourquoi la simulation a raison malgré la divergence\n   \n   AUTORISÉ en S6/S7 uniquement (pas en S2) :\n   - Discussion des implications théoriques de la divergence pour MEPA\n   - Hypothèses sur les paramètres qui pourraient capturer la trajectoire attendue\n5. S4 OBLIGATOIRE : intégrer les résultats stress-tests N1 et N2 avec leurs trajectoires.\n   Conclure sur la robustesse du diagnostic.\n6. S7 : synthèse comparative avec le corpus MEPA (cluster ${ctx.cluster || \"?\"}).\n7. Format : Markdown structuré, titres ## S1 à ## S7.\n\nALERTES : ${JSON.stringify(ctx.alertes || [])}\nDÉFI MEPA : ${ctx.defi_mepa || \"Non renseigné\"}\n\nRédige maintenant le rapport complet.`;\n\nconst apiKey  = $env.ANTHROPIC_API_KEY;\nconst payload = JSON.stringify({\n  model: \"claude-sonnet-4-20250514\",\n  max_tokens: 4000,\n  temperature: 0,\n  system: \"Tu es CONV-A, le Rédacteur scientifique du projet MEPA V6.2 Fortifiée. Tu produis des rapports WP rigoureux en 7 sections S1-S7, en respectant strictement les règles de nomenclature et les données numériques exactes du runner. Tu ne lisses jamais les divergences de trajectoire.\",\n  messages: [{ role: \"user\", content: prompt_conva }]\n});\n\nconst options = {\n  hostname: \"api.anthropic.com\",\n  path: \"/v1/messages\",\n  method: \"POST\",\n  headers: {\n    \"Content-Type\": \"application/json\",\n    \"x-api-key\": apiKey,\n    \"anthropic-version\": \"2023-06-01\",\n    \"Content-Length\": Buffer.byteLength(payload)\n  }\n};\n\nconst rapport_md = await new Promise((resolve, reject) => {\n  const req = https.request(options, (res) => {\n    let body = \"\";\n    res.on(\"data\", chunk => body += chunk);\n    res.on(\"end\", () => {\n      try {\n        // Vérifier le statut HTTP avant de parser\n        if (res.statusCode !== 200) {\n          reject(new Error(`API HTTP ${res.statusCode} : ${body.slice(0,300)}`));\n          return;\n        }\n        const parsed = JSON.parse(body);\n        const text = parsed.content?.find(b => b.type === \"text\")?.text || \"\";\n        if (!text) reject(new Error(`API réponse vide — body: ${body.slice(0,200)}`));\n        else resolve(text);\n      } catch (e) { reject(new Error(`Parse API : ${e.message} | body: ${body.slice(0,200)}`)); }\n    });\n  });\n  req.setTimeout(180000, () => { req.destroy(); reject(new Error(\"Timeout 180s CONV-A\")); });\n  req.on(\"error\", reject);\n  req.write(payload);\n  req.end();\n});\n\n// Génération du passeport après rédaction LLM\nconst MEPA_SCRIPTS = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\nlet passeportData = null;\nlet passeportError = null;\nlet statut_global = \"INCOMPLET\";\n\ntry {\n  const passeportPath = `/tmp/${wp_id}_passeport.json`;\n  execSync(\n    `/usr/bin/python3 ${MEPA_SCRIPTS}/mepa_passeport_schema.py ${data.result_path} SKIP SKIP ${passeportPath}`,\n    { encoding: \"utf8\" }\n  );\n  const raw = execSync(`cat ${passeportPath}`, { encoding: \"utf8\" });\n  passeportData = JSON.parse(raw.trim());\n  statut_global = passeportData?.statut_global?.code || \"INCOMPLET\";\n} catch (e) {\n  passeportError = e.message;\n  passeportData = {\n    \"$schema\":      \"mepa-passeport-v2.0-fallback\",\n    \"generated_at\": new Date().toISOString(),\n    \"identite\":     { wp_id, cluster: data.result_data?.meta?.cluster || \"?\" },\n    \"certification\":{ cci: null, verdict_cci: \"NON_CALCULÉ\", statut_nc: data.statut_nc || \"OK\" },\n    \"simulation\":   { traj: data.traj_diagn, robustesse: data.robustesse, concordance: data.concordance },\n    \"statut_global\":{ code: \"INCOMPLET\", label: \"Passeport partiel (erreur script)\" },\n    \"erreur_generation\": passeportError\n  };\n}\n\nreturn {\n  json: {\n    status:            \"RAPPORT_RÉDIGÉ\",\n    wp_id,\n    rapport_md,\n    result_data:       data.result_data,\n    audit_log:         data.audit_log,\n    traj_diagn:        data.traj_diagn,\n    concordance:       data.concordance,\n    robustesse:        data.robustesse,\n    rapport_n1:        rapport_n1,\n    nc_non_bloquantes: ncWarnings,\n    statut_nc:         data.statut_nc,\n    llm_context:       ctx,\n    result_path:       data.result_path,\n    n1_path:           data.n1_path,\n    passeport:         passeportData,\n    passeport_error:   passeportError,\n    kappa:             passeportData?.certification?.cci || null,\n    statut_global,\n    message: `Rapport rédigé (${rapport_md.length} chars)${passeportError ? \" | [WARN] passeport partiel\" : \" | passeport généré\"}`\n  }\n};\n"
+      },
+      "notes": "Appel API Anthropic — modèle claude-sonnet-4-20250514, T=0.\nPrérequis : variable d'env ANTHROPIC_API_KEY dans n8n.\nGénère le rapport S1→S7 en Markdown et l'écrit dans /data/mepa/outputs/."
+    },
+    {
+      "id": "mepa-n7-export",
+      "name": "Nœud 7 — Export & Archivage [/data/mepa/outputs/] [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        340
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "// NŒUD 7 — Export & Archivage (No-FS)\n\"use strict\";\nconst { execSync } = require(\"child_process\");\n\n// Une seule entrée depuis N6 (rapport_md + passeport + rapport_n1 + result_data)\nconst data = $input.item.json;\n\nconst wp_id   = data.wp_id;\nconst BASE    = $env.MEPA_OUTPUT_DIR || \"/data/mepa/outputs\";\nconst cluster = (data.result_data?.meta?.cluster || \"CX\").replace(/[^A-Z0-9]/g, \"\");\n\nconst dirs = {\n  results:     `${BASE}/cluster_${cluster}/results`,\n  passeports:  `${BASE}/passeports`,\n  sensitivity: `${BASE}/sensitivity`,\n  rapports:    `${BASE}/cluster_${cluster}/rapports`,\n};\n\nexecSync(`mkdir -p ${Object.values(dirs).join(\" \")}`);\n\nconst archived = {};\n\n// Écriture via fs.writeFileSync (autorisé via NODE_FUNCTION_ALLOW_BUILTIN=fs)\nfunction writeText(path, content) {\n  require(\"fs\").writeFileSync(path, content, \"utf8\");\n}\n\nif (data.result_data) {\n  const dst = `${dirs.results}/${wp_id}_result.json`;\n  writeText(dst, JSON.stringify(data.result_data, null, 2));\n  archived.result = dst;\n}\n\nif (data.rapport_n1) {\n  const dst = `${dirs.sensitivity}/${wp_id}_n1.json`;\n  writeText(dst, JSON.stringify(data.rapport_n1, null, 2));\n  archived.rapport_n1 = dst;\n}\n\nif (data.passeport) {\n  const dst = `${dirs.passeports}/${wp_id}_passeport.json`;\n  writeText(dst, JSON.stringify(data.passeport, null, 2));\n  archived.passeport = dst;\n}\n\nif (data.rapport_md) {\n  const dst = `${dirs.rapports}/${wp_id}_rapport.md`;\n  writeText(dst, data.rapport_md);\n  archived.rapport_md = dst;\n}\n\nconst transit_conv_d = {\n  wp_id, cluster,\n  traj_diagn:        data.traj_diagn,\n  robustesse:        data.robustesse,\n  concordance:       data.concordance,\n  cci:               data.passeport?.certification?.cci || null,\n  statut_nc:         data.statut_nc || \"OK\",\n  nc_non_bloquantes: data.nc_non_bloquantes || [],\n  verdict_audit:     data.audit_log?.statut || null,\n  archived\n};\n\nreturn {\n  json: {\n    status:          \"ARCHIVED\",\n    wp_id,\n    archived,\n    transit_conv_d,\n    statut_global:   data.statut_global || \"INCOMPLET\",\n    message:         `[WF1 COMPLET] ${wp_id} — archivé dans ${BASE}/cluster_${cluster}/`,\n    result_download: archived.result     || null,\n    rapport_md_path: archived.rapport_md || null,\n    passeport_path:  archived.passeport  || null,\n    // Transmettre le contenu pour CONV-B audit (Nœud 6b) [CORRECTIF]\n    rapport_md:      data.rapport_md     || \"\",\n    result_data:     data.result_data    || {},\n    audit_log:       data.audit_log      || {},\n    traj_diagn:      data.traj_diagn,\n    concordance:     data.concordance,\n    robustesse:      data.robustesse,\n    rapport_n1:      data.rapport_n1     || null,\n    nc_non_bloquantes: data.nc_non_bloquantes || [],\n    statut_nc:       data.statut_nc      || \"OK\",\n    llm_context:     data.llm_context    || {},\n    n1_path:         data.n1_path,\n    kappa:           data.kappa,\n    passeport:       data.passeport      || null,\n    cci_global:      data.cci_global     || null,\n    scores_resolus:  data.scores_resolus || {},\n    verdict_conv_b:  data.verdict_conv_b || null,\n  }\n};"
+      },
+      "notes": "Arborescence : /data/mepa/outputs/cluster_<CX>/results|rapports|wp_docs\n                                  /passeports\n                                  /sensitivity\nProduit le payload transit_conv_d pour CONV-D (archivage)."
+    },
+    {
+      "id": "mepa-n6b-audit",
+      "name": "Noeud 6b -- CONV-B Audit Final C1-C5 [Post-Redaction]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2440,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 6b-AUDIT -- CONV-B Audit Final C1-C5 (POST-REDACTION)\n// Guide Survie Etape 5 : CONV-B verifie le WP redige par CONV-A\n// Distinct du codage CCI (deja fait en N8a)\n\"use strict\";\nconst https = require(\"https\");\n\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\n\nconst rapport_md    = data.rapport_md   || \"\";\nconst result_data   = data.result_data  || {};\nconst sim           = result_data.simulation || {};\nconst traj_attendue = result_data.meta?.trajectoire_attendue || \"?\";\n\nconst SYSTEM = `Tu es CONV-B, l'Auditeur Scientifique MEPA V6.2.\nTu audites le WP redige par CONV-A. Checklist obligatoire C1-C5.\n\n[C1] CONFORMITE NUMERIQUE : t_b, dC_rel, dI_rel, FR_max dans le texte \n     correspondent exactement aux valeurs du _result.json ?\n[C2] NOMENCLATURE : aucun \"g\" isole, \"gamma\"->JSON uniquement, γ(U+03B3)->texte redactionnel, labels D4 exacts ?\n[C3] COHERENCE CONV-E : le WP utilise les valeurs codées par CONV-E (mepa_full_vars) ?\n     Vérifier cohérence entre valeurs citées dans le rapport et variables_codees CONV-E.\n     NOTE : CCI=null est normal si CONV-B CCI ne s'est pas déclenché — ne pas pénaliser.\n[C4] NARRATIVE SMOOTHING (§4.3 Manuel Gouvernance) :\n     La divergence traj_diagn != attendue est-elle documentée selon le format §4.3 ?\n     Format CORRECT : \"Divergence documentée — simulation produit (X) au lieu de (Y).\n       [Condition technique : F<R toute simulation / t_bascule=null / etc.].\n       Potentielle zone de réfutation.\"\n     SMOOTHING DÉTECTÉ si : justification a posteriori par l'histoire\n       (\"ce résultat est cohérent avec [fait historique]\") OU\n       phrase expliquant POURQUOI la simulation a raison malgré la divergence.\n     NOTE : l'explication historique est AUTORISÉE en S6/S7 — pas en S2.\n[C5] STRESS-TESTS : resultats N1 et N2 coherents et bien documentes en S4 ?\n\nVERDICT : CERTIFIE / REVISION_MINEURE / REVISION_MAJEURE / REJET\nCERTIFIE = 5/5 ou anomalies mineures non bloquantes\nREVISION_MINEURE = 1-2 anomalies C1/C2/C5 corrigeables sans re-simulation\nREVISION_MAJEURE = anomalie C4 (narrative smoothing) OU anomalie C1 valeur cle\nREJET = anomalie C1 trajectoire OU 3+ anomalies OU CCI<0.50\n\nReponds UNIQUEMENT en JSON pur sans markdown.`;\n\nconst USER = `WP: ${wp_id}\nTrajectoire attendue : ${traj_attendue}\nTrajectoire simulee : ${sim.traj || \"?\"}\nFR_max : ${sim.FR_max || \"?\"} | t_bascule : ${sim.t_bascule ?? \"null\"}\ndC_rel : ${sim.dC_rel ?? \"null\"} | dI_rel : ${sim.dI_rel ?? \"null\"}\n\nRAPPORT CONV-A (extrait):\n${rapport_md}\n\nFormat:\n{\n  \"wp_id\": \"${wp_id}\",\n  \"audit_c1_c5\": {\n    \"C1\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C2\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C3\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C4\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C5\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"}\n  },\n  \"score_checklist\": 0,\n  \"verdict\": \"CERTIFIE|REVISION_MINEURE|REVISION_MAJEURE|REJET\",\n  \"instructions_revision\": [],\n  \"anomalies\": []\n}`;\n\nconst payload = JSON.stringify({\n  model: \"claude-sonnet-4-20250514\", max_tokens: 2000,\n  system: SYSTEM, messages: [{ role: \"user\", content: USER }]\n});\n\nlet audit_result = null;\nlet audit_error  = null;\ntry {\n  audit_result = await new Promise((resolve, reject) => {\n    const req = https.request({\n      hostname: \"api.anthropic.com\", path: \"/v1/messages\", method: \"POST\",\n      headers: { \"Content-Type\": \"application/json\",\n        \"x-api-key\": ANTHROPIC_API_KEY, \"anthropic-version\": \"2023-06-01\" }\n    }, (res) => {\n      let body = \"\";\n      res.on(\"data\", c => body += c);\n      res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n          const t = JSON.parse(body).content?.[0]?.text || \"{}\";\n          resolve(JSON.parse(t.replace(/```json|```/g,\"\").trim()));\n        } catch(e) { reject(e); }\n      });\n    });\n    req.setTimeout(90000, () => { req.destroy(); reject(new Error(\"Timeout 90s\")); });\n  req.on(\"error\", reject);\n    req.write(payload); req.end();\n  });\n} catch(e) { audit_error = e.message; }\n\nconst verdict = audit_result?.verdict || \"NON_CALCULE\";\nconst need_revision = verdict === \"REVISION_MINEURE\" || verdict === \"REVISION_MAJEURE\";\n\nreturn {\n  json: {\n    ...data,\n    audit_conv_b: audit_result,\n    verdict_conv_b: verdict,\n    score_checklist: audit_result?.score_checklist || 0,\n    anomalies_conv_b: audit_result?.anomalies || [],\n    instructions_revision: audit_result?.instructions_revision || [],\n    need_revision,\n    audit_error,\n    message: `CONV-B audit: ${verdict} -- ${audit_result?.score_checklist || \"?\"}/5`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n_revision_router",
+      "name": "Router Revision -- CERTIFIE / REVISION / REJET",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        2680,
+        340
+      ],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-certifie",
+                    "leftValue": "={{ $json.verdict_conv_b }}",
+                    "rightValue": "CERTIFIE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "0",
+              "renameOutput": true,
+              "outputDescription": "CERTIFIE -- vers Stress-test N2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-revision-mineure",
+                    "leftValue": "={{ $json.verdict_conv_b }}",
+                    "rightValue": "REVISION_MINEURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "1",
+              "renameOutput": true,
+              "outputDescription": "REVISION_MINEURE -- retour CONV-A"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-revision-majeure",
+                    "leftValue": "={{ $json.verdict_conv_b }}",
+                    "rightValue": "REVISION_MAJEURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "1",
+              "renameOutput": true,
+              "outputDescription": "REVISION_MAJEURE -- retour CONV-A"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "cond-rejet",
+                    "leftValue": "={{ $json.verdict_conv_b }}",
+                    "rightValue": "REJET",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "outputKey": "2",
+              "renameOutput": true,
+              "outputDescription": "REJET -- alerte suspension WP"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mepa-n_alerte_rejet",
+      "name": "Alerte REJET CONV-B -- Suspension WP",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        540
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD -- Alerte REJET CONV-B\n\"use strict\";\nconst data = $input.item.json;\nreturn {\n  json: {\n    ...data,\n    status: \"REJET_CONV_B\",\n    message: `[REJET] ${data.wp_id} -- CONV-B verdict=${data.verdict_conv_b}. Anomalies: ${(data.anomalies_conv_b||[]).join(\", \")}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n12-n2",
+      "name": "Noeud 12 -- Stress-test N2 [Combinaisons Critiques]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 12 -- Stress-test N2 (Combinaisons critiques)\n// Protocole S3 Niveau 2 : optimiste + pessimiste sur variables sensibles N1\n\"use strict\";\nconst { execSync } = require(\"child_process\");\nconst fs = require(\"fs\");\n\nconst data    = $input.item.json;\nconst wp_id   = data.wp_id;\nconst SCRIPTS = $env.MEPA_SCRIPTS_DIR || \"/data/mepa/scripts\";\n\nlet config_base = {};\ntry {\n  config_base = JSON.parse(fs.readFileSync(`/tmp/${wp_id}_runner_config.json`, \"utf8\"));\n} catch(e) {\n  return { json: { ...data, stress_n2: { erreur: \"config non disponible\" }, robustesse_n2: \"NON_CALCULE\" } };\n}\n\nfunction perturber(base, direction) {\n  const cfg = JSON.parse(JSON.stringify(base));\n  const d   = direction === \"optimiste\" ? 1 : -1;\n  // Perturbations standard S3 Niveau 2\n  if (cfg.cmd?.Rc  !== undefined) cfg.cmd.Rc  = Math.max(0, Math.min(1, (cfg.cmd.Rc  || 0.5) - d * 0.10));\n  if (cfg.cmd?.E   !== undefined) cfg.cmd.E   = Math.max(0, Math.min(1, (cfg.cmd.E   || 0.5) - d * 0.10));\n  if (cfg.cmd?.Rn  !== undefined) cfg.cmd.Rn  = Math.max(0, Math.min(1, (cfg.cmd.Rn  || 0)   - d * 0.10));\n  return cfg;\n}\n\nconst resultats_n2 = {};\nfor (const scenario of [\"optimiste\", \"pessimiste\"]) {\n  const cfg      = perturber(config_base, scenario);\n  const cfg_path = `/tmp/${wp_id}_n2_${scenario}.json`;\n  const res_path = `/tmp/${wp_id}_n2_${scenario}_result.json`;\n  // Forcer result path dans config\n  cfg.result_path = res_path;\n  fs.writeFileSync(cfg_path, JSON.stringify(cfg, null, 2));\n  let traj_n2 = null;\n  try {\n    execSync(`/usr/bin/python3 ${SCRIPTS}/mepa_runner_v2_gamma.py ${cfg_path}`,\n      { encoding: \"utf8\", timeout: 60000 });\n    const raw = execSync(`cat ${res_path}`, { encoding: \"utf8\" });\n    traj_n2 = JSON.parse(raw).simulation?.traj || \"?\";\n  } catch(e) { traj_n2 = `ERREUR: ${e.message.slice(0,80)}`; }\n  resultats_n2[scenario] = traj_n2;\n}\n\nconst traj_base    = data.traj_diagn;\nconst bif = Object.values(resultats_n2).filter(t => t && t !== traj_base && !t.startsWith(\"ERREUR\"));\nconst robustesse_n2 = bif.length === 2 ? \"FRAGILE\" : bif.length === 1 ? \"METASTABLE\" : \"ROBUSTE\";\n\nreturn {\n  json: {\n    ...data,\n    stress_n2: { traj_base, ...resultats_n2, robustesse_n2, bifurcations: bif },\n    robustesse_n2,\n    message: `N2: ${robustesse_n2} -- opt=${resultats_n2.optimiste} pes=${resultats_n2.pessimiste}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n13-popper",
+      "name": "Noeud 13 -- Prediction Popper [RF1/RF2/RF3]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3160,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 13 -- Prediction Popper RF1/RF2/RF3\n// Protocole S3 Niveau 3 + S4 : condition d'observation + horizon temporel date\n\"use strict\";\nconst https = require(\"https\");\n\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\nconst meta   = data.result_data?.meta || {};\nconst sim    = data.result_data?.simulation || {};\n\nconst SYSTEM = `Tu identifies la prediction falsifiable MEPA V6.2 applicable.\nRF1: maintien paix sociale >15 ans malgre EROI<5 sans techno -- Fenetre 2025-2040\nRF2: absence traj (a)/(d) >20 ans malgre E_split>0.7+gamma>0.5 -- Fenetre 20 ans\nRF3: complexite croissante >30 ans avec EROI declinant -- Fenetre 2025-2055\nReponds UNIQUEMENT en JSON pur sans markdown.`;\n\nconst USER = `WP:${wp_id} | Cas:${meta.cas||\"\"} | Cluster:${data.result_data?.meta?.cluster||\"\"} | Traj:${sim.traj||\"\"} | EROI:${data.result_data?.cmd_base?.EROI||\"\"} | N1:${data.robustesse||\"\"} | N2:${data.result_data?.verdict?.robustesse||\"\"} | E_split:${data.llm_context?.mepa_full_vars?.E_split?.valeur??\"\"} | gamma:${data.llm_context?.mepa_full_vars?.gamma?.valeur??\"\"}\nFormat: {\"prediction_applicable\":\"RF1|RF2|RF3|AUCUNE\",\"justification\":\"...\",\"condition_observation\":\"...\",\"horizon_temporel\":\"YYYY-YYYY\",\"seuil_refutation\":\"...\",\"cas_test\":\"${wp_id}\"}`;\n\nlet popper_result = null;\nlet popper_error  = null;\ntry {\n  popper_result = await new Promise((resolve, reject) => {\n    const payload = JSON.stringify({\n      model: \"claude-sonnet-4-20250514\", max_tokens: 600,\n      system: SYSTEM, messages: [{ role: \"user\", content: USER }]\n    });\n    const req = https.request({\n      hostname: \"api.anthropic.com\", path: \"/v1/messages\", method: \"POST\",\n      headers: { \"Content-Type\": \"application/json\",\n        \"x-api-key\": ANTHROPIC_API_KEY, \"anthropic-version\": \"2023-06-01\" }\n    }, (res) => {\n      let body = \"\";\n      res.on(\"data\", c => body += c);\n      res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n          const t = JSON.parse(body).content?.[0]?.text || \"{}\";\n          resolve(JSON.parse(t.replace(/```json|```/g,\"\").trim()));\n        } catch(e) { reject(e); }\n      });\n    });\n    req.setTimeout(60000, () => { req.destroy(); reject(new Error(\"Timeout 60s\")); });\n  req.on(\"error\", reject);\n    req.write(payload); req.end();\n  });\n} catch(e) {\n  popper_error = e.message;\n  popper_result = { prediction_applicable: \"NON_CALCULE\", erreur: popper_error };\n}\n\nreturn { json: { ...data, popper: popper_result, popper_error,\n  message: `Popper: ${popper_result?.prediction_applicable||\"?\"} -- ${popper_result?.horizon_temporel||\"?\"}` }};"
+      }
+    },
+    {
+      "id": "mepa-n14-certification",
+      "name": "Noeud 14 -- Certification [WP_CERTIFIE / WP_EXPLORATOIRE]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3400,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 14 -- Certification finale\n// Protocole S7 : CCI>=0.75 + N1 robuste + concordance -> WP_CERTIFIE\n\"use strict\";\nconst data = $input.item.json;\nconst wp_id = data.wp_id;\n\nconst cci_global     = data.cci_global    ?? null;\nconst robustesse_n1  = data.robustesse    || \"NON_CALCULE\";\nconst robustesse_n2  = data.robustesse_n2 || \"NON_CALCULE\";\nconst concordance    = data.concordance   ?? false;\nconst traj_diagn     = data.traj_diagn    || \"?\";\nconst traj_attendue  = data.result_data?.meta?.trajectoire_attendue || \"?\";\nconst verdict_conv_b = data.verdict_conv_b || \"NON_CALCULE\";\n\n// Criteres de certification S7 du Guide Methodologique\nconst cci_ok         = cci_global !== null && cci_global >= 0.75;\nconst n1_ok          = [\"ROBUSTE\",\"METASTABLE\"].includes(robustesse_n1);\nconst concordance_ok = concordance === true;\nconst conv_b_ok      = verdict_conv_b === \"CERTIFIE\" || verdict_conv_b === \"REVISION_MINEURE\";\n\nlet statut = \"WP_EXPLORATOIRE\";\nconst raison = [];\nif (cci_ok && n1_ok && concordance_ok && conv_b_ok) {\n  statut = \"WP_CERTIFIE\";\n} else {\n  if (!cci_ok)         raison.push(`CCI=${cci_global?.toFixed(3)??\"null\"} < 0.75`);\n  if (!n1_ok)          raison.push(`N1=${robustesse_n1}`);\n  if (!concordance_ok) raison.push(`Concordance=NON (${traj_diagn} != ${traj_attendue})`);\n  if (!conv_b_ok)      raison.push(`CONV-B=${verdict_conv_b}`);\n}\n\nconst _certDate = new Date().toISOString().split(\"T\")[0]; // YYYY-MM-DD\n\nreturn {\n  json: {\n    ...data,\n    date_codage_pipeline: _certDate,\n    certification: {\n      statut, cci_global, robustesse_n1, robustesse_n2, concordance,\n      verdict_conv_b, raison_non_certifie: raison,\n      popper: data.popper || null, scores_resolus: data.scores_resolus || {},\n      date_certification: _certDate\n    },\n    statut_global: statut,\n    message: `[CERTIFICATION] ${wp_id} -> ${statut} [${_certDate}]${raison.length ? \" : \"+raison.join(\" | \") : \"\"}`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-n15-archive",
+      "name": "Noeud 15 -- Archivage Final [/data/mepa/outputs/ + Passeport CONV-D]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3640,
+        340
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD 15 -- Archivage Final Certifie + Passeport compact CONV-D\n// Architecture_Conversations : passeport compact <500 chars pour CONV-D\n\"use strict\";\nconst fs = require(\"fs\");\nconst { execSync } = require(\"child_process\");\n\nconst data    = $input.item.json;\nconst wp_id   = data.wp_id;\nconst BASE    = $env.MEPA_OUTPUT_DIR || \"/data/mepa/outputs\";\nconst cluster = (data.result_data?.meta?.cluster || \"CX\").replace(/[^A-Z0-9]/g,\"\");\nconst cert    = data.certification || {};\nconst sim     = data.result_data?.simulation || {};\nconst cmd     = data.result_data?.cmd_base   || {};\n\nconst dirs = {\n  results:      `${BASE}/cluster_${cluster}/results`,\n  rapports:     `${BASE}/cluster_${cluster}/rapports`,\n  passeports:   `${BASE}/passeports`,\n  sensitivity:  `${BASE}/sensitivity`,\n  certification:`${BASE}/certification`,\n};\nexecSync(`mkdir -p ${Object.values(dirs).join(\" \")}`);\n\nconst archived = {};\nconst w = (path, content) => { fs.writeFileSync(path, content, \"utf8\"); return path; };\n\nif (data.result_data)   archived.result    = w(`${dirs.results}/${wp_id}_result.json`,       JSON.stringify(data.result_data, null, 2));\nif (data.rapport_n1)    archived.rapport_n1= w(`${dirs.sensitivity}/${wp_id}_n1.json`,       JSON.stringify(data.rapport_n1, null, 2));\nif (data.stress_n2)     archived.stress_n2 = w(`${dirs.sensitivity}/${wp_id}_n2.json`,       JSON.stringify(data.stress_n2, null, 2));\nif (data.rapport_md)    archived.rapport_md= w(`${dirs.rapports}/${wp_id}_rapport.md`,       data.rapport_md);\nif (data.cci_result)    archived.cci       = w(`${dirs.certification}/${wp_id}_cci.json`,    JSON.stringify(data.cci_result, null, 2));\nif (data.conv_b_data)   archived.conv_b    = w(`${dirs.certification}/${wp_id}_conv_b.json`, JSON.stringify(data.conv_b_data, null, 2));\nif (data.audit_conv_b)  archived.audit_b   = w(`${dirs.certification}/${wp_id}_audit_b.json`,JSON.stringify(data.audit_conv_b, null, 2));\nif (data.popper)        archived.popper    = w(`${dirs.certification}/${wp_id}_popper.json`, JSON.stringify(data.popper, null, 2));\n\n// Passeport complet\nconst passeport_final = {\n  ...(data.passeport || {}),\n  certification_v2: {\n    statut: cert.statut, cci_global: cert.cci_global,\n    kappa_sa: data.cci_result?.kappa_sa ?? null,\n    robustesse_n1: cert.robustesse_n1, robustesse_n2: cert.robustesse_n2,\n    concordance: cert.concordance, scores_resolus: cert.scores_resolus,\n    verdict_conv_b: cert.verdict_conv_b, popper: cert.popper,\n    raison_non_certifie: cert.raison_non_certifie,\n    generated_at: new Date().toISOString()\n  }\n};\narchived.passeport = w(`${dirs.passeports}/${wp_id}_passeport.json`, JSON.stringify(passeport_final, null, 2));\n\n// Passeport compact CONV-D (<500 chars) -- format Architecture_Conversations\nconst popper_rf1 = data.popper?.prediction_applicable === \"RF1\" ? data.popper?.condition_observation : null;\nconst popper_rf2 = data.popper?.prediction_applicable === \"RF2\" ? data.popper?.condition_observation : null;\nconst passeport_compact = {\n  wp_id, cluster,\n  sa:           data.result_data?.meta?.sa ?? null,\n  traj_attendue: data.result_data?.meta?.trajectoire_attendue || \"?\",\n  traj_diagn:   sim.traj || \"?\",\n  concordant:   cert.concordance ?? false,\n  robustesse:   cert.robustesse_n1 || \"?\",\n  t_b:          sim.t_bascule ?? null,\n  dC_rel:       sim.dC_rel ?? null,\n  dI_rel:       sim.dI_rel ?? null,\n  CCI:          cert.cci_global ?? null,\n  RF1:          popper_rf1,\n  RF2:          popper_rf2,\n  p6_final:     data.result_data?.params?.p6 ?? null,\n  statut_cert:  cert.statut || \"WP_EXPLORATOIRE\",\n  alertes:      data.anomalies_conv_b || []\n};\narchived.passeport_compact = w(`${dirs.certification}/${wp_id}_passeport_compact.json`,\n  JSON.stringify(passeport_compact));\n\nreturn {\n  json: {\n    status: \"ARCHIVE_CERTIFIE\", wp_id,\n    statut_certification: cert.statut, cci_global: cert.cci_global,\n    robustesse_n1: cert.robustesse_n1, concordance: cert.concordance,\n    verdict_conv_b: data.verdict_conv_b, archived, passeport_compact,\n    message: `[WF2 COMPLET] ${wp_id} -> ${cert.statut} | CCI:${cert.cci_global?.toFixed(3)??\"null\"} | CONV-B:${data.verdict_conv_b||\"?\"}`\n  }\n};"
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// NŒUD CONV-E — Codage historique des 6 variables continues\n// Position : après Nœud B (décodage JSON), avant Nœud 2 (audit C1-C13)\n// Double aveugle garanti : ce nœud écrit variables[k].valeur\n// Le Nœud 8a (CONV-B) filtre activement ces valeurs — aucune contamination\n// Correctif architecture — 2026-03-16\n\n\"use strict\";\nconst https = require(\"https\");\n\nconst data  = $input.item.json;\nconst wp_id = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\n\n// ── Extraire le contexte de la fiche ────────────────────────────────────────\nconst cas             = data.cas             || \"\";\nconst periode         = data.periode         || \"\";\nconst cluster         = data.cluster         || \"\";\nconst traj_attendue   = data.trajectoire_attendue || \"\";\nconst sa              = data.sa              ?? null;\nconst sa_type         = data.sa_type_todd    || \"\";\nconst vars_fiche      = data.variables       || {};\nconst sources         = data.sources_utilisees || [];\nconst defi            = data.defi_mepa       || \"\";\nconst alertes         = data.alertes_conv_a  || [];\n\n// ── Variables hardcodées (EROI, A_r_ne, Sa) — ne pas recoder ───────────────\nconst vars_hardcodes = {};\nfor (const [k, v] of Object.entries(vars_fiche)) {\n  if (v.valeur !== null && v.valeur !== undefined &&\n      (String(v.source_id || \"\").includes(\"hardcod\") ||\n       String(v.source_id || \"\").includes(\"normative\") ||\n       String(v.source_id || \"\").includes(\"V6.2\") ||\n       String(v.origine  || \"\").toUpperCase().includes(\"HARDCOD\") ||\n       String(v.source_id || \"\").includes(\"Todd\"))) {\n    vars_hardcodes[k] = v.valeur;\n  }\n}\n\n// ── Variables à coder — celles avec valeur: null ────────────────────────────\nconst vars_a_coder = Object.fromEntries(\n  Object.entries(vars_fiche)\n    .filter(([k, v]) => v.valeur === null || v.valeur === undefined)\n    .map(([k, v]) => [k, {\n      echelle:            v.echelle,\n      origine:            v.origine,\n      source_id:          v.source_id,\n      niveau_source:      v.niveau_source,\n      sanity_check:       v.sanity_check,\n      valeur_normative:   v.valeur_normative_v62\n    }])\n);\n\n// ── Commandes actuelles (valeurs normatives — à mettre à jour post-codage) ──\nconst cmd_actuel = data.commandes || {};\n\n// ── Sources disponibles ──────────────────────────────────────────────────────\nconst sources_str = sources.slice(0, 8).map(s =>\n  typeof s === \"object\"\n    ? `[${s.id}] ${s.titre} (${s.type}) — variables: ${(s.variables_concernees || []).join(\", \")}`\n    : String(s)\n).join(\"\\n\");\n\nconst SYSTEM = `Tu es CONV-E, l'Historien-Codeur du projet MEPA V6.2.\nTa mission exclusive : coder les variables continues d'une fiche WP JSON.\nTu ne simules pas. Tu ne rédiges pas de WP. Tu codes uniquement les variables null.\n\nRÈGLE ABSOLUE NOMENCLATURE :\n- \"gamma\" = clé JSON (dans le JSON uniquement)\n- \"γ\" = symbole dans les justifications textuelles\n- \"g\" = INTERDIT partout\n\nGRILLE D'ANCRAGE V6.2 :\nE_split [0,1] : 0.0-0.2=cohésion élite, 0.4-0.6=fracture naissante, 0.8-1.0=fracture critique\ngamma [0,1] : 0.0-0.2=désorganisé, 0.4-0.6=organisation partielle, 0.8-1.0=forte\nA_d_eff [0,10] : 0-2=effondrement État, 4-6=trappe à dette, 8-10=surplus\nA_r_c [0,1] : 0.0-0.2=absente, 0.4-0.6=sélective, 0.8-1.0=massive\nA_r_ne [0,1] : 0.0-0.2=absente, 0.4-0.6=partielle, 0.8-1.0=totale\nCs [0,1] : 0.0-0.2=effondrée, 0.4-0.6=contestée, 0.8-1.0=solide\nL_t [0,1] : 0.0-0.2=effondrée, 0.4-0.6=conditionnelle, 0.8-1.0=solide\n\nMAPPING CMD (à renseigner dans commandes_mises_a_jour) :\nE_split → cmd.E (direct)\ngamma → cmd.gamma (direct)\nA_d_eff → cmd.R (normalisé — coder R dans [0,1] proportionnel à A_d_eff/10, ajusté au contexte)\nA_r_c → cmd.Rc (direct)\nA_r_ne → cmd.Rn (direct)\nCs → cmd.Mob (direct — crédibilité/mobilisation sociale)\nL_t → conditions_initiales.L0 (direct)\n\nVARIABLES HARDCODÉES (ne pas recoder) :\n${JSON.stringify(vars_hardcodes)}\n\nFORMAT DE RÉPONSE : JSON pur, sans markdown, sans backticks.`;\n\nconst USER = `WP : ${wp_id} | Cas : ${cas} | Période : ${periode} | Cluster : ${cluster}\nTrajectoire attendue : ${traj_attendue} | Sa : ${sa} (${sa_type})\nDéfi MEPA : ${defi.slice(0, 300)}\nAlertes : ${JSON.stringify(alertes).slice(0, 200)}\n\nSOURCES DISPONIBLES :\n${sources_str}\n\nVARIABLES À CODER (valeur = null) :\n${JSON.stringify(vars_a_coder, null, 2).slice(0, 3000)}\n\nCOMMANDES ACTUELLES (valeurs normatives à mettre à jour) :\n${JSON.stringify({\n  E: cmd_actuel.E, gamma: cmd_actuel.gamma, R: cmd_actuel.R,\n  Mob: cmd_actuel.Mob, Rc: cmd_actuel.Rc, Rn: cmd_actuel.Rn\n})}\n\nCONDITIONS INITIALES ACTUELLES :\n${JSON.stringify(data.conditions_initiales || {})}\n\nProduis un JSON avec exactement cette structure :\n{\n  \"codeur\": \"CONV-E\",\n  \"date_codage\": \"${new Date().toISOString().split(\"T\")[0]}\",\n  \"variables_codees\": {\n    \"E_split\": {\"valeur\": <float>, \"justification\": \"<2-3 phrases avec γ si gamma, indicateurs chiffrés>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"gamma\":   {\"valeur\": <float>, \"justification\": \"<utilise γ dans le texte>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"A_d_eff\": {\"valeur\": <float>, \"justification\": \"<indicateurs chiffrés obligatoires>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"A_r_c\":   {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"Cs\":      {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"L_t\":     {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}}\n  },\n  \"commandes_mises_a_jour\": {\n    \"E\": <float E_split>, \"gamma\": <float gamma>,\n    \"R\": <float normalisé A_d_eff>, \"Mob\": <float Cs>,\n    \"Rc\": <float A_r_c>, \"Rn\": <float A_r_ne hardcodé>\n  },\n  \"L0_mis_a_jour\": <float L_t>,\n  \"resume_coherence\": \"<3-5 phrases — compatibilité scores avec trajectoire attendue et cluster>\"\n}`;\n\nconst payload = JSON.stringify({\n  model: \"claude-sonnet-4-20250514\",\n  max_tokens: 3000,\n  system: SYSTEM,\n  messages: [{ role: \"user\", content: USER }]\n});\n\n// ── Appel API Anthropic ──────────────────────────────────────────────────────\nconst conv_e_result = await new Promise((resolve, reject) => {\n  const req = https.request({\n    hostname: \"api.anthropic.com\",\n    path: \"/v1/messages\",\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"x-api-key\": ANTHROPIC_API_KEY,\n      \"anthropic-version\": \"2023-06-01\"\n    }\n  }, (res) => {\n    let body = \"\";\n    res.on(\"data\", c => body += c);\n    res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n        const raw = JSON.parse(body).content?.[0]?.text || \"{}\";\n        const clean = raw.replace(/```json|```/g, \"\").trim();\n        resolve(JSON.parse(clean));\n      } catch(e) {\n        reject(new Error(`Parse CONV-E: ${e.message} | raw: ${body.slice(0,200)}`));\n      }\n    });\n  });\n  req.setTimeout(120000, () => { req.destroy(); reject(new Error(\"Timeout 120s\")); });\n  req.on(\"error\", reject);\n  req.write(payload);\n  req.end();\n});\n\n// ── Injecter les valeurs codées dans la fiche ────────────────────────────────\nconst vars_codees  = conv_e_result.variables_codees  || {};\nconst cmd_updates  = conv_e_result.commandes_mises_a_jour || {};\nconst l0_update    = conv_e_result.L0_mis_a_jour;\n\n// Mettre à jour variables[k].valeur\nconst vars_updated = { ...vars_fiche };\nfor (const [k, v] of Object.entries(vars_codees)) {\n  if (vars_updated[k]) {\n    vars_updated[k] = {\n      ...vars_updated[k],\n      valeur:       v.valeur,\n      justification: v.justification,\n      sanity_check: { ...vars_updated[k].sanity_check, ...v.sanity_check },\n      codeur:       \"CONV-E\",\n      date_codage:  conv_e_result.date_codage\n    };\n  }\n}\n\n// Mettre à jour les commandes\nconst cmd_updated = { ...cmd_actuel, ...cmd_updates };\n\n// Mettre à jour L0 dans conditions_initiales\nconst ci_updated = { ...(data.conditions_initiales || {}) };\nif (l0_update !== undefined && l0_update !== null) {\n  ci_updated.L0 = l0_update;\n}\n\n// ── Retourner la fiche enrichie ──────────────────────────────────────────────\n// Champs pipeline (non transmis dans la fiche racine — évite erreur C9)\nconst _conv_e_meta = {\n  conv_e_raw:       conv_e_result,\n  resume_coherence: conv_e_result.resume_coherence || \"\",\n  nb_vars_codees:   Object.keys(vars_codees).length\n};\n\nreturn {\n  json: {\n    ...data,\n    // Champs fiche — autorisés par RACINE_AUTORISEES\n    variables:            vars_updated,\n    commandes:            cmd_updated,\n    conditions_initiales: ci_updated,\n    statut:               \"CODAGE CONV-E — EN ATTENTE AUDIT CONV-B\",\n    date_codage:          conv_e_result.date_codage || new Date().toISOString().split(\"T\")[0],\n    codeur:               \"CONV-E\",\n    // Champs pipeline — préfixe _ exclu de la fiche mais lisibles par les nœuds suivants\n    _conv_e_meta,\n    _pipeline_message: `[CONV-E] ${wp_id} — ${Object.keys(vars_codees).length} variables codées`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        480
+      ],
+      "id": "conv-e-node-v62-2026",
+      "name": "Nœud CONV-E — Codage historique variables [LLM]"
+    }
+  ],
+  "connections": {
+    "▶ Démarrage Manuel": {
+      "main": [
+        [
+          {
+            "node": "Nœud A — Read Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud A — Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "Nœud B — Decode JSON [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud B — Decode JSON [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud CONV-E — Codage historique variables [LLM]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 2 — Audit C1→C13 [mepa_node2_audit_v62.js v2.1 No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Router — VALIDE / INVALIDE / NC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Router — VALIDE / INVALIDE / NC": {
+      "main": [
+        [
+          {
+            "node": "Noeud 8a -- CONV-B CCI [Codage Independant + CCI Pre-Simulation]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "⚠ Alerte INVALIDE — Recodage CONV-E requis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "⚠ Alerte NC BLOQUANT — Escalade Architecte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 8a -- CONV-B CCI [Codage Independant + CCI Pre-Simulation]": {
+      "main": [
+        [
+          {
+            "node": "Router CCI -- AUTO / WAIT_HUMAIN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Router CCI -- AUTO / WAIT_HUMAIN": {
+      "main": [
+        [
+          {
+            "node": "Noeud 8d -- Injection Valeurs Resolues [Post-CCI]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Noeud 8c -- WAIT Validation CCI [Humain]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 8c -- WAIT Validation CCI [Humain]": {
+      "main": [
+        [
+          {
+            "node": "Noeud 8d -- Injection Valeurs Resolues [Post-CCI]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 8d -- Injection Valeurs Resolues [Post-CCI]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 3 — Write runner_config.json [/tmp/] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 3 — Write runner_config.json [/tmp/] [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 4 — Execute Runner [No-FS]",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Nœud 4b — Execute Sensibilité N1 [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 4 — Execute Runner [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 5 — Parse Runner Result [_result.json] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 4b — Execute Sensibilité N1 [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 5b — Parse Sensibilité N1 [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 5 — Parse Runner Result [_result.json] [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 7 — Export & Archivage [/data/mepa/outputs/] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 7 — Export & Archivage [/data/mepa/outputs/] [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Noeud 6b -- CONV-B Audit Final C1-C5 [Post-Redaction]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 6b -- CONV-B Audit Final C1-C5 [Post-Redaction]": {
+      "main": [
+        [
+          {
+            "node": "Router Revision -- CERTIFIE / REVISION / REJET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Router Revision -- CERTIFIE / REVISION / REJET": {
+      "main": [
+        [
+          {
+            "node": "Noeud 12 -- Stress-test N2 [Combinaisons Critiques]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alerte REJET CONV-B -- Suspension WP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 12 -- Stress-test N2 [Combinaisons Critiques]": {
+      "main": [
+        [
+          {
+            "node": "Noeud 13 -- Prediction Popper [RF1/RF2/RF3]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 13 -- Prediction Popper [RF1/RF2/RF3]": {
+      "main": [
+        [
+          {
+            "node": "Noeud 14 -- Certification [WP_CERTIFIE / WP_EXPLORATOIRE]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud 14 -- Certification [WP_CERTIFIE / WP_EXPLORATOIRE]": {
+      "main": [
+        [
+          {
+            "node": "Noeud 15 -- Archivage Final [/data/mepa/outputs/ + Passeport CONV-D]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud 5b — Parse Sensibilité N1 [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Nœud CONV-E — Codage historique variables [LLM]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 2 — Audit C1→C13 [mepa_node2_audit_v62.js v2.1 No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "timezone": "Europe/Paris"
+  },
+  "meta": {
+    "mepa_version": "6.2",
+    "architecture": "WF2-Protocol-Complete",
+    "sequence": "CONV-E -> CONV-B-CCI -> Runner -> CONV-A -> CONV-B-Audit -> Certification",
+    "noeuds": 25,
+    "connexions": 26,
+    "phases": {
+      "0_entree": "Trigger + Lecture fiche CONV-E",
+      "1a_audit": "Audit structure N2 (C1-C13)",
+      "1b_cci": "CONV-B codage independant + CCI pre-simulation",
+      "2_simulation": "Runner Euler dt=1 + N1 sensibilite (sur valeurs resolues)",
+      "3_redaction": "CONV-A redaction S1-S7 + export intermediaire",
+      "4_audit_final": "CONV-B audit C1-C5 du WP redige + router revision",
+      "5_certification": "Stress-test N2 + Popper RF1/RF2/RF3 + Certification + Archivage"
+    },
+    "sorties": {
+      "result_json": "/data/mepa/outputs/cluster_XX/results/",
+      "rapport_md": "/data/mepa/outputs/cluster_XX/rapports/",
+      "rapport_n1": "/data/mepa/outputs/sensitivity/",
+      "stress_n2": "/data/mepa/outputs/sensitivity/",
+      "cci_json": "/data/mepa/outputs/certification/",
+      "conv_b_json": "/data/mepa/outputs/certification/",
+      "audit_b_json": "/data/mepa/outputs/certification/",
+      "popper_json": "/data/mepa/outputs/certification/",
+      "passeport_json": "/data/mepa/outputs/passeports/",
+      "passeport_compact": "/data/mepa/outputs/certification/ (pour CONV-D)"
+    },
+    "conversations_manuelles": {
+      "CONV-D": "Observatoire resultats -- alimenter avec passeport_compact.json",
+      "CONV-F": "Calibration bayesienne -- apres 5 WP certifies (I10,C1,C2,F1,F2)"
+    }
+  },
+  "id": "mepa-wf2-protocol-complete"
+}

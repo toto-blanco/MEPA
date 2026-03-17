@@ -1,0 +1,487 @@
+{
+  "$schema": "mepa-constants-v1.0",
+  "$meta": {
+    "statut": "NOUVEAU",
+    "cible": "/data/mepa/scripts/mepa_constants.json",
+    "retrocompatibilite": "Aucun script existant ne charge ce fichier. Introduction V6.2 Fortifiée. Sans risque de régression.",
+    "version": "1.2.3",
+    "mepa_version": "6.2",
+    "description": "Source unique de vérité pour les bornes paramétriques, seuils de validation et constantes de simulation MEPA. Chargé au démarrage par mepa_runner_v2_gamma.py, mepa_kappa_calculator.py, mepa_node2_audit_v62.js. Chaque fichier embarque un fallback interne identique à ce fichier.",
+    "references": [
+      "Shrout & Fleiss (1979) — Intraclass correlations: uses in assessing rater reliability. Psychological Bulletin 86(2).",
+      "McGraw & Wong (1996) — Forming inferences about some intraclass correlation coefficients. Psychological Methods 1(1).",
+      "Turchin et al. (2015) — Seshat Global History Databank — méthodologie de codage et codes d'incertitude.",
+      "Système d'équations MEPA V6.2 — prompt V3-gamma Partie 2, paramètres p1-p13, λ, μ, ν, ρ."
+    ],
+    "note_v1_1": "V1.1.0 : ajout label (γ) Transformation forcée dans labels_trajectoire_d4 (D4 — 8e label). Correction bornes_corpus_commandes.EROI.note : WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (déplacée WP-EXT-5).",
+    "note_v1_2_1": "V1.2.1 : Correctif BUG-001 — 3 résidus 'WP-C1 Islande' remplacés par 'WP-EXT-5 Islande' dans bornes_corpus_commandes (T, Rn, gamma). Correctif BUG-002 — bornes_corpus_commandes.EROI.note alignée sur l'ancre MAX réelle WP-EXT-5 Islande=35.0 (suppression références erronées WP-I9/WP-F9).",
+    "note_v1_2": "V1.2.0 : Ajout theta_FR dans parametres_simulation (D5 — seuil 0.75, anciennement hardcodé dans runner). Correction bornes_commandes : WP-C1 Islande → WP-EXT-5 Islande dans les notes de T, Rn, gamma, EROI (Islande déplacée WP-EXT-5 — WP-C1-1 = Haïti).",
+    "note_v1_2_3": "V1.2.3 : [BUG-004] p5.min 0.1→0.01, p5.defaut 0.4→0.05. [BUG-006] 13 defaut alignés sur valeurs opérationnelles calibrées V6.2 (node2). [BUG-007] '(d) Dissolution' ajouté comme 9e label D4 officiel (source : Manuel Gouvernance Annexe A)."
+  },
+  "seuils_validation": {
+    "$description": "Seuils de validation inter-codeurs. CCI pour variables continues ; κ pour Sa (catégorielle).",
+    "cci": {
+      "$description": "CCI two-way mixed, single measures, consistency — ICC(3,1). Shrout & Fleiss (1979).",
+      "certifie": 0.7,
+      "revision": 0.5,
+      "rejet": 0.0,
+      "note": "CCI ≥ 0.70 → CERTIFIÉ | 0.50 ≤ CCI < 0.70 → RÉVISION | CCI < 0.50 → REJET"
+    },
+    "kappa_sa": {
+      "$description": "κ de Cohen pour Sa (variable catégorielle — {2, 4, 6, 7}). Maintenu distinct du CCI.",
+      "certifie": 0.7,
+      "revision": 0.5,
+      "rejet": 0.0,
+      "note": "Sa est catégorielle ordinale à 4 niveaux — κ reste la métrique correcte."
+    },
+    "cci_global": {
+      "$description": "CCI agrégé sur l'ensemble des variables continues scorables (hors NC, hors Sa).",
+      "certifie": 0.75,
+      "revision": 0.55,
+      "rejet": 0.0,
+      "note": "Seuil légèrement plus élevé que le CCI par variable — standard publication."
+    },
+    "friction_outlier_seuil": {
+      "$description": "F(v,h) = |delta| / seuil_cci(v). Valeur au-delà de laquelle un WP est flagué outlier de friction.",
+      "valeur": 2.0,
+      "note": "F > 2.0 → désaccord supérieur à 2× le seuil CCI → signal d'ambiguïté documentaire exceptionnelle."
+    }
+  },
+  "bornes_commandes": {
+    "$description": "Plages physiquement admissibles pour les variables de commande (cmd). Utilisées par Node 2 contrôle C4 et runner garde-fou NC. Ces bornes sont plus larges que les plages corpus — elles définissent l'espace théoriquement possible.",
+    "T": {
+      "min": 0.0,
+      "max": 2.0,
+      "unite": "adim",
+      "note": "Tension institutionnelle. >1.0 = état de surtension extrême. WP-F2 Rome tardive ~1.0 ; WP-EXT-5 Islande 0.80."
+    },
+    "Mob": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "Capacité de mobilisation sociale."
+    },
+    "R": {
+      "min": 0.0,
+      "max": 10.0,
+      "unite": "adim",
+      "note": "Résistance institutionnelle. Plage large pour cas extrêmes."
+    },
+    "Ref": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "Taux de réforme. Valeur initiale universelle = 0.10 (tous 27 WP)."
+    },
+    "Rc": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "Résistance culturelle."
+    },
+    "Rn": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "Résistance normative. WP-EXT-5 Islande 0.15 ; plusieurs WP = 0.00."
+    },
+    "E": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "Énergie disponible / capacité d'action."
+    },
+    "gamma": {
+      "min": 0.0,
+      "max": 1.0,
+      "unite": "[0,1]",
+      "note": "γ — cohésion culturelle. Clé JSON 'gamma' — symbole γ dans le texte. WP-EXT-5 Islande 0.55 ; WP-I7 URSS effondrement ~0.15."
+    },
+    "EROI": {
+      "min": 1.01,
+      "max": 200.0,
+      "unite": "adim",
+      "note": "Energy Return On Investment. Min > 1 (thermodynamique). WP-EXT-5 Islande = 35.0 (ancre MAX corpus). WP-C1-1 Haïti = 1.5 (ancre MIN corpus — économie de subsistance critique)."
+    },
+    "Pop": {
+      "min": 0.0,
+      "max": 10.0,
+      "unite": "adim",
+      "note": "Facteur population normalisé. 1.0 = référence."
+    }
+  },
+  "bornes_corpus_commandes": {
+    "$description": "Plages observées dans le corpus des 27 WP V6.2. Utilisées pour l'Annexe Identifiabilité et le profil de friction. Un paramètre hors de ces bornes doit être justifié.",
+    "T": {
+      "min": 0.3,
+      "max": 1.2,
+      "note": "WP-F2 Rome tardive ~1.0 ; WP-EXT-5 Islande 0.80"
+    },
+    "Mob": {
+      "min": 0.05,
+      "max": 0.8,
+      "note": "WP-F7 Haïti 0.80 ; WP-I8 Chine Deng 0.05"
+    },
+    "R": {
+      "min": 0.1,
+      "max": 2.5,
+      "note": "WP-I4 Allemagne nazie 2.50 estimé ; WP-F8 France 1789 0.20"
+    },
+    "Ref": {
+      "min": 0.05,
+      "max": 0.2,
+      "note": "Valeur initiale universelle = 0.10. Variance faible par construction."
+    },
+    "Rc": {
+      "min": 0.05,
+      "max": 0.6,
+      "note": "WP-I9 Singapour ~0.60 ; WP-F7 Haïti ~0.05"
+    },
+    "Rn": {
+      "min": 0.0,
+      "max": 0.4,
+      "note": "WP-EXT-5 Islande 0.15 ; plusieurs WP = 0.00"
+    },
+    "E": {
+      "min": 0.1,
+      "max": 0.8,
+      "note": "WP-F9 Angleterre 0.70 ; WP-F2 Rome tardive 0.15"
+    },
+    "gamma": {
+      "min": 0.1,
+      "max": 0.8,
+      "note": "WP-EXT-5 Islande 0.55 ; WP-I7 URSS effondrement ~0.15"
+    },
+    "EROI": {
+      "min": 1.2,
+      "max": 35.0,
+      "note": "WP-C1-1 Haïti = 1.5 (ANCRE MIN corpus — économie de subsistance) ; WP-EXT-5 Islande = 35.0 (ANCRE MAX corpus — géothermie)"
+    },
+    "Pop": {
+      "min": 0.8,
+      "max": 1.2,
+      "note": "Normalisé à 1.0 pour la plupart des WP."
+    }
+  },
+  "bornes_parametres_dynamiques": {
+    "$description": "Bornes des paramètres internes du système d'équations différentielles. p1–p13, λ, μ, ν, ρ. Ces paramètres sont quasi-fixes par défaut (P_DEFAULTS). Ils NE sont PAS des variables de commande. Leur variance inter-WP est structurellement plus faible que celle des commandes.",
+    "p1": {
+      "min": 0.01,
+      "max": 0.25,
+      "defaut": 0.08,
+      "role": "Taux de dégradation de S sous pression institutionnelle.",
+      "note": "Paramètre interne — variance corpus étroite. Hors bornes = anomalie de codage."
+    },
+    "p2": {
+      "min": 0.01,
+      "max": 0.15,
+      "defaut": 0.045,
+      "role": "Taux de dégradation de S par inertie systémique.",
+      "note": "Couplé à p2b (bifurcation Sa=7). [BUG-006] defaut calibré V6.2=0.045 (théorique initial=0.05)."
+    },
+    "p2b": {
+      "min": 0.01,
+      "max": 0.2,
+      "defaut": 0.06,
+      "role": "Variante de p2 pour Sa=7 (famille souche — mobilisation élevée).",
+      "note": "Actif uniquement si Sa=7. [BUG-006] defaut calibré V6.2=0.06 (théorique initial=0.08)."
+    },
+    "p3": {
+      "min": 0.01,
+      "max": 0.15,
+      "defaut": 0.02,
+      "role": "Taux de dissolution de L (légitimité) sous tension.",
+      "note": " [BUG-006] defaut calibré V6.2=0.02 (théorique initial=0.05)."
+    },
+    "p4": {
+      "min": 0.1,
+      "max": 0.7,
+      "defaut": 0.4,
+      "role": "Taux de génération de L depuis S (flux légitimité ← stabilité).",
+      "note": "Paramètre de couplage S→L. Sensible (voir Annexe Identifiabilité WP-C1-1). [BUG-006] defaut calibré V6.2=0.4 (théorique initial=0.35)."
+    },
+    "p5": {
+      "min": 0.01,
+      "max": 0.8,
+      "defaut": 0.05,
+      "role": "Taux d'absorption de C par le système institutionnel.",
+      "note": "[BUG-004] p5.min abaissé à 0.01 (p5=L(t)/10 → valeurs légitimes 0.01-0.05 pour WP de crise). [BUG-006] defaut corrigé de 0.4 à 0.05 : valeur opérationnelle calibrée V6.2."
+    },
+    "p6": {
+      "min": 0.05,
+      "max": 0.25,
+      "defaut": 0.12,
+      "note_sa7": "Multiplié par 1.5 si Sa=7 → plage effective [0.075, 0.375].",
+      "role": "Taux de mobilisation du capital institutionnel C.",
+      "note": "RÈGLE ABSOLUE : Sa=7 → p6 × 1.5 (WP-I3 Japon, WP-I4 Allemagne, WP-I9 Singapour)."
+    },
+    "p7": {
+      "min": 0.01,
+      "max": 0.15,
+      "defaut": 0.04,
+      "role": "Taux de désintégration institutionnelle de C.",
+      "note": " [BUG-006] defaut calibré V6.2=0.04 (théorique initial=0.05)."
+    },
+    "p8": {
+      "min": 0.001,
+      "max": 0.05,
+      "defaut": 0.03,
+      "role": "Taux de dégradation basale de I (EROI institutionnel).",
+      "note": "Très faible — dégradation lente des infrastructures. [BUG-006] defaut calibré V6.2=0.03 (théorique initial=0.01)."
+    },
+    "p9": {
+      "min": 0.02,
+      "max": 0.2,
+      "defaut": 0.06,
+      "role": "Taux de régénération de I (investissement institutionnel).",
+      "note": "Paramètre de sensibilité élevée (stress-test N1). [BUG-006] defaut calibré V6.2=0.06 (théorique initial=0.08)."
+    },
+    "p10": {
+      "min": 0.5,
+      "max": 1.0,
+      "defaut": 0.8,
+      "role": "Coefficient de saturation du couplage S↔C.",
+      "note": "Proche de 1 dans la plupart des cas. Réduire pour cas de déconnexion historique."
+    },
+    "p11a": {
+      "min": 0.2,
+      "max": 0.9,
+      "defaut": 0.6,
+      "role": "Poids du capital institutionnel dans la fonction de réforme.",
+      "note": "Couplé à p11b : p11a + p11b ≤ 1.0 recommandé. [BUG-006] defaut calibré V6.2=0.6 (théorique initial=0.55)."
+    },
+    "p11b": {
+      "min": 0.05,
+      "max": 0.4,
+      "defaut": 0.15,
+      "role": "Poids de la légitimité dans la fonction de réforme.",
+      "note": "Couplé à p11a."
+    },
+    "p13": {
+      "min": 0.5,
+      "max": 2.0,
+      "defaut": 1.2,
+      "role": "Exposant de non-linéarité du couplage EROI → C.",
+      "note": "1.0 = linéaire. >1.0 = accélération seuil (cas de crise énergétique brutale). [BUG-006] defaut calibré V6.2=1.2 (théorique initial=1.0)."
+    },
+    "lam": {
+      "min": 0.3,
+      "max": 0.9,
+      "defaut": 0.68,
+      "role": "λ — coefficient d'élasticité S dans F (force de transformation).",
+      "note": "Notation : 'lam' en JSON/Python, λ dans le texte. [BUG-006] defaut calibré V6.2=0.68 (théorique initial=0.65)."
+    },
+    "mu": {
+      "min": 0.1,
+      "max": 0.7,
+      "defaut": 0.38,
+      "role": "μ — coefficient d'élasticité L dans F.",
+      "note": "Notation : 'mu' en JSON/Python, μ dans le texte. [BUG-006] defaut calibré V6.2=0.38 (théorique initial=0.35)."
+    },
+    "nu": {
+      "min": 0.2,
+      "max": 0.8,
+      "defaut": 0.62,
+      "role": "ν — coefficient de résistance dans R (résistance au changement).",
+      "note": "Notation : 'nu' en JSON/Python, ν dans le texte. [BUG-006] defaut calibré V6.2=0.62 (théorique initial=0.6)."
+    },
+    "rho": {
+      "min": 0.01,
+      "max": 0.2,
+      "defaut": 0.06,
+      "role": "ρ — terme constant de résistance résiduelle.",
+      "note": "Notation : 'rho' en JSON/Python, ρ dans le texte."
+    }
+  },
+  "parametres_simulation": {
+    "$description": "Paramètres de contrôle de la simulation. Distincts des paramètres dynamiques.",
+    "theta_C": {
+      "defaut": 0.3,
+      "min": 0.1,
+      "max": 0.6,
+      "role": "Seuil de bascule capital institutionnel C (critère D3).",
+      "note": "Valeur fixe par fiche WP. LOI PHYSIQUE — ne pas ajuster pour forcer une trajectoire."
+    },
+    "theta_I": {
+      "defaut": 0.22,
+      "min": 0.05,
+      "max": 0.5,
+      "role": "Seuil de bascule EROI institutionnel I (critère D3).",
+      "note": "Valeur fixe par fiche WP. LOI PHYSIQUE."
+    },
+    "t_max": {
+      "defaut": 300,
+      "min": 50,
+      "max": 500,
+      "unite": "pas de temps (dt=1)",
+      "note": "WP-F10-1 Commune de Paris : t_max=80 (événement court). WP-I10-1 Rwanda : t_max=400."
+    },
+    "dt": {
+      "valeur": 1,
+      "note": "Pas d'intégration Euler explicite. Fixe — ne pas modifier."
+    },
+    "sa_valeurs_valides": [
+      2,
+      4,
+      6,
+      7
+    ],
+    "sa_p6_multiplicateur": {
+      "sa": 7,
+      "mult": 1.5,
+      "note": "RÈGLE ABSOLUE V6.2 : Sa=7 → p6 × 1.5. Appliqué dans apply_sa_modulator() ET contrôle C5 Node 2."
+    },
+    "theta_FR": {
+      "defaut": 0.75,
+      "min": 0.5,
+      "max": 1.0,
+      "role": "Seuil de rupture F/R — critère D5. t0 = premier pas de temps où F(t)/R(t) > theta_FR.",
+      "note": "Constante D5. Hardcodée SEUIL_FR dans mepa_runner_v2_gamma.py — DOIT correspondre à cette valeur. LOI PHYSIQUE — ne pas modifier sans validation corpus complet."
+    }
+  },
+  "variables_mepa": {
+    "$description": "Définition des 9 variables MEPA codées par CONV-E et CONV-B. Utilisée par mepa_kappa_calculator.py pour la configuration du calcul CCI.",
+    "E_split": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "Fraction de l'énergie sociétale allouée aux institutions."
+    },
+    "gamma": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "γ — cohésion culturelle. Clé JSON 'gamma', symbole γ dans le texte."
+    },
+    "A_d_eff": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        10.0
+      ],
+      "seuil_cci": 1.5,
+      "obligatoire": true,
+      "note": "Efficacité administrative documentée. Mappe sur cmd.R dans le runner (C9b)."
+    },
+    "A_r_c": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "Capacité de réforme culturelle."
+    },
+    "A_r_ne": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "Capacité de réforme normative externe. WP-F10-1 Commune de Paris = 0.00 (cas extrême)."
+    },
+    "Cs": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "Capital social initial C0."
+    },
+    "L_t": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        1.0
+      ],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "note": "Légitimité perçue initiale L0."
+    },
+    "EROI": {
+      "type": "continue",
+      "echelle": [
+        0.0,
+        50.0
+      ],
+      "seuil_cci": 1.5,
+      "obligatoire": true,
+      "note": "Energy Return On Investment. Échelle [0,50] pour le calcul CCI (bornes physiques du corpus)."
+    },
+    "Sa": {
+      "type": "categorielle",
+      "valeurs_valides": [
+        2,
+        4,
+        6,
+        7
+      ],
+      "obligatoire": true,
+      "metrique": "kappa_cohen",
+      "note": "Niveau de complexité adaptative. Catégorielle ordinale — κ de Cohen (pas CCI)."
+    }
+  },
+  "nc_protocol": {
+    "$description": "Protocole de gestion des variables Non-Codables (NC) — Silence Socratique MEPA V6.2.",
+    "valeur_sentinel": "NC",
+    "statut_pipeline": "DONNÉES_INSUFFISANTES",
+    "bloquant_simulation": true,
+    "variables_nc_bloquantes": [
+      "E_split",
+      "gamma",
+      "EROI",
+      "Sa"
+    ],
+    "variables_nc_non_bloquantes": [
+      "A_r_ne",
+      "Cs",
+      "L_t"
+    ],
+    "note_bloquantes": "Si l'une des variables bloquantes est NC, le pipeline s'arrête. Les variables non-bloquantes NC génèrent un warning mais n'empêchent pas la simulation — elles dégradent le CCI global et sont signalées dans le Passeport.",
+    "champs_requis_dans_fiche": {
+      "valeur": "\"NC\"",
+      "justification": "Texte obligatoire — ex: 'NON CODABLE — absence de source documentée pour la période 1871-1871'",
+      "source_id": "null"
+    }
+  },
+  "labels_trajectoire_d4": {
+    "$description": "9 labels officiels D4. Identiques au caractère près. Source : prompt V3-gamma Partie 1 + Stratification V6.2 + Manuel Gouvernance Annexe A.",
+    "labels": [
+      "(a) Rupture transformatrice",
+      "(b) Répression réussie",
+      "(c) Stase / ambigu",
+      "(d) Effondrement progressif",
+      "(d) Dissolution",
+      "(e) Réforme institutionnelle",
+      "(h) Stabilité",
+      "(h)/(e) Stabilité ou réforme lente",
+      "(γ) Transformation forcée"
+    ],
+    "$note_dissolution": "(d) Dissolution est distinct de (d) Effondrement progressif (Manuel Gouvernance Annexe A). Conditions : F≥R, Ref>0.35, Rc+Rn<0.35. Non produit par l'arbre runner automatique — assigné via trajectoire_attendue fiche étalon (LOI PHYSIQUE 3 passes).",
+    "$note_trajectoire_e": "(e) Réforme institutionnelle : absente des 27 WP principaux V6.2 comme trajectoire FINALE par décision d'architecture (Mars 2026). Cas étalon : WP-EXT-5 (Islande 2008-2013) — archivé, candidat V7 si P5 requiert cas de contrôle Sa=2. Active comme phase INTERMÉDIAIRE dans : WP-I3 (Japon : (a)→(e)→(h)→(d)), WP-I8 (Chine Deng : (e)→(h)), WP-I10 (Rwanda : (a)→(e) reconstruction). Chantiers V7 : Portugal 1974 (WP-C4-3), New Deal américain 1933 (WP-C5-2), Espagne 2010."
+  },
+  "clusters": {
+    "$description": "Clusters MEPA V6.2 — 5 clusters actifs.",
+    "valides": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5"
+    ],
+    "note": "C6 réservé. Cluster détermine le contexte de modélisation, pas les équations."
+  }
+}

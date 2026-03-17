@@ -1,0 +1,233 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F8-1",
+  "cas": "France révolutionnaire",
+  "periode": "1787-1799",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI statique 5.0 · E_split endogène dE_split/dt · instabilité post-(a) · cas référence C2]",
+  "cluster_note": "WP-F8-1 = cas référence C2. E_split endogène : bourgeoisie de robe génère E=0.70 par blocage institutionnel (dE_split/dt formalisable V7). Instabilité post-(a) : oscillation C après bascule (V_col concurrents 1789-1799 sans A_d_max suffisant). Contraste direct avec WP-F9 (Angleterre, même période, Sa=4 vs Sa=2, résultat opposé). EROI statique C2 — rente agricole stable avant industrialisation. Cluster C2 : E ≥ 0.60 requis, γ modéré.",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "trajectoire_attendue_libelle": "(a) E_split endogène — E_split généré endogènement par blocage institutionnel (bourgeoisie de robe bloquée par noblesse). Instabilité post-(a) : oscillation C entre V_col concurrents (Girondins/Montagnards/Directoire) sans A_d_max suffisant pour stabiliser.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — France",
+  "sa_p6_modulation": false,
+  "sa_note": "France → Sa=4 (famille nucléaire égalitaire, Todd 1990). Sa=4 constant pour tous les WP français (F8, F10). Instabilité chronique — cohérent avec 10 régimes en 10 ans (1789-1799). p6 nominal, pas de correction ×1.5. Contraste avec Sa=2 Angleterre (WP-F9) : même période, Sa discriminant de l'issue.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. E_split endogène (dE_split/dt) = mécanisme de calibration p10 cristallisation C2. Sensibilité à la vitesse de cristallisation. Instabilité post-(a) = oscillation C à calibrer finement. Cas référence C2.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Soboul, Albert — La Révolution française (1981)",
+      "type": "N3 — Historique",
+      "acces": "Gallimard",
+      "variables_concernees": ["E_split", "gamma", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S2",
+      "titre": "Doyle, William — Oxford History of the French Revolution (1989)",
+      "type": "N3 — Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["E_split", "L_t", "Cs", "A_d_eff"]
+    },
+    {
+      "id": "S3",
+      "titre": "Schama, Simon — Citizens: A Chronicle of the French Revolution (1989)",
+      "type": "N3 — Historique",
+      "acces": "Knopf",
+      "variables_concernees": ["gamma", "Cs", "E_split"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Labrousse, Ernest — La crise de l'économie française à la fin de l'Ancien Régime (1944)",
+      "type": "N3 — Économique/Historique",
+      "acces": "PUF",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S6",
+      "titre": "Furet, François — Penser la Révolution française (1978)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Gallimard",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E_split ENDOGÈNE : bourgeoisie de robe génère E=0.70 par blocage institutionnel (noblesse bloque accès aux charges supérieures). E_split non exogène mais produit par la dynamique institutionnelle elle-même. Valeur cible ~0.70 (Instructions V6.2).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Labrousse (1944) analyse fracture bourgeoisie/noblesse + Doyle (1989) réaction nobiliaire",
+        "valeur_indicateur": "À REMPLIR — réaction nobiliaire 1780s : fermeture charges militaires/administratives à bourgeoisie",
+        "coherence": "Valeur cible E_split~0.65-0.75 — fracture bourgeoisie de robe / noblesse : endogène par blocage institutionnel"
+      },
+      "valeur_normative_v62": 0.70,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ modéré attendu : cohésion idéologique des Lumières (doctrine disponible) mais fragmentation rapide post-(a) entre V_col concurrents (Girondins vs Montagnards vs Directoire). γ initial élevé, déclinant post-1792.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Furet (1978) analyse factions révolutionnaires + Schama (1989) fragmentation idéologique",
+        "valeur_indicateur": "À REMPLIR — cohésion initiale Tiers-État 1789 puis fragmentation rapide",
+        "coherence": "Valeur cible γ~0.25-0.35 (cohésion des Lumières initiale, fragmentation factions post-1792)"
+      },
+      "valeur_normative_v62": 0.30,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État français T=0 (1787, fin Ancien Régime). Déficit budgétaire chronique (guerre d'Indépendance américaine), incapacité fiscale (immunités noblesse/clergé). A_d_eff structurellement faible malgré appareil administratif développé.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Labrousse (1944) finances Ancien Régime + Doyle (1989) déficit budget royal",
+        "valeur_indicateur": "À REMPLIR — déficit ~20% recettes royales 1787, banqueroute imminente",
+        "coherence": "Valeur cible A_d_eff~3.0-5.0/10 — appareil développé mais redistribution bloquée par immunités fiscales"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : armée royale + gardes. T=0 (1787) : répression nominalement disponible mais loyauté incertaine. Post-1789 : défection Garde Nationale = A_r_c effondrée. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Soboul (1981) armée royale + Doyle (1989) défection officiers juillet 1789",
+        "valeur_indicateur": "À REMPLIR — armée royale : officiers nobles loyaux mais soldats douteux",
+        "coherence": "Valeur cible A_r_c~0.40-0.55 T=0 (répression formellement disponible mais loyauté fragile)"
+      },
+      "valeur_normative_v62": 0.48,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 1787-1799. A_r_ne=0.00 = ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "XVIIIe siècle : aucune technologie de surveillance systémique. A_r_ne=0.00 obligatoire pour tous WP antérieurs à ~1990.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime Louis XVI T=0 (1787). Très faible : banqueroute imminente, scandales (Affaire du Collier), Lumières ayant érodé la légitimité divine. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Furet (1978) analyse légitimité monarchie + Schama (1989) opinion publique 1787",
+        "valeur_indicateur": "À REMPLIR — légitimité royale sérieusement érodée par Lumières + scandales",
+        "coherence": "Valeur cible Cs~0.20-0.30 (légitimité effondrée, Lumières + banqueroute + scandales)"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.25 conditions initiales). Armée royale : officiers nobles loyaux, soldats roturiers peu loyaux. Administration : loyauté conditionnelle. Défection rapide après juillet 1789.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Doyle (1989) analyse armée royale + Soboul (1981) défections officiers",
+        "valeur_indicateur": "À REMPLIR — défection partielle de l'armée royale documentée dès juillet 1789",
+        "coherence": "Valeur cible L_t~0.25 (cohérente avec L0=0.25 conditions initiales — loyauté fragile)"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 5.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C2 (rente agricole stable avant industrialisation)",
+      "source_id": "Instructions V6.2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=5.0 statique. France 1787 : économie agricole pré-industrielle, rente stable. EROI non déclinant — mécanisme C2 = E_split endogène, pas contrainte biophysique. cmd_linear = {} (objet vide).",
+      "justification": "Labrousse (1944) : EROI agricole français stable pré-Révolution, pas de contrainte biophysique structurelle. C2 : mécanisme = cristallisation élitiste endogène (dE_split/dt), pas déclin EROI. EROI=5.0 cohérent avec France pré-industrielle.",
+      "sanity_check": {
+        "indicateur": "Labrousse (1944) production agricole française + Smil (1991) EROI agricole XVIIIe",
+        "valeur_indicateur": "EROI agricole français stable ~4-6 fin XVIIIe — confirmé",
+        "coherence": "CONFIRMÉ — EROI=5.0 statique cohérent avec économie agricole pré-industrielle"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — France → Sa=4 (famille nucléaire égalitaire, Todd 1990). Sa=4 constant pour tous les WP français (F8, F10).",
+      "justification": "Todd (1990) classe la France en famille nucléaire égalitaire. Sa=4 = instabilité chronique — cohérent avec 10 régimes en 10 ans. Contraste direct avec Sa=2 Angleterre (WP-F9) : même période, issue opposée — Sa est le discriminant anthropologique principal.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1787 — Assemblée des Notables, crise pré-révolutionnaire). Source : Instructions V6.2.",
+    "S0": 1.1,
+    "L0": 0.25,
+    "C0": 0.10,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C2 — cmd_linear = {} (objet vide).",
+    "T": 0.95,
+    "Mob": 0.30,
+    "R": 0.35,
+    "Ref": 0.10,
+    "Rc": 0.25,
+    "Rn": 0.0,
+    "E": 0.70,
+    "gamma": 0.30,
+    "EROI": 5.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Cas référence C2. Calibration p10 cristallisation E_split endogène. Valider instabilité post-(a) : oscillation C entre V_col concurrents."
+  },
+  "alertes_conv_a": [
+    "E_split ENDOGÈNE (dE_split/dt) : E=0.70 n'est pas une valeur exogène mais le résultat d'un processus de blocage institutionnel (réaction nobiliaire 1780s). Documenter en S2 le mécanisme de génération endogène — chantier V7 formalisation dE_split/dt.",
+    "Instabilité post-(a) OBLIGATOIRE : oscillation de C après bascule (Girondins/Montagnards/Directoire = V_col concurrents sans A_d_max suffisant). Documenter si le runner produit cette oscillation ou une convergence prématurée.",
+    "Contraste WP-F9 OBLIGATOIRE : même période (1789-1815), même Sa=4 vs Sa=2 → issue (a) France vs (h) Angleterre. Sa est ici la variable discriminante anthropologique. Documenter en S3.",
+    "EROI statique C2 : cmd_linear = {} (objet vide). Ne pas ajouter EROI_start/EROI_end — mécanisme C2 = E_split endogène, pas biophysique.",
+    "Mob=0.30 : bourgeoisie de robe montante — mobilité réelle mais bloquée aux offices supérieurs. Contraste avec WP-F10 (Commune, Mob=0.25, artisans) et WP-F7 (Haïti révolution, Mob=0.05, esclaves). Documenter hiérarchie mobilité en S2."
+  ],
+  "defi_mepa": "WP cas référence C2. E_split endogène : bourgeoisie de robe génère E=0.70 par blocage institutionnel (dE_split/dt formalisable V7) — distinguer de E_split exogène (WP-I4 Allemagne). Démontrer instabilité post-(a) : oscillation de C entre V_col concurrents (Girondins 1792 / Montagnards 1793 / Thermidoriens 1794 / Directoire 1795-1799) sans A_d_max suffisant pour stabiliser. L'absence d'institutionnalisation durable distingue (a) France de (e)→(h) potentiel. Calibration p10 cristallisation C2 : sensibilité à la vitesse de génération endogène d'E_split."
+}

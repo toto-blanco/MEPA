@@ -1,0 +1,260 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-C2-1",
+  "cas": "Égypte 2011 — Printemps arabe et contre-révolution militaire",
+  "periode": "2010-2014",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI déclinant 5.0→2.5 · L(t) économique armée · Q5_stab extérieur · EROI statique C2 avec variation documentée]",
+  "cluster_note": "WP-C2-1 = 3e ancre LOI PHYSIQUE V6.2. Séquence (a)→(e)→(b) historiquement documentée et fermée. T=0.90/E=0.60 + EROI déclinant 5.0→2.5. L(t) armée = calcul institutionnel (40% PIB contrôlé), NON idéologique — détermine la trajectoire finale (b). Q5_stab extérieur (12 Mds$ Golfe) reconstitue R → (b) confirmé. Cluster C2 : E ≥ 0.60, γ élevé.",
+  "trajectoire_attendue": "(b) Répression réussie",
+  "trajectoire_attendue_libelle": "(a)→(e)→(b) — trois phases séquentielles : (a) soulèvement Tahrir jan. 2011, (e) transition Morsi-Frères Musulmans 2011-2013, (b) coup militaire Sissi juillet 2013 + répression Rabaa.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Moyen-Orient/Afrique du Nord",
+  "sa_p6_modulation": false,
+  "sa_note": "Égypte → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient, structure tribale/claniste). Cohésion autoritaire et ruptures brutales. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "LOI PHYSIQUE — 3 passes de vérification",
+  "raison_loi_physique": "Séquence (a)→(e)→(b) historiquement documentée et close (2010-2014). EROI déclinant imposé (dépendance énergétique croissante). L(t) armée = calcul institutionnel déterministe. Q5_stab extérieur documenment reconstituant R → trajectoire (b) quasi-certaine. 3 passes suffisent.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "El-Ghobashy, Mona — Egypte : la révolution morcelée (2012)",
+      "type": "N3 — Sociologique/Politique",
+      "acces": "Revue Tiers Monde",
+      "variables_concernees": ["E_split", "gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S2",
+      "titre": "Kandil, Hazem — Soldiers, Spies and Statesmen: Egypt's Road to Revolt (2012)",
+      "type": "N3 — Politologique",
+      "acces": "Verso Books",
+      "variables_concernees": ["L_t", "A_r_c", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Wickham, Carrie Rosefsky — The Muslim Brotherhood: Evolution of an Islamist Movement (2013)",
+      "type": "N3 — Politologique",
+      "acces": "Princeton University Press",
+      "variables_concernees": ["gamma", "Cs", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Banque mondiale — Egypt Economic Monitor 2010-2014",
+      "type": "N1 — Biophysique/Économique",
+      "acces": "https://data.worldbank.org/country/egypt",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S6",
+      "titre": "V-DEM Egypt dataset 2010-2014",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "L_t"]
+    },
+    {
+      "id": "S7",
+      "titre": "Freedom House — Freedom in the World Egypt 2010-2015",
+      "type": "N5 — Politique",
+      "acces": "https://freedomhouse.org/",
+      "variables_concernees": ["A_r_c", "A_r_ne", "Cs"]
+    },
+    {
+      "id": "S8",
+      "titre": "IEA — Egypt Energy Profile 2010-2014",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "https://www.iea.org/",
+      "variables_concernees": ["EROI"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture entre élite militaro-économique (SCAF ~40% PIB) et base populaire + Frères Musulmans + jeunesse urbaine diplômée. E_split modéré à élevé attendu.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM elite power index Egypt 2010 + Gini BM Égypte",
+        "valeur_indicateur": "À REMPLIR — concentration économique armée documentée",
+        "coherence": "Valeur cible E_split~0.55-0.70 — élite militaro-économique cristallisée"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.50 attendu (organisation Frères Musulmans structurée + réseaux Tahrir). Cluster C2 : γ élevé requis pour cristallisation élitiste.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Degré d'organisation Frères Musulmans 2011 + structuration mouvements Tahrir",
+        "valeur_indicateur": "À REMPLIR — FM : organisation décennale, réseau social dense",
+        "coherence": "Valeur cible γ~0.45-0.55 (organisation FM + réseaux jeunesse urbaine)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S3, S5",
+      "niveau_source": "N4",
+      "origine": "À coder — capacité redistributive État égyptien 2010. Régime Moubarak : appareil administratif fonctionnel mais corrompu. Subventions pain/énergie = seul mécanisme redistributif structurel.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "BM Egypt dépenses publiques/PIB 2010 + subventions alimentaires/énergie",
+        "valeur_indicateur": "À REMPLIR — subventions ~8% PIB mais captées en partie par élites",
+        "coherence": "Valeur cible A_d_eff~3.0-5.0/10 — État fonctionnel mais redistributif limité"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique : police Moubarak (SSI), puis armée SCAF, puis répression Sissi (Rabaa 2013 : ~800-1000 morts). Phase (b) finale = A_r_c maximal séquence.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM physical violence index Egypt 2011-2013 + Human Rights Watch Rabaa",
+        "valeur_indicateur": "À REMPLIR — Rabaa = opération répressive la plus meurtrière Egypte depuis 1952",
+        "coherence": "Valeur cible A_r_c T=0 ~0.55-0.65 (régime Moubarak, répression SSI structurelle)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.35,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.35 : coupure internet 27-28 jan. 2011 = amplificateur paradoxal documenté. Surveillance numérique Moubarak + rôle Twitter/Facebook dans organisation Tahrir.",
+      "justification": "Égypte 2011 : coupure internet totale 27-28 jan. 2011 (5 jours) = décision SCAF. Paradoxalement amplifie mobilisation offline. Rn=0.35 reflète surveillance numérique préexistante ET rôle réseaux sociaux dans organisation Tahrir. Valeur élevée pour 2011 — justifiée par contexte Printemps arabe.",
+      "sanity_check": {
+        "indicateur": "Freedom on the Net Egypt 2011 + documentation coupure internet BGP routing",
+        "valeur_indicateur": "Coupure internet 27-28 jan. 2011 documentée — amplificateur paradoxal confirmé",
+        "coherence": "CONFIRMÉ — A_r_ne=0.35 cohérent avec Rn=0.35 commandes"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — crédibilité régime Moubarak T=0 (2010, fin règne). Cs effondrée : 30 ans de régime autoritaire, chômage jeunes diplômés structurel, corruption endémique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Arab Barometer Egypt 2010 + Gallup World Poll Egypt approbation Moubarak",
+        "valeur_indicateur": "À REMPLIR — approbation Moubarak < 25% 2010",
+        "coherence": "Valeur cible Cs~0.20-0.30 (légitimité effondrée pré-Tahrir)"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — loyauté armée (SCAF) T=0. DISTINCTION CRITIQUE : L(t) économique (40% PIB contrôlé) vs L(t) idéologique. Coder loyauté institutionnelle à T=0 (2010). Armée préserve intérêts économiques → L_t élevée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kandil (2012) analyse SCAF + part armée dans économie égyptienne 2010",
+        "valeur_indicateur": "À REMPLIR — SCAF ~40% PIB : loyauté institutionnelle forte à ses propres intérêts",
+        "coherence": "Valeur cible L_t~0.55-0.70 (armée = institution cohésive, loyauté interne forte)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.75,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant — C2 avec variation documentée (5.0→2.5 sur t_max)",
+      "source_id": "Instructions V6.2 + S5 + S8",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=5.0, EROI_end=2.5. Égypte : dépendance énergétique croissante, gisements pétrole/gaz en déclin, importations alimentaires >50%. Déclin linéaire sur 300 pas.",
+      "justification": "Égypte 2010-2014 : transition de net exportateur à importateur net d'énergie. EROI déclinant 5.0→2.5 = marqueur de la cristallisation élitiste C2 (armée capte rente déclinante). Valeur centrale 3.75 = moyenne arithmétique start/end.",
+      "sanity_check": {
+        "indicateur": "IEA Egypt Energy Balance 2010-2014 + World Bank energy data",
+        "valeur_indicateur": "Production pétrole égyptienne en déclin structurel — confirmé IEA",
+        "coherence": "CONFIRMÉ — EROI 5.0→2.5 cohérent avec transition exportateur→importateur net"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Égypte → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient)",
+      "justification": "Todd classe les sociétés du Moyen-Orient en famille communautaire exogame. Sa=6 = résilience autoritaire + ruptures brutales — cohérent avec trajectoire (a)→(e)→(b) : mobilisation massive puis répression réussie.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 2010 — fin règne Moubarak, veille Tahrir). Source : Instructions V6.2.",
+    "S0": 1.2,
+    "L0": 0.25,
+    "C0": 0.10,
+    "I0": 3.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C2 avec cmd_linear.",
+    "T": 0.90,
+    "Mob": 0.20,
+    "R": 0.25,
+    "Ref": 0.10,
+    "Rc": 0.55,
+    "Rn": 0.35,
+    "E": 0.60,
+    "gamma": 0.50,
+    "EROI": 3.75,
+    "EROI_start": 5.0,
+    "EROI_end": 2.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C2 avec EROI déclinant documenté — cmd_linear obligatoire pour capture dynamique 5.0→2.5.",
+    "EROI": {
+      "start": 5.0,
+      "end": 2.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "LOI PHYSIQUE",
+    "passes": 3,
+    "note_passes": "LOI PHYSIQUE = 3 passes. Séquence (a)→(e)→(b) historiquement close et documentée. Ne pas sur-auditer."
+  },
+  "alertes_conv_a": [
+    "TROIS PHASES SÉQUENTIELLES OBLIGATOIRES : (a) Tahrir jan. 2011 → (e) transition Morsi 2011-2013 → (b) coup Sissi + Rabaa 2013. Documenter les trois t_b successifs.",
+    "L(t) armée = calcul institutionnel NON idéologique (40% PIB SCAF). Distinguer L(t) économique vs L(t) idéologique en S2 — variable discriminante de la trajectoire finale (b).",
+    "Coupure internet 27-28 jan. 2011 = amplificateur paradoxal documenté. A_r_ne=0.35 hardcodé — documenter le paradoxe : coupure → renforcement mobilisation offline en S7.",
+    "Q5_stab extérieur (12 Mds$ Golfe post-coup 2013) = mécanisme hors-modèle à signaler en S5. Reconstitution R par injection externe → (b) confirmé.",
+    "EROI déclinant C2 : distinguer EROI biophysique (gisements) vs EROI effectif (subventions armée). Documenter en S1."
+  ],
+  "defi_mepa": "WP ancre LOI PHYSIQUE C2. Séquence (a)→(e)→(b) = seul cas du corpus où la trajectoire finale (b) est déterminée par L(t) économique institutionnel (calcul SCAF) plutôt que par A_r_c pur. Démontrer que F/R < theta_FR en Phase (e) malgré E=0.60 : c'est la reconstitution R par Q5_stab extérieur (12 Mds$) qui bascule vers (b), pas la décroissance endogène de F. Distinguer γ=0.50 Phase (a) (organisation FM + Tahrir) vs γ Phase (b) (dissolution mouvements post-Rabaa)."
+}

@@ -1,0 +1,233 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F10-1",
+  "cas": "Commune de Paris",
+  "periode": "1871",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI statique 7.0 · t_max=80 (72 jours) · γ=0.15 V_col sans doctrine · Q6 maximal post-(a) Semaine Sanglante]",
+  "cluster_note": "WP-F10-1 = trajectoire (a) la plus courte du corpus (72 jours, t_max=80). γ=0.15 = V_col sans doctrine → échec d'institutionnalisation post-(a) — Q6 maximal (Semaine Sanglante ~10 000-20 000 morts). Cluster C2 EROI statique : France 1871 en transition charbon. Sa=4 constant WP français. Cinétique pure : valider que la bascule (a) se produit dans la fenêtre t_max=80.",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "trajectoire_attendue_libelle": "(a) court — cinétique pure. Bascule (a) dans fenêtre 72 jours (t_max=80). γ=0.15 = V_col sans doctrine → échec institutionnalisation. Q6 maximal post-(a) : Semaine Sanglante inhibe tout cycle H_col.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — France",
+  "sa_p6_modulation": false,
+  "sa_note": "France → Sa=4 (famille nucléaire égalitaire, Todd 1990). Sa=4 constant pour tous les WP français (F8, F10). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. t_max=80 = fenêtre la plus courte du corpus. Valider que bascule (a) se produit bien dans 72 pas. T=0.95/R=0.20 : marge F/R → vérifier dépassement theta_FR dans fenêtre courte.",
+  "t_max": 80,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Lissagaray, Prosper-Olivier — Histoire de la Commune de 1871 (1876)",
+      "type": "N3 — Historique/Témoignage",
+      "acces": "Maspero / La Découverte",
+      "variables_concernees": ["E_split", "gamma", "A_r_c", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Ross, Kristin — Communal Luxury: The Political Imaginary of the Paris Commune (2015)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Verso Books",
+      "variables_concernees": ["gamma", "E_split", "A_d_eff"]
+    },
+    {
+      "id": "S3",
+      "titre": "Tombs, Robert — The War Against Paris 1871 (1981)",
+      "type": "N3 — Militaire/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["A_r_c", "L_t", "Cs"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Rougerie, Jacques — Paris libre 1871 (1971)",
+      "type": "N3 — Historique/Social",
+      "acces": "Seuil",
+      "variables_concernees": ["E_split", "gamma", "A_d_eff", "L_t"]
+    },
+    {
+      "id": "S6",
+      "titre": "Jellinek, Frank — The Paris Commune of 1871 (1937)",
+      "type": "N3 — Historique",
+      "acces": "Gollancz",
+      "variables_concernees": ["Cs", "A_r_c", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture entre bourgeoisie versaillaise (gouvernement Thiers) et prolétariat communard (artisans, ouvriers qualifiés, Garde Nationale). Fracture de classe nette, géographiquement délimitée (Paris vs Versailles).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Rougerie (1971) sociologie Commune + Lissagaray (1876) composition sociale Garde Nationale",
+        "valeur_indicateur": "À REMPLIR — fracture bourgeoisie/prolétariat documentée : Garde Nationale ~200 000 vs Versaillais",
+        "coherence": "Valeur cible E_split~0.55-0.70 — fracture de classe nette, moins cristallisée que WP-I4 (fascisme)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.15 attendu (Instructions V6.2). V_col sans doctrine : Commune = mobilisation sans programme gouvernemental unifié (Blanquistes, Proudhoniens, Internationaux = factions sans doctrine commune). γ minimal C2 → échec institutionnalisation.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Ross (2015) analyse programmes Commune + Lissagaray (1876) divisions internes",
+        "valeur_indicateur": "À REMPLIR — trois courants idéologiques incompatibles sans synthèse opérationnelle",
+        "coherence": "Valeur cible γ~0.15 — V_col sans doctrine unifiée : Blanquistes/Proudhoniens/Internationaux"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive Commune de Paris T=0 (18 mars 1871). Mesures sociales partielles (loyers, salaires, ateliers nationaux) mais durée 72 jours = capacité redistributive non développée. Coder potentiel redistributif initial.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Ross (2015) mesures sociales Commune + Rougerie (1971) décrets économiques",
+        "valeur_indicateur": "À REMPLIR — décrets : moratoire loyers, salaires fonctionnaires, ateliers — capacité limitée par durée",
+        "coherence": "Valeur cible A_d_eff~3.0-5.0/10 — programme redistributif ambitieux mais non implémenté (72 jours)"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique versaillaise (armée de MacMahon) + Semaine Sanglante 21-28 mai 1871 (~10 000-20 000 morts). A_r_c du côté versaillais = maximale en Phase finale. Coder valeur T=0 (côté gouvernemental Thiers).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tombs (1981) estimation victimes Semaine Sanglante + capacité armée MacMahon",
+        "valeur_indicateur": "À REMPLIR — armée de Versailles : 130 000 hommes libérés par armistice franco-prussien",
+        "coherence": "Valeur cible A_r_c~0.70-0.85 (armée Versailles : capacité répressive maximale, libérée par armistice)"
+      },
+      "valeur_normative_v62": 0.78,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 1871. A_r_ne=0.00 = ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "1871 : aucune technologie de surveillance numérique. A_r_ne=0.00 obligatoire pour tous WP antérieurs à ~1990.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité du régime versaillais ET de la Commune (deux légitimités en compétition). Thiers : légitimité formelle de l'Assemblée mais capitulation armistice. Commune : légitimité révolutionnaire forte à Paris, nulle en province. Coder Cs gouvernement T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jellinek (1937) légitimité Thiers + Lissagaray (1876) opinion Paris vs province",
+        "valeur_indicateur": "À REMPLIR — Thiers : légitimité formelle, capitulation = Cs basse ; Commune : légitimité locale forte",
+        "coherence": "Valeur cible Cs gouvernement~0.25-0.40 (légitimité formelle Thiers mais capitulation discréditante)"
+      },
+      "valeur_normative_v62": 0.30,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté Garde Nationale de Paris T=0 (18 mars 1871, tentative désarmement par Thiers). L0=0.30 conditions initiales. Loyauté Garde Nationale : haute à Paris, nulle à Versailles — mais Garde = force populaire non-professionnelle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tombs (1981) analyse Garde Nationale + Lissagaray (1876) composition 18 mars",
+        "valeur_indicateur": "À REMPLIR — Garde Nationale résiste désarmement 18 mars : loyauté parisienne forte",
+        "coherence": "Valeur cible L_t~0.30 (cohérente avec L0=0.30 : loyauté Garde Nationale parisienne, fragile hors Paris)"
+      },
+      "valeur_normative_v62": 0.30,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 7.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C2 (France 1871 en transition charbon)",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=7.0 statique. France 1871 en phase de transition charbon. EROI fossile initial ~6-8. EROI statique C2 — cmd_linear = {} (objet vide).",
+      "justification": "France 1871 : début industrialisation charbon, EROI fossile initial ~6-8 (Smil 1991). C2 statique : mécanisme = cristallisation élitiste par fracture de classe, pas déclin biophysique. t_max=80 correspond aux 72 jours historiques — EROI sans variation significative sur cette fenêtre.",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI charbon France 1870s + données industrialisation française",
+        "valeur_indicateur": "EROI charbon français ~6-8 transition industrielle — confirmé",
+        "coherence": "CONFIRMÉ — EROI=7.0 cohérent avec France en transition industrielle 1871"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — France → Sa=4 (famille nucléaire égalitaire, Todd 1990). Sa=4 constant pour tous les WP français.",
+      "justification": "Todd (1990) : France = famille nucléaire égalitaire. Sa=4 constant F8 et F10 — instabilité chronique, mobilisation aisée mais fragmentation rapide. Cohérent avec cinétique (a) rapide et fragmentation post-(a).",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 18 mars 1871 — tentative désarmement Garde Nationale par Thiers, déclencheur de la Commune). Source : Instructions V6.2 + mepa_fiches_WP-F10.",
+    "S0": 1.2,
+    "L0": 0.30,
+    "C0": 0.10,
+    "I0": 3.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C2 — cmd_linear = {} (objet vide). t_max=80 = fenêtre la plus courte du corpus.",
+    "T": 0.95,
+    "Mob": 0.25,
+    "R": 0.20,
+    "Ref": 0.10,
+    "Rc": 0.70,
+    "Rn": 0.0,
+    "E": 0.60,
+    "gamma": 0.15,
+    "EROI": 7.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 80,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. t_max=80 = le plus court du corpus (72 jours historiques). Valider que bascule (a) se produit bien dans cette fenêtre courte avec T=0.95/R=0.20."
+  },
+  "alertes_conv_a": [
+    "t_max=80 = fenêtre la plus courte du corpus. Valider que F/R dépasse theta_FR=0.75 avant t=72. Si bascule absente dans la fenêtre, documenter — anomalie de calibration T=0.95/R=0.20.",
+    "γ=0.15 = V_col sans doctrine : distinguer mobilisation (élevée, Garde Nationale ~200 000) de cohésion doctrinale (faible, trois courants incompatibles). Documenter la distinction mobilisation/cohésion en S2.",
+    "Q6 maximal post-(a) — Semaine Sanglante (~10 000-20 000 morts) : inhibiteur H_col à quantifier en S3. Impact sur cycles futurs (WP-F8 → WP-F10 → absence de cycle (a) suivant en France avant 1871). Documenter dépendance historique.",
+    "Rc=0.70 = valeur élevée C2 (résistance culturelle forte côté versaillais). Contraste avec Rc=0.25 WP-F8 (France 1787). Documenter l'asymétrie : en 1871, la contre-révolution est culturellement organisée, pas en 1787.",
+    "Deux légitimités en compétition (Thiers/Commune) : coder Cs gouvernement T=0, pas Cs Commune. Documenter en S1 la compétition de légitimités comme marqueur C2."
+  ],
+  "defi_mepa": "WP trajectoire (a) la plus courte du programme (72 jours, t_max=80). Valider que la cinétique pure produit bien une bascule F/R > theta_FR=0.75 dans la fenêtre t_max=80 avec T=0.95/R=0.20. γ=0.15 = V_col sans doctrine → Q6 maximal post-(a) (Semaine Sanglante) = inhibiteur de cycle H_col à quantifier en S3 : pourquoi la séquence (a) ne se reproduit-elle pas avant 1871 malgré Sa=4 persistant? Documenter le rôle de Q6 comme mémoire historique inhibitrice du prochain cycle (a). Distinguer WP-F10 (γ=0.15, cinétique sans doctrine) vs WP-F8 (γ=0.30, doctrine des Lumières disponible) : même Sa=4, même cluster C2, mais γ discriminant l'issue post-(a) — instabilité oscillante vs institutionnalisation partielle."
+}

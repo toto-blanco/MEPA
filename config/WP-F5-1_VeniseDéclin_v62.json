@@ -1,0 +1,233 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F5-1",
+  "cas": "Venise — déclin oligarchique",
+  "periode": "XVIIe-XVIIIe s.",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI statique 8.0 · E=0.10 min programme · Ref=0.05 faible · cas-inverse C2 · sensibilité p2/p6 maximale · t_max=500]",
+  "cluster_note": "WP-F5-1 = EXCEPTION C2 documentée : E=0.10 < 0.60 requis C2 normalement. Cas INVERSE du mécanisme C2 : déficit de E_split bloque la bascule (a) et produit sclérose (c). Fermeture du spectre par A_c oligarchique SANS A_r_ne ni violence. EROI=8.0 statique mais Ref=0.05 = minimum programme. Comparer avec WP-I9 (Singapour) : même E=0.10, résultats opposés car A_d_eff=0.60 vs 0.85 (discriminant). Sensibilité p2/p6 maximale (Stratification V6.2).",
+  "trajectoire_attendue": "(c) Stase / ambigu",
+  "trajectoire_attendue_libelle": "(c) sclérose oligarchique — E=0.10 déficit E_split bloque (a). Fermeture Serrata (1297) = A_c oligarchique permanente sans violence ni surveillance numérique. T=0.40/R=0.60 → F < R structurel. Stagnation lente sur t_max=500.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Europe méridionale",
+  "sa_p6_modulation": false,
+  "sa_note": "Venise → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Italie du Nord/Europe méridionale). Sa=4 en C2 : viscosité anthropologique modérée. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. E=0.10 exception C2 (normalement E ≥ 0.60). Cas-limite inverse : sensibilité p2/p6 maximale (Stratification V6.2). T=0.40/R=0.60 → F < R structurel : trajectoire (c) dépend finement de l'équilibre p2/p6. 10 passes pour valider robustesse stagnation.",
+  "t_max": 500,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Lane, Frederic — Venice: A Maritime Republic (1973)",
+      "type": "N3 — Historique/Économique",
+      "acces": "Johns Hopkins University Press",
+      "variables_concernees": ["E_split", "gamma", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Norwich, John Julius — A History of Venice (1982)",
+      "type": "N3 — Historique",
+      "acces": "Knopf",
+      "variables_concernees": ["gamma", "Cs", "L_t", "A_r_c"]
+    },
+    {
+      "id": "S3",
+      "titre": "Prak, Maarten — The Dutch Republic in the Seventeenth Century (2002)",
+      "type": "N3 — Historique (comparatif)",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["E_split", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S4",
+      "titre": "Turchin, Peter — War and Peace and War: The Rise and Fall of Empires (2006)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Pi Press",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S5",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S6",
+      "titre": "Finlay, Robert — Politics in Renaissance Venice (1980)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Rutgers University Press",
+      "variables_concernees": ["E_split", "L_t", "Cs", "A_r_c"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E=0.10 = EXCEPTION C2 documentée (valeur MINIMALE programme, ancre inférieure E_split). Serrata 1297 : fermeture totale du Grand Conseil aux nouvelles familles. ~200 familles patriciennes contrôlent tout. E_split réel ≈ 0 (oligarchie fermée hermétiquement, pas de classe alternative émergente).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lane (1973) Serrata 1297 + Finlay (1980) fermeture patriciat vénitien",
+        "valeur_indicateur": "À REMPLIR — Serrata : fermeture totale documentée 1297, patriciat héréditaire fixé",
+        "coherence": "Valeur cible E_split~0.08-0.15 — oligarchie fermée hermétiquement, aucune classe alternative"
+      },
+      "valeur_normative_v62": 0.10,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S4",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.20 attendu (Instructions V6.2). Cohésion oligarchique modérée : patriciat vénitien = cohésion par intérêts commerciaux communs mais pas doctrinale. Turchin (2006) : asabiya déclinante = marqueur de (c).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Turchin (2006) asabiya Venice + Lane (1973) cohésion patriciat déclinante",
+        "valeur_indicateur": "À REMPLIR — patriciat vénitien : cohésion d'intérêts, pas idéologique — déclinante XVIIe-XVIIIe s.",
+        "coherence": "Valeur cible γ~0.18-0.25 — cohésion oligarchique d'intérêts, pas doctrinale, déclinante"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive République de Venise T=0 (XVIIe s.). Administration oligarchique efficace mais redistribution limitée à la classe marchande. A_d_eff modéré : infrastructure portuaire, arsenal, but pas de redistribution populaire large.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lane (1973) administration vénitienne + Prak (2002) comparaison redistributive",
+        "valeur_indicateur": "À REMPLIR — Venise : redistribution intra-patriciat efficace, redistribution populaire minimale",
+        "coherence": "Valeur cible A_d_eff~4.5-6.5/10 (redistribution oligarchique efficace, populaire limitée)"
+      },
+      "valeur_normative_v62": 5.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : Conseil des Dix + Inquisiteurs d'État. Fermeture oligarchique sans violence = A_r_c faible nominalement mais efficace symboliquement. Venise : répression plus judiciaire que physique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Norwich (1982) Conseil des Dix + Finlay (1980) répression politique vénitienne",
+        "valeur_indicateur": "À REMPLIR — Conseil des Dix : exécutions rares, exils fréquents — répression symbolique efficace",
+        "coherence": "Valeur cible A_r_c~0.30-0.45 (répression judiciaire symbolique, peu de violence physique)"
+      },
+      "valeur_normative_v62": 0.38,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique XVIIe-XVIIIe s. A_r_ne=0.00. Venise : aucune technologie surveillance numérique.",
+      "justification": "XVIIe-XVIIIe siècle : aucune technologie de surveillance numérique. A_r_ne=0.00 obligatoire. Le défi WP-F5 explicite : 'fermeture du spectre SANS A_r_ne ni violence'.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S4",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité République de Venise T=0 (XVIIe s.). Légitimité institutionnelle forte historiquement (La Serenissima = mythe de stabilité millénaire). Mais déclin commercial XVIIe = érosion lente de la légitimité de performance.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lane (1973) légitimité institutionnelle Venise + Turchin (2006) déclin asabiya",
+        "valeur_indicateur": "À REMPLIR — mythe séculaire de stabilité : Cs structurellement élevée malgré déclin commercial",
+        "coherence": "Valeur cible Cs~0.65-0.80 (légitimité institutionnelle forte — mythe Serenissima vivace)"
+      },
+      "valeur_normative_v62": 0.73,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.80 conditions initiales). Patriciat + administration : loyauté institutionnelle forte — oligarchie fermée = loyauté par co-intérêt. Armée mercenaire (condottieri) : loyauté contractuelle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Finlay (1980) loyauté patriciat + Norwich (1982) fonctionnement administratif",
+        "valeur_indicateur": "À REMPLIR — patriciat : loyauté par co-intérêt oligarchique, administration efficace",
+        "coherence": "Valeur cible L_t~0.75-0.85 (cohérente avec L0=0.80 — loyauté oligarchique forte par intérêts communs)"
+      },
+      "valeur_normative_v62": 0.80,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 8.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C2 (cité-état maritime stable XVIIe-XVIIIe s.)",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=8.0 statique. Venise XVIIe-XVIIIe s. : économie maritime-commerciale stable mais en déclin relatif (montée Amsterdam/Londres). EROI statique = C2 statique. cmd_linear = {} (objet vide). Sensibilité p2/p6 maximale sur ce WP.",
+      "justification": "Venise XVIIe-XVIIIe s. : EROI commercial-maritime ~7-9 (économie de rente commerciale, Arsenal, monopoles). Déclin relatif vs Angleterre/Hollande mais pas de choc biophysique absolu. EROI statique = trajectoire (c) déterminée par la fermeture oligarchique, pas par biophysique.",
+      "sanity_check": {
+        "indicateur": "Lane (1973) économie vénitienne XVIIe-XVIIIe + données commerce méditerranéen",
+        "valeur_indicateur": "EROI maritime vénitien stable ~7-9 — déclin relatif pas absolu",
+        "coherence": "CONFIRMÉ — EROI=8.0 statique cohérent avec économie maritime stable mais déclinant relativement"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Venise/Italie du Nord → Sa=4 (famille nucléaire égalitaire, Todd 1990 : Europe méridionale).",
+      "justification": "Todd (1990) : Italie du Nord = famille nucléaire égalitaire. Sa=4 en C2 : viscosité anthropologique intermédiaire. Cohérent avec sclérose oligarchique progressive (pas de rupture brutale comme Sa=6, pas de dissolution immédiate comme Sa=2).",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système XVIIe s. — début déclin relatif Venise, montée Amsterdam/Londres). Source : Instructions V6.2.",
+    "S0": 0.8,
+    "L0": 0.80,
+    "C0": 0.05,
+    "I0": 5.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C2 — cmd_linear = {} (objet vide). t_max=500. EXCEPTION C2 : E=0.10 < 0.60.",
+    "T": 0.40,
+    "Mob": 0.10,
+    "R": 0.60,
+    "Ref": 0.05,
+    "Rc": 0.30,
+    "Rn": 0.0,
+    "E": 0.10,
+    "gamma": 0.20,
+    "EROI": 8.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 500,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. EXCEPTION C2 (E=0.10). Sensibilité p2/p6 maximale. T=0.40/R=0.60 → F < R structurel. Valider (c) stagnation sur t_max=500."
+  },
+  "alertes_conv_a": [
+    "EXCEPTION C2 OBLIGATOIRE À DOCUMENTER : E=0.10 < 0.60 requis normalement en C2. Ce WP illustre le CAS INVERSE du mécanisme C2 : déficit E_split bloque (a), produit sclérose (c). Distinguer en S3 mécanisme C2 normal (E élevée → cristallisation → (a)) vs C2 inversé (E minimale → fermeture → (c)).",
+    "F < R STRUCTUREL : T=0.40/R=0.60 → F < R dès t=0. Documenter dans le runner que F/R < theta_FR=0.75 à tout moment sur t_max=500 — c'est la définition mécanique de la trajectoire (c) stable. Si F/R approche 0.75 à un moment, c'est une anomalie paramétrique.",
+    "SENSIBILITÉ p2/p6 MAXIMALE (Stratification V6.2) : tester sur 10 passes les variations p2 ±0.01 et p6 ±0.02. Ces deux paramètres contrôlent la vitesse de dégradation de S et la mobilisation institutionnelle. Documenter le seuil de basculement vers (d) — l'autre danger de ce WP (sclérose → effondrement).",
+    "Ref=0.05 MINIMUM PROGRAMME : documenter que Ref=0.05 est le minimum absolu (aucune réforme possible dans une oligarchie fermée post-Serrata). Contraster avec WP-C1 Haïti (Ref=0.05 aussi) : même minimum, mécanismes différents (effondrement vs stagnation).",
+    "CONTRASTE WP-I9 OBLIGATOIRE : même E_split=0.10, résultats opposés ((c) vs (h)). Variable discriminante = A_d_eff (0.60 ici vs 0.85 Singapour). Documenter ce contraste explicitement en S3 — test empirique de la théorie MEPA."
+  ],
+  "defi_mepa": "EXCEPTION C2 : E=0.10 = valeur MINIMALE programme. Cas inverse du mécanisme C2 : déficit de E_split bloque (a) (aucune classe émergente pour cristalliser) et produit sclérose (c). Fermeture oligarchique Serrata 1297 = A_c permanente SANS A_r_ne ni violence physique — démontrer que le seul mécanisme institutionnel de fermeture produit (c) stable sur t_max=500. Sensibilité p2/p6 maximale : calibrer sur 10 passes STRESS. Contraste WP-I9 (même E=0.10, (h) vs ici (c)) : A_d_eff est le discriminant — documenter explicitement en S3."
+}

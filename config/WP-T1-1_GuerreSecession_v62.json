@@ -1,0 +1,241 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-T1-1",
+  "cas": "Guerre de Sécession — États-Unis",
+  "periode": "1860-1877",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI différentiel Nord/Sud · simulation sur EROI_Nord=15 statique · deux N0 incompatibles simultanés · Sa=2 contexte américain]",
+  "cluster_note": "WP-T1-1 = seul WP du corpus à deux N0 incompatibles simultanés (charbon industriel Nord EROI~15 vs agriculture esclavagiste Sud EROI~5-7). Simulation sur EROI_Nord=15 (cas principal). E=0.55 (esclaves) activé par G exogène (lignes Union). A_i radicale (13e-15e amendements) sans A_d_max durable → contre-transformation 1877 (retrait troupes). Seul WP trajectoire (γ). Sa=2 : valider transfert contexte américain.",
+  "trajectoire_attendue": "(γ) Transformation forcée",
+  "trajectoire_attendue_libelle": "(γ)→(a) forcée / contre-transformation partielle — G exogène (victoire Union) déclenche A_i radicale (Reconstruction 1865-1877) mais absence A_d_max durable → contre-transformation (retrait 1877, codes noirs). Transformation institutionnelle imposée par force extérieure, non endogène.",
+  "sa": 2,
+  "sa_type_todd": "Famille nucléaire absolue — monde anglo-saxon",
+  "sa_p6_modulation": false,
+  "sa_note": "USA → Sa=2 (famille nucléaire absolue, Todd 1990 : monde anglo-saxon). Sa=2 = individualisme contractuel, mobilisation se dissout sans organisation. Valider transfert Sa=2 sur contexte américain (Instructions V6.2 défi). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. EROI différentiel Nord/Sud unique dans le corpus — valider que EROI_Nord=15 détermine bien l'issue militaire. Sa=2 comme variable discriminante sur contexte américain. Trajectoire (γ) = seul WP corpus — validation mécanisme G exogène.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "McPherson, James — Battle Cry of Freedom: The Civil War Era (1988)",
+      "type": "N3 — Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["E_split", "gamma", "L_t", "A_r_c"]
+    },
+    {
+      "id": "S2",
+      "titre": "Foner, Eric — Reconstruction: America's Unfinished Revolution 1863-1877 (1988)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Harper & Row",
+      "variables_concernees": ["A_d_eff", "Cs", "gamma", "L_t"]
+    },
+    {
+      "id": "S3",
+      "titre": "Smil, Vaclav — Energy in World History (1991)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Westview Press",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Du Bois, W.E.B. — Black Reconstruction in America (1935)",
+      "type": "N3 — Historique/Social",
+      "acces": "Harcourt Brace",
+      "variables_concernees": ["E_split", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S6",
+      "titre": "Foner, Eric — A Short History of Reconstruction (1990)",
+      "type": "N3 — Historique",
+      "acces": "Harper & Row",
+      "variables_concernees": ["A_d_eff", "Cs", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E=0.55 activé par G exogène (lignes Union). Fracture esclavagiste : ~4 millions d'esclaves (13% population Union totale). E_split modéré côté Nord (fracture esclavagiste vs abolition) — plus élevé côté Sud. Instructions V6.2 : coder perspective Nord (EROI_Nord=15 simulation principale).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Du Bois (1935) analyse fracture Nord/Sud + McPherson (1988) démographie esclavagiste",
+        "valeur_indicateur": "À REMPLIR — ~4 millions esclaves / ~31 millions population Union totale",
+        "coherence": "Valeur cible E_split~0.50-0.60 (fracture esclavagiste activée par guerre, perspective Nord)"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.65 attendu (Instructions V6.2). Cohésion idéologique Union forte : doctrine abolitionniste structurée (Lincoln, Parti Républicain), organisation militaire robuste. Cohésion Sud également élevée (Lost Cause) mais simulé côté Nord.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McPherson (1988) cohésion idéologique Union + organisation Parti Républicain abolitionniste",
+        "valeur_indicateur": "À REMPLIR — Parti Républicain 1860 : doctrine abolitionniste claire et organisation nationale",
+        "coherence": "Valeur cible γ~0.60-0.70 — cohésion doctrinale Union forte, organisation militaire robuste"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État fédéral T=0 (1860). Administration fédérale fonctionnelle mais limitée (État minimal antebellum). Reconstruction 1865-1877 = expansion A_d_eff temporaire (Freedmen's Bureau) mais sans A_d_max durable → contre-transformation 1877.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Foner (1988) Freedmen's Bureau + dépenses fédérales 1860-1877",
+        "valeur_indicateur": "À REMPLIR — État fédéral 1860 : minimal (douanes + armée). Reconstruction : expansion temporaire",
+        "coherence": "Valeur cible A_d_eff~3.5-5.0/10 T=0 (administration fédérale fonctionnelle mais limitée)"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique côté Nord T=0 (1860). Armée de l'Union : capacité de mobilisation industrielle massive (EROI=15). R=0.5 commandes = résistance institutionnelle, pas A_r_c pur. Coder capacité répressive/militaire Union.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McPherson (1988) capacité militaire Union + mobilisation industrielle Nord",
+        "valeur_indicateur": "À REMPLIR — Union : 2 millions de soldats mobilisés, industrie armement massive",
+        "coherence": "Valeur cible A_r_c~0.60-0.75 (capacité militaire Union soutenue par EROI industriel élevé)"
+      },
+      "valeur_normative_v62": 0.68,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 1860-1877. A_r_ne=0.00 = ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "XIXe siècle : aucune technologie de surveillance numérique. A_r_ne=0.00 obligatoire pour tous WP antérieurs à ~1990. Télégraphe = usage militaire, pas surveillance systémique de population.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime fédéral T=0 (1860, élection Lincoln). Cs modérée : légitimité fédérale forte au Nord, quasi-nulle au Sud post-sécession. Coder perspective Nord (cas principal simulation).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McPherson (1988) légitimité Lincoln + Foner (1988) soutien populaire Union",
+        "valeur_indicateur": "À REMPLIR — Lincoln : majorité électorale Nord mais sécession Sud = crise légitimité fédérale",
+        "coherence": "Valeur cible Cs~0.45-0.60 (légitimité forte Nord, contestée Sud — coder Nord)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté institutions fédérales T=0 (L0=0.50 conditions initiales). Armée de l'Union : loyauté initiale élevée mais défections vers Confédération (officiers sudistes). Administration fédérale : loyauté Nord forte.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McPherson (1988) défections officiers vers Confédération + loyauté armée Union",
+        "valeur_indicateur": "À REMPLIR — ~1/3 officiers US Army rejoignent Confédération (Lee, Johnston)",
+        "coherence": "Valeur cible L_t~0.50 (cohérente avec L0=0.50 — loyauté partielle, défections sudistes)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 15.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE C1 — EROI_Nord=15 (cas principal). EROI_Sud~5-7 non simulé (deux N0 incompatibles).",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=15, EROI_end=15. Nord industriel charbon : EROI ~15-20 (Smil 1991). Simulation sur EROI_Nord uniquement (cas principal). EROI différentiel Nord/Sud = déterminant de l'issue militaire. EROI_Sud~5-7 documenté en note mais hors simulation.",
+      "justification": "Smil (1991) : EROI charbon USA Nord ~15-20 (1860s). Industries de guerre Nord : acier, rail, armement = capacité mobilisation massive. EROI différentiel Nord/Sud explique l'issue militaire (production industrielle Nord >> Sud). Simulation sur EROI_Nord=15 = cas principal conformément aux Instructions V6.2.",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI charbon américain 1860s + McPherson (1988) capacité industrielle Nord/Sud",
+        "valeur_indicateur": "EROI différentiel Nord/Sud confirmé — Nord : 90% production industrielle Union",
+        "coherence": "CONFIRMÉ — EROI_Nord=15 cohérent avec domination industrielle Union documentée"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 2,
+      "type_todd": "Famille nucléaire absolue",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — USA → Sa=2 (famille nucléaire absolue, Todd 1990 : monde anglo-saxon américain). Valider transfert Sa=2 contexte américain (Instructions V6.2 défi).",
+      "justification": "Todd (1990) classe le monde anglo-saxon (USA, Angleterre, Australie) en famille nucléaire absolue. Sa=2 = individualisme contractuel, mobilisation contractuelle plutôt qu'idéologique. Cohérent avec trajectoire (γ) : transformation imposée par G exogène (force militaire) plutôt qu'endogène (Sa=2 inhibe spontané collectif).",
+      "modulation_p6": false,
+      "note_modulation": "Sa=2 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1860 — élection Lincoln, sécession imminente). Source : Instructions V6.2. Perspective Nord (cas simulation principal EROI_Nord=15).",
+    "S0": 1.1,
+    "L0": 0.50,
+    "C0": 0.10,
+    "I0": 4.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C1 Nord=15 — cmd_linear obligatoire (EROI_start=EROI_end=15).",
+    "T": 0.90,
+    "Mob": 0.30,
+    "R": 0.50,
+    "Ref": 0.10,
+    "Rc": 0.60,
+    "Rn": 0.0,
+    "E": 0.55,
+    "gamma": 0.65,
+    "EROI": 15.0,
+    "EROI_start": 15.0,
+    "EROI_end": 15.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 statique Nord — EROI_start=EROI_end=15.0 par conformité C1. EROI_Sud~5-7 documenté mais non simulé (deux N0 incompatibles — simulation cas principal Nord).",
+    "EROI": {
+      "start": 15.0,
+      "end": 15.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Seul WP trajectoire (γ) du corpus. Valider mécanisme G exogène + A_i radicale sans A_d_max durable → contre-transformation. Valider Sa=2 sur contexte américain."
+  },
+  "alertes_conv_a": [
+    "DEUX N0 INCOMPATIBLES : charbon industriel Nord (EROI~15) vs agriculture esclavagiste Sud (EROI~5-7). Simulation sur EROI_Nord uniquement (cas principal). Documenter en S1 le différentiel EROI comme déterminant de l'issue militaire — c'est la variable causale principale.",
+    "Trajectoire (γ) = SEULE occurrence corpus. Mécanisme G exogène (victoire militaire Union) → A_i radicale (13e-15e amendements) → absence A_d_max durable → contre-transformation 1877. Documenter séquence explicitement en S3 : (γ) n'est pas (a) — la transformation est imposée, pas endogène.",
+    "E=0.55 ACTIVÉ PAR G EXOGÈNE : fracture esclavagiste préexistante mais non mobilisée endogènement (Sa=2 inhibe). Activation par lignes Union (Proclamation d'Émancipation 1863). Documenter distinction E_split latent vs E_split activé en S2.",
+    "Retrait 1877 = contre-transformation documentée : A_i radicale (Reconstruction) s'effondre sans A_d_max institutionnel durable (Freedmen's Bureau supprimé). Démontrer en S3 le mécanisme de régression post-(γ) — mémoire institutionnelle insuffisante.",
+    "Sa=2 sur contexte américain : valider que Sa=2 (individualisme contractuel) est cohérent avec mobilisation nordiste contractuelle (guerre pour l'Union) plutôt qu'idéologique. Documenter divergence possible en S4 si CONV-E juge Sa=4 plus approprié pour Sud."
+  ],
+  "defi_mepa": "Seul WP du corpus à deux N0 incompatibles simultanés (charbon Nord EROI=15 vs esclavage Sud EROI~5-7) et seule trajectoire (γ). Démontrer que EROI détermine l'issue militaire (Nord = capacité industrielle supérieure) ET que G exogène (victoire militaire) est nécessaire pour activer E=0.55 (Sa=2 inhibe activation endogène). A_i radicale (13e-15e amendements) sans A_d_max durable = contre-transformation 1877 : documenter en S3 le mécanisme par lequel la transformation institutionnelle imposée échoue sans substrat redistributif. Valider Sa=2 : mobilisation nordiste = contractuelle (défense Union) vs idéologique (abolition) — distinction documentée en S4."
+}

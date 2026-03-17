@@ -1,0 +1,233 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F4-1",
+  "cas": "Égypte ancienne — cycles dynastiques",
+  "periode": "3000 av.-640 ap.",
+  "cluster": "C5",
+  "cluster_libelle": "C5 — Complexité et latence [EROI statique 5.5 · t_max=500 · A_i cooptative cyclique · overlap C3 · Δτ cycle ≈ 100-200 ans · 2-3 oscillations complètes]",
+  "cluster_note": "WP-F4-1 = trajectoire (c) la plus longue du corpus (3000 ans). C5 complexité et latence : A_i cooptative sans innovation maintient Cs sur très longue durée. Δτ cycle ≈ 100-200 ans. t_max=500 pour observer 2-3 oscillations complètes. T=0.65/R=0.55 → marge 0.10 (STRESS : sensibilité p6 maximale). Overlap C3/C5 documenté. Sa=6 : résilience autoritaire = mécanisme de maintien cyclic.",
+  "trajectoire_attendue": "(c) Stase / ambigu",
+  "trajectoire_attendue_libelle": "(c) cyclique — 3000 ans. A_i cooptative (clergé + élites provinciales) sans innovation institutionnelle maintient Cs. Oscillations dynastiques Δτ ≈ 100-200 ans sur t_max=500. Jamais de bascule (a) ou (d) endogène durable.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire — Égypte/Afrique du Nord/Moyen-Orient antique",
+  "sa_p6_modulation": false,
+  "sa_note": "Égypte ancienne → Sa=6 (famille communautaire, Todd 1990 : Moyen-Orient/Afrique du Nord, structures patrilinéaires collectives). Sa=6 = résilience autoritaire — cohérent avec maintien cycles dynastiques sur 3000 ans sans rupture (a) endogène durable. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. T=0.65/R=0.55 → marge F/R = 0.10. Sensibilité p6 maximale (paramètre de mobilisation institutionnelle). t_max=500 = plus long corpus hors WP-I3. Δτ cycle non borné. 10 passes pour valider 2-3 oscillations complètes sans basculement.",
+  "t_max": 500,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Trigger, Bruce et al. — Ancient Egypt: A Social History (1983)",
+      "type": "N3 — Historique/Archéologique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["E_split", "gamma", "Cs", "A_d_eff"]
+    },
+    {
+      "id": "S2",
+      "titre": "Kemp, Barry — Ancient Egypt: Anatomy of a Civilization (2006)",
+      "type": "N3 — Archéologique",
+      "acces": "Routledge",
+      "variables_concernees": ["A_d_eff", "L_t", "gamma", "EROI"]
+    },
+    {
+      "id": "S3",
+      "titre": "Butzer, Karl — Early Hydraulic Civilization in Egypt (1976)",
+      "type": "N1 — Biophysique/Géographique",
+      "acces": "University of Chicago Press",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Tainter, Joseph — The Collapse of Complex Societies (1988)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S6",
+      "titre": "Turchin, Peter — Historical Dynamics: Why States Rise and Fall (2003)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Princeton University Press",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture pharaon/clergé/noblesse (élite cooptative) vs paysannerie agricole (~95% population). E=0.25 attendu : fracture réelle mais gérée par cooptation. A_i cooptative = mécanisme central de maintien (c).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Trigger (1983) structure sociale Égypte antique + Kemp (2006) hiérarchie administrative",
+        "valeur_indicateur": "À REMPLIR — élite cooptative : scribes/administrateurs recrutables, pas de fermeture totale",
+        "coherence": "Valeur cible E_split~0.20-0.30 — fracture réelle mais atténuée par cooptation institutionnelle"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.30 attendu (Instructions V6.2). Cohésion culturelle égyptienne modérée mais stable : religion pharaonique = doctrine stable 3000 ans, identité 'kémétique' forte. Cohésion suffisante pour (c) cyclique mais insuffisante pour (a).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Turchin (2003) cycles asabiya + Kemp (2006) cohésion idéologique pharaonique",
+        "valeur_indicateur": "À REMPLIR — religion pharaonique : doctrine remarquablement stable sur 3 millénaires",
+        "coherence": "Valeur cible γ~0.25-0.35 — cohésion culturelle modérée mais stable (pas de rupture doctrinale interne)"
+      },
+      "valeur_normative_v62": 0.30,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive pharaonique T=0 (Ancien Empire ~2700 av.). Système hydraulique nilotique = redistribution institutionnelle efficace et stable. Butzer (1976) : crue annuelle = mécanisme de redistribution forcée. A_d_eff élevé et stable = fondement de la trajectoire (c) longue durée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Butzer (1976) hydraulique nilotique + Kemp (2006) greniers pharaoniques",
+        "valeur_indicateur": "À REMPLIR — système greniers pharaoniques + crue nilotique = redistribution alimentaire efficace",
+        "coherence": "Valeur cible A_d_eff~6.0-8.0/10 — redistribution hydraulique stable = socle de la longévité dynastique"
+      },
+      "valeur_normative_v62": 7.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : armée pharaonique + police médjay. Modérée : peu de révoltes internes documentées = A_r_c rarement utilisée. Contraste avec A_d_eff élevée : redistribution cooptative prévient la nécessité de répression.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Trigger (1983) forces armées pharaoniques + Kemp (2006) rareté révoltes internes",
+        "valeur_indicateur": "À REMPLIR — révoltes internes rares documentées : A_r_c peu utilisée sur 3000 ans",
+        "coherence": "Valeur cible A_r_c~0.35-0.50 (disponible mais rarement nécessaire — cooptation prévient la révolte)"
+      },
+      "valeur_normative_v62": 0.42,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 3000 av.-640 ap. A_r_ne=0.00 = ancre inférieure absolue.",
+      "justification": "Antiquité : aucune technologie de surveillance numérique. A_r_ne=0.00 obligatoire.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité pharaon T=0 (Ancien Empire ~2700 av.). Légitimité divine du pharaon + performance hydraulique = Cs très élevée structurellement. A_i cooptative sans innovation = mécanisme de maintien Cs sans bascule.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kemp (2006) légitimité pharaonique + Trigger (1983) idéologie royale",
+        "valeur_indicateur": "À REMPLIR — légitimité divine documentée : pharaon = dieu vivant, contestation nulle en période stable",
+        "coherence": "Valeur cible Cs~0.65-0.80 (légitimité divine + performance hydraulique = Cs élevée structurelle)"
+      },
+      "valeur_normative_v62": 0.72,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.65 conditions initiales). Armée + administration scribes : loyauté institutionnelle forte. Mécanisme de cooptation = loyauté construite par promotion méritocratique des scribes.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Trigger (1983) loyauté nomes/nomarques + Kemp (2006) système scribe",
+        "valeur_indicateur": "À REMPLIR — loyauté nomarques : forte en Ancien Empire, fragile en Périodes Intermédiaires",
+        "coherence": "Valeur cible L_t~0.60-0.70 (cohérente avec L0=0.65 — loyauté cooptative solide)"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 5.5,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C5 (EROI stable sur très longue durée — hydraulique nilotique)",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=5.5 statique. Égypte ancienne : économie hydraulique nilotique = EROI agricole stable sur 3000 ans (Butzer 1976). C5 EROI statique cyclique : pas de déclin biophysique structurel, oscillations institutionnelles seules. cmd_linear = {} (objet vide).",
+      "justification": "Butzer (1976) : crue nilotique = EROI agricole exceptionnellement stable et prédictible. Limon nilotique = régénération naturelle des terres. EROI=5.5 stable sur 3000 ans = fondement de la longévité dynastique. Oscillations (c) = institutionnelles, pas biophysiques.",
+      "sanity_check": {
+        "indicateur": "Butzer (1976) EROI hydraulique nilotique + Smil (1991) agriculture antique",
+        "valeur_indicateur": "EROI nilotique stable sur longue durée confirmé — limon = régénération naturelle",
+        "coherence": "CONFIRMÉ — EROI=5.5 statique cohérent avec stabilité hydraulique nilotique documentée"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Égypte antique → Sa=6 (famille communautaire, Todd 1990 : Moyen-Orient/Afrique du Nord antique).",
+      "justification": "Todd (1990) : Égypte et Moyen-Orient = famille communautaire (autorité patrilinéaire, propriété collective). Sa=6 = résilience autoritaire — cohérent avec maintien cycles dynastiques 3000 ans. Oscillations internes sans rupture (a) endogène durable = marqueur Sa=6.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système ~2700 av. J.-C. — Ancien Empire, IIIe dynastie, début phase stable). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.65,
+    "C0": 0.10,
+    "I0": 4.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C5 — cmd_linear = {} (objet vide). t_max=500.",
+    "T": 0.65,
+    "Mob": 0.20,
+    "R": 0.55,
+    "Ref": 0.10,
+    "Rc": 0.50,
+    "Rn": 0.0,
+    "E": 0.25,
+    "gamma": 0.30,
+    "EROI": 5.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 500,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. t_max=500 = parmi les plus longs du corpus. Valider 2-3 oscillations complètes (c). Sensibilité p6 maximale. Δτ cycle ≈ 100-200 pas à documenter."
+  },
+  "alertes_conv_a": [
+    "Δτ CYCLE ≈ 100-200 PAS : documenter les t_min et t_max des oscillations S sur t_max=500. Doivent produire 2-3 oscillations complètes. Si Δτ < 50 ou > 300, anomalie paramétrique — documenter dans les passes 6-10.",
+    "A_i COOPTATIVE SANS INNOVATION : mécanisme clé de la trajectoire (c). Distinguer en S2 A_i cooptative (intégration élites locales dans administration pharaonique = maintien Cs sans bascule) vs A_i innovatrice (introduirait (e)). Ref=0.10 : réforme minimale, juste suffisante pour cooptation.",
+    "SENSIBILITÉ p6 MAXIMALE (Stratification V6.2) : T=0.65/R=0.55 = marge 0.10. Sur 10 passes STRESS, tester systématiquement p6 ±0.02 — documenter l'impact sur la période des oscillations Δτ. C'est le paramètre de contrôle principal de ce WP.",
+    "OVERLAP C3/C5 : documenter en S3 pourquoi WP-F4 est classé C5 et non C3 (viscosité anthropologique) — t_max=500 + oscillations cycliques + A_i cooptative = critères C5. La viscosité Sa=6 renforce le mécanisme mais ne le détermine pas seul.",
+    "CRUE NILOTIQUE hors-modèle : la régularité de la crue est un mécanisme hors-modèle qui fixe l'EROI statique. Documenter en S5 cette contrainte biophysique externe comme stabilisateur structural de la trajectoire (c) — distinct de la gestion institutionnelle."
+  ],
+  "defi_mepa": "WP trajectoire (c) la plus longue du corpus (3000 ans, t_max=500). Démontrer (c) réversible sur très longue durée : A_i cooptative (clergé + nomarques) sans innovation maintient Cs et génère des oscillations dynastiques Δτ ≈ 100-200 ans. Observer 2-3 oscillations complètes sur t_max=500. Documenter en S3 : la crue nilotique = EROI statique hors-modèle, la cooptation = A_i qui prévient (a) et (d), Sa=6 = résilience qui ralentit la dissolution. Sensibilité p6 maximale : calibrer sur 10 passes STRESS la période des oscillations."
+}

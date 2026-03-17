@@ -1,0 +1,183 @@
+{
+  "$schema": "mepa-friction-profile-v1.0",
+  "$description": "Carte d'incertitude du projet MEPA V6.2 Fortifiée. Enregistre les désaccords inter-codeurs (IA-1 vs IA-2) pour chaque variable de chaque WP, session par session. Alimentation : Nœud 6b (passeport_schema.py) après chaque simulation. Consultation : CONV-B (Auditeur) pour calibration et détection des zones floues. Voir Addendum Théorique V6.2, Pilier 1 (Reproductibilité).",
+  "mepa_version": "6.2 Fortifiée",
+  "schema_version": "1.0.0",
+  "created_at": "2026-03-12T17:36:19.489771+00:00",
+  "last_updated": "2026-03-14T12:52:43.227071+00:00",
+  "seuils": {
+    "cci_certifie": 0.7,
+    "cci_revision": 0.55,
+    "friction_outlier": 2.0,
+    "nc_bloquant_seuil": 1,
+    "note": "Deux seuils CCI distincts (Addendum Théorique V6.2 §P1) : cci_certifie=0.70 = seuil PAR VARIABLE (chacune doit atteindre 0.70). cci_global_certifie=0.75 = seuil GLOBAL sur toutes les variables (moyenne pondérée). Les deux conditions doivent être remplies simultanément pour CERTIFIÉ. cci_revision = 0.55 : seuil en-dessous duquel le WP est RÉVISION (recalibration ancres). friction(var, wp) = |val_IA1 - val_IA2| / echelle_variable. friction_outlier : valeur au-delà de laquelle le désaccord est signalé en alerte dans CONV-B.",
+    "cci_global_certifie": 0.75
+  },
+  "variables": {
+    "E_split": {
+      "var_id": "E_split",
+      "label": "E_split",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "gamma": {
+      "var_id": "gamma",
+      "label": "gamma",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "A_d_eff": {
+      "var_id": "A_d_eff",
+      "label": "A_d_eff",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "A_r_c": {
+      "var_id": "A_r_c",
+      "label": "A_r_c",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "A_r_ne": {
+      "var_id": "A_r_ne",
+      "label": "A_r_ne",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "Cs": {
+      "var_id": "Cs",
+      "label": "Cs",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "L_t": {
+      "var_id": "L_t",
+      "label": "L_t",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "EROI": {
+      "var_id": "EROI",
+      "label": "EROI",
+      "type": "continue",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    },
+    "Sa": {
+      "var_id": "Sa",
+      "label": "Sa",
+      "type": "categorielle_ordinale",
+      "nb_observations": 0,
+      "friction_cumulee": 0.0,
+      "friction_moyenne": null,
+      "friction_max": null,
+      "historique": [],
+      "cci_global": null,
+      "cci_verdict": "NON_CALCULÉ",
+      "nc_count": 0,
+      "note": ""
+    }
+  },
+  "historique_wp": {},
+  "carte_incertitude": {
+    "variables_stables": [],
+    "variables_grises": [],
+    "variables_litigieuses": [],
+    "last_computed": null,
+    "methode": "variable stable     : friction_moyenne < 0.20 sur >= 5 WP. variable grise      : friction_moyenne 0.20-0.50 ou nc_count >= 2. variable litigieuse : friction_moyenne > 0.50 ou outlier détecté."
+  },
+  "statistiques": {
+    "nb_wp_traites": 0,
+    "nb_wp_certifies": 0,
+    "nb_wp_revision": 0,
+    "nb_wp_rejet": 0,
+    "nb_wp_donnees_insuf": 0,
+    "cci_moyen_global": null,
+    "cci_median_global": null,
+    "variable_plus_litigieuse": null,
+    "variable_plus_stable": null,
+    "taux_concordance": null,
+    "note": "Statistiques calculées après chaque mise à jour de historique_wp."
+  },
+  "journal": [
+    {
+      "session_id": "session-init",
+      "timestamp": "2026-03-12T17:36:19.489771+00:00",
+      "action": "INITIALISATION",
+      "description": "Profil de friction initialisé — structure vide standard V6.2 Fortifiée.",
+      "wp_traites": [],
+      "operateur": "claude-sonnet-4-6 / QG Session Items #6-#8"
+    },
+    {
+      "session_id": "session-correction-v62",
+      "timestamp": "2026-03-14T12:52:43.227099+00:00",
+      "action": "CORRECTION_SEUILS",
+      "description": "Ajout cci_global_certifie=0.75 (Addendum §P1). Correction cci_revision=0.60 (cohérence Manuel Gouvernance V6.2). Structure inchangée.",
+      "wp_traites": [],
+      "operateur": "claude-sonnet-4-6 / Audit config 2026-03-14"
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I7-1",
+  "cas": "URSS — effondrement Todd",
+  "periode": "1970-1991",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 9.0→3.5 · signal précurseur mortalité infantile Todd · séquence A_i inversée glasnost avant perestroïka]",
+  "cluster_note": "WP-I7-1 = WP fondateur Todd (La Chute finale). EROI 9.0→3.5 sur 400 pas = déclin pétrolier soviétique documenté. Signal précurseur Todd : mortalité infantile croissante 1971-1974 = proxy A_d_max déclinant (priorité V6). Séquence A_i INVERSÉE (glasnost avant perestroïka) = déstabilisation accélérée. Contraste direct avec WP-I8 (Chine Deng) : même Sa=6, issue opposée. γ~0.15 = minimum corpus.",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(c)→(d) lent — Phase (c) stagnation brejnévienne (S quasi-stable, I déclinant lentement, signal mortalité infantile) ; Phase (d) : glasnost accélère bascule → effondrement institutionnel 1989-1991.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Russie/URSS",
+  "sa_p6_modulation": false,
+  "sa_note": "URSS/Russie → Sa=6 (famille communautaire exogame, Todd 1990 : Russie = famille communautaire). Résilience autoritaire — cohérent avec déclin lent (c) 20 ans avant effondrement (d). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. WP fondateur Todd. EROI 9.0→3.5 sur 400 pas : valider signal précurseur (variance croissante S, mortalité infantile proxy) et séquence temporelle bascule (c)→(d). Sa=6 comme variable discriminante sur bascule lente.",
+  "t_max": 400,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Todd, Emmanuel — La Chute finale : essai sur la décomposition de la sphère soviétique (1976, rééd. 1990)",
+      "type": "N2 — Anthropologique/Démographique",
+      "acces": "Robert Laffont",
+      "variables_concernees": ["Sa", "gamma", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S2",
+      "titre": "Ellman, Michael & Kontorovich, Vladimir — The Disintegration of the Soviet Economic System (1992)",
+      "type": "N3 — Économique",
+      "acces": "Routledge",
+      "variables_concernees": ["EROI", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S3",
+      "titre": "Kotkin, Stephen — Armageddon Averted: The Soviet Collapse 1970-2000 (2001)",
+      "type": "N3 — Politologique/Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["L_t", "gamma", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "BP Statistical Review of World Energy — USSR/Russia 1970-1991",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "https://www.bp.com/",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S6",
+      "titre": "V-DEM USSR dataset 1970-1991",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "L_t"]
+    },
+    {
+      "id": "S7",
+      "titre": "Feshbach, Murray & Friendly, Alfred — Ecocide in the USSR (1992)",
+      "type": "N3 — Biophysique/Démographique",
+      "acces": "Basic Books",
+      "variables_concernees": ["A_d_eff", "EROI"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3, S6",
+      "niveau_source": "N2/N3",
+      "origine": "À coder par CONV-E — fracture nomenklatura vs population. Todd (1976) : signal démographique précurseur = nomenklatura capte surplus alors que mortalité infantile croît. E_split modéré mais croissant.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Todd (1990) analyse élites soviétiques + V-DEM elite power index URSS 1970-1985",
+        "valeur_indicateur": "À REMPLIR — nomenklatura ~1-2% population contrôle accès ressources",
+        "coherence": "Valeur cible E_split~0.45-0.60 — nomenklatura cristallisée, mobilité ascendante bloquée"
+      },
+      "valeur_normative_v62": 0.52,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S3",
+      "niveau_source": "N2/N3",
+      "origine": "À coder par CONV-E — γ~0.40 attendu (Instructions V6.2). Cohésion idéologique soviétique en déclin lent : marxisme-léninisme vidé de sens dès années 1970, mais structure organisationnelle PCC maintenue. γ déclinant sur la période.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kotkin (2001) analyse idéologie soviétique déclinante + enquêtes attitude citoyens soviétiques",
+        "valeur_indicateur": "À REMPLIR — cynisme idéologique documenté dès années 1970 : γ déclinant",
+        "coherence": "Valeur cible γ~0.35-0.45 — cohésion organisationnelle maintenue mais idéologique effondrée"
+      },
+      "valeur_normative_v62": 0.40,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S7",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive URSS T=0 (1970). Signal Todd : mortalité infantile croissante 1971-1974 = proxy A_d_max déclinant (priorité V6). État soviétique encore fonctionnel mais rendements redistribution déclinants.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Ellman & Kontorovich (1992) dépenses sociales URSS 1970 + données mortalité infantile soviétiques",
+        "valeur_indicateur": "À REMPLIR — mortalité infantile russe croissante 1971 : signal Todd précurseur -20 ans",
+        "coherence": "Valeur cible A_d_eff~4.0-6.0/10 — redistribution fonctionnelle mais signal déclin détectable"
+      },
+      "valeur_normative_v62": 5.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique : KGB, milice, appareil parti. T=0 (1970) : répression brejnévienne structurelle mais en déclin vs période stalinienne. Capacité répressive maintenue mais usage contraint.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM political terror scale URSS 1970 + Kotkin (2001) analyse KGB post-Staline",
+        "valeur_indicateur": "À REMPLIR — répression KGB : sélective, non-létale, dissuasion douce",
+        "coherence": "Valeur cible A_r_c~0.55-0.70 (répression structurelle brejnévienne — moins intense que Staline)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.30,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.30 : surveillance KGB radiophonique + téléphonique. Pas de numérique au sens strict mais écoutes téléphoniques systématiques, surveillance courrier, réseau informateurs (Stasi-type).",
+      "justification": "URSS 1970-1991 : surveillance KGB para-numérique structurelle. Écoutes téléphoniques systématiques, réseau informateurs (estimé 500 000 agents KGB + millions informateurs), surveillance courrier. Rn=0.30 = valeur intermédiaire pré-numérique. Inférieure à WP-C6 Chine Xi (0.85) mais supérieure à WP-F1 Rome (0.00).",
+      "sanity_check": {
+        "indicateur": "Documentation KGB capacité surveillance + Andrew & Mitrokhin (1999) The Mitrokhin Archive",
+        "valeur_indicateur": "Réseau informateurs KGB confirmé : ~1/100 citoyens soviétiques",
+        "coherence": "CONFIRMÉ — A_r_ne=0.30 cohérent avec surveillance para-numérique soviétique"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N2/N3",
+      "origine": "À coder — crédibilité régime Brejnev T=0 (1970). Légitimité soviétique déclinante : fin khrouchtchévisme, cynisme croissant, signal mortalité infantile non-communiqué. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kotkin (2001) + enquêtes VCIOM rétrospectives légitimité soviétique 1970-1985",
+        "valeur_indicateur": "À REMPLIR — légitimité formelle maintenue mais cynisme documenté",
+        "coherence": "Valeur cible Cs~0.35-0.50 (légitimité formelle maintenue, cynisme croissant)"
+      },
+      "valeur_normative_v62": 0.42,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — loyauté appareil T=0 (1970, L0=0.45 conditions initiales). Armée soviétique + KGB + Parti : loyauté structurelle maintenue mais non idéologique. Nomenklatura fermée = loyauté institutionnelle aux avantages acquis.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kotkin (2001) analyse loyauté armée soviétique 1970 + défections officiers KGB",
+        "valeur_indicateur": "À REMPLIR — loyauté structurelle aux privilèges nomenklatura : ~0.40-0.50",
+        "coherence": "Valeur cible L_t~0.45 (cohérente avec L0=0.45 conditions initiales)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 6.25,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 (EROI_start=9.0, EROI_end=3.5 sur t_max=400)",
+      "source_id": "Instructions V6.2 + S2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=9.0, EROI_end=3.5. URSS : production pétrole sibérien plafonne 1983, chute -60% prix pétrole 1986 = double choc EROI effectif. Déclin linéaire sur 400 pas.",
+      "justification": "BP Statistical Review : production pétrole soviétique peak ~1983, déclin accéléré 1983-1991. Chute prix 1986 réduit EROI effectif indépendamment du volume physique. Ellman & Kontorovich (1992) : EROI industriel soviétique déclinant dès années 1970 (rendements décroissants Sibérie). EROI_end=3.5 = seuil critique C1.",
+      "sanity_check": {
+        "indicateur": "BP Statistical Review URSS 1970-1991 + Ellman & Kontorovich (1992) EROI industriel",
+        "valeur_indicateur": "Production pétrole peak 1983, chute prix 1986 — confirmé",
+        "coherence": "CONFIRMÉ — EROI 9.0→3.5 cohérent avec déclin pétrolier soviétique documenté"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Russie/URSS → Sa=6 (famille communautaire exogame, Todd 1990 : La Chute finale)",
+      "justification": "Todd (1990) classe la Russie en famille communautaire exogame — propriété collective, autorité patrilinéaire. Sa=6 = résilience autoritaire + déclin lent possible → (c) 20 ans avant (d). Contraste avec WP-I8 (Chine Deng, même Sa=6) : séquence A_i décide de l'issue, pas Sa.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1970 — début signal Todd mortalité infantile croissante). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.45,
+    "C0": 0.08,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 — cmd_linear obligatoire. t_max=400.",
+    "T": 0.75,
+    "Mob": 0.15,
+    "R": 0.20,
+    "Ref": 0.10,
+    "Rc": 0.45,
+    "Rn": 0.30,
+    "E": 0.55,
+    "gamma": 0.40,
+    "EROI": 6.25,
+    "EROI_start": 9.0,
+    "EROI_end": 3.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 9.0→3.5 sur 400 pas.",
+    "EROI": {
+      "start": 9.0,
+      "end": 3.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 400,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. WP fondateur Todd. Valider signal précurseur Sa=6 sur bascule lente et séquence temporelle (c)→(d). t_max=400 requis pour capturer déclin 1970-1991."
+  },
+  "alertes_conv_a": [
+    "Signal précurseur Todd OBLIGATOIRE : mortalité infantile croissante 1971-1974 = proxy A_d_max déclinant (Δτ=15-20 ans avant effondrement 1991). Documenter ce signal en S1 et vérifier que le runner produit un signal équivalent de variance croissante S à t≈100-150.",
+    "Séquence A_i INVERSÉE (glasnost avant perestroïka) = déstabilisation accélérée. Documenter en S3 la comparaison avec WP-I8 (Deng) : même Sa=6, séquence A_i inversée → issue opposée. Variable discriminante clé.",
+    "Nomenklatura fermée : Mob=0.15 (ascenseur social en panne). Signal Todd de stagnation institutionnelle. Documenter en S2 la corrélation Mob faible / mortalité infantile croissante.",
+    "γ~0.40 à T=0 mais déclinant : cohésion idéologique marxiste-léniniste vidée de sens. Si CONV-E code γ > 0.55, documenter divergence — cynisme soviétique documenté par Todd dès 1976.",
+    "Contraste WP-I8 (Chine Deng) : même Sa=6, EROI croissant vs déclinant, séquence A_i correcte vs inversée → (e)→(h) vs (c)→(d). Documenter explicitement ce contraste en S3."
+  ],
+  "defi_mepa": "WP fondateur Todd (La Chute finale). Démontrer la séquence précurseur → effondrement : signal mortalité infantile 1971 (Δτ=20 ans) → stagnation brejnévienne (c) → glasnost avant perestroïka (A_i inversée) → bascule (d) 1989-1991. Sa=6 comme variable discriminante sur bascule LENTE : résilience autoritaire permet (c) 20 ans, mais séquence A_i inversée empêche (e) et précipite (d). Contraste direct avec WP-I8 (même Sa=6, issue opposée) : la séquence A_i est la variable causale, pas Sa. γ=0.40 déclinant = marqueur de l'érosion idéologique soviétique — à distinguer de γ organisationnel (structure Parti maintenue jusqu'en 1991)."
+}

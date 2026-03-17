@@ -1,0 +1,241 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F9-1",
+  "cas": "Angleterre — stabilité sous pression",
+  "periode": "1789-1815",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI croissant 6.0→14.0 · Sa=2 filtre anthropologique · Rc/Rn variables · marge F/R la plus étroite du corpus (0.05)]",
+  "cluster_note": "WP-F9-1 = ZONE DE STRESS marge la plus étroite du corpus : T=0.60 / R=0.55 → marge F/R = 0.05 (Stratification V6.2). EROI croissant 6→14 avec timing très sensible. Sa=2 filtre anthropologique : mobilisation se dissout avant seuil (a). Contraste direct avec WP-F8 (France, même période 1789-1815, Sa=4 → (a) vs ici Sa=2 → (h)). Trajectoire (h) stabilité rentière.",
+  "trajectoire_attendue": "(h) Stabilité",
+  "trajectoire_attendue_libelle": "(h) stabilité rentière — Sa=2 (nucléaire absolu) = filtre anthropologique : mobilisation (Luddisme, Gordon Riots) se dissout avant seuil (a). EROI croissant 6→14 = soupape structurelle. Marge F/R = 0.05 : stabilité à la limite du basculement.",
+  "sa": 2,
+  "sa_type_todd": "Famille nucléaire absolue — monde anglo-saxon",
+  "sa_p6_modulation": false,
+  "sa_note": "Angleterre → Sa=2 (famille nucléaire absolue, Todd 2011). Sa=2 = filtre anthropologique : mobilisation contractuelle se dissout avant seuil (a). Contraste direct avec WP-F8 France (même période, Sa=4, résultat (a)). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. Marge F/R = 0.05 = la plus étroite du corpus (T=0.60/R=0.55). EROI croissant + timing très sensible. Trajectoire (h) dépend finement de la valeur exacte de EROI_start/EROI_end et du timing de croissance. 10 passes requises pour valider robustesse.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Thompson, E.P. — The Making of the English Working Class (1963)",
+      "type": "N3 — Historique/Social",
+      "acces": "Victor Gollancz",
+      "variables_concernees": ["E_split", "gamma", "A_r_c", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Mathias, Peter — The First Industrial Nation: An Economic History of Britain 1700-1914 (1969)",
+      "type": "N3 — Économique/Historique",
+      "acces": "Methuen",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Todd, Emmanuel — L'Origine des systèmes familiaux (2011)",
+      "type": "N2 — Anthropologique",
+      "acces": "Gallimard",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S4",
+      "titre": "Smil, Vaclav — Energy in World History (1991)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Westview Press",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S5",
+      "titre": "Colley, Linda — Britons: Forging the Nation 1707-1837 (1992)",
+      "type": "N3 — Historique/National",
+      "acces": "Yale University Press",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S6",
+      "titre": "Cookson, J.E. — The British Armed Nation 1793-1815 (1997)",
+      "type": "N3 — Historique/Militaire",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["L_t", "A_r_c", "gamma"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture aristocratie foncière + manufactures émergentes vs classe ouvrière (Thompson 1963). E=0.20 attendu (Instructions V6.2). Fracture réelle mais modérée : EROI croissant absorbe partiellement les tensions. Gordon Riots (1780) + Luddisme (1811-1816) = signaux E_split activé mais contenu.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Thompson (1963) fracture de classe + Mathias (1969) inégalités revenus 1789-1815",
+        "valeur_indicateur": "À REMPLIR — fracture réelle mais atténuée par croissance industrielle naissante",
+        "coherence": "Valeur cible E_split~0.18-0.25 (fracture modérée — EROI croissant atténue, Sa=2 dissout mobilisation)"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.35 attendu (Instructions V6.2). Cohésion culturelle britannique modérée : nationalisme anti-napoléonien (Colley 1992), protestantisme, common law. Cohésion suffisante pour (h) mais bien inférieure à γ révolutionnaire français ou bolchévique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Colley (1992) cohésion nationale britannique anti-napoléonienne + Thompson (1963) identité ouvrière",
+        "valeur_indicateur": "À REMPLIR — nationalisme anti-français : cohésion nationale réelle mais pas doctrinale",
+        "coherence": "Valeur cible γ~0.30-0.40 — cohésion nationale pragmatique, non doctrinale (Sa=2 : contractuel)"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État britannique T=0 (1789). Poor Laws, infrastructure juridique, parliament. Administration fonctionnelle + rente coloniale. EROI croissant renforce A_d_eff progressivement.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Mathias (1969) finances publiques britanniques + Poor Laws efficacité",
+        "valeur_indicateur": "À REMPLIR — Poor Laws : redistribution minimale systémique ; rente coloniale + commerce",
+        "coherence": "Valeur cible A_d_eff~4.5-6.0/10 (institutions parlementaires robustes, redistribution croissante)"
+      },
+      "valeur_normative_v62": 5.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique T=0 (1789). Armée britannique + magistrature. Répressions Gordon Riots (1780), Luddisme (1811-1816), Peterloo (1819). Capacité répressive disponible et utilisée de façon modulée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Thompson (1963) répression Luddisme + Cookson (1997) armée britannique 1793-1815",
+        "valeur_indicateur": "À REMPLIR — armée engagée en guerre napoléonienne + maintien ordre intérieur modulé",
+        "coherence": "Valeur cible A_r_c~0.45-0.60 (répression disponible, utilisée avec modération institutionnelle)"
+      },
+      "valeur_normative_v62": 0.52,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.00 (Instructions V6.2 : Angleterre 1789-1815 Rn=0). Période pré-numérique : aucune surveillance systémique numérique. Distinct de WP-I1 (1760-1840, Rn=0.05 minimal) — fenêtre temporelle différente, pas de surveillance proto-institutionnelle dans ce cas.",
+      "justification": "Angleterre 1789-1815 : pas de surveillance postale systémique documentée pour cette période spécifique (vs WP-I1 1760-1840 qui couvre une période plus large avec émergence proto-institutionnelle). Instructions V6.2 explicites : Rn=0.00.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S5, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime britannique T=0 (1789). Légitimité parlementaire forte post-Glorieuse Révolution (1688). Menace révolutionnaire française = renforcement cohésion nationale. L0=0.75 conditions initiales.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Colley (1992) légitimité constitutionnelle + Cookson (1997) soutien populaire guerre",
+        "valeur_indicateur": "À REMPLIR — légitimité parlementaire forte, renforcée par menace napoléonienne",
+        "coherence": "Valeur cible Cs~0.65-0.80 (légitimité constitutionnelle robuste, renforcée par nationalisme anti-français)"
+      },
+      "valeur_normative_v62": 0.73,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S5, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté armée + administration T=0 (L0=0.75 conditions initiales). Armée britannique : loyauté institutionnelle forte (post-Glorieuse Révolution, tradition parlementaire). Engagement guerres napoléoniennes = loyauté testée et confirmée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Cookson (1997) loyauté armée britannique + Colley (1992) cohésion institutionnelle",
+        "valeur_indicateur": "À REMPLIR — armée : loyauté institutionnelle forte, pas de défection pendant guerres napoléoniennes",
+        "coherence": "Valeur cible L_t~0.70-0.80 (cohérente avec L0=0.75 — loyauté institutionnelle robuste)"
+      },
+      "valeur_normative_v62": 0.75,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 10.0,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE croissant C4 (EROI_start=6.0, EROI_end=14.0 sur t_max) — timing sensible STRESS",
+      "source_id": "Instructions V6.2 + S4",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=6.0, EROI_end=14.0. Angleterre 1789-1815 : industrialisation charbon en cours. EROI croissant = soupape structurelle absorbant tensions révolutionnaires. Timing très sensible (STRESS) : si EROI croit trop lentement, (a) possible.",
+      "justification": "Smil (1991) + Mathias (1969) : EROI charbon britannique croissant 1789-1815 (mines + machines à vapeur Watt 1769-1800). Sous-période de WP-I1 (1760-1840) : même phénomène mais fenêtre plus courte et sous pression révolutionnaire française maximale. EROI_end=14.0 = cohérent avec WP-I1 (EROI_end=15.0 sur période plus longue).",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI charbon britannique 1789-1815 + Mathias (1969) industrialisation",
+        "valeur_indicateur": "EROI charbon croissant confirmé — mines Watt multipliant productivité",
+        "coherence": "CONFIRMÉ — EROI 6.0→14.0 cohérent avec industrialisation 1789-1815 documentée"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 2,
+      "type_todd": "Famille nucléaire absolue",
+      "source_id": "Todd (2011)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Angleterre → Sa=2 (famille nucléaire absolue, Todd 2011). Sa=2 filtre anthropologique constant pour tous les WP anglais (F9, I1).",
+      "justification": "Todd (2011) : Angleterre = famille nucléaire absolue. Sa=2 = filtre qui dissout mobilisation (Luddisme, Gordon Riots) avant seuil (a). Contraste direct avec Sa=4 France (WP-F8, même période) : Sa seul discriminant pour issue (h) vs (a).",
+      "modulation_p6": false,
+      "note_modulation": "Sa=2 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1789 — Révolution française déclenchée, pression externe sur Angleterre). Source : Instructions V6.2.",
+    "S0": 0.9,
+    "L0": 0.75,
+    "C0": 0.08,
+    "I0": 5.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI croissant C4 — cmd_linear obligatoire. ZONE STRESS : 10 passes, marge F/R = 0.05.",
+    "T": 0.60,
+    "Mob": 0.35,
+    "R": 0.55,
+    "Ref": 0.10,
+    "Rc": 0.35,
+    "Rn": 0.0,
+    "E": 0.20,
+    "gamma": 0.35,
+    "EROI": 10.0,
+    "EROI_start": 6.0,
+    "EROI_end": 14.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C4 croissant — EROI_start/EROI_end obligatoire. Croissance linéaire 6.0→14.0 sur 300 pas. Timing très sensible — zone STRESS.",
+    "EROI": {
+      "start": 6.0,
+      "end": 14.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. Marge F/R = 0.05 = la plus étroite du corpus. Timing EROI très sensible. Valider (h) robustesse sur 10 passes — vérifier qu'aucune perturbation paramétrique ne bascule vers (a)."
+  },
+  "alertes_conv_a": [
+    "MARGE F/R = 0.05 = LA PLUS ÉTROITE DU CORPUS (Stratification V6.2). T=0.60/R=0.55 : toute perturbation paramétrique mineure peut basculer vers (a). Sur 10 passes, tester systématiquement T+0.05 et R-0.05 — documenter le seuil de basculement.",
+    "TIMING EROI TRÈS SENSIBLE : si EROI croit trop lentement en début de simulation (t<50), le système peut basculer (a) avant que la soupape énergétique ne soit opérationnelle. Documenter le timing optimal d'activation EROI en S1.",
+    "Contraste WP-F8 OBLIGATOIRE : même période (1789-1815), Sa=2 vs Sa=4 → (h) vs (a). Sa est ici la variable discriminante absolue — documenter explicitement en S3 que la seule variable qui change est Sa, EROI et période étant comparables.",
+    "Contraste WP-I1 : même territoire (Angleterre), périodes adjacentes (1760-1840 vs 1789-1815). WP-F9 est une sous-fenêtre sous pression maximale. EROI_end=14.0 vs 15.0 : écart minimal. Documenter la cohérence inter-WP.",
+    "ZONE STRESS ≠ ZONE CŒUR : 10 passes requises. Ne pas comparer directement avec les résultats CŒUR (5 passes). Documenter l'instabilité paramétrique sur les passes supplémentaires 6-10."
+  ],
+  "defi_mepa": "WP marge F/R la plus étroite du corpus (0.05) — raison de la classification STRESS. Démontrer que Sa=2 (nucléaire absolu) est le filtre anthropologique qui dissout la mobilisation (Luddisme 1811-1816) avant le seuil (a) malgré T=0.60 et Mob=0.35 : documenter le mécanisme de dissolution en S3. EROI croissant 6→14 = soupape structurelle qui élargit progressivement la marge F/R — documenter le timing de cette soupape. Contraste WP-F8 (France, même période, Sa=4 → (a)) : Sa est le seul discriminant observable — test empirique de la théorie Todd. Sur 10 passes STRESS, valider que (h) est robuste à des perturbations de ±0.05 sur T et R."
+}

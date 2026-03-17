@@ -1,0 +1,248 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-C5-1",
+  "cas": "Iran 1979-2026",
+  "periode": "1979-2026",
+  "cluster": "C5",
+  "cluster_libelle": "C5 — Complexité et latence [EROI déclinant 9.0→4.5 · phases multiples · t_max=500 · (a)→(h), épisodes (b) · overlap C2 · fenêtre réfutation RF1 active 2026-2034]",
+  "cluster_note": "WP-C5-1 = système contemporain actif le plus incertain du corpus. 3 transitions de phase : (a) révolution 1979 → (h) République islamique consolidée 1982-2010 → épisodes (b) répétés (2009, 2019, 2022) → trajectoire future incertaine. EROI déclinant 9.0→4.5 (sanctions + épuisement gisements). L(t) IRGC = intérêts économiques (~40% PIB) NON idéologie islamique — analogue WP-C2 Égypte (armée SCAF). Signal précurseur Todd : pratique religieuse 90%→45%. Fenêtre réfutation RF1 active 2026-2034.",
+  "trajectoire_attendue": "(h)/(e) Stabilité ou réforme lente",
+  "trajectoire_attendue_libelle": "(a)→(h), épisodes (b) — Phase (a) révolution 1979 → Phase (h) consolidation islamique 1982-2010 → épisodes (b) répétés (Vert 2009, ABSA 2019, Mahsa Amini 2022) sans bascule endogène → trajectoire future : RF1 (a) ou maintien (h) sous tension. Fenêtre réfutation 2026-2034.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Iran/Perse",
+  "sa_p6_modulation": false,
+  "sa_note": "Iran → Sa=6 (famille communautaire exogame, Todd 1990 : Perse/Iran). Sa=6 = résilience autoritaire — cohérent avec maintien République islamique 47 ans malgré érosion idéologique documentée. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. t_max=500, 3 transitions de phase, système contemporain actif (résultat futur inconnu). EROI déclinant 9→4.5. Fenêtre réfutation RF1 active 2026-2034. Risque narrative smoothing maximal du corpus.",
+  "t_max": 500,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Abrahamian, Ervand — A History of Modern Iran (2008)",
+      "type": "N3 — Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["E_split", "gamma", "Cs", "A_d_eff"]
+    },
+    {
+      "id": "S2",
+      "titre": "Bakhash, Shaul — The Reign of the Ayatollahs: Iran and the Islamic Revolution (1984)",
+      "type": "N3 — Politique/Historique",
+      "acces": "Basic Books",
+      "variables_concernees": ["gamma", "L_t", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S3",
+      "titre": "Gasiorowski, Mark & Byrne, Malcolm — Mohammad Mosaddeq and the 1953 Coup in Iran (2004)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Syracuse University Press",
+      "variables_concernees": ["E_split", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "IEA — Iran Energy Profile 1979-2024",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "https://www.iea.org/",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S6",
+      "titre": "V-DEM Iran dataset 1979-2024",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "L_t"]
+    },
+    {
+      "id": "S7",
+      "titre": "Alfoneh, Ali — Iran Unveiled: How the Revolutionary Guards Is Transforming Iran from Theocracy into Military Dictatorship (2013)",
+      "type": "N3 — Politologique",
+      "acces": "AEI Press",
+      "variables_concernees": ["L_t", "A_r_c", "A_r_ne", "E_split"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture élite islamique-militaire (IRGC ~40% PIB + nomenklatura religieuse) vs population urbaine/jeunesse/femmes. E=0.70 attendu. Signal précurseur Todd : pratique religieuse 90%→45% = érosion légitimité idéologique documentée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM Iran elite power index + sondages Gamaan pratique religieuse Iran",
+        "valeur_indicateur": "À REMPLIR — pratique religieuse : 90% (1979) → ~45% (2022) selon Gamaan",
+        "coherence": "Valeur cible E_split~0.65-0.75 (fracture élite IRGC/religieuse vs population sécularisée)"
+      },
+      "valeur_normative_v62": 0.70,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.60 attendu (Instructions V6.2). Cohésion idéologique islamique : forte en Phase (a) 1979 (révolution), déclinante en Phase (h) (érosion pratique religieuse). Capture par V_col le plus discipliné (Khomeinistes 1979-1982 = analogue Octobre 1917 WP-I2).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Abrahamian (2008) idéologie islamiste + données pratique religieuse Gamaan 2020",
+        "valeur_indicateur": "À REMPLIR — γ déclinant documenté : pratique 90%→45% = signal Todd précurseur",
+        "coherence": "Valeur cible γ~0.55-0.65 T=0 (1979 : γ maximal révolutionnaire, déclinant sur 47 ans)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État islamique T=0 (1979). Rente pétrolière = redistribution sociale (santé, éducation, subventions). EROI déclinant + sanctions = A_d_eff déclinant sur période. I0=3.5 = institutions encore fonctionnelles en 1979.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "IEA Iran rente pétrolière 1979 + dépenses sociales gouvernement iranien",
+        "valeur_indicateur": "À REMPLIR — rente pétrolière 1979 : ~50% budget État = A_d_eff initial élevé",
+        "coherence": "Valeur cible A_d_eff~5.0-7.0/10 T=0 (rente pétrolière forte en 1979, déclinante par sanctions)"
+      },
+      "valeur_normative_v62": 6.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique : IRGC + Basij + SAVAMA. Répression épisodique maximale (2009 Mouvement Vert, 2019 ABSA, 2022 Mahsa Amini). Coder valeur T=0 (1979 : répression structurelle consolidation).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Alfoneh (2013) capacité IRGC + V-DEM political terror Iran 2009/2019/2022",
+        "valeur_indicateur": "À REMPLIR — IRGC : force répressive structurée, utilisée lors des 3 épisodes (b)",
+        "coherence": "Valeur cible A_r_c~0.60-0.75 (répression structurelle IRGC/Basij, intensité maximale lors (b))"
+      },
+      "valeur_normative_v62": 0.68,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.30,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.30. Iran 1979-2026 : filtrage internet (DPI), FATA (cyberpolice), surveillance téléphonique systémique. Surveillance numérique croissante sur période. Rn=0.30 = valeur intermédiaire cohérente avec évolution 1979-2026.",
+      "justification": "Iran 1979-2026 : système de filtrage internet parmi les plus développés mondialement (DPI depuis 2012). FATA cyberpolice. Surveillance Telegram/WhatsApp. Rn=0.30 = valeur intermédiaire sur 47 ans. Croissant : quasi-nul 1979 → substantiel 2026. Inférieur à Chine Xi (0.85) mais supérieur à Argentine (0.10).",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — crédibilité régime islamique T=0 (1979, révolution). Cs maximale en 1979 (révolution populaire, légitimité révolutionnaire forte). Déclinante sur 47 ans (pratique religieuse 90%→45%, sanctions, chômage). Coder valeur T=0 (1979 : pic révolutionnaire).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Abrahamian (2008) légitimité révolutionnaire 1979 + Gamaan sondages 2020",
+        "valeur_indicateur": "À REMPLIR — Cs 1979 : maximale (révolution populaire) ; 2022 : effondrée (Mahsa Amini)",
+        "coherence": "Valeur cible Cs~0.65-0.80 T=0 (légitimité révolutionnaire 1979 très forte, déclinante sur 47 ans)"
+      },
+      "valeur_normative_v62": 0.72,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S7",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté IRGC + Basij T=0 (L0=0.40 conditions initiales). DISTINCTION CRITIQUE : L(t) IRGC = intérêts économiques (~40% PIB contrôlé) NON idéologie islamique — analogue WP-C2 Égypte (armée SCAF). Loyauté institutionnelle aux intérêts, pas à l'idéologie.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Alfoneh (2013) intérêts économiques IRGC + V-DEM loyauté forces sécurité Iran",
+        "valeur_indicateur": "À REMPLIR — IRGC ~40% PIB : loyauté économique institutionnelle documentée",
+        "coherence": "Valeur cible L_t~0.40 (cohérente avec L0=0.40 — loyauté IRGC aux intérêts économiques)"
+      },
+      "valeur_normative_v62": 0.40,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 6.75,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C5 (EROI_start=9.0, EROI_end=4.5 sur t_max=500)",
+      "source_id": "Instructions V6.2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=9.0, EROI_end=4.5. Iran 1979-2026 : rente pétrolière déclinante (sanctions US, épuisement gisements, sous-investissement). IEA : production pétrolière Iran peak ~1974, déclin structurel post-1979 aggravé par sanctions.",
+      "justification": "IEA : production pétrolière iranienne : peak 5.5 Mb/j (1974) → ~2 Mb/j (2024). Sanctions post-2012 = dépréciation EROI effectif. EROI_start=9.0 (1979 : rente pétrolière forte) → EROI_end=4.5 (2026 : épuisement + sanctions). Instructions V6.2 : 'déclinant (C2 — sanctions + épuisement gisements 9.0→4.5)'.",
+      "sanity_check": {
+        "indicateur": "IEA Iran Energy Profile 2024 + BP Statistical Review Iran oil production",
+        "valeur_indicateur": "Déclin production pétrolière iranienne confirmé — EROI déclinant cohérent",
+        "coherence": "CONFIRMÉ — EROI 9.0→4.5 cohérent avec déclin pétrolier + sanctions documentés"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Iran/Perse → Sa=6 (famille communautaire exogame, Todd 1990 : Perse/Moyen-Orient).",
+      "justification": "Todd (1990) : Iran = famille communautaire exogame. Sa=6 = résilience autoritaire — cohérent avec maintien République islamique 47 ans malgré érosion idéologique documentée. Épisodes (b) répétés contenus = mécanisme résilience Sa=6.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1979 — Révolution islamique, chute du Shah). Source : Instructions V6.2.",
+    "S0": 1.1,
+    "L0": 0.40,
+    "C0": 0.10,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C5 — cmd_linear obligatoire. t_max=500. ZONE STRESS : 10 passes.",
+    "T": 0.85,
+    "Mob": 0.20,
+    "R": 0.35,
+    "Ref": 0.10,
+    "Rc": 0.65,
+    "Rn": 0.30,
+    "E": 0.70,
+    "gamma": 0.60,
+    "EROI": 6.75,
+    "EROI_start": 9.0,
+    "EROI_end": 4.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C5 déclinant — EROI_start/EROI_end obligatoire. Déclin linéaire 9.0→4.5 sur 500 pas.",
+    "EROI": {
+      "start": 9.0,
+      "end": 4.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 500,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. Système contemporain actif le plus incertain du corpus. Fenêtre réfutation RF1 active 2026-2034. Documenter scénarios alternatifs sans narrative smoothing. 3 transitions de phase à identifier."
+  },
+  "alertes_conv_a": [
+    "SIGNAL PRÉCURSEUR TODD OBLIGATOIRE : pratique religieuse 90%→45% = proxy γ déclinant (Δτ~15-20 ans analogue mortalité infantile URSS WP-I7). Documenter en S1 ce signal comme précurseur de bascule (h)→(a) ou (h)→(d). Gamaan 2020 = source N4 à citer.",
+    "L(t) IRGC = INTÉRÊTS ÉCONOMIQUES, NON IDÉOLOGIE : distinction analytique OBLIGATOIRE en S2. Analogue WP-C2 Égypte (SCAF ~40% PIB). IRGC loyal à ses intérêts économiques, pas à l'idéologie islamique — variable discriminante pour trajectoire future (b) vs (a) après choc.",
+    "FENÊTRE RÉFUTATION RF1 (2026-2034) : documenter explicitement en S7 les conditions de réfutation du modèle. Si (a) endogène se produit avant 2034 sans G exogène, RF1 = confirmée. Si (h) maintenu jusqu'à 2034 malgré EROI < 5, RF1 = infirmée. Dates et conditions de RF1 = rigueur scientifique.",
+    "3 ÉPISODES (b) RÉPÉTÉS (2009, 2019, 2022) : documenter en S3 que (b) répété érode A_c islamique sans produire (a) endogène (Cs PCC analogue : IRGC = L(t) économique > seuil). Comparer avec WP-C2 (Égypte) : même séquence (a)→(e)→(b) mais Iran = (h) + épisodes (b) sans phase (e) institutionnelle.",
+    "SYSTÈME CONTEMPORAIN ACTIF + RÉSULTAT INCONNU : risque narrative smoothing le plus élevé du corpus (avec WP-C6). Sur 10 passes, produire 3 scénarios distincts : RF1+(a) endogène avant 2034, maintien (h) sous tension (b), (d) par effondrement EROI + sanctions. Documenter la distribution de probabilité sans forcer un scénario."
+  ],
+  "defi_mepa": "Système contemporain actif le plus incertain du corpus — fenêtre réfutation RF1 active 2026-2034. Démontrer phases multiples (a)→(h)+épisodes (b) avec t_max=500. Signal précurseur Todd : pratique religieuse 90%→45% = signal d'érosion γ à Δτ~15-20 ans (analogue URSS WP-I7). L(t) IRGC = intérêts économiques (~40% PIB) NON idéologie islamique : distinction analytique critique pour prédire loyauté lors du prochain (a). Capture révolution 1979 par V_col le plus discipliné (Khomeinistes) = analogue Octobre 1917 (WP-I2) : documenter en S3. Sur 10 passes STRESS, produire sans narrative smoothing les 3 scénarios alternatifs pour la période 2026-2034."
+}

@@ -1,0 +1,241 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I8-1",
+  "cas": "Chine Deng",
+  "periode": "1978-1997",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI croissant 6.0→14.0 · séquence A_i correcte ZES · calibration p8/p9 · seul cas positif EROI croissant + (h)]",
+  "cluster_note": "WP-I8-1 = seul cas du corpus où EROI croissant + séquence A_i correcte produit (e)→(h) stable. Séquence A_i CORRECTE : économie d'abord (ZES 1980) → A_d_eff augmente avant consolidation E_split → (h) stable. Légitimité de performance remplace légitimité idéologique. Contraste direct WP-I7 (URSS, même Sa=6, séquence inversée → (d)). Calibration p8/p9 unique — EROI croissant 6→14. STRESS : seul cas positif 'réussi' → risque narrative smoothing élevé sur système contemporain actif.",
+  "trajectoire_attendue": "(h) Stabilité",
+  "trajectoire_attendue_libelle": "(e)→(h) — Phase (e) réforme institutionnelle 1978-1992 (ZES, décollectivisation, ouverture) → Phase (h) stabilité 1992-1997 (légitimité de performance consolidée). Sa=6 + séquence A_i correcte + EROI croissant = configuration rare de succès institutionnel.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Chine",
+  "sa_p6_modulation": false,
+  "sa_note": "Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois. p6 nominal, pas de correction ×1.5. Contraste WP-I7 (même Sa=6, issue (d)) : Sa ne décide pas, séquence A_i décide.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. EROI croissant 6→14 = seul cas positif corpus avec EROI croissant. Calibration p8/p9 unique. Système contemporain actif (résultats partiellement connus). Risque narrative smoothing élevé : 10 passes pour valider robustesse (e)→(h).",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Vogel, Ezra — Deng Xiaoping and the Transformation of China (2011)",
+      "type": "N3 — Biographique/Historique",
+      "acces": "Harvard University Press",
+      "variables_concernees": ["gamma", "A_d_eff", "Cs", "L_t"]
+    },
+    {
+      "id": "S2",
+      "titre": "McGregor, Richard — The Party: The Secret World of China's Communist Rulers (2010)",
+      "type": "N3 — Politologique",
+      "acces": "HarperCollins",
+      "variables_concernees": ["E_split", "gamma", "L_t", "A_r_c"]
+    },
+    {
+      "id": "S3",
+      "titre": "Naughton, Barry — The Chinese Economy: Transitions and Growth (2007)",
+      "type": "N3 — Économique",
+      "acces": "MIT Press",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "World Bank — China 2030: Building a Modern, Harmonious, and Creative Society (2012)",
+      "type": "N1 — Économique",
+      "acces": "https://www.worldbank.org/",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S6",
+      "titre": "Perry, Elizabeth — Challenging the Mandate of Heaven: Social Protest and State Power in China (2002)",
+      "type": "N3 — Sociologique",
+      "acces": "Armonk: M.E. Sharpe",
+      "variables_concernees": ["E_split", "gamma", "Cs"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E=0.45 attendu (Instructions V6.2). Fracture modérée post-Mao : élite PCC/technocrates vs paysannerie/travailleurs migrants. Réformes Deng augmentent EROI mais aussi inégalités — E_split croissant sur période. Séquence A_i correcte : économie d'abord empêche cristallisation avant A_d_eff suffisant.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Naughton (2007) inégalités Chine 1978-1997 + Perry (2002) protestation sociale",
+        "valeur_indicateur": "À REMPLIR — Gini Chine : 0.28 (1978) → 0.40+ (1997) : E_split croissant documenté",
+        "coherence": "Valeur cible E_split~0.40-0.50 (fracture croissante mais absorbée par EROI croissant + séquence A_i correcte)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.65 attendu (Instructions V6.2). Cohésion idéologique PCC forte mais pragmatisée : marxisme-léninisme maoïste → 'socialisme aux caractéristiques chinoises' = doctrine flexible mais cohésive. γ élevé maintenu par nationalisme et performance économique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McGregor (2010) cohésion PCC + Vogel (2011) discipline interne parti",
+        "valeur_indicateur": "À REMPLIR — PCC 1978-1997 : ~50M membres, discipline interne maintenue malgré ouverture",
+        "coherence": "Valeur cible γ~0.60-0.70 — cohésion pragmatique forte, doctrine flexible mais organisation robuste"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive PCC T=0 (1978). Post-Mao : redistribution collectiviste en déclin, ZES = redistribution marchande naissante. Séquence A_i correcte : économie d'abord → A_d_eff augmente avant E_split se consolide. Coder valeur T=0 (1978, décollectivisation naissante).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Naughton (2007) réformes ZES + World Bank China 2030 redistribution",
+        "valeur_indicateur": "À REMPLIR — réformes rurales 1978-1984 : revenu paysan +8%/an = A_d_eff croissant",
+        "coherence": "Valeur cible A_d_eff~4.5-6.5/10 T=0 (redistribution collectiviste → marchande, transition positive)"
+      },
+      "valeur_normative_v62": 5.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : APL + police. T=0 (1978) : régime PCC stable, répression disponible mais utilisée sélectivement. Moins intensive que période maoïste. Tiananmen 1989 = pic A_r_c sur la période (hors t_max de ce WP).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McGregor (2010) répression PCC 1978-1997 + Perry (2002) gestion protestations",
+        "valeur_indicateur": "À REMPLIR — répression sélective post-Mao : moins de campagnes de masse, ciblage opposants",
+        "coherence": "Valeur cible A_r_c~0.50-0.65 T=0 (répression disponible mais modérée vs période maoïste)"
+      },
+      "valeur_normative_v62": 0.57,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.35,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.35. Chine Deng 1978-1997 : télévision d'État (CCTV) + presse PCC + surveillance téléphonique. Proto-numérique intermédiaire entre WP-I6 (0.45, 1989) et WP-C6 (0.85, 2024). Début internet chinois vers 1994 mais minimal.",
+      "justification": "Chine 1978-1997 : même infrastructure médiatique que WP-I6 (CCTV, Xinhua, contrôle presse) mais valeur légèrement inférieure car début de période = moins développé. Internet chinois : 1994 (fin période). Rn=0.35 = valeur intermédiaire cohérente avec évolution technologique 1978-1997.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité PCC T=0 (1978, post-Mao, fin Révolution Culturelle). Cs faible initialement (Révolution Culturelle = désastre) mais légitimité de performance en construction rapide. Coder valeur T=0 (1978 : Cs basse mais trajectoire montante).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Vogel (2011) légitimité PCC post-Mao + Perry (2002) attitude population 1978",
+        "valeur_indicateur": "À REMPLIR — PCC 1978 : légitimité idéologique effondrée par RC mais légitimité performance en construction",
+        "coherence": "Valeur cible Cs~0.35-0.50 T=0 (légitimité idéologique dégradée, performance démarrant)"
+      },
+      "valeur_normative_v62": 0.42,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté APL + appareils PCC T=0 (L0=0.55 conditions initiales). PCC post-Mao : loyauté institutionnelle maintenue, purge Gang des Quatre = recentralisation. APL loyale à PCC malgré tensions internes RC.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "McGregor (2010) loyauté APL + Vogel (2011) consolidation Deng 1978-1982",
+        "valeur_indicateur": "À REMPLIR — consolidation Deng 1978-1982 : loyauté rétablie, purge réformateurs vs conservateurs",
+        "coherence": "Valeur cible L_t~0.55 (cohérente avec L0=0.55 — loyauté institutionnelle robuste post-purge Gang des Quatre)"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 10.0,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE croissant C4 (EROI_start=6.0, EROI_end=14.0 sur t_max) — calibration p8/p9",
+      "source_id": "Instructions V6.2 + S3 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=6.0, EROI_end=14.0. Chine 1978-1997 : industrialisation rapide, ZES Shenzhen, ouverture commerce. EROI croissant = moteur de la séquence A_i correcte. Calibration p8/p9 unique — identique à WP-I1 (Angleterre) mais contexte différent.",
+      "justification": "Naughton (2007) : industrialisation rapide Chine 1978-1997 (PIB +9.5%/an). EROI_start=6.0 (1978 : économie post-Mao sous-développée) → EROI_end=14.0 (1997 : hub industriel émergent). Même plage que WP-F9 (Angleterre 1789-1815) et WP-I1 (Angleterre 1760-1840) : cohérence corpus industrialisation.",
+      "sanity_check": {
+        "indicateur": "Naughton (2007) EROI industriel Chine + World Bank China industrialisation data",
+        "valeur_indicateur": "Industrialisation rapide confirmée — EROI croissant cohérent avec +9.5%/an PIB",
+        "coherence": "CONFIRMÉ — EROI 6.0→14.0 cohérent avec décollage industriel chinois documenté"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois.",
+      "justification": "Todd (1990) : Chine = famille communautaire exogame. Sa=6 ici ne détermine pas la trajectoire (même Sa=6 pour WP-I6 (b) et WP-I8 (h)) — c'est la séquence A_i qui décide. Sa=6 = résilience autoritaire permettant contrôle sans bascule (a) pendant la réforme.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1978 — 3e plénum 11e Comité Central PCC, lancement réformes Deng). Source : Instructions V6.2.",
+    "S0": 0.9,
+    "L0": 0.55,
+    "C0": 0.08,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI croissant C4 — cmd_linear obligatoire. ZONE STRESS : 10 passes. Calibration p8/p9 unique.",
+    "T": 0.65,
+    "Mob": 0.50,
+    "R": 0.60,
+    "Ref": 0.10,
+    "Rc": 0.55,
+    "Rn": 0.35,
+    "E": 0.45,
+    "gamma": 0.65,
+    "EROI": 10.0,
+    "EROI_start": 6.0,
+    "EROI_end": 14.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C4 croissant — EROI_start/EROI_end obligatoire. Croissance linéaire 6.0→14.0 sur 300 pas. Calibration p8/p9.",
+    "EROI": {
+      "start": 6.0,
+      "end": 14.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. Seul cas positif EROI croissant + (h). Calibration p8/p9. Risque narrative smoothing sur système contemporain. Valider (e)→(h) robustesse sur 10 passes."
+  },
+  "alertes_conv_a": [
+    "SÉQUENCE A_i CORRECTE = variable causale principale. Documenter obligatoirement en S3 : économie d'abord (ZES 1980) → A_d_eff augmente → E_split se consolide progressivement → (h) stable. Ordre temporel = discriminant vs WP-I7 (glasnost avant perestroïka = A_i inversée → (d)).",
+    "CONTRASTE WP-I7 OBLIGATOIRE : même Sa=6, même type de régime communautaire, EROI déclinant vs croissant, séquence A_i inversée vs correcte → (d) vs (h). Sa ne décide pas — c'est la séquence A_i et l'EROI qui décident. Documenter explicitement en S3.",
+    "CALIBRATION p8/p9 UNIQUE : ce WP calibre conjointement p8 (sensibilité I à EROI) et p9 (vitesse réforme institutionnelle). Toute modification EROI_start/EROI_end ou de la trajectoire (e)→(h) observée affecte la calibration des WP à EROI croissant. Documenter t_(e→h) (premier pas où (h) est confirmée).",
+    "RISQUE NARRATIVE SMOOTHING ÉLEVÉ : système partiellement contemporain (1978-1997, résultats connus mais interprétation contestée). Sur 10 passes STRESS, valider que la trajectoire (e)→(h) émerge du modèle sans ajustement post-hoc des paramètres pour 'forcer' le résultat historique.",
+    "LÉGITIMITÉ DE PERFORMANCE remplace légitimité idéologique : documenter en S2 le mécanisme de substitution — Cs basse T=0 (1978, RC = désastre idéologique) puis Cs croissante par performance économique. Ceci est le mécanisme central de la trajectoire (e)→(h) chinoise."
+  ],
+  "defi_mepa": "Seul cas corpus où EROI croissant + séquence A_i correcte produit (e)→(h) stable avec Sa=6 — résultat positif rare. Démontrer séquence A_i correcte : économie d'abord (ZES) → A_d_eff augmente avant E_split cristallisé → légitimité de performance remplace légitimité idéologique. Contraste direct WP-I7 : même Sa=6, même type régime, mais séquence A_i inversée → (d). Calibration p8/p9 : documenter conjointement la sensibilité de I à EROI et la vitesse de réforme institutionnelle — ces deux paramètres définissent la 'fenêtre de succès' (e)→(h). Sur 10 passes STRESS, valider que la trajectoire est robuste aux perturbations paramétriques et non un artefact de calibration."
+}

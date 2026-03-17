@@ -1,0 +1,271 @@
+{
+  "$schema": "mepa-ordre-de-marche-v6.2",
+  "$titre": "Ordre de Marche #1 — WP-C1-1 Haïti 2010-2024",
+  "$date": "2026-03-14",
+  "$statut_systeme": "PRODUCTION-READY (sous conditions — voir section prerequis)",
+  "SECTION_A_CHEMINS_V8": {
+    "$titre": "Correctif V8 — Chemins absolus internes au container n8n",
+    "$note": "Tous les chemins ci-dessous commencent par /data/mepa (volume monté : Host /media/devmon/CloudFamilleBC ↔ Container /data/mepa)",
+    "scripts_python": {
+      "runner_principal": "/data/mepa/scripts/mepa_runner_v2_gamma.py",
+      "sensibilite_n1": "/data/mepa/scripts/mepa_sensitivity_n1.py",
+      "kappa_calculator": "/data/mepa/scripts/mepa_kappa_calculator.py",
+      "passeport_schema": "/data/mepa/scripts/mepa_passeport_schema.py"
+    },
+    "fichiers_reference": {
+      "whitelist_keys": "/data/mepa/scripts/mepa_whitelist_keys.json",
+      "contraintes_wp": "/data/mepa/scripts/mepa_whitelist_keys.json",
+      "fiche_etalon_C1_1": "/data/mepa/inputs/WP-C1-1_HTI_i001_codage_convE.json"
+    },
+    "commandes_execute_command": {
+      "node_3_runner": {
+        "commande": "python3 /data/mepa/scripts/mepa_runner_v2_gamma.py /data/mepa/inputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_config.json",
+        "note": "Remplacer {{ }} par les valeurs n8n du nœud précédent"
+      },
+      "node_3b_sensibilite": {
+        "commande": "python3 /data/mepa/scripts/mepa_sensitivity_n1.py /data/mepa/inputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_config.json /data/mepa/outputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_n1.json"
+      },
+      "node_kappa": {
+        "commande": "python3 /data/mepa/scripts/mepa_kappa_calculator.py /data/mepa/inputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_codage_convE.json /data/mepa/inputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_codage_convB.json /data/mepa/outputs/{{ $json.wp_id }}_{{ $json.iteration_s }}_kappa.json"
+      }
+    },
+    "arborescence_outputs": {
+      "inputs_wp": "/data/mepa/inputs/",
+      "outputs_simulation": "/data/mepa/outputs/",
+      "passeports": "/data/mepa/passeports/",
+      "sensitivity": "/data/mepa/sensitivity/",
+      "master_register": "/data/mepa/master_register/master_register.json",
+      "log": "/data/mepa/master_register/master_register_log.txt",
+      "meta_analyses": "/data/mepa/meta_analyses/",
+      "archives": "/data/mepa/archives/"
+    },
+    "nommage_fichiers_WP-C1-1": {
+      "config_runner": "WP-C1-1_HTI_i001_config.json",
+      "result_runner": "WP-C1-1_HTI_i001_result.json",
+      "rapport_n1": "WP-C1-1_HTI_i001_n1.json",
+      "kappa_report": "WP-C1-1_HTI_i001_kappa.json",
+      "codage_convE": "WP-C1-1_HTI_i001_codage_convE.json",
+      "codage_convB": "WP-C1-1_HTI_i001_codage_convB.json",
+      "wp_draft": "WP-C1-1_HTI_i001_wp_draft.md",
+      "wp_final": "WP-C1-1_HTI_i001_wp_final.md",
+      "passeport": "WP-C1-1_HTI_i001_passeport.json"
+    },
+    "commandes_initialization": {
+      "description": "Commandes shell à exécuter UNE SEULE FOIS pour initialiser l'arborescence sur le HDD 4To",
+      "bash": [
+        "mkdir -p /data/mepa/scripts",
+        "mkdir -p /data/mepa/inputs",
+        "mkdir -p /data/mepa/outputs",
+        "mkdir -p /data/mepa/passeports",
+        "mkdir -p /data/mepa/sensitivity",
+        "mkdir -p /data/mepa/master_register",
+        "mkdir -p /data/mepa/meta_analyses",
+        "mkdir -p /data/mepa/archives",
+        "echo '{}' > /data/mepa/master_register/master_register.json",
+        "touch /data/mepa/master_register/master_register_log.txt"
+      ]
+    }
+  },
+  "SECTION_B_PREREQUIS": {
+    "$titre": "Prérequis à valider avant l'Ordre de Marche",
+    "checklist": [
+      {
+        "id": "PRE-1",
+        "action": "Copier les scripts Python dans le container",
+        "commande": "Depuis CasaOS : copier mepa_runner_v2_gamma.py, mepa_sensitivity_n1.py, mepa_kappa_calculator.py, mepa_passeport_schema.py dans /media/devmon/CloudFamilleBC/scripts/ (accessible en /data/mepa/scripts/ dans le container)",
+        "statut": "À faire"
+      },
+      {
+        "id": "PRE-2",
+        "action": "Copier mepa_whitelist_keys.json",
+        "commande": "Copier mepa_whitelist_keys.json dans /media/devmon/CloudFamilleBC/scripts/",
+        "statut": "À faire"
+      },
+      {
+        "id": "PRE-3",
+        "action": "Tester Python dans le container",
+        "commande": "Depuis n8n → nœud Execute Command : python3 --version",
+        "attendu": "Python 3.x.x (confirme que Python est disponible dans le container)",
+        "statut": "À valider"
+      },
+      {
+        "id": "PRE-4",
+        "action": "Initialiser l'arborescence HDD",
+        "commande": "Depuis n8n → nœud Execute Command : bash -c 'mkdir -p /data/mepa/{scripts,inputs,outputs,passeports,sensitivity,master_register,meta_analyses,archives}'",
+        "statut": "À faire"
+      },
+      {
+        "id": "PRE-5",
+        "action": "Copier la fiche codage Haïti FINALE",
+        "commande": "Copier fiche_codage_WP-C1-1_Haiti_FINALE.json vers /media/devmon/CloudFamilleBC/inputs/WP-C1-1_HTI_i001_codage_convE.json",
+        "statut": "À faire"
+      },
+      {
+        "id": "PRE-6",
+        "action": "Installer Node 2 Audit JS dans n8n",
+        "commande": "Créer un nœud Code (JavaScript) dans WF1 et coller le contenu de mepa_node2_audit_v62.js",
+        "statut": "À faire"
+      },
+      {
+        "id": "PRE-7",
+        "action": "Installer Nœud Compteur CCI dans n8n",
+        "commande": "Créer un nœud Code (JavaScript) dans WF1 et coller le contenu de correctif_V5_compteur_cci.js",
+        "statut": "À faire"
+      }
+    ]
+  },
+  "SECTION_C_ORDRE_DE_MARCHE": {
+    "$titre": "Ordre de Marche #1 — WP-C1-1 Haïti 2010-2024",
+    "$priorite": "CRITIQUE — WP ancre plancher du corpus V6.2 (EROI min, I_min, trajectoire (d)). Valide la production-readiness du système.",
+    "$iteration": "i001",
+    "parametres_wp": {
+      "wp_id": "WP-C1-1",
+      "pays_abr": "HTI",
+      "cas": "Haïti 2010-2024",
+      "cluster": "C1",
+      "sa": 4,
+      "trajectoire_attendue": "(d) Dissolution",
+      "zone_stratification": "LOI PHYSIQUE",
+      "passes_verif": 3
+    },
+    "valeurs_arretees_post_audit": {
+      "note": "Ces valeurs sont NORMATIVES V6.2 pour Haïti — en attente codage CONV-E (variables null). Les valeurs gamma, E, A_d_eff, Cs, L_t sont indicatives et seront arbitrées par CONV-B après codage indépendant CONV-E.",
+      "commandes": {
+        "T": 1.2,
+        "Mob": 0.1,
+        "R": 0.15,
+        "Ref": 0.05,
+        "Rc": 0.6,
+        "Rn": 0.0,
+        "E": 0.7,
+        "gamma": 0.25,
+        "EROI": 1.5,
+        "EROI_start": 1.2,
+        "EROI_end": 2.0,
+        "Pop": 1.0
+      },
+      "conditions_initiales": {
+        "S0": 1.5,
+        "L0": 0.2,
+        "C0": 0.05,
+        "I0": 1.5,
+        "y0_vecteur": [
+          1.5,
+          0.2,
+          0.05,
+          1.5
+        ],
+        "note": "I0=1.5 = seuil critique I_min actif dès t=0 (LOI PHYSIQUE C1)."
+      },
+      "params_simulation": {
+        "t_max": 300,
+        "theta_C": 0.3,
+        "theta_I": 0.22
+      },
+      "alertes_conv_a": [
+        "EROI dynamique C1 : documenter en S7 la tension EROI plancher (1.2) vs EROI aide internationale (3.5 estimé). Chantier V7.",
+        "A_d_eff : distinguer capacité redistributive publique et remises diaspora (~3-4 Mds$/an hors-modèle MEPA).",
+        "γ faible attendu (~0.25) : fragmentation des mouvements sociaux haïtiens. Si CONV-E code γ > 0.50, documenter divergence en S3.",
+        "Deux phases possibles : t<150 (effondrement aigu) et t>150 (stabilisation basse). Documenter si t_b très tardif ou absent."
+      ]
+    },
+    "etapes": [
+      {
+        "etape": "E1",
+        "titre": "Audit Node 2 de la fiche Haïti FINALE",
+        "agent": "Node 2 (Audit JS)",
+        "input": "fiche_codage_WP-C1-1_Haiti_FINALE.json (produite par CONV-E après arbitrage CONV-B)",
+        "action": "Charger la fiche dans n8n → passer par le Node 2 Audit JS → vérifier 12 contrôles",
+        "output": "WP-C1-1_HTI_i001_config.json (runner-ready)",
+        "succes": "statut_audit = VALIDE / 0 erreur",
+        "echec": "Corriger les erreurs selon audit_log.erreurs"
+      },
+      {
+        "etape": "E2",
+        "titre": "Exécution Runner Python",
+        "agent": "Node 3 (Execute Command)",
+        "input": "WP-C1-1_ISL_i001_config.json",
+        "commande": "python3 /data/mepa/scripts/mepa_runner_v2_gamma.py /data/mepa/inputs/WP-C1-1_HTI_i001_config.json",
+        "output": "WP-C1-1_HTI_i001_result.json",
+        "succes": "verdict.robustesse = ROBUSTE ou MÉTASTABLE / traj = '(d) Dissolution'",
+        "verification": "Trajectoire diagnostiquée doit être '(d) Dissolution' (ΔI_rel > 0.22, ΔC_rel < 0.30)"
+      },
+      {
+        "etape": "E3",
+        "titre": "Sensibilité N1",
+        "agent": "Node 3b (Execute Command)",
+        "input": "WP-C1-1_ISL_i001_config.json",
+        "commande": "python3 /data/mepa/scripts/mepa_sensitivity_n1.py /data/mepa/inputs/WP-C1-1_HTI_i001_config.json /data/mepa/outputs/WP-C1-1_HTI_i001_n1.json",
+        "output": "WP-C1-1_HTI_i001_n1.json",
+        "succes": "rapport_n1 généré sans erreur"
+      },
+      {
+        "etape": "E4",
+        "titre": "Calcul CCI inter-codeurs (CONV-E vs CONV-B)",
+        "agent": "Node Kappa (Execute Command)",
+        "note": "Pour WP-C1-1 Haïti, le CCI sera calculé lors du premier codage CONV-E + CONV-B. Seuils V6.2 : CCI ≥ 0.70 par variable + CCI global ≥ 0.75 → CERTIFIÉ. Script : mepa_kappa_calculator.py (version CCI two-way mixed, consistency).",
+        "commande": "python3 /data/mepa/scripts/mepa_kappa_calculator.py /data/mepa/inputs/WP-C1-1_HTI_i001_codage_convE.json /data/mepa/inputs/WP-C1-1_HTI_i001_codage_convB.json /data/mepa/outputs/WP-C1-1_HTI_i001_cci.json",
+        "output": "WP-C1-1_HTI_i001_cci.json",
+        "compteur_cci": "Passer par le Nœud Compteur CCI — décision CERTIFIÉ (CCI global ≥ 0.75 + CCI par variable ≥ 0.70) ou RÉVISION"
+      },
+      {
+        "etape": "E5",
+        "titre": "Rédaction WP — CONV-A",
+        "agent": "CONV-A (Claude API)",
+        "inputs": [
+          "WP-C1-1_HTI_i001_result.json",
+          "WP-C1-1_HTI_i001_n1.json",
+          "WP-C1-1_HTI_i001_cci.json",
+          "fiche_codage_WP-C1-1_Haiti_FINALE.json"
+        ],
+        "system_prompt": "CONV-A_System_Instructions.md",
+        "output": "WP-C1-1_HTI_i001_wp_draft.md + passeport (CCI=null, verdict=null)",
+        "succes": "7 sections S1→S7 + Passeport produits en une réponse"
+      },
+      {
+        "etape": "E6",
+        "titre": "Audit & Certification — CONV-B",
+        "agent": "CONV-B (Claude API)",
+        "inputs": [
+          "WP-C1-1_HTI_i001_wp_draft.md",
+          "WP-C1-1_HTI_i001_passeport.json",
+          "fiche_codage_WP-C1-1_Haiti_FINALE.json"
+        ],
+        "system_prompt": "CONV-B_System_Instructions.md",
+        "output": "WP-C1-1_HTI_i001_wp_final.md + passeport enrichi (CCI, verdict_audit)",
+        "succes": "verdict_audit = CERTIFIÉ",
+        "revision": "Si RÉVISION → retour E5 avec corrections ciblées (max i002)"
+      },
+      {
+        "etape": "E7",
+        "titre": "Archivage WF3",
+        "agent": "Node 7 (Export + WF3)",
+        "actions": [
+          "Calcul SHA-256 du WP-C1-1_HTI_i001_result.json",
+          "Stockage hash dans le Passeport (passeport.result_sha256)",
+          "chmod 444 sur WP-C1-1_HTI_i001_result.json",
+          "Mise à jour Master Register : statut=CERTIFIÉ, CCI_final, verdict_final, result_sha256"
+        ],
+        "output": "Master Register mis à jour + log horodaté",
+        "succes": "master_register['WP-C1-1'].statut = 'CERTIFIÉ'"
+      }
+    ]
+  },
+  "SECTION_D_DECLARATION": {
+    "$titre": "Déclaration de Production-Readiness — Conditions de validation",
+    "conditions": [
+      "✓ C2a/C2b : WP-F10-1 et WP-I10-1 ajoutés au corpus (fiches livrées)",
+      "✓ C5 : Nœud Compteur Kappa avec fail-safe MAX=3 livré",
+      "✓ V8 : Chemins /data/mepa/... documentés et conformes aux volumes Docker réels",
+      "✓ C9 : Node 2 Audit JS avec whitelist 12 contrôles livré",
+      "✓ C3a : Alias cmd.R = A_d_eff documenté dans la Matrice Node 0",
+      "□ PRE-1 à PRE-7 : Prérequis techniques à valider sur le Pi5",
+      "□ Test E1→E7 : Validation bout-en-bout sur WP-C1-1"
+    ],
+    "statut_actuel": "PRODUCTION-READY (livrables correctifs produits) — PENDING validation Pi5",
+    "statut_apres_validation": "PRODUCTION-READY CERTIFIÉ — autorisation production 27 WP",
+    "premier_signal_de_validation": "python3 /data/mepa/scripts/mepa_runner_v2_gamma.py retourne un WP-C1-1 _result.json avec traj='(d) Dissolution' et robustesse=ROBUSTE (LOI PHYSIQUE)",
+    "note_migration": "ODM migré de Islande (WP-EXT-5 archivé) vers Haïti 2010-2024 — verrouillage corpus V6.2 Mars 2026."
+  },
+  "$note_correction": "Corrigé 2026-03-14 : migration WP-C1-1 Islande → Haïti suite au verrouillage corpus V6.2. Islande archivée en WP-EXT-5. Métrique κ de Cohen → CCI (Addendum §P1). Tous les paramètres, nommages et références mis à jour."
+}

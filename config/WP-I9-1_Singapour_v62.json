@@ -1,0 +1,246 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I9-1",
+  "cas": "Singapour — (h) pure",
+  "periode": "1965-2024",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI croissant 10.0→25.0 · Sa=7 composite artificiel · T=0.25/R=0.85 paramètres extrêmes corpus · ancre supérieure corpus · A_d_eff=0.85]",
+  "cluster_note": "WP-I9-1 = ancre supérieure corpus V6.2 (Instructions). T=0.25 = minimum tension corpus, R=0.85 = maximum résistance corpus. Sa=7 COMPOSITE ARTIFICIEL : construit institutionnellement (HDB quotas ethniques + éducation bilingue) — sous-type à documenter explicitement. EROI_end=25.0 = second plus élevé corpus (après WP-EXT-5 Islande=35). A_r_ne=0.55 ciblée vs A_r_ne=0.85 massive (WP-C6). Trajectoire (h) 59 ans sans mobilisation = cas-limite théorique.",
+  "trajectoire_attendue": "(h) Stabilité",
+  "trajectoire_attendue_libelle": "(h) pure — 59 ans sans bascule. Stabilité institutionnelle maximale : T=0.25 tension minimale, R=0.85 résistance maximale, EROI croissant 10→25, Sa=7 composite artificiel. Cas-limite théorique (h) du corpus.",
+  "sa": 7,
+  "sa_type_todd": "Famille souche — composite artificiel Singapour",
+  "sa_p6_modulation": true,
+  "sa_note": "Singapour → Sa=7 COMPOSITE ARTIFICIEL (Todd 1990 : Singapour = composite ethnique Malais/Chinois/Indien géré institutionnellement). Sa=7 construit par HDB quotas ethniques + éducation bilingue — pas naturel comme Allemagne/Japon. Sa=7 → p6 × 1.5 ACTIF. Documenter le sous-type 'Sa construit institutionnellement' en S1.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. Sa=7 composite (p6×1.5) + paramètres les plus extrêmes du corpus (T=0.25/R=0.85) : valider que (h) 59 ans est produit. Sensibilité maximale : les moindres variations T ou R pourraient basculer vers (a). Ancre supérieure corpus à confirmer.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Lee Kuan Yew — From Third World to First: The Singapore Story 1965-2000 (2000)",
+      "type": "N3 — Mémoires/Politique (source primaire dirigeant)",
+      "acces": "HarperCollins",
+      "variables_concernees": ["gamma", "Cs", "L_t", "A_d_eff"]
+    },
+    {
+      "id": "S2",
+      "titre": "Barr, Michael — The Ruling Elite of Singapore: Networks of Power and Influence (2014)",
+      "type": "N3 — Politologique",
+      "acces": "I.B. Tauris",
+      "variables_concernees": ["E_split", "gamma", "L_t", "A_r_ne"]
+    },
+    {
+      "id": "S3",
+      "titre": "Tremewan, Christopher — The Political Economy of Social Control in Singapore (1994)",
+      "type": "N3 — Économique/Politique",
+      "acces": "St. Martin's Press",
+      "variables_concernees": ["A_r_ne", "A_d_eff", "E_split"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Huff, W.G. — The Economic Growth of Singapore: Trade and Development in the Twentieth Century (1994)",
+      "type": "N3 — Économique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S6",
+      "titre": "Rodan, Garry — The Political Economy of Singapore's Industrialization (1989)",
+      "type": "N3 — Économique/Politique",
+      "acces": "Macmillan",
+      "variables_concernees": ["E_split", "A_d_eff", "gamma"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E=0.10 = valeur MINIMALE programme (ancre inférieure E_split, Instructions V6.2). Fracture élite PAP/technocratie vs population quasi-nulle : redistribution HDB/CPF nivelle les fractures. Contraste avec WP-F5 Venise (même E=0.10, résultat (c) vs ici (h)) : A_d_eff discriminant.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Barr (2014) structure élite PAP + Tremewan (1994) inégalités économiques Singapour",
+        "valeur_indicateur": "À REMPLIR — Gini Singapour ~0.45 mais redistribution HDB/CPF réduit fracture perçue",
+        "coherence": "Valeur cible E_split~0.08-0.15 — fracture quasi-nulle par redistribution institutionnelle systémique"
+      },
+      "valeur_normative_v62": 0.10,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.80 attendu (Instructions V6.2). Cohésion culturelle forte : PAP hégémonique, identité nationale singapourienne construite institutionnellement (HDB, éducation bilingue, service national). γ très élevé pour trajectoire (h) — amortisseur souche Sa=7.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lee Kuan Yew (2000) nation-building + Barr (2014) cohésion nationale PAP",
+        "valeur_indicateur": "À REMPLIR — PAP : hégémonie électorale 1965-2024, identité nationale forte",
+        "coherence": "Valeur cible γ~0.75-0.85 — cohésion institutionnelle maximale parmi les (h) du corpus"
+      },
+      "valeur_normative_v62": 0.80,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — A_d_eff=0.85 noté conditions (Instructions V6.2 : 'A_d_eff=0.85'). HDB : 80% population logée par l'État. CPF : retraite universelle. Éducation bilingue méritocratique. Redistribution institutionnelle maximale du corpus.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Huff (1994) redistribution HDB/CPF + données logement social Singapour",
+        "valeur_indicateur": "À REMPLIR — HDB : 80% population logée, CPF : couverture retraite universelle",
+        "coherence": "Valeur cible A_d_eff~8.0-9.0/10 — redistribution institutionnelle maximale du corpus"
+      },
+      "valeur_normative_v62": 8.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : ISA (Internal Security Act), interdictions partis, contrôle presse. Répression classique ciblée mais systémique. Distinguer A_r_c ciblée (ISA = arrestations sélectives) vs A_r_ne=0.55 (surveillance médiatique/numérique).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tremewan (1994) ISA + Barr (2014) arrestations opposants politiques",
+        "valeur_indicateur": "À REMPLIR — ISA : ~100-200 détenus sans procès à divers moments, presse contrôlée",
+        "coherence": "Valeur cible A_r_c~0.40-0.55 (répression ciblée-sélective, non massive — distinguer de A_r_ne)"
+      },
+      "valeur_normative_v62": 0.48,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.55,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.55. Surveillance numérique ciblée : CCTV massif (~100 000 caméras), surveillance médias sociaux, ISD (Internal Security Department). A_r_ne CIBLÉE vs A_r_ne=0.85 MASSIVE (WP-C6). Distinguer les deux mécanismes en S3.",
+      "justification": "Singapour 1965-2024 : surveillance numérique ciblée et efficace. CCTV : ~100 000 caméras pour 6M habitants. ISD surveillance réseaux sociaux. Mais différent de WP-C6 (Chine Xi, A_r_ne=0.85) : Singapour = surveillance ciblée sur opposants, pas surveillance de masse totale. Rn=0.55 = valeur intermédiaire.",
+      "sanity_check": {
+        "indicateur": "Freedom on the Net Singapore + CCTV density Singapore vs China",
+        "valeur_indicateur": "Singapour : surveillance ciblée confirmée, distincte de surveillance massive chinoise",
+        "coherence": "CONFIRMÉ — A_r_ne=0.55 cohérent avec surveillance ciblée-efficace vs massive"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime PAP T=0 (1965, indépendance). Légitimité initiale forte : Lee Kuan Yew = fondateur, indépendance traumatique (expulsion Malaisie 1965) crée cohésion nationale. Légitimité de performance maintenue par croissance économique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lee Kuan Yew (2000) légitimité fondatrice + Barr (2014) soutien populaire PAP",
+        "valeur_indicateur": "À REMPLIR — PAP : ~60-70% voix aux élections 1965-2024, légitimité de performance",
+        "coherence": "Valeur cible Cs~0.70-0.85 (légitimité fondatrice forte + performance économique = Cs maximale corpus (h))"
+      },
+      "valeur_normative_v62": 0.78,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.90 conditions initiales). SAF (Singapore Armed Forces) + police + bureaucratie : loyauté institutionnelle maximale du corpus. Méritocratisme PAP = loyauté construite par promotion.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Barr (2014) loyauté SAF + Tremewan (1994) bureaucratie PAP",
+        "valeur_indicateur": "À REMPLIR — SAF : loyauté au PAP/État documentée, service national universel",
+        "coherence": "Valeur cible L_t~0.85-0.95 (loyauté institutionnelle maximale — méritocratisme construit)"
+      },
+      "valeur_normative_v62": 0.90,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 17.5,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE croissant C4 (EROI_start=10.0, EROI_end=25.0 sur t_max)",
+      "source_id": "Instructions V6.2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=10.0, EROI_end=25.0. Singapour : hub commercial/financier/logistique. EROI effectif croissant (valeur ajoutée par position géographique + capital humain). EROI_end=25.0 = second plus élevé corpus principal (après WP-EXT-5 Islande=35).",
+      "justification": "Huff (1994) : Singapour = EROI commercial croissant exceptionnel. PIB/hab 1965 : ~500 USD → 2024 : ~65 000 USD. EROI effectif capturé par hub commercial/financier (port n°2 mondial). EROI_start=10.0 (1965 : base industrielle naissante), EROI_end=25.0 (2024 : hub financier mature). Ancre supérieure corpus principal.",
+      "sanity_check": {
+        "indicateur": "Huff (1994) croissance économique Singapour + World Bank Singapore data 1965-2024",
+        "valeur_indicateur": "Croissance PIB/hab ×130 en 59 ans — EROI croissant exceptionnel confirmé",
+        "coherence": "CONFIRMÉ — EROI 10→25 cohérent avec croissance économique singapourienne documentée"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 7,
+      "type_todd": "Famille souche — composite artificiel",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Singapour → Sa=7 COMPOSITE ARTIFICIEL (Instructions V6.2 : 'Sa composite artificiel'). Sa=7 → p6 × 1.5 ACTIF.",
+      "justification": "Todd (1990) : Singapour composite ethnique (Chinois 74%, Malais 13%, Indien 9%). Sa=7 composite CONSTRUIT institutionnellement par HDB quotas ethniques (forçage intégration résidentielle) + éducation bilingue + service national. Distinct de Sa=7 naturel (Allemagne, Japon, Suède). Documenter sous-type 'Sa construit' en S1 — premier cas du corpus.",
+      "modulation_p6": true,
+      "note_modulation": "Sa=7 → p6 × 1.5 ACTIF. Sa composite artificiel : amortisseur souche construit institutionnellement. Interaction avec E=0.10 (très faible) et γ=0.80 (très élevé) — documenter équilibre en S3.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1965 — indépendance de Singapour suite à l'expulsion de la Malaisie). Source : Instructions V6.2.",
+    "S0": 0.6,
+    "L0": 0.90,
+    "C0": 0.05,
+    "I0": 5.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI croissant C4 — cmd_linear obligatoire. Sa=7 → p6×1.5 actif dans apply_sa_modulator(). T=0.25/R=0.85 = valeurs extrêmes corpus.",
+    "T": 0.25,
+    "Mob": 0.65,
+    "R": 0.85,
+    "Ref": 0.10,
+    "Rc": 0.35,
+    "Rn": 0.55,
+    "E": 0.10,
+    "gamma": 0.80,
+    "EROI": 17.5,
+    "EROI_start": 10.0,
+    "EROI_end": 25.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C4 croissant — EROI_start/EROI_end obligatoire. Croissance linéaire 10.0→25.0 sur 300 pas. EROI_end=25.0 = ancre supérieure corpus principal.",
+    "EROI": {
+      "start": 10.0,
+      "end": 25.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Sa=7 composite + T=0.25/R=0.85 paramètres extrêmes. Valider (h) 59 ans. Ancre supérieure corpus à confirmer. Sensibilité maximale : tout écart de T ou R pourrait basculer."
+  },
+  "alertes_conv_a": [
+    "Sa=7 COMPOSITE ARTIFICIEL : documenter obligatoirement en S1 le sous-type 'Sa construit institutionnellement' (HDB quotas + éducation bilingue). Premier cas corpus — distinction critique avec Sa=7 naturel (Allemagne WP-I4, Japon WP-I3). L'amortisseur souche est ici CONSTRUIT, pas hérité.",
+    "T=0.25/R=0.85 = VALEURS EXTRÊMES CORPUS : tension minimale / résistance maximale. Toute augmentation de T ou diminution de R fait basculer vers (a). Documenter la marge de stabilité dans les 5 passes — c'est l'enjeu central de calibration.",
+    "E=0.10 = valeur MINIMALE programme (ancre inférieure E_split, identique WP-F5 Venise). Contraste WP-F5 vs WP-I9 : même E=0.10, résultats opposés ((c) vs (h)) car A_d_eff=0.60 vs A_d_eff=0.85 → A_d_eff est le discriminant. Documenter en S3.",
+    "A_r_ne=0.55 CIBLÉE vs WP-C6 (A_r_ne=0.85 MASSIVE) : documenter distinction en S3. Singapour = surveillance ciblée-efficace sur opposants (ISA, ISD). Chine Xi = surveillance de masse totale. Même intensité techno, objectifs et portée différents.",
+    "EROI_end=25.0 = ancre supérieure corpus principal : distinguer de WP-EXT-5 Islande (EROI=35, hors corpus principal). Documenter en S1 la hiérarchie : Islande (EXT, 35) > Singapour (principal, 25) > Angleterre industrielle (principal, 15)."
+  ],
+  "defi_mepa": "WP ancre supérieure corpus V6.2 et cas-limite théorique (h) : 59 ans sans mobilisation. Sa=7 COMPOSITE ARTIFICIEL (premier cas corpus) : amortisseur souche construit institutionnellement par HDB/CPF/éducation bilingue — documenter sous-type 'Sa construit' en S1 (chantier V7). T=0.25/R=0.85 = paramètres les plus extrêmes du corpus : valider que (h) 59 ans est produit malgré Mob=0.65 (mobilité élevée). Comparer avec WP-F5 Venise (même E=0.10, trajectoire (c)) : A_d_eff=0.85 vs 0.60 est le discriminant — documenter ce contraste en S3. A_r_ne=0.55 ciblée vs WP-C6 (0.85 massive) : même outil, logiques différentes à calibrer."
+}

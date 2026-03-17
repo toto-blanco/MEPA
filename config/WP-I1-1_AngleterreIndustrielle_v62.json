@@ -1,0 +1,246 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I1-1",
+  "cas": "Angleterre — Révolution industrielle et stabilité dynamique",
+  "periode": "1760-1840",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI croissant 5.0→15.0 · Sa=2 filtre anthropologique · calibration p8 · trajectoire (h) stabilité dynamique · EROI_end=15.0 ancre MAX corpus principal]",
+  "cluster_note": "WP-I1-1 = WP de calibration p8 (sensibilité complexité institutionnelle à l'EROI croissant). Démontre comment un surplus énergétique massif (Révolution industrielle) stabilise un système malgré E_split élevée (Luddisme, chartisme) et Rc. Seul WP EROI croissant 5→15+ en Cluster C4. EROI_end=15.0 = ancre MAX corpus principal (WP-EXT-5 Islande=35 hors corpus). Référence corpus pour trajectoire (h) Stabilité dynamique. Sa=2 + EROI croissant = double stabilisateur.",
+  "trajectoire_attendue": "(h) Stabilité",
+  "trajectoire_attendue_libelle": "(h) Stabilité dynamique — EROI croissant 5→15 absorbe les tensions (Luddisme, chartisme) sans bascule (a). Sa=2 filtre anthropologique : mobilisation se dissout avant seuil (a). Référence corpus trajectoire (h) avec EROI croissant.",
+  "sa": 2,
+  "sa_type_todd": "Famille nucléaire absolue — monde anglo-saxon",
+  "sa_p6_modulation": false,
+  "sa_note": "Angleterre → Sa=2 (famille nucléaire absolue, Todd 1990 : monde anglo-saxon). Sa=2 = individualisme contractuel, mobilisation contractuelle se dissout avant seuil (a). Double stabilisateur avec EROI croissant. p6 nominal, pas de correction ×1.5. Contraste direct avec WP-F8 France (même période, Sa=4, résultat opposé).",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. WP de calibration p8. EROI croissant 5→15 sur 300 pas : valider que le surplus énergétique industriel stabilise malgré E_split élevée. Sensibilité du paramètre p8 à calibrer. EROI_end=15.0 = ancre MAX corpus principal.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Thompson, E.P. — The Making of the English Working Class (1963)",
+      "type": "N3 — Historique/Social",
+      "acces": "Victor Gollancz",
+      "variables_concernees": ["E_split", "gamma", "A_r_c", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Mokyr, Joel — The Enlightened Economy: An Economic History of Britain 1700-1850 (2009)",
+      "type": "N3 — Économique/Historique",
+      "acces": "Yale University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S3",
+      "titre": "Allen, Robert — The British Industrial Revolution in Global Perspective (2009)",
+      "type": "N3 — Économique/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "E_split", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Turchin, Peter — Historical Dynamics: Why States Rise and Fall (2003)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Princeton University Press",
+      "variables_concernees": ["gamma", "Cs", "L_t"]
+    },
+    {
+      "id": "S5",
+      "titre": "Todd, Emmanuel — L'Origine des systèmes familiaux (2011)",
+      "type": "N2 — Anthropologique",
+      "acces": "Gallimard",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S6",
+      "titre": "Smil, Vaclav — Energy in World History (1991)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Westview Press",
+      "variables_concernees": ["EROI"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture entre aristocratie foncière + capital industriel émergent et classe ouvrière naissante. E_split modéré mais croissant avec industrialisation. Luddisme (1811-1816) + chartisme (1838-1857) = signaux E_split activé. EROI croissant absorbe sans bascule.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Thompson (1963) analyse fracture classe ouvrière + Allen (2009) inégalités salariales industrialisation",
+        "valeur_indicateur": "À REMPLIR — inégalités croissantes 1760-1840 documentées mais absorption partielle par croissance",
+        "coherence": "Valeur cible E_split~0.55-0.65 (fracture réelle mais absorbée par EROI croissant)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S2, S4",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.65 attendu (Instructions V6.2). Cohésion culturelle anglaise forte : protestantisme pragmatique, culture contractuelle, Enlightenment britannique (Mokyr 2009). Cohésion institutionnelle remarquable malgré tensions industrielles.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Mokyr (2009) culture industrielle britannique + Turchin (2003) cohésion sociale anglaise",
+        "valeur_indicateur": "À REMPLIR — réformes institutionnelles progressives (Reform Act 1832) = cohésion maintenue",
+        "coherence": "Valeur cible γ~0.60-0.70 — cohésion contractuelle forte, réformes sans rupture"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État britannique T=0 (1760). Administration parlementaire fonctionnelle, Poor Laws, infrastructure juridique contractuelle. EROI croissant augmente A_d_eff progressivement sur la période.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Mokyr (2009) institutions anglaises + Allen (2009) Poor Laws et redistribution pré-industrielle",
+        "valeur_indicateur": "À REMPLIR — Poor Laws : redistribution minimale mais systémique ; institutions parlementaires robustes",
+        "coherence": "Valeur cible A_d_eff~4.5-6.0/10 (institutions fonctionnelles, redistribution croissante avec EROI)"
+      },
+      "valeur_normative_v62": 5.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique T=0 (1760). Armée britannique + magistrature. Luddisme réprimé (pendaisons 1812-1813, Transportation Act). Capacité répressive maintenue mais modulée par légitimité parlementaire.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Thompson (1963) répression Luddisme + Massacre de Peterloo 1819",
+        "valeur_indicateur": "À REMPLIR — Peterloo 1819 : 15-20 morts, 400-700 blessés = répression modérée mais réelle",
+        "coherence": "Valeur cible A_r_c~0.45-0.60 (répression disponible et utilisée, mais modérée vs continentale)"
+      },
+      "valeur_normative_v62": 0.52,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.05,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.05. Angleterre 1760-1840 : surveillance para-numérique minimale (réseau postal, magistrats informateurs). Valeur minimale non-nulle justifiée par infrastructure postale et judiciaire développée.",
+      "justification": "Angleterre 1760-1840 : surveillance postale (cabinet noir) et réseau magistrats = surveillance para-numérique minimale mais existante. Rn=0.05 > 0.00 distingue de l'absence totale (WP-F1, F2, F3). Cohérent avec WP-I1 Rn=0.05 commandes.",
+      "sanity_check": {
+        "indicateur": "Thompson (1963) réseau informateurs Home Office + surveillance postale britannique 1760-1840",
+        "valeur_indicateur": "Cabinet noir postal + magistrats résidents = surveillance minimale documentée",
+        "coherence": "CONFIRMÉ — A_r_ne=0.05 cohérent avec Rn=0.05 commandes et surveillance proto-institutionnelle"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S4",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime britannique T=0 (1760). Légitimité parlementaire forte : Glorieuse Révolution (1688), équilibre constitutionnel, common law. Cs élevée malgré tensions sociales industrialisation naissante.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Mokyr (2009) légitimité parlementaire britannique + Turchin (2003) cohésion institutionnelle",
+        "valeur_indicateur": "À REMPLIR — légitimité parlementaire post-1688 : la plus stable d'Europe continentale",
+        "coherence": "Valeur cible Cs~0.60-0.75 (légitimité parlementaire forte, corpus référence (h))"
+      },
+      "valeur_normative_v62": 0.68,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S4",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.60 conditions initiales). Armée + magistrature + administration parlementaire : loyauté institutionnelle forte post-Glorieuse Révolution. Résistance aux réformes modérée (Reform Act 1832 = évolution sans rupture).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Turchin (2003) loyauté élites britanniques + Mokyr (2009) stabilité institutions 1760-1840",
+        "valeur_indicateur": "À REMPLIR — loyauté institutionnelle forte, réformes incrémentales sans défection",
+        "coherence": "Valeur cible L_t~0.60 (cohérente avec L0=0.60 conditions initiales)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 10.0,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE croissant C4 (EROI_start=5.0, EROI_end=15.0 sur t_max)",
+      "source_id": "Instructions V6.2 + S6",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=5.0, EROI_end=15.0. Angleterre 1760-1840 : transition charbon — EROI agricole ~5 (1760) → EROI charbon ~15+ (1840). Révolution industrielle = premier surplus énergétique massif de l'histoire. EROI_end=15.0 = ancre MAX corpus principal.",
+      "justification": "Smil (1991) + Allen (2009) : EROI charbon anglais croissant 1760-1840 (mines superficielles → deep mining + machines à vapeur Watt). EROI_end=15.0 = ancre MAX corpus principal (hors WP-EXT-5 Islande=35). Croissance linéaire sur 300 pas = approximation raisonnable du décollage industriel.",
+      "sanity_check": {
+        "indicateur": "Smil (1991) EROI charbon britannique + Allen (2009) productivité industrielle 1760-1840",
+        "valeur_indicateur": "EROI charbon britannique croissant confirmé — machine à vapeur multiplie productivité ×10",
+        "coherence": "CONFIRMÉ — EROI 5.0→15.0 cohérent avec Révolution industrielle documentée"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 2,
+      "type_todd": "Famille nucléaire absolue",
+      "source_id": "Todd (2011)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Angleterre → Sa=2 (famille nucléaire absolue, Todd 1990/2011). Sa=2 = filtre anthropologique : mobilisation contractuelle se dissout avant seuil (a).",
+      "justification": "Todd (1990/2011) : Angleterre = famille nucléaire absolue par excellence. Sa=2 = individualisme contractuel fort, mobilisation se dissout sans organisation durable. Double stabilisateur avec EROI croissant : Sa=2 empêche cristallisation (a) même quand E_split est élevée (Luddisme). Contraste direct avec WP-F8 France (Sa=4, même tension, résultat (a)).",
+      "modulation_p6": false,
+      "note_modulation": "Sa=2 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1760 — début Révolution industrielle, règne George III). Source : Instructions V6.2.",
+    "S0": 0.9,
+    "L0": 0.60,
+    "C0": 0.15,
+    "I0": 3.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI croissant C4 — cmd_linear obligatoire.",
+    "T": 0.55,
+    "Mob": 0.15,
+    "R": 0.50,
+    "Ref": 0.10,
+    "Rc": 0.35,
+    "Rn": 0.05,
+    "E": 0.60,
+    "gamma": 0.65,
+    "EROI": 10.0,
+    "EROI_start": 5.0,
+    "EROI_end": 15.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C4 croissant — EROI_start/EROI_end obligatoire. Croissance linéaire 5.0→15.0 sur 300 pas. EROI_end=15.0 = ancre MAX corpus principal.",
+    "EROI": {
+      "start": 5.0,
+      "end": 15.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. WP calibration p8. Valider que EROI croissant + Sa=2 stabilisent malgré E_split élevée. EROI_end=15.0 = ancre MAX corpus principal à confirmer."
+  },
+  "alertes_conv_a": [
+    "WP CALIBRATION p8 : la valeur de p8 (sensibilité complexité institutionnelle à EROI croissant) est directement calibrée sur ce WP. Toute modification de EROI_start/EROI_end ou de la trajectoire (h) observée affecte la calibration de TOUS les WP à EROI croissant (I8, I9, F9). Documenter t_h (premier pas où (h) est confirmée).",
+    "Sa=2 FILTRE ANTHROPOLOGIQUE : documenter explicitement en S3 que Sa=2 dissout la mobilisation (Luddisme 1811-1816, chartisme 1838-1857) avant le seuil (a). Contraste avec WP-F8 (Sa=4, même E_split, résultat (a)) : Sa est ici la variable discriminante.",
+    "EROI_end=15.0 = ancre MAX corpus principal. Distinguer de WP-EXT-5 Islande (EROI=35, hors corpus). Documenter en S1 la distinction : EROI=15 = maximum des 27 WP actifs.",
+    "E_split élevée (γ=0.65) + EROI croissant : vérifier que le runner produit une absorption des tensions sans bascule. Si F/R approche theta_FR, c'est un signal de sensibilité p8 — documenter le timing précis.",
+    "Contraste WP-F9 (Angleterre 1789-1815, même Sa=2, EROI croissant 6→14) : les deux WP anglais partagent la même configuration stabilisatrice. Documenter la cohérence inter-WP en note comparative."
+  ],
+  "defi_mepa": "WP de calibration p8 (sensibilité complexité institutionnelle à EROI croissant) — indispensable avant lancement Phase 1 calibration bayésienne. Démontrer comment le surplus énergétique massif (EROI 5→15) stabilise un système malgré E_split élevée (Luddisme, chartisme) : EROI croissant = soupape structurelle, Sa=2 = filtre anthropologique. Double stabilisateur documenté explicitement en S3. Référence corpus pour trajectoire (h) Stabilité dynamique — tout WP produisant (h) avec EROI croissant est calibré par rapport à ce WP. EROI_end=15.0 = ancre MAX corpus principal à confirmer et documenter en S1 (distinction avec WP-EXT-5 Islande=35 hors corpus principal)."
+}

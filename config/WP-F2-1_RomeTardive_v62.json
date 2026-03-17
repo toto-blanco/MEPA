@@ -1,0 +1,242 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F2-1",
+  "cas": "Rome tardive — effondrement civilisationnel",
+  "periode": "IIIe-Ve s.",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 4.0→1.2 · A_r_ne=0.00 ancre inférieure absolue · I0=2.0 plancher I_min actif · veto-player Église préfiguré]",
+  "cluster_note": "WP-F2-1 = séquence longue (d) sur ~200 ans. EROI_end=1.2 = en-dessous du seuil de subsistance historique (identique à WP-C1 Haïti). I0=2.0 < 2.5 → plancher I_min actif dès t=0. Veto-player Église bloque toute A_i transformatrice — mécanisme identique au Hezbollah WP-C4. A_r_ne=0.00 = ancre inférieure absolue du programme (pré-numérique).",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(d) effondrement civilisationnel — trajectoire (d) lente sur ~200 ans. I franchit I_min, C s'effondre, R disparaît par défaut d'EROI. Veto-player Église empêche toute A_i. A_r_ne=0.00 = absence totale de surveillance systémique.",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Europe romaine latine",
+  "sa_p6_modulation": false,
+  "sa_note": "Rome tardive → Sa=4 (famille nucléaire égalitaire, monde romain latin, Todd 1990). Continuité avec WP-F1 (même Sa=4). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. I0=2.0 < 2.5 : plancher I_min actif dès t=0. Vérifier que I_min ne crée pas de plateau artificiel sur trajectoire (d). EROI_end=1.2 = seuil critique absolu. Sensibilité paramétrique sur timing bascule I_min.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Ward-Perkins, Bryan — The Fall of Rome and the End of Civilization (2005)",
+      "type": "N3 — Archéologique/Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Wickham, Chris — The Inheritance of Rome: Illuminating the Dark Ages (2009)",
+      "type": "N3 — Historique",
+      "acces": "Viking/Penguin",
+      "variables_concernees": ["A_d_eff", "L_t", "Cs", "E_split", "gamma"]
+    },
+    {
+      "id": "S3",
+      "titre": "Tainter, Joseph — The Collapse of Complex Societies (1988)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Smil, Vaclav — Energy in World History (1991)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Westview Press",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S6",
+      "titre": "Gibbon, Edward — The Decline and Fall of the Roman Empire (1776-1789)",
+      "type": "N3 — Historique",
+      "acces": "Bibliographie MEPA / éditions modernes",
+      "variables_concernees": ["E_split", "A_r_c", "Cs", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture entre aristocratie sénatoriale/Église (captation fiscale) et population appauvrie + envahisseurs fédérés. Fracture structurellement plus élevée qu'en WP-F1 (IIIe siècle) — cristallisation oligarchique avancée IVe-Ve siècle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Wickham (2009) analyse élites tardo-antiques + Gibbon captation fiscale aristocratie",
+        "valeur_indicateur": "À REMPLIR — aristocratie sénatoriale + Église : ~30-40% des terres IVe siècle",
+        "coherence": "Valeur cible E_split~0.30-0.45 — plus élevée que WP-F1 (0.20) mais moins que C2"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ très faible attendu : cohésion culturelle romaine quasi-disparue IVe-Ve siècle. Identités régionales fragmentées, Église substitue mais ne mobilise pas politiquement. γ~0.15-0.25.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Fragmentation identitaire Empire romain IVe-Ve siècle + Tainter complexité déclinante",
+        "valeur_indicateur": "À REMPLIR — cohésion romaine quasi-effacée : armée de fédérés, langues locales dominantes",
+        "coherence": "Valeur cible γ~0.20 — cohésion culturelle quasi-nulle, empire de nom seulement"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive Empire romain tardif T=0. Administration en décomposition avancée : annone défaillante, levées fiscales impossibles dans zones envahies, routes en ruine (Ward-Perkins 2005).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Ward-Perkins (2005) archéologie déclin — céramique, monnaie, bâtiment IVe-Ve",
+        "valeur_indicateur": "À REMPLIR — effondrement archéologique documenté : céramique -80%, constructions -90%",
+        "coherence": "Valeur cible A_d_eff~1.5-3.0/10 — administration quasi-défaillante, survie locale seulement"
+      },
+      "valeur_normative_v62": 2.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : légions réduites, armée de fédérés peu fiable. Capacité répressive effondrée IVe-Ve siècle — incapacité à contenir invasions barbares ET révoltes internes.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gibbon (1776) désintégration légions + Wickham (2009) armées fédérées",
+        "valeur_indicateur": "À REMPLIR — légions réduites de moitié IVe siècle, fédérés incontrôlables",
+        "coherence": "Valeur cible A_r_c~0.20-0.35 — capacité répressive effondrée, armée de fédérés"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique IIIe-Ve s. A_r_ne=0.00 = ancre inférieure absolue du programme. Aucune technologie de surveillance numérique ou même para-numérique.",
+      "justification": "IIIe-Ve siècle ap. J.-C. : aucune technologie de surveillance systémique. A_r_ne=0.00 = valeur plancher absolue. Cas de référence pour l'absence totale de surveillance (Instructions V6.2 défi).",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime T=0 (début IIIe siècle tardif). Empire en décomposition : légitimité impériale quasi-effacée, Église concurrente, populations indifférentes ou activement hostiles.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gibbon analyse légitimité empereurs tardifs + Ward-Perkins perception locale Empire",
+        "valeur_indicateur": "À REMPLIR — légitimité impériale quasi-nulle dans zones périphériques",
+        "coherence": "Valeur cible Cs~0.15-0.30 — empire de nom, légitimité locale remplacée par Église"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.35 conditions initiales). Loyauté institutionnelle très faible : légions de fédérés, administration fragmentée, magistrats locaux autonomes.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gibbon (1776) loyauté armée fédérée + Wickham (2009) administration locale",
+        "valeur_indicateur": "À REMPLIR — fédérés : loyauté à leur chef, pas à Rome",
+        "coherence": "Valeur cible L_t~0.30-0.40 (cohérente avec L0=0.35 conditions initiales)"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 2.6,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 (EROI_start=4.0, EROI_end=1.2 sur t_max)",
+      "source_id": "Instructions V6.2 + S3 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=4.0, EROI_end=1.2. Rome tardive : approfondissement déclin agricole, abandon terres, effondrement commerce méditerranéen, disparition céramique fine (Ward-Perkins). EROI_end=1.2 = seuil de subsistance absolue.",
+      "justification": "Smil (1991) + Ward-Perkins (2005) : EROI agricole méditerranéen chute drastiquement IVe-Ve siècle. Abandon villas agricoles, disparition céramique de masse, effondrement réseau routier = proxy déclin EROI. EROI_end=1.2 identique à WP-C1 Haïti : plancher de subsistance — cohérence corpus.",
+      "sanity_check": {
+        "indicateur": "Ward-Perkins (2005) archéologie déclin économique + Smil EROI agricole",
+        "valeur_indicateur": "Effondrement archéologique confirmé : céramique fine disparaît Ve siècle",
+        "coherence": "CONFIRMÉ — EROI 4.0→1.2 cohérent avec données archéologiques Ward-Perkins"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Rome latine → Sa=4 (famille nucléaire égalitaire, Todd 1990). Continuité avec WP-F1.",
+      "justification": "Continuité directe avec WP-F1-1 (Rome IIIe siècle, même Sa=4). Todd : monde romain latin = famille nucléaire égalitaire. Sa=4 constant pour tous les WP romains.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système IIIe siècle tardif — empire en décomposition avancée). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.35,
+    "C0": 0.10,
+    "I0": 2.0,
+    "I0_note": "I0=2.0 < 2.5 — plancher I_min actif dès t=0. Contrainte critique : vérifier que I_min ne génère pas de plateau artificiel sur trajectoire (d). Différence clé avec WP-F1 (I0=3.5, I_min non actif à T=0)."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 — cmd_linear obligatoire.",
+    "T": 0.75,
+    "Mob": 0.08,
+    "R": 0.15,
+    "Ref": 0.10,
+    "Rc": 0.25,
+    "Rn": 0.0,
+    "E": 0.30,
+    "gamma": 0.20,
+    "EROI": 2.6,
+    "EROI_start": 4.0,
+    "EROI_end": 1.2,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 4.0→1.2 sur 300 pas. EROI_end=1.2 = plancher absolu corpus.",
+    "EROI": {
+      "start": 4.0,
+      "end": 1.2
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. I0=2.0 < 2.5 : plancher I_min actif dès t=0. Vérifier que I_min ne crée pas de plateau artificiel sur (d). Valider trajectoire lente ~200 ans."
+  },
+  "alertes_conv_a": [
+    "I0=2.0 < 2.5 : plancher I_min actif dès t=0. Vérifier dans le runner que I_min ne génère pas de résistance fictive qui ralentirait artificiellement la trajectoire (d). Documenter comportement I_min en S3.",
+    "Veto-player Église : bloque toute A_i transformatrice — mécanisme identique à Hezbollah WP-C4. Documenter en S3 la comparaison structurelle : Réf=0.10 maintenu mais ineffectif.",
+    "EROI_end=1.2 = plancher absolu corpus (identique WP-C1 Haïti). Documenter en S1 la cohérence : effondrement civilisationnel romain et effondrement contemporain haïtien → même plancher biophysique.",
+    "A_r_ne=0.00 = ancre inférieure absolue du programme. Cas de référence pour absence totale de surveillance. Contraste à documenter avec WP-C6 (A_r_ne=0.85) en note comparative.",
+    "Trajectoire (d) lente ~200 ans : t_max=300 risque de tronquer la fin de trajectoire. Documenter si effondrement complet survient avant t=300 ou si il est encore incomplet."
+  ],
+  "defi_mepa": "WP référence CŒUR C1 — I0=2.0 < 2.5 : plancher I_min actif dès t=0. Vérifier que I_min ne crée pas de plateau artificiel qui dégraderait la trajectoire (d) en pseudo-(c). Veto-player Église préfigure mécanisme WP-C4 (Hezbollah) : Ref=0.10 maintenu mais toute A_i bloquée institutionnellement → documenter en S3. EROI_end=1.2 = seuil de subsistance absolue : cohérence avec WP-C1 Haïti à documenter en S1. A_r_ne=0.00 = cas de référence absence surveillance — contraster avec WP-C6 (A_r_ne=0.85) pour mesurer l'effet net de la surveillance numérique sur la trajectoire."
+}

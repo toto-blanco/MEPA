@@ -1,0 +1,300 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "$description": "FICHE MÈTRE ÉTALON — WP-C1-1, Haïti 2010-2024 — LOI PHYSIQUE — Ancre plancher corpus V6.2",
+  "$arbitrage": {
+    "date": "2026-03-14",
+    "autorite": "Architecte Système MEPA V6.2",
+    "statut": "RÉFÉRENCE DÉFINITIVE V6.2 — Remplace fiche Islande (archivée WP-EXT-5)",
+    "source_arbitrage": "Guide Méthodologique V6.2 corrigé · Instructions 27WP V6.2 corrigées · Stratification V6.2 corrigée"
+  },
+  "wp_id": "WP-C1-1",
+  "cas": "Haïti — Crise post-séisme et dissolution institutionnelle 2010-2024",
+  "periode": "2010-2024",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI critique 1.2→2.0 · effondrement institutionnel post-séisme · I chute avant C]",
+  "cluster_note": "Haïti = ancre plancher du corpus V6.2. EROI le plus bas du programme (1.2→2.0). Déterminisme direct : I s'effondre avant que C puisse monter → trajectoire (d) Dissolution structurelle.",
+  "trajectoire_attendue": "(d) Dissolution",
+  "trajectoire_attendue_libelle": "(d) Effondrement progressif — dissolution institutionnelle post-séisme",
+  "sa": 4,
+  "sa_type_todd": "Famille nucléaire égalitaire — Amérique latine/Caraïbes francophone",
+  "sa_p6_modulation": false,
+  "sa_note": "Haïti → Sa=4 (famille nucléaire égalitaire, héritage colonial français). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "LOI PHYSIQUE — 3 passes de vérification",
+  "raison_loi_physique": "EROI=1.5 (plancher corpus). I0=1.5 (seuil critique I_min actif). Issue documentée : effondrement institutionnel progressif 2010-2024. Déterminisme C1 — pas de sur-audit.",
+  "t_max": 300,
+  "theta_C": 0.3,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MÈTRE ÉTALON V6.2 — Commandes normatives intégrées — En attente codage CONV-E variables null",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Banque mondiale — Haiti Economic Update 2010-2024",
+      "type": "N1 — Biophysique/Économique",
+      "acces": "https://data.worldbank.org/country/haiti",
+      "variables_concernees": [
+        "EROI",
+        "A_d_eff"
+      ]
+    },
+    {
+      "id": "S2",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": [
+        "Sa"
+      ]
+    },
+    {
+      "id": "S3",
+      "titre": "Schuller, Mark & Morales, Pablo — Tectonic Shifts: Haiti Since the Earthquake (2012)",
+      "type": "N3 — Sociologique",
+      "acces": "Kumarian Press",
+      "variables_concernees": [
+        "E_split",
+        "gamma",
+        "Cs"
+      ]
+    },
+    {
+      "id": "S4",
+      "titre": "Farmer, Paul — Haiti After the Earthquake (2011)",
+      "type": "N4 — Économique/institutionnel",
+      "acces": "PublicAffairs",
+      "variables_concernees": [
+        "A_d_eff",
+        "L_t",
+        "Cs"
+      ]
+    },
+    {
+      "id": "S5",
+      "titre": "V-DEM Haiti dataset 2010-2024",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": [
+        "E_split",
+        "Cs",
+        "A_r_c"
+      ]
+    },
+    {
+      "id": "S6",
+      "titre": "Freedom House — Freedom in the World Haiti 2010-2024",
+      "type": "N5 — Politique",
+      "acces": "https://freedomhouse.org/",
+      "variables_concernees": [
+        "A_r_c",
+        "A_r_ne",
+        "Cs"
+      ]
+    },
+    {
+      "id": "S7",
+      "titre": "IDA/FMI — Haiti Article IV Consultation 2022-2024",
+      "type": "N4 — Économique",
+      "acces": "https://www.imf.org/",
+      "variables_concernees": [
+        "A_d_eff",
+        "EROI"
+      ]
+    },
+    {
+      "id": "S8",
+      "titre": "PNUD — Rapport sur le développement humain Haïti 2022",
+      "type": "N4 — Économique",
+      "acces": "https://hdr.undp.org/",
+      "variables_concernees": [
+        "A_d_eff",
+        "L_t"
+      ]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S5",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture entre oligarchie économique (groupe BNSA/Digicel type) et population appauvrie + diaspora vs résidents. Post-séisme : E_split s'aggrave par captation aide internationale.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM elite power index Haïti 2010-2024 + Gini PNUD Haiti",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "Valeur cible E~0.65-0.75 — fracture oligarchique forte documentée"
+      },
+      "valeur_normative_v62": 0.7,
+      "note_codage": "Valeur normative V6.2 indicative : E=0.70. CONV-E code indépendamment. Écart > 0.15 → confrontation sources."
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S3, S4",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — γ faible attendu : fragmentation des mouvements sociaux haïtiens, absence de doctrine alternative unifiée post-séisme. Groupes armés (G9, GPEP) fragmentés sans programme gouvernemental.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Existence d'organisations politiques structurées avec programme alternatif crédible 2010-2024",
+        "valeur_indicateur": "À REMPLIR",
+        "coherence": "Valeur cible γ~0.20-0.30 — organisation faible/partielle"
+      },
+      "valeur_normative_v62": 0.25,
+      "note_codage": "γ faible = marqueur principal de la trajectoire (d) vs (a). Si CONV-E code γ > 0.50 avec source N3, documenter divergence en S7."
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S4, S7, S8",
+      "niveau_source": "N4",
+      "origine": "À coder — capacité redistributive État haïtien 2010. DISTINCTION CRITIQUE : remises diaspora (~3-4 Mds$/an) sont hors-modèle MEPA (mécanisme privé, non institutionnel). A_d_eff mesure uniquement la capacité redistributive publique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "IMF Haiti Art. IV 2022 : dépenses publiques/PIB, recettes fiscales/PIB, services de base",
+        "valeur_indicateur": "À REMPLIR — attendu très bas : dépenses pub < 10% PIB",
+        "coherence": "Valeur cible A_d_eff~1.0-2.0/10 — État quasi-défaillant"
+      },
+      "valeur_normative_v62": 1.5,
+      "note_codage": "A_d_eff très bas = condition nécessaire de la trajectoire (d). Si > 3.0, vérifier si remises diaspora ont été incluses par erreur."
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S5, S6",
+      "niveau_source": "N5",
+      "origine": "À coder — répression classique : Police Nationale d'Haïti (PNH) + groupes armés paramilitaires G9/GPEP. Post-2021 : violence gangs > violence étatique. Distinguer répression étatique / para-étatique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Freedom House Political Rights Haiti 2010-2024 + V-DEM physical violence index",
+        "valeur_indicateur": "À REMPLIR — score dégradé Progressive 2018-2024",
+        "coherence": "Valeur cible A_r_c~0.55-0.70 (2021-2024 : gangs contrôlent 60% Port-au-Prince)"
+      },
+      "valeur_normative_v62": 0.6,
+      "note_codage": "Phase 1 (2010-2018) vs Phase 2 (2018-2024) : A_r_c croissant. Coder valeur T=0 (2010)."
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Haïti 2010 : taux de pénétration internet < 5%, infrastructure numérique quasi-absente post-séisme. A_r_ne=0.00 (aucune surveillance numérique étatique possible).",
+      "justification": "Haïti 2010 : infrastructure télécom détruite par séisme. Absence totale de surveillance numérique étatique. A_r_ne=0.00 = correct pour période 2010-2018. Période 2018-2024 : légère montée possible via réseaux sociaux mais infrastructure trop faible pour surveillance systémique.",
+      "sanity_check": {
+        "indicateur": "ITU Haiti internet penetration rate 2010 + Freedom House 'Freedom on the Net' Haiti",
+        "valeur_indicateur": "< 5% pénétration internet 2010 — confirmé",
+        "coherence": "CONFIRMÉ — A_r_ne=0.00 hardcodé correct"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S5, S6",
+      "niveau_source": "N4/N5",
+      "origine": "À coder — crédibilité régime Préval T=0 (jan 2010). Post-séisme : Cs s'effondre rapidement avec échec reconstruction et chol­éra ONU 2010. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM 'government effectiveness' Haiti 2010 + sondages LAPOP Haïti 2010",
+        "valeur_indicateur": "À REMPLIR — approbation Préval < 30% dès 2009",
+        "coherence": "Valeur cible Cs~0.20-0.35 (régime fragile pré-séisme)"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S4, S5",
+      "niveau_source": "N4",
+      "origine": "À coder — loyauté PNH + FAd'H (dissoutes 1995). Post-séisme : institutions sécuritaires en déroute. MINUSTAH présente mais hors-modèle (force extérieure). Coder loyauté institutionnelle interne T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Effectifs PNH opérationnels / capacité terrain jan 2010 (ICG rapport Haïti 2011)",
+        "valeur_indicateur": "À REMPLIR — PNH < 8000 agents actifs pour 10M hab.",
+        "coherence": "Valeur cible L_t~0.15-0.25 (loyauté très faible, institutions quasi-défaillantes)"
+      },
+      "valeur_normative_v62": 0.2,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 1.5,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE — croissant (1.2→2.0 sur t_max)",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Haïti : économie agricole de subsistance, déforestation > 98%, aucune ressource fossile. EROI_start=1.2 (post-séisme choc), EROI_end=2.0 (légère reconstruction) sur 300 pas.",
+      "justification": "Haïti = EROI le plus bas du corpus V6.2. Agriculture pluviale sur terres épuisées, 98% déforestation, zéro ressource fossile. Séisme 2010 détruit 15% du PIB en 30s. EROI_start=1.2 < seuil de subsistance historique → déterminisme trajectoire (d). Croissance vers 2.0 reflète aide internationale partielle 2010-2015.",
+      "sanity_check": {
+        "indicateur": "World Bank Haiti agri data + USAID Haiti energy sector assessment 2013",
+        "valeur_indicateur": "PIB agri/hab parmi les plus bas hémisphère occidental",
+        "coherence": "CONFIRMÉ — EROI~1.2-2.0 cohérent avec données FAO Haiti 2010-2015"
+      },
+      "desaccord": null,
+      "cmd_linear": {
+        "EROI_start": 1.2,
+        "EROI_end": 2.0,
+        "note": "C1 : cmd_linear obligatoire — EROI_start/EROI_end"
+      }
+    },
+    "Sa": {
+      "valeur": 4,
+      "type_todd": "Famille nucléaire égalitaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Haïti → Sa=4 (famille nucléaire égalitaire, héritage colonial français + culture créole caribéenne)",
+      "justification": "Todd classe les sociétés caribéennes francophones en famille nucléaire égalitaire. Sa=4 = instabilité chronique, rébellions fréquentes — cohérent avec l'histoire haïtienne (17 coups d'état depuis 1804). Pas de correction p6 × 1.5.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=4 → p6 nominal. Pas de correction ×1.5 (réservée à Sa=7).",
+      "sanity_check": null,
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système jan 2010 — immédiatement post-séisme 12 jan 2010). Source : Guide V6.2 corrigé.",
+    "S0": 1.5,
+    "L0": 0.2,
+    "C0": 0.05,
+    "I0": 1.5,
+    "I0_note": "I0=1.5 — capacité institutionnelle critique. I_min actif dès t=0. Plancher institutionnel déterminant pour trajectoire (d)."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI dynamique C1.",
+    "T": 1.2,
+    "Mob": 0.1,
+    "R": 0.15,
+    "Ref": 0.05,
+    "Rc": 0.6,
+    "Rn": 0.0,
+    "E": 0.7,
+    "gamma": 0.25,
+    "EROI": 1.5,
+    "EROI_start": 1.2,
+    "EROI_end": 2.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE pour cluster C1.",
+    "EROI": {
+      "start": 1.2,
+      "end": 2.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.3,
+    "theta_I": 0.22,
+    "zone": "LOI PHYSIQUE",
+    "passes": 3,
+    "note_passes": "LOI PHYSIQUE = 3 passes uniquement. Ne pas sur-auditer."
+  },
+  "alertes_conv_a": [
+    "EROI dynamique : documenter en S7 la tension EROI plancher (1.2) vs EROI aide internationale (3.5 estimé). Chantier V7.",
+    "A_d_eff : distinguer capacité redistributive publique et remises diaspora (~3-4 Mds$/an hors-modèle).",
+    "Deux phases possibles : t<150 (effondrement aigu) et t>150 (stabilisation basse). Documenter si t_b très tardif ou absent.",
+    "γ faible attendu : si CONV-E code γ > 0.50, vérifier source et documenter divergence en S3."
+  ],
+  "defi_mepa": "WP ancre plancher du corpus V6.2. I0=1.5 = I_min critique actif dès t=0. EROI_start=1.2 = en-dessous du seuil de subsistance agricole historique. Trajectoire (d) = I chute avant C → R s'effondre par défaut avant que la mobilisation collective puisse s'organiser. Documenter en S3 la distinction (d) Dissolution vs (d) Effondrement classique (mécanisme ici = I_min + EROI < seuil, pas L(t) seul)."
+}

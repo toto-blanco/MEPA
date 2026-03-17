@@ -1,0 +1,238 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I6-1",
+  "cas": "Chine — Tiananmen 1989",
+  "periode": "1989",
+  "cluster": "C4",
+  "cluster_libelle": "C4 — Crédibilité du signal [EROI croissant 9.0 statique · Cs > Cs* · t_max=150 épisode court · A_r_ne=0.45 pré-numérique · H_col géographiquement contenu]",
+  "cluster_note": "WP-I6-1 = trajectoire (b) répression réussie. Cs > Cs* → (b) faisable : diagnostic Deng correct. H_col géographiquement contenu (urbain-étudiant, pas de propagation rurale). t_max=150 (~50 jours historiques). A_r_ne=0.45 pré-numérique — contraste direct avec WP-C6 (A_r_ne=0.85 en 2024). Timing Rc/Rn à t_b = variable sensible STRESS. T=0.80/R=0.55 → marge 0.25.",
+  "trajectoire_attendue": "(b) Répression réussie",
+  "trajectoire_attendue_libelle": "(b) répression réussie — Cs > Cs* : PCC dispose d'une crédibilité de performance suffisante pour que (b) soit faisable. H_col contenu géographiquement. Répression Tiananmen 3-4 juin 1989 + retrait Zhao Ziyang. Résultat dépend timing Rc/Rn à t_b.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Chine",
+  "sa_p6_modulation": false,
+  "sa_note": "Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois (I6, I8, C6). p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. Trajectoire (b) : résultat dépend finement du timing Rc/Rn à t_b. T=0.80/R=0.55 → marge 0.25. t_max=150 = épisode court. 10 passes pour valider robustesse de la répression réussie.",
+  "t_max": 150,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Nathan, Andrew & Link, Perry — The Tiananmen Papers (2001)",
+      "type": "N3 — Documents internes/Politique",
+      "acces": "PublicAffairs",
+      "variables_concernees": ["L_t", "gamma", "Cs", "A_r_c"]
+    },
+    {
+      "id": "S2",
+      "titre": "Vogel, Ezra — Deng Xiaoping and the Transformation of China (2011)",
+      "type": "N3 — Biographique/Historique",
+      "acces": "Harvard University Press",
+      "variables_concernees": ["Cs", "gamma", "A_d_eff", "L_t"]
+    },
+    {
+      "id": "S3",
+      "titre": "Zhao Ziyang — Prisoner of the State: The Secret Journal of Premier Zhao Ziyang (2009)",
+      "type": "N3 — Mémoires/Politique (source primaire)",
+      "acces": "Simon & Schuster",
+      "variables_concernees": ["gamma", "Cs", "L_t", "E_split"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Perry, Elizabeth & Wasserstrom, Jeffrey — Popular Protest and Political Culture in Modern China (1994)",
+      "type": "N3 — Sociologique/Politique",
+      "acces": "Westview Press",
+      "variables_concernees": ["E_split", "gamma", "A_r_c"]
+    },
+    {
+      "id": "S6",
+      "titre": "MacFarquhar, Roderick & Schoenhals, Michael — Mao's Last Revolution (2006)",
+      "type": "N3 — Historique",
+      "acces": "Harvard University Press",
+      "variables_concernees": ["Cs", "A_d_eff", "gamma"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture limitée : mouvement étudiant-intellectuel (~1-2% population) vs PCC/paysannerie. E=0.50 (Instructions V6.2). H_col géographiquement contenu — aucune propagation rurale documentée. E_split réel faible malgré visibilité médiatique.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Perry & Wasserstrom (1994) sociologie Tiananmen + données démographiques manifestants",
+        "valeur_indicateur": "À REMPLIR — manifestants : étudiants + intellectuels urbains = 0.5-1% population nationale",
+        "coherence": "Valeur cible E_split~0.45-0.55 (fracture réelle mais géographiquement et socialement contenue)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.45 attendu (Instructions V6.2). Cohésion du mouvement étudiant : réelle mais sans doctrine alternative unifiée (démocratie = aspiration, pas programme). Zhao Ziyang (2009) : mouvement spontané sans organisation bolchévique-type.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Zhao Ziyang (2009) analyse mouvement + Nathan & Link (2001) organisation étudiante",
+        "valeur_indicateur": "À REMPLIR — mouvement étudiant : mobilisation réelle, organisation fragile, pas de direction unifiée",
+        "coherence": "Valeur cible γ~0.40-0.50 — cohésion spontanée sans doctrine : plus fort que γ Commune (0.15), moins que γ bolchévique (0.85)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive PCC T=0 (1989). Réformes Deng depuis 1978 : A_d_eff en hausse (ZES, croissance économique). Légitimité de performance = fondement de Cs > Cs*. Distinguer A_d_eff institutionnel vs redistribution économique marché.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Vogel (2011) performances économiques Deng + données croissance PIB Chine 1978-1989",
+        "valeur_indicateur": "À REMPLIR — PIB Chine +9%/an 1978-1989 : légitimité de performance robuste",
+        "coherence": "Valeur cible A_d_eff~5.0-7.0/10 (redistribution institutionnelle + croissance économique = Cs > Cs*)"
+      },
+      "valeur_normative_v62": 6.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : APL (Armée Populaire de Libération). Nathan & Link (2001) : décision finale Deng + durs du Parti. Répression 3-4 juin 1989 = A_r_c maximale sur t_b. Coder valeur T=0 avant répression.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Nathan & Link (2001) délibérations Parti + estimations victimes Tiananmen",
+        "valeur_indicateur": "À REMPLIR — APL : ~250 000-350 000 soldats mobilisés, répression décidée au plus haut niveau",
+        "coherence": "Valeur cible A_r_c~0.65-0.75 T=0 (APL disponible, loyauté institutionnelle forte avant utilisation)"
+      },
+      "valeur_normative_v62": 0.70,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.45,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.45. Chine 1989 : télévision d'État (CCTV) + radio + contrôle presse = surveillance médiatique proto-numérique. Pas d'internet (inventé 1991) mais contrôle médias de masse systémique. Contraste avec WP-C6 (A_r_ne=0.85) : même pays, +35 ans de technologie.",
+      "justification": "Chine 1989 : CCTV (1958), presse d'État, radio nationale = système médiatique contrôlé par le PCC. Pas d'internet mais surveillance téléphonique + identification témoins via télévision. Rn=0.45 reflète surveillance proto-numérique pré-internet substantielle. Contraste avec WP-C6 (0.85) = mesure de l'effet de +35 ans de technologie numérique.",
+      "sanity_check": {
+        "indicateur": "Documentation surveillance PCC 1989 + capacités CCTV/télévision état chinois",
+        "valeur_indicateur": "Surveillance médiatique d'État documentée 1989 — pré-internet mais systémique",
+        "coherence": "CONFIRMÉ — A_r_ne=0.45 cohérent avec proto-surveillance pré-numérique documentée"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité PCC T=0 (1989). Cs > Cs* = condition nécessaire de (b). Légitimité de performance robuste (11 ans de croissance ~9%/an). Mais inflation 1988 (27%) et corruption = signaux d'alerte. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Vogel (2011) légitimité PCC 1989 + sondages rétrospectifs attitude citoyens chinois",
+        "valeur_indicateur": "À REMPLIR — légitimité performance forte malgré tensions : soutien rural PCC >> opposition urbaine",
+        "coherence": "Valeur cible Cs~0.55-0.70 (Cs > Cs* : légitimité performance robuste, pas de crise systémique)"
+      },
+      "valeur_normative_v62": 0.63,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté APL + appareils PCC T=0 (L0=0.60 conditions initiales). Nathan & Link (2001) : débat interne PCC sur répression — loyauté institutionnelle maintenue après arbitrage Deng. APL : loyauté au PCC confirmée.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Nathan & Link (2001) délibérations internes + loyauté APL lors de Tiananmen",
+        "valeur_indicateur": "À REMPLIR — APL : quelques résistances locales (généraux refusant d'abord) mais loyauté institutionnelle finale",
+        "coherence": "Valeur cible L_t~0.60 (cohérente avec L0=0.60 — loyauté institutionnelle robuste, résistances marginales)"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 9.0,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE — C4 EROI croissant contexte mais valeur fixe pour t_max=150 court",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI=9.0 statique (valeur unique, t_max=150 trop court pour variation significative). Chine 1989 : industrialisation Deng en cours, EROI ~9 (phase intermédiaire entre WP-I8 début=6.0 et fin=14.0). cmd_linear = {} (objet vide — EROI statique sur fenêtre courte).",
+      "justification": "Chine 1989 : EROI industriel ~8-10 (phase médiane réformes Deng). t_max=150 (~50 jours historiques) trop court pour observer variation EROI significative. EROI=9.0 = valeur ponctuelle cohérente avec trajectoire WP-I8 (EROI_start=6.0 en 1978 → EROI_end=14.0 en 1997 : interpolation 1989 ≈ 9.0).",
+      "sanity_check": {
+        "indicateur": "Naughton (2007) EROI industriel Chine + interpolation WP-I8 (6→14, 1978-1997)",
+        "valeur_indicateur": "EROI 1989 ≈ 9.0 confirmé par interpolation linéaire WP-I8",
+        "coherence": "CONFIRMÉ — EROI=9.0 cohérent avec position 1989 sur trajectoire WP-I8"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Chine → Sa=6 (famille communautaire exogame, Todd 1990). Sa=6 constant pour tous les WP chinois (I6, I8, C6).",
+      "justification": "Todd (1990) : Chine = famille communautaire exogame. Sa=6 = résilience autoritaire — cohérent avec (b) répression réussie. Contraste instructif : même Sa=6 pour WP-I6 (b), WP-I8 (e)→(h), WP-C6 (h) — Sa ne détermine pas la trajectoire ici, c'est Cs > Cs* et EROI qui décident.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1989 — début mobilisation étudiante avril 1989, mort Hu Yaobang déclencheur). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.60,
+    "C0": 0.08,
+    "I0": 4.5
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C4 — cmd_linear = {} (objet vide, fenêtre t_max=150 trop courte). t_max=150.",
+    "T": 0.80,
+    "Mob": 0.45,
+    "R": 0.55,
+    "Ref": 0.10,
+    "Rc": 0.75,
+    "Rn": 0.45,
+    "E": 0.50,
+    "gamma": 0.45,
+    "EROI": 9.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {},
+  "parametres_simulation": {
+    "t_max": 150,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. t_max=150 épisode court. Résultat (b) dépend finement timing Rc/Rn à t_b. Valider Cs > Cs* sur 10 passes — documenter seuil critique."
+  },
+  "alertes_conv_a": [
+    "Cs > Cs* OBLIGATOIRE : condition nécessaire de (b). Cs=0.63 >> Cs* estimé. Si CONV-E code Cs < 0.50, la trajectoire bascule potentiellement vers (a) — documenter ce seuil critique en S2. C'est le diagnostic Deng : légitimité de performance suffit à rendre (b) faisable.",
+    "H_col GÉOGRAPHIQUEMENT CONTENU : pas de propagation rurale documentée. Documenter en S3 le mécanisme de confinement spatial du mouvement — clé de la trajectoire (b). Si H_col s'était propagé aux campagnes (Sa=6, 80% population rurale), trajectoire différente.",
+    "A_r_ne=0.45 PRÉ-NUMÉRIQUE : contraste obligatoire avec WP-C6 (A_r_ne=0.85). Documenter en S3 : mêmes mécanismes de répression, 35 ans d'écart technologique. Mesurer l'effet net de la surveillance numérique sur la trajectoire (b) vs (h).",
+    "TIMING Rc/Rn à t_b = VARIABLE SENSIBLE STRESS : Rc=0.75 élevé (résistance culturelle PCC forte). Sur 10 passes, tester la sensibilité Rc ±0.10 — documenter si (b) résiste à Rc=0.65.",
+    "t_max=150 ÉPISODE COURT : ~50 jours historiques. Valider que la bascule (b) — avec répression effective — survient avant t=150. Si répression s'étend au-delà, documenter comme divergence avec événement historique."
+  ],
+  "defi_mepa": "Trajectoire (b) répression réussie : démontrer que Cs > Cs* (légitimité de performance PCC = diagnostic Deng correct) permet (b) là où Cs < Cs* produirait (a). H_col géographiquement contenu = condition structurelle de (b) : documenter le mécanisme de non-propagation rurale en S3. Timing Rc/Rn à t_b = variable sensible sur 10 passes STRESS. Contraste historique A_r_ne avec WP-C6 : même pays, même PCC, +35 ans technologie → A_r_ne 0.45 vs 0.85. Mesurer cet effet dans les passes comparatives. EROI=9.0 = interpolation WP-I8 (1978-1997) : documenter la cohérence en S1."
+}

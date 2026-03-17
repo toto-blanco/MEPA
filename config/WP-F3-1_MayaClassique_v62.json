@@ -1,0 +1,242 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-F3-1",
+  "cas": "Empire Maya classique — effondrement terminal",
+  "periode": "800-950",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 3.0→0.8 · EROI_end<1 effondrement irréversible · I0=1.8 I_min contraignant · monopole sacerdotal E_split=0.15]",
+  "cluster_note": "WP-F3-1 = cas unique du corpus : EROI_end=0.8 < 1 → dI/dt négatif permanent, effondrement biophysique irréversible. I0=1.8 < 2.5 → plancher I_min actif dès t=0. E_split=0.15 = monopole sacerdotal sans alternative institutionnelle (borne inférieure E_split programme). Mob=0.05 = quasi-nulle (caste sacerdotale-dynastique fermée). Trajectoire (d) pur par épuisement N0.",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(d) épuisement N0 pur — effondrement biophysique irréversible par EROI<1. I_min brisé : contrainte ne produit plus de plancher, dI/dt négatif permanent. Cités abandonnées progressivement 800-950. Aucune bascule (a) possible : E_split=0.15 + Mob=0.05 + gamma=0.15.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire — Mésoamérique précolombienne",
+  "sa_p6_modulation": false,
+  "sa_note": "Maya classique → Sa=6 (famille communautaire mésoaméricaine, Todd 1990 : structures claniques et dynastiques). Résilience autoritaire — cohérent avec maintien apparent des structures jusqu'à l'effondrement terminal. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. I0=1.8 < 2.5 : plancher I_min actif dès t=0. EROI_end=0.8 < 1 : cas limite théorique — vérifier que le verrou I_min est effectivement brisé par EROI<1 et non maintenu artificiellement. Sensibilité maximale au seuil I_min.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Diamond, Jared — Collapse: How Societies Choose to Fail or Succeed (2005)",
+      "type": "N3 — Biophysique/Historique",
+      "acces": "Viking Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S2",
+      "titre": "Webster, David — The Fall of the Ancient Maya (2002)",
+      "type": "N3 — Archéologique/Historique",
+      "acces": "Thames & Hudson",
+      "variables_concernees": ["E_split", "Cs", "L_t", "A_r_c"]
+    },
+    {
+      "id": "S3",
+      "titre": "Dunning, Nicholas et al. — Soil erosion in the Maya lowlands (1992)",
+      "type": "N1 — Biophysique/Agronomique",
+      "acces": "Latin American Antiquity",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Tainter, Joseph — The Collapse of Complex Societies (1988)",
+      "type": "N3 — Complexité/Historique",
+      "acces": "Cambridge University Press",
+      "variables_concernees": ["EROI", "A_d_eff", "gamma"]
+    },
+    {
+      "id": "S6",
+      "titre": "Martin, Simon & Grube, Nikolai — Chronicle of the Maya Kings and Queens (2000)",
+      "type": "N3 — Épigraphique/Historique",
+      "acces": "Thames & Hudson",
+      "variables_concernees": ["E_split", "Cs", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — E_split=0.15 indicatif (Instructions V6.2 : monopole sacerdotal sans alternative institutionnelle). Fracture entre caste sacerdotale-dynastique et paysannerie agricole. E_split minimal du corpus — borne inférieure programme.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Webster (2002) analyse hiérarchie Maya + Martin & Grube (2000) dynasties royales",
+        "valeur_indicateur": "À REMPLIR — monopole sacerdotal-dynastique sans classe marchande ou alternative",
+        "coherence": "Valeur cible E_split~0.15 — fracture maximalement asymétrique mais numériquement faible : aucune classe alternative émergente"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.15 attendu (Instructions V6.2). Cohésion culturelle quasi-nulle en phase terminale : fragmentation des cités-États mayas, guerres inter-dynastiques, effondrement réseau commercial. γ minimal du corpus.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Diamond (2005) fragmentation politique Maya + Tainter (1988) désintégration complexité",
+        "valeur_indicateur": "À REMPLIR — guerres inter-cités documentées 750-850 = signal γ effondré",
+        "coherence": "Valeur cible γ~0.15 — cohésion quasi-nulle, guerres inter-dynastiques, abandon séquentiel des cités"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S3, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive empire Maya T=0 (800). Administration cérémonielle encore formellement présente mais redistribution agricole effondrée. Dunning (1992) : érosion sols = EROI agricole en chute, surplus négatif.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Dunning (1992) érosion sols + Diamond (2005) effondrement agriculture Maya",
+        "valeur_indicateur": "À REMPLIR — terrasses agricoles abandonnées 750-850 = proxy A_d_eff effondré",
+        "coherence": "Valeur cible A_d_eff~1.0-2.0/10 — redistribution quasi-nulle, surplus agricole négatif"
+      },
+      "valeur_normative_v62": 1.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : armées dynastiques mayas. T=0 (800) : guerres inter-cités intensives mais capacité répressive interne en déclin. Violence externalisée (guerres) vs maintien ordre interne.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Martin & Grube (2000) guerres inter-dynastiques Maya + Webster (2002) conflits armés",
+        "valeur_indicateur": "À REMPLIR — guerres inter-cités documentées mais répression interne limitée",
+        "coherence": "Valeur cible A_r_c~0.35-0.55 (violence guerrière externe élevée, répression interne limitée)"
+      },
+      "valeur_normative_v62": 0.45,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — période pré-numérique 800-950. A_r_ne=0.00 = ancre inférieure absolue. Aucune technologie de surveillance numérique.",
+      "justification": "IXe-Xe siècle ap. J.-C. : aucune technologie de surveillance systémique. A_r_ne=0.00 obligatoire pour tous WP antérieurs à ~1990.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime dynastique T=0 (800). Légitimité sacerdotale-dynastique formellement maintenue mais contestée par sécheresses répétées et guerres. Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Martin & Grube (2000) inscriptions dynastiques terminales + Diamond (2005) légitimité Maya",
+        "valeur_indicateur": "À REMPLIR — dynasties encore actives en 800 mais dernières inscriptions ~820-910",
+        "coherence": "Valeur cible Cs~0.25-0.45 (légitimité formelle maintenue mais contestée par échec récoltes)"
+      },
+      "valeur_normative_v62": 0.35,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareil dynastique T=0 (L0=0.10 conditions initiales). Très faible : armées dynast iques fragmentées, cités-États rivales, loyauté locale seule.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Webster (2002) analyse loyauté armées mayas + Martin & Grube fréquence défections",
+        "valeur_indicateur": "À REMPLIR — loyauté locale uniquement, défections inter-dynastiques fréquentes",
+        "coherence": "Valeur cible L_t~0.10-0.15 (cohérente avec L0=0.10 conditions initiales)"
+      },
+      "valeur_normative_v62": 0.10,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 1.9,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 — EROI_end=0.8 < 1 : effondrement irréversible (EROI_start=3.0, EROI_end=0.8 sur t_max)",
+      "source_id": "Instructions V6.2 + S3 + S1",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=3.0, EROI_end=0.8. Maya : agriculture milpa intensive sur terres épuisées. Dunning (1992) : érosion sols lowlands documentée archéologiquement. EROI_end=0.8 < 1 = seuil d'effondrement irréversible — unique dans le corpus.",
+      "justification": "Dunning (1992) + Diamond (2005) : terrasses agricoles Maya abandonnées progressivement 750-900. EROI milpa en déclin sur terres déforestées et érodées. EROI_end=0.8 < 1 = cas limite : dI/dt négatif permanent, verrou I_min brisé. Unique dans le corpus avec WP-F2 (EROI_end=1.2, proche mais > 1).",
+      "sanity_check": {
+        "indicateur": "Dunning (1992) soil erosion data + Diamond (2005) agricultural collapse Maya",
+        "valeur_indicateur": "Abandon terrasses agricoles documenté archéologiquement — EROI<1 plausible",
+        "coherence": "CONFIRMÉ — EROI 3.0→0.8 cohérent avec effondrement agricole terminal documenté"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Maya classique → Sa=6 (famille communautaire mésoaméricaine, Todd 1990)",
+      "justification": "Todd classe les sociétés mésoaméricaines précolombiennes en famille communautaire (propriété collective des terres, structures claniques). Sa=6 = résilience autoritaire — cohérent avec maintien apparent des structures dynastiques jusqu'au dernier moment avant abandon.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 800 ap. J.-C. — début effondrement terminal, dernières inscriptions dynastiques). Source : Instructions V6.2.",
+    "S0": 1.2,
+    "L0": 0.10,
+    "C0": 0.10,
+    "I0": 1.8,
+    "I0_note": "I0=1.8 < 2.5 — plancher I_min actif dès t=0. Contrainte critique : vérifier que EROI_end=0.8 < 1 brise effectivement le verrou I_min (pas de plateau artificiel). Mécanisme défi : I_min brisé par EROI<1 → dI/dt négatif permanent."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 vers EROI<1 — cmd_linear obligatoire.",
+    "T": 1.0,
+    "Mob": 0.05,
+    "R": 0.10,
+    "Ref": 0.10,
+    "Rc": 0.20,
+    "Rn": 0.0,
+    "E": 0.15,
+    "gamma": 0.15,
+    "EROI": 1.9,
+    "EROI_start": 3.0,
+    "EROI_end": 0.8,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 3.0→0.8 sur 300 pas. EROI_end=0.8 < 1 = effondrement irréversible, unique dans le corpus.",
+    "EROI": {
+      "start": 3.0,
+      "end": 0.8
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. I0=1.8 < 2.5 + EROI_end=0.8 < 1 : double contrainte critique. Vérifier que le verrou I_min est brisé par EROI<1 et non maintenu artificiellement (défi principal)."
+  },
+  "alertes_conv_a": [
+    "EROI_end=0.8 < 1 = cas unique du corpus. Vérifier impérativement dans le runner que dI/dt devient négatif permanent quand EROI < 1 — le verrou I_min doit être BRISÉ, pas maintenu. Si I oscille autour d'un plancher, c'est une anomalie de modélisation.",
+    "I0=1.8 < 2.5 + EROI_end<1 : double contrainte I_min. La combinaison doit produire un effondrement complet (I → 0) avant t=300. Documenter t_collapse (premier pas où I < 0.1).",
+    "E_split=0.15 = borne inférieure programme. Monopole sacerdotal sans classe alternative — distinguer de WP-F5 Venise (Ref très faible, autre mécanisme). Si CONV-E code > 0.30, documenter divergence.",
+    "γ=0.15 = valeur minimale corpus. Fragmentation inter-dynastique documentée. Si CONV-E code γ > 0.25, vérifier la source : cohésion Maya déclinante dès 750.",
+    "T=1.0 + R=0.10 : tension maximale / résistance minimale — même configuration que WP-F7 (Révolution haïtienne). Contraste à documenter : même T/R mais EROI déclinant (F3) vs statique (F7) → issue opposée."
+  ],
+  "defi_mepa": "Cas limite théorique du corpus : EROI_end=0.8 < 1 → dI/dt négatif permanent. Vérifier l'Effondrement Irréversible (d) : briser le verrou I_min par EROI<1 et destruction Rc. E_split=0.15 = monopole sacerdotal sans alternative institutionnelle — aucune classe pouvant porter une trajectoire (a) ou (e). Documenter en S3 la distinction mécanique avec WP-F2 (EROI_end=1.2 > 1 : I_min produit un plancher avant effondrement total) vs WP-F3 (EROI_end=0.8 < 1 : pas de plancher possible, effondrement total). Mob=0.05 = mobilité quasi-nulle par définition structurelle esclavagiste — documenter en S2."
+}

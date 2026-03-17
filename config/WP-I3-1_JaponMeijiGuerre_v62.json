@@ -1,0 +1,241 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I3-1",
+  "cas": "Japon Meiji—Guerre—Reconstruction",
+  "periode": "1853-1945",
+  "cluster": "C5",
+  "cluster_libelle": "C5 — Complexité et latence [EROI 5.0→15.0→8.0 en 3 phases · t_max=500 · cycle complet 4 trajectoires · Sa=7 p6×1.5 · WP le plus complexe du corpus]",
+  "cluster_note": "WP-I3-1 = WP le plus complexe du corpus (Stratification V6.2). Cycle complet (a)→(e)→(h)→(d) sur Δτ=77 ans. t_max=500 pour les 4 phases. Sa=7 → p6×1.5 ralentit C dans chaque phase. EROI en 3 phases : 5.0→15.0 (Meiji-industriel) → stagnation → 8.0 (fin guerre). Phase (d) finale : dépendance N0 externe (embargo pétrole US 1941 → EROI militaire → 0). cmd_linear avec EROI_start=5, EROI_end=8 (phases globales).",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "trajectoire_attendue_libelle": "(a)→(e)→(h)→(d) cycle complet — Phase (a) 1853-1868 : rupture Meiji (A_i exogène réussie) → Phase (e) 1868-1905 : réforme institutionnelle industrialisation → Phase (h) 1905-1931 : stabilité militaro-industrielle → Phase (d) 1931-1945 : dépendance N0 externe + embargo pétrole US 1941 → effondrement.",
+  "sa": 7,
+  "sa_type_todd": "Famille souche — Japon",
+  "sa_p6_modulation": true,
+  "sa_note": "Japon → Sa=7 (famille souche, Todd 1990 : Allemagne, Japon, Suède). Sa=7 → p6 × 1.5 ACTIF dans chaque phase. Ralentit C dans les 4 phases — effet cumulatif sur t_max=500. Troisième WP avec sa_p6_modulation=true (après WP-I4 Allemagne, WP-I9 Singapour). Sa=7 naturel (vs composite artificiel WP-I9).",
+  "zone_stratification": "ZONE DE STRESS — 10 passes de vérification",
+  "raison_loi_physique": "N/A — zone STRESS. WP le plus complexe du corpus : 4 phases (a)→(e)→(h)→(d), t_max=500, Sa=7 (p6×1.5), EROI 3 phases. Chaque transition = bascule potentielle. 10 passes pour identifier les 4 transitions et valider leur robustesse.",
+  "t_max": 500,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Jansen, Marius — The Making of Modern Japan (2000)",
+      "type": "N3 — Historique",
+      "acces": "Harvard University Press",
+      "variables_concernees": ["E_split", "gamma", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Bix, Herbert — Hirohito and the Making of Modern Japan (2000)",
+      "type": "N3 — Biographique/Historique",
+      "acces": "HarperCollins",
+      "variables_concernees": ["gamma", "L_t", "A_r_c", "Cs"]
+    },
+    {
+      "id": "S3",
+      "titre": "Smil, Vaclav — Energy Transitions: History, Requirements, Prospects (2010)",
+      "type": "N1 — Biophysique/Énergétique",
+      "acces": "Praeger",
+      "variables_concernees": ["EROI"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Gordon, Andrew — A Modern History of Japan (2003)",
+      "type": "N3 — Historique",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["E_split", "A_d_eff", "gamma", "Cs"]
+    },
+    {
+      "id": "S6",
+      "titre": "Dower, John — War Without Mercy: Race and Power in the Pacific War (1986)",
+      "type": "N3 — Historique/Militaire",
+      "acces": "Pantheon Books",
+      "variables_concernees": ["A_r_c", "gamma", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture variable sur 4 phases : Phase (a) = E_split élite Meiji vs shogunat (modéré, ~0.50). Phase (e) = E_split industrialisation croissante. Phase (h) = E_split oligarchie militaro-industrielle (Zaibatsu). Phase (d) = E_split militaristes vs modérés. Coder valeur T=0 (1853 : fracture Tokugawa/pro-ouverture).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jansen (2000) structure sociale Meiji + Gordon (2003) fractures sociales 1853-1945",
+        "valeur_indicateur": "À REMPLIR — fracture han/sonno joi vs Tokugawa : E_split modéré mais croissant avec industrialisation",
+        "coherence": "Valeur cible E_split~0.45-0.55 T=0 (fracture élite pro-ouverture vs shogunat conservateur)"
+      },
+      "valeur_normative_v62": 0.50,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.60 attendu (Instructions V6.2). Cohésion culturelle japonaise exceptionnellement forte : Kokutai (identité nationale impériale), bushido, dévotion sacrifice. Sa=7 = amortisseur souche renforçant cohésion. γ très élevé et stable sur 4 phases.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Bix (2000) idéologie impériale + Gordon (2003) cohésion nationale Meiji",
+        "valeur_indicateur": "À REMPLIR — Kokutai : idéologie impériale robuste, unificatrice sur 1853-1945",
+        "coherence": "Valeur cible γ~0.55-0.65 — cohésion doctrinale forte (Kokutai), amplifiée par Sa=7"
+      },
+      "valeur_normative_v62": 0.60,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S1, S5",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État Meiji T=0 (1853). Tokugawa : redistribution féodale. Meiji post-1868 = expansion massive A_d_eff (éducation universelle, industrialisation d'État, réforme foncière). Phase (e) = A_d_eff croissant fort. Coder valeur T=0 (1853, pré-Meiji).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jansen (2000) administration Tokugawa + Gordon (2003) réformes Meiji post-1868",
+        "valeur_indicateur": "À REMPLIR — Tokugawa : redistribution féodale stable, Meiji : expansion A_d_eff massive post-1868",
+        "coherence": "Valeur cible A_d_eff~4.0-6.0/10 T=0 (redistribution féodale Tokugawa, expansion post-Meiji)"
+      },
+      "valeur_normative_v62": 5.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique T=0 (1853). Armée Tokugawa + samurai. Phase (h)/(d) : armée impériale japonaise = A_r_c maximale (Nankin 1937, etc.). Coder valeur T=0 (1853, armée féodale Tokugawa).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jansen (2000) armée Tokugawa + Dower (1986) capacité militaire impériale",
+        "valeur_indicateur": "À REMPLIR — armée Tokugawa : répression féodale, inférieure aux puissances industrielles 1853",
+        "coherence": "Valeur cible A_r_c~0.45-0.60 T=0 (armée féodale fonctionnelle mais inférieure technologiquement)"
+      },
+      "valeur_normative_v62": 0.52,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.15,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.15. Japon 1853-1945 : système kempeitai (police militaire) + contrôle presse + propagande radio NHK (fondée 1926). Surveillance proto-numérique croissante sur la période. Rn=0.15 = valeur intermédiaire sur 77 ans.",
+      "justification": "Japon 1853-1945 : kempeitai (police militaire secrète depuis 1881) + Tokkō (police spéciale pensée 1911) + NHK radio depuis 1926. Surveillance para-numérique structurée mais non massive (vs Allemagne nazie). Rn=0.15 = valeur intermédiaire cohérente avec l'évolution technologique sur 77 ans.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime Tokugawa T=0 (1853). Cs fragilisée : arrivée Commodore Perry (1853) = humiliation Tokugawa. Légitimité shogunat effondrée par incapacité à résister aux puissances étrangères. Transition Meiji = rupture légitimité.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jansen (2000) légitimité Tokugawa post-Perry + Gordon (2003) crise politique 1853-1868",
+        "valeur_indicateur": "À REMPLIR — arrivée Perry 1853 : effondrement légitimité Tokugawa documenté",
+        "coherence": "Valeur cible Cs~0.25-0.40 (légitimité Tokugawa fragilisée par humiliation étrangère)"
+      },
+      "valeur_normative_v62": 0.32,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté samurai/administration T=0 (L0=0.65 conditions initiales). Loyauté féodale Tokugawa : forte institutionnellement mais fracturée par sonnō jōi (révérer l'Empereur, expulser les barbares). Défections vers domaines pro-impériaux.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Jansen (2000) loyauté samurai + fractures han pro-impériaux vs Tokugawa",
+        "valeur_indicateur": "À REMPLIR — han Satsuma/Chōshū : défection Tokugawa documentée 1860s",
+        "coherence": "Valeur cible L_t~0.60-0.70 (cohérente avec L0=0.65 — loyauté institutionnelle forte mais fracturée)"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 6.5,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE 3 PHASES C5 : 5.0→15.0 (Meiji-industriel) → plateau → 8.0 (fin guerre). cmd_linear encode EROI_start=5, EROI_end=8 (phases globales sur t_max=500).",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=5.0, EROI_end=8.0 (phases globales). Instructions V6.2 : 'EROI mode : croissant puis déclinant : 5.0→15.0 (phase Meiji-industriel) →8.0 (fin guerre) — 3 phases'. EROI_end=8.0 > EROI_start=5.0 : valeur globale finale supérieure malgré phase déclinante finale.",
+      "justification": "Smil (2010) : industrialisation japonaise Meiji = montée EROI massive (charbon, puis pétrole importé). Peak EROI militaire ~1937-1941. Embargo pétrole US 1941 → EROI militaire → 0 (Phase (d) finale). EROI_end=8.0 = valeur résiduelle post-capitulation (reconstruction amorçée). Approximation linéaire des 3 phases sur t_max=500 par les bornes globales.",
+      "sanity_check": {
+        "indicateur": "Smil (2010) EROI Japon 1853-1945 + données production énergétique japonaise",
+        "valeur_indicateur": "EROI croissant Meiji puis déclinant guerre confirmé — embargo pétrole US 1941 documenté",
+        "coherence": "CONFIRMÉ — EROI_start=5/end=8 cohérent avec phases globales documentées"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 7,
+      "type_todd": "Famille souche",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Japon → Sa=7 (famille souche, Todd 1990 : Stammfamilie). Sa=7 → p6 × 1.5 ACTIF. Sa=7 naturel (vs composite artificiel WP-I9 Singapour).",
+      "justification": "Todd (1990) : Japon = famille souche par excellence. Sa=7 = amortisseur souche → p6×1.5 ralentit C dans chaque phase. Cohérent avec 4 transitions sur 77 ans sans effondrement immédiat : l'amortisseur souche ralentit chaque bascule. Troisième WP Sa=7 du corpus (I4, I9, I3).",
+      "modulation_p6": true,
+      "note_modulation": "Sa=7 → p6 × 1.5 ACTIF. Troisième occurrence Sa=7 du corpus. Sa=7 naturel (Japon, Stammfamilie) — distinguer de Sa=7 composite artificiel (WP-I9 Singapour). Effet cumulatif sur t_max=500 : p6×1.5 ralentit C dans les 4 phases — documenter l'effet amortisseur phase par phase.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1853 — arrivée Commodore Perry, début crise Tokugawa). Source : Instructions V6.2.",
+    "S0": 1.0,
+    "L0": 0.65,
+    "C0": 0.10,
+    "I0": 4.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI C5 3 phases — cmd_linear encode bornes globales (EROI_start=5, EROI_end=8). Sa=7 → p6×1.5 actif dans apply_sa_modulator(). t_max=500.",
+    "T": 0.70,
+    "Mob": 0.40,
+    "R": 0.55,
+    "Ref": 0.10,
+    "Rc": 0.45,
+    "Rn": 0.15,
+    "E": 0.50,
+    "gamma": 0.60,
+    "EROI": 6.5,
+    "EROI_start": 5.0,
+    "EROI_end": 8.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C5 — cmd_linear encode les bornes globales EROI_start=5/end=8 sur t_max=500. Les 3 phases EROI (5→15→8) sont une approximation non-linéaire — le runner interpole linéairement entre les bornes. La non-linéarité réelle est documentée en S1 mais non modélisable directement en V6.2.",
+    "EROI": {
+      "start": 5.0,
+      "end": 8.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 500,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "ZONE DE STRESS",
+    "passes": 10,
+    "note_passes": "ZONE DE STRESS = 10 passes. WP le plus complexe du corpus. Sa=7 (p6×1.5) + t_max=500 + 4 phases. Identifier les 4 transitions (a)→(e)→(h)→(d) sur 10 passes. Valider timing et robustesse de chaque bascule."
+  },
+  "alertes_conv_a": [
+    "QUATRE PHASES OBLIGATOIRES : (a) 1853-1868 → (e) 1868-1905 → (h) 1905-1931 → (d) 1931-1945. Documenter les 4 t_b successifs. Sur 10 passes STRESS, vérifier que les 4 transitions apparaissent dans le bon ordre et dans la bonne fenêtre temporelle.",
+    "Sa=7 → p6×1.5 CUMULATIF : l'amortisseur souche ralentit C dans CHAQUE phase. Documenter l'effet cumulatif : le ralentissement de C en Phase (a) affecte la disponibilité de C pour Phase (e), etc. Mesurer le retard cumulatif introducit par p6×1.5 sur les 4 transitions.",
+    "EROI 3 PHASES NON-LINÉAIRE : EROI_start=5/end=8 = approximation linéaire globale. La réalité : 5→15 (Meiji), plateau, →8 (guerre) = non-linéaire. Documenter en S1 la limite de l'approximation linéaire et son impact sur le timing des phases (e) et (h) vs données historiques.",
+    "PHASE (d) FINALE = N0 EXTERNE : embargo pétrole US 1941 → EROI militaire → 0. Ce mécanisme de dépendance N0 externe est hors-modèle direct (le runner ne modélise pas les chocs exogènes sur EROI). Documenter en S5 la limitation et proposer une approximation dans le runner.",
+    "ANALOGIE WP-I4 (Sa=7) : même Sa=7, même type famille souche, trajectoires différentes ((a)→(e)→(h)→(d) vs (a)→(d) exogène). Documenter en S3 que Sa=7 n'implique pas une trajectoire unique — le déterminant est la combinaison EROI + séquence A_i + G exogène."
+  ],
+  "defi_mepa": "WP le plus complexe du corpus. Cycle complet (a)→(e)→(h)→(d) sur Δτ=77 ans — identifier les 4 transitions sur t_max=500. Sa=7 → p6×1.5 ralentit C dans chaque phase : documenter l'effet cumulatif amortisseur phase par phase. EROI 3 phases non-linéaire : approximation linéaire EROI_start=5/end=8 = limitation documentée en S1. Phase (d) finale = dépendance N0 externe (embargo pétrole US 1941) = mécanisme hors-modèle à approximer. Sur 10 passes STRESS, valider que les 4 transitions apparaissent dans le bon ordre et la bonne fenêtre. Comparer avec WP-I4 (Allemagne, même Sa=7) : même amortisseur souche, trajectoires différentes — EROI + séquence A_i + G exogène sont les déterminants."
+}

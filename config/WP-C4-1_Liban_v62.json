@@ -1,0 +1,249 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-C4-1",
+  "cas": "Liban 2019-2026",
+  "periode": "2019-2026",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI effondré 1.5→1.5 · veto-player interne Hezbollah · I0=1.5 double contrainte I_min · remises diaspora hors-modèle]",
+  "cluster_note": "WP-C4-1 = double contrainte C1 la plus sévère du corpus hors WP-C1 Haïti : EROI=1.5 (identique à WP-C1 plancher) + I0=1.5 (I_min actif dès t=0). Veto-player Hezbollah : bloque toute A_i transformatrice — mécanisme identique à l'Église (WP-F2). Trajectoire (d) lente unique : F/R_max < 0.70 malgré T=0.95. Remises diaspora = mécanisme hors-modèle à signaler (analogie WP-C1 Haïti). Système contemporain actif 2026.",
+  "trajectoire_attendue": "(d) Dissolution",
+  "trajectoire_attendue_libelle": "(d) lente — veto-player. Dissolution institutionnelle progressive sans bascule (a) : F/R_max < theta_FR=0.75 malgré T=0.95. E=0.65 fragmenté confessionnellement → V_col national impossible. Hezbollah bloque toute A_i. EROI=1.5 + I0=1.5 = double contrainte plancher.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Liban/Moyen-Orient",
+  "sa_p6_modulation": false,
+  "sa_note": "Liban → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient, structures confessionnelles-claniques). Résilience autoritaire — cohérent avec maintien apparent des structures confessionnelles malgré effondrement économique. p6 nominal, pas de correction ×1.5.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. EROI=1.5 + I0=1.5 : double contrainte I_min identique à WP-C1 Haïti. Veto-player modélisé — mécanisme unique CŒUR. Système contemporain actif (2019-2026) : résultat partiellement inconnu → 5 passes pour limiter narrative smoothing.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Cammett, Melani — Compassionate Communalism: Welfare and Sectarianism in Lebanon (2014)",
+      "type": "N3 — Politique/Social",
+      "acces": "Cornell University Press",
+      "variables_concernees": ["E_split", "gamma", "A_d_eff", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Leenders, Reinoud — Spoils of Truce: Corruption and State-Building in Postwar Lebanon (2012)",
+      "type": "N3 — Économique/Politique",
+      "acces": "Cornell University Press",
+      "variables_concernees": ["A_d_eff", "Cs", "L_t", "E_split"]
+    },
+    {
+      "id": "S3",
+      "titre": "Banque mondiale — Lebanon Economic Monitor 2019-2024",
+      "type": "N1 — Économique",
+      "acces": "https://www.worldbank.org/",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "ICG — Lebanon's Politics: The Sunni Community and Hariri's Future Current (2011)",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "International Crisis Group",
+      "variables_concernees": ["E_split", "L_t", "A_r_c"]
+    },
+    {
+      "id": "S6",
+      "titre": "FMI — Lebanon Article IV Consultation 2022-2024",
+      "type": "N4 — Économique",
+      "acces": "https://www.imf.org/",
+      "variables_concernees": ["A_d_eff", "EROI"]
+    },
+    {
+      "id": "S7",
+      "titre": "V-DEM Lebanon dataset 2019-2024",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "L_t"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — E=0.65 mais FRAGMENTÉ CONFESSIONNELLEMENT : fractures multiples (Hezbollah/Amal vs Hariri/Kataëb vs FPM vs LF vs Druzes). Fragmentation → V_col national impossible malgré E élevée. Analogue WP-I5 Espagne (fragmentation empêche (a)).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Cammett (2014) fragmentation confessionnelle + V-DEM Lebanon elite power index",
+        "valeur_indicateur": "À REMPLIR — système taïfi : 18 communautés confessionnelles, veto mutuel institutionnalisé",
+        "coherence": "Valeur cible E_split~0.60-0.70 (fracture élevée mais fragmentée confessionnellement)"
+      },
+      "valeur_normative_v62": 0.65,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S5",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — γ=0.30 attendu (Instructions V6.2). Cohésion culturelle libanaise faible à l'échelle nationale : identités confessionnelles >> identité nationale. Mouvement Thawra (oct. 2019) a tenté un γ interconfessionnel — rapidement dissous.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Cammett (2014) identité nationale vs confessionnelle + Thawra 2019 dissolution",
+        "valeur_indicateur": "À REMPLIR — Thawra 2019 : mobilisation nationale éphémère, retour identités confessionnelles en 3 mois",
+        "coherence": "Valeur cible γ~0.25-0.35 — cohésion nationale quasi-inexistante, confessionnalisme dominant"
+      },
+      "valeur_normative_v62": 0.30,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S3, S6",
+      "niveau_source": "N4",
+      "origine": "À coder — capacité redistributive État libanais T=0 (2019). État quasi-défaillant : hyperinflation post-2019 (>200%), secteur bancaire effondré (dépôts gelés), électricité ~2h/jour. DISTINCTION CRITIQUE : remises diaspora (~7 Mds$/an) hors-modèle (analogue WP-C1 Haïti).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "FMI Lebanon 2022 + BM Lebanon Economic Monitor : dépenses publiques/PIB",
+        "valeur_indicateur": "À REMPLIR — État libanais 2019 : incapable de payer salaires fonctionnaires régulièrement",
+        "coherence": "Valeur cible A_d_eff~1.0-2.5/10 — État quasi-défaillant, redistribution quasi-nulle"
+      },
+      "valeur_normative_v62": 1.8,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S5, S7",
+      "niveau_source": "N4",
+      "origine": "À coder — répression classique : Forces Armées Libanaises (FAL) + Forces de Sécurité Intérieure (FSI). Fragmentation confessionnelle affecte aussi les forces de sécurité. Hezbollah = force para-étatique dominante dans son fief.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM Lebanon physical violence + ICG Lebanon security sector",
+        "valeur_indicateur": "À REMPLIR — FAL fragmentées confessionnellement, Hezbollah dépasse capacité FAL dans le Sud",
+        "coherence": "Valeur cible A_r_c~0.30-0.50 (répression fragmentée, FAL sous-financées, Hezbollah parallèle)"
+      },
+      "valeur_normative_v62": 0.40,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.10,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.10. Liban : surveillance numérique minimale (État trop faible pour surveillance systémique). WhatsApp omniprésent mais hors-contrôle étatique. ISF surveillance limitée aux opposants.",
+      "justification": "Liban 2019-2026 : État trop défaillant pour déployer surveillance numérique systémique. Rn=0.10 = valeur minimale pour État fonctionnant encore nominalement (distinct de Haïti 0.00 = infrastructure détruite). Pénétration smartphones ~80% mais absence de surveillance étatique centralisée.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S7",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — crédibilité régime libanais T=0 (2019, veille Thawra). Cs effondrée : explosion port Beyrouth août 2020, hyperinflation, paralysie gouvernementale, assassinats politiques impunis. Légitimité quasi-nulle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Arab Barometer Lebanon 2019 + V-DEM government legitimacy Lebanon",
+        "valeur_indicateur": "À REMPLIR — sondages 2019-2020 : confiance institutions < 10%",
+        "coherence": "Valeur cible Cs~0.10-0.20 (légitimité quasi-nulle, explosion Beyrouth = signal précurseur)"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S5",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — loyauté FAL + institutions T=0 (L0=0.25 conditions initiales). FAL fragmentées confessionnellement mais maintiennent une loyauté institutionnelle minimale (seule institution encore respectée en 2019). Loyauté conditionnelle à la survie institutionnelle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "ICG Lebanon (2011) loyauté FAL + Arab Barometer confidence in army Lebanon",
+        "valeur_indicateur": "À REMPLIR — FAL : institution la plus respectée (~60% confiance) mais sous-financée",
+        "coherence": "Valeur cible L_t~0.25-0.35 (loyauté FAL maintenue mais conditionnelle, sous-financement structurel)"
+      },
+      "valeur_normative_v62": 0.28,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 1.5,
+      "echelle": "[1, +inf]",
+      "type": "STATIQUE C1 — EROI effondré (EROI_start=1.5, EROI_end=1.5 : identique WP-C1 Haïti plancher)",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=1.5, EROI_end=1.5. Liban : effondrement économique total post-2019. BM Lebanon : -58% PIB 2019-2021 = une des pires crises économiques mondiales depuis 1850. EROI=1.5 = identique plancher WP-C1 Haïti.",
+      "justification": "BM Lebanon Economic Monitor 2021 : 'une des trois pires crises économiques mondiales depuis le milieu du XIXe siècle'. PIB/hab chute de ~12 000 USD (2018) à ~3 000 USD (2021). EROI=1.5 statique : pas de ressources naturelles propres, dépendance imports énergétiques totale. Remises diaspora ~7 Mds$/an hors-modèle.",
+      "sanity_check": {
+        "indicateur": "BM Lebanon Economic Monitor 2021 + FMI Lebanon Article IV 2022",
+        "valeur_indicateur": "PIB -58% 2019-2021 = une des trois pires crises mondiales depuis 1850 — confirmé",
+        "coherence": "CONFIRMÉ — EROI=1.5 cohérent avec effondrement économique le plus sévère du corpus contemporain"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Liban → Sa=6 (famille communautaire exogame, Todd 1990 : Moyen-Orient).",
+      "justification": "Todd (1990) : Liban = famille communautaire exogame (structures claniques-confessionnelles). Sa=6 = résilience autoritaire + fragmentation communautaire — cohérent avec maintien apparent du système taïfi malgré effondrement économique.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 2019 — début crise Thawra octobre 2019, veille effondrement économique). Source : Instructions V6.2.",
+    "S0": 1.3,
+    "L0": 0.25,
+    "C0": 0.10,
+    "I0": 1.5,
+    "I0_note": "I0=1.5 — double contrainte I_min + EROI=1.5 plancher : identique à WP-C1 Haïti. Différence mécanisme : WP-C1 = I effondré par séisme (choc exogène) ; WP-C4 = I bloqué par veto-player Hezbollah (blocage endogène structurel). Documenter distinction en S3."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI statique C1 plancher — cmd_linear obligatoire (EROI_start=EROI_end=1.5).",
+    "T": 0.95,
+    "Mob": 0.10,
+    "R": 0.10,
+    "Ref": 0.10,
+    "Rc": 0.35,
+    "Rn": 0.10,
+    "E": 0.65,
+    "gamma": 0.30,
+    "EROI": 1.5,
+    "EROI_start": 1.5,
+    "EROI_end": 1.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 statique plancher — EROI_start=EROI_end=1.5 par conformité C1. Même plancher que WP-C1 Haïti.",
+    "EROI": {
+      "start": 1.5,
+      "end": 1.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Veto-player modélisé — mécanisme unique CŒUR. Système contemporain actif (résultat partiellement inconnu). Valider (d) lente sans bascule (a) malgré T=0.95."
+  },
+  "alertes_conv_a": [
+    "VETO-PLAYER HEZBOLLAH : bloque toute A_i transformatrice — mécanisme identique à l'Église dans WP-F2 (Rome tardive) et au mécanisme Turchin. Documenter en S3 l'analogie structurelle : Ref=0.10 maintenu mais ineffectif. F/R_max doit rester < 0.70 malgré T=0.95.",
+    "E=0.65 FRAGMENTÉ : distinguer E_split élevée vs V_col national impossible. Fragmentation confessionnelle → F_effectif < somme F_partiels (analogue WP-I5 Espagne). Thawra 2019 = test empirique : mobilisation inter-confessionnelle dissoute en 3 mois. Documenter en S2.",
+    "REMISES DIASPORA ~7 Mds$/an = mécanisme hors-modèle à signaler en S5 et S7 (analogue WP-C1 Haïti). Distinguer capacité redistributive publique (A_d_eff~1.8) vs flux privés diaspora. Ces remises amortissent sans institutionnaliser.",
+    "SYSTÈME CONTEMPORAIN ACTIF (2019-2026) : résultat partiellement inconnu → risque narrative smoothing élevé. Documenter l'incertitude explicitement. Ne pas ajuster les paramètres pour forcer une trajectoire — la trajectoire doit émerger du modèle.",
+    "EROI=1.5 identique WP-C1 Haïti mais mécanisme différent : WP-C4 = blocage endogène veto-player (Hezbollah contrôle import énergie) vs WP-C1 = choc exogène séisme. Documenter distinction causale en S3."
+  ],
+  "defi_mepa": "WP double contrainte I_min la plus sévère avec WP-C1 : EROI=1.5 + I0=1.5. Mécanisme distinctif vs WP-C1 : veto-player Hezbollah bloque A_i endogènement (vs choc exogène séisme Haïti). Démontrer (d) lente sans bascule (a) malgré T=0.95 + E=0.65 : F/R_max < theta_FR=0.75 car E fragmenté confessionnellement → V_col national structurellement impossible. Documenter en S3 l'analogie Hezbollah/Église (WP-F2) : Ref=0.10 maintenu mais toute A_i bloquée institutionnellement. Remises diaspora = mécanisme hors-modèle amortissant la trajectoire sans la changer structurellement."
+}

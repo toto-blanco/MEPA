@@ -1,0 +1,242 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I2-1",
+  "cas": "Russie 1917",
+  "periode": "1905-1921",
+  "cluster": "C1",
+  "cluster_libelle": "C1 — Limites biophysiques [EROI déclinant 4.5→2.5 · cmd_linear · p10=0.90 explicite · I0=2.5 frontière I_min · double bascule Février+Octobre]",
+  "cluster_note": "WP-I2-1 = (a) double : Février 1917 (déclencheur spontané, S) + Octobre 1917 (organisation bolchévique γ=0.85). I0=2.5 = frontière I_min. T=1.0/E=0.90 = tension et énergie maximales simultanées. p10=0.90 explicite = cristallisation maximale → ΔC_rel > 1.0 (explosion thermique). NEP 1921 = contrainte A_d_max post-(a). Sa=6 famille communautaire = mobilisation de masse potentielle.",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "trajectoire_attendue_libelle": "(a) double — déclencheur + organisation. Phase 1 : Février 1917 = déclencheur spontané (S effondrée, grèves). Phase 2 : Octobre 1917 = organisation bolchévique (γ=0.85, p10=0.90 → ΔC_rel > 1.0). NEP 1921 = contrainte A_d_max post-(a) documentée.",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Russie",
+  "sa_p6_modulation": false,
+  "sa_note": "Russie → Sa=6 (famille communautaire exogame, Todd 1990). Résilience autoritaire ET mobilisation de masse potentielle — cohérent avec (a) double : spontané (Février) puis organisé (Octobre). p6 nominal, pas de correction ×1.5. Contraste avec WP-I7 URSS (même Sa=6, trajectoire (d) — séquence A_i décide).",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. I0=2.5 = frontière I_min exacte. Double bascule 1905+1917 : valider séquence temporelle inter-phases. p10=0.90 explicite = paramètre de cristallisation à calibrer. Sensibilité maximale au timing des deux bascules.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Pipes, Richard — The Russian Revolution (1991)",
+      "type": "N3 — Historique/Politique",
+      "acces": "Knopf",
+      "variables_concernees": ["E_split", "gamma", "L_t", "Cs"]
+    },
+    {
+      "id": "S2",
+      "titre": "Figes, Orlando — A People's Tragedy: The Russian Revolution 1891-1924 (1996)",
+      "type": "N3 — Historique",
+      "acces": "Jonathan Cape",
+      "variables_concernees": ["E_split", "A_d_eff", "Cs", "gamma"]
+    },
+    {
+      "id": "S3",
+      "titre": "Lincoln, W. Bruce — Passage Through Armageddon: The Russians in War and Revolution 1914-1918 (1986)",
+      "type": "N3 — Historique/Militaire",
+      "acces": "Simon & Schuster",
+      "variables_concernees": ["L_t", "A_r_c", "EROI"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Trotsky, Leon — History of the Russian Revolution (1932)",
+      "type": "N3 — Historique/Politique (source primaire)",
+      "acces": "Victor Gollancz",
+      "variables_concernees": ["gamma", "E_split", "L_t"]
+    },
+    {
+      "id": "S6",
+      "titre": "Service, Robert — Lenin: A Biography (2000)",
+      "type": "N3 — Biographique/Politique",
+      "acces": "Macmillan",
+      "variables_concernees": ["gamma", "A_d_eff", "Cs"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — fracture aristocratie/bourgeoisie vs prolétariat + paysannerie. E=0.90 attendu (Instructions V6.2 T=1/E=0.90). Fracture de classe extrêmement marquée en Russie : 1% noblesse contrôle >70% terres. Accentuée par 3 ans de guerre (1914-1917).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Figes (1996) analyse fracture sociale + Pipes (1991) structure propriété foncière",
+        "valeur_indicateur": "À REMPLIR — noblesse 1% possède ~70% terres : fracture E_split maximale",
+        "coherence": "Valeur cible E_split~0.82-0.92 — fracture de classe maximale, accentuée par guerre"
+      },
+      "valeur_normative_v62": 0.90,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S2, S5, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.85 attendu (Instructions V6.2). Cohésion doctrinale bolchévique exceptionnelle : marxisme-léninisme comme doctrine totale, discipline du Parti, centralisme démocratique. γ le plus élevé des WP (a) organisés avec WP-F7.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Service (2000) organisation bolchévique + Trotsky (1932) discipline Parti",
+        "valeur_indicateur": "À REMPLIR — Parti bolchévique 1917 : ~200 000 membres, doctrine claire, discipline",
+        "coherence": "Valeur cible γ~0.80-0.90 — cohésion doctrinale maximale parmi les WP (a) organisés"
+      },
+      "valeur_normative_v62": 0.85,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État tsariste T=0 (1905). Administration impériale : réforme Stolypine en cours mais redistribution agricole bloquée par grande propriété noble. NEP 1921 = contrainte A_d_max post-(a) à documenter en S6.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Figes (1996) administration tsariste + réformes Stolypine 1906-1911",
+        "valeur_indicateur": "À REMPLIR — réforme Stolypine : redistribution partielle terres mais élites résistantes",
+        "coherence": "Valeur cible A_d_eff~2.5-4.0/10 T=0 (administration fonctionnelle mais redistribution bloquée)"
+      },
+      "valeur_normative_v62": 3.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique : Okhrana (police secrète tsariste) + armée. T=0 (1905) : répression Dimanche Sanglant documentée. Mais capacité répressive s'effondre 1917 (armée décomposée par guerre). Coder valeur T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Pipes (1991) Okhrana + Lincoln (1986) décomposition armée 1917",
+        "valeur_indicateur": "À REMPLIR — Okhrana : répression structurelle T=0, effondrement 1917",
+        "coherence": "Valeur cible A_r_c~0.55-0.70 T=0 (Okhrana fonctionnelle, répression Dimanche Sanglant)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.0,
+      "echelle": "[0, 1]",
+      "source_id": "V6.2 hardcodé",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Russie 1905-1921 : aucune technologie de surveillance numérique. A_r_ne=0.00. Okhrana = surveillance humaine non-numérique.",
+      "justification": "Début XXe siècle : aucune technologie de surveillance numérique. Okhrana = réseau informateurs humains, interception courrier physique. A_r_ne=0.00 obligatoire — surveillance humaine seule.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime tsariste T=0 (1905). Très faible : Dimanche Sanglant jan. 1905 détruit légitimité restante, guerre russo-japonaise 1904-1905 = humiliation nationale, corruption Raspoutine-Romanov.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Figes (1996) légitimité tsariste 1905 + sondages rétrospectifs VCIOM",
+        "valeur_indicateur": "À REMPLIR — Dimanche Sanglant jan. 1905 : massacre par la garde impériale = Cs effondrée",
+        "coherence": "Valeur cible Cs~0.15-0.25 (légitimité quasi-effondrée post-Dimanche Sanglant)"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareils T=0 (L0=0.20 conditions initiales). Armée tsariste : loyauté formelle mais fragilisée par défaites 1905 (guerre russo-japonaise). Okhrana : loyauté à Nicolas II personnellement, fragile institutionnellement.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Lincoln (1986) moral armée tsariste + Pipes (1991) loyauté officiers",
+        "valeur_indicateur": "À REMPLIR — défaites 1904-1905 + mutinerie Potemkine = signal L_t dégradée",
+        "coherence": "Valeur cible L_t~0.20 (cohérente avec L0=0.20 — loyauté très fragile post-1905)"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.5,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C1 (EROI_start=4.5, EROI_end=2.5 sur t_max)",
+      "source_id": "Instructions V6.2 + S3",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=4.5, EROI_end=2.5. Russie 1905-1921 : économie agricole sous pression (surpopulation paysanne, faible mécanisation), guerre 1914-1917 effondre la chaîne d'approvisionnement. Déclin linéaire sur 300 pas.",
+      "justification": "Lincoln (1986) : chaîne logistique impériale effondrée 1916-1917 (railways, ravitaillement). Russie 1905 : EROI agricole ~4-5 (production céréalière exportatrice mais surpopulation rurale). Guerre réduit EROI effectif massivement (ressources militaires). EROI_end=2.5 = seuil critique C1.",
+      "sanity_check": {
+        "indicateur": "Lincoln (1986) logistique guerre + données agricoles Russie 1905-1917",
+        "valeur_indicateur": "Effondrement chaîne logistique 1916-1917 documenté — EROI déclinant confirmé",
+        "coherence": "CONFIRMÉ — EROI 4.5→2.5 cohérent avec effondrement économique de guerre 1917"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Russie → Sa=6 (famille communautaire exogame, Todd 1990 : La Chute finale). Sa=6 constant pour tous les WP russes/soviétiques (I2, I7).",
+      "justification": "Todd (1990) : Russie = famille communautaire exogame. Sa=6 = résilience autoritaire ET mobilisation de masse — cohérent avec (a) double : spontané (Février, masse) puis organisé (Octobre, doctrine). Contraste avec WP-I7 (même Sa=6, trajectoire (d)) : séquence A_i décide.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal. Pas de correction ×1.5.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1905 — Révolution de 1905, Dimanche Sanglant, début décomposition tsarisme). Source : Instructions V6.2.",
+    "S0": 1.5,
+    "L0": 0.20,
+    "C0": 0.10,
+    "I0": 2.5,
+    "I0_note": "I0=2.5 = frontière exacte I_min. Sensibilité critique : à surveiller dans le runner. Légèrement au-dessus du seuil — contrainte I_min s'activera progressivement avec déclin EROI. Distinguer de WP-F2 (I0=2.0, contrainte immédiate) et WP-I4 (I0=2.5, même frontière, cluster C2)."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI déclinant C1 — cmd_linear obligatoire. p10=0.90 explicite requis dans les paramètres du runner.",
+    "T": 1.0,
+    "Mob": 0.10,
+    "R": 0.10,
+    "Ref": 0.10,
+    "Rc": 0.30,
+    "Rn": 0.0,
+    "E": 0.90,
+    "gamma": 0.85,
+    "EROI": 3.5,
+    "EROI_start": 4.5,
+    "EROI_end": 2.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 4.5→2.5 sur 300 pas.",
+    "EROI": {
+      "start": 4.5,
+      "end": 2.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. p10=0.90 explicite. Valider ΔC_rel > 1.0 (explosion thermique). Documenter deux t_b successifs (Février et Octobre 1917)."
+  },
+  "alertes_conv_a": [
+    "p10=0.90 EXPLICITE : ce paramètre doit être passé explicitement au runner (pas valeur par défaut). Vérifier que ΔC_rel > 1.0 est atteint dans la simulation — c'est le critère de validation de l'explosion thermique bolchévique.",
+    "DOUBLE BASCULE OBLIGATOIRE : Février 1917 (déclencheur spontané, t_b1) + Octobre 1917 (organisation bolchévique, t_b2). Documenter les deux t_b successifs en S3. Distinguer mécanisme : t_b1 = S effondrée (spontané), t_b2 = γ=0.85 cristallisé (organisé).",
+    "I0=2.5 = FRONTIÈRE EXACTE I_min. Surveiller dans le runner le comportement au voisinage de cette frontière. Documenter si I_min s'active avant t_b1 ou après — variable discriminante de la vitesse de bascule.",
+    "NEP 1921 = contrainte A_d_max post-(a) : documenter en S6 pourquoi la Nouvelle Politique Économique (1921) reflète une contrainte redistributive et non un choix idéologique. Cohérent avec A_d_eff~3.0 T=0.",
+    "Contraste WP-I7 (URSS, même Sa=6, trajectoire (d)) : γ=0.85 ici vs γ=0.40 WP-I7. γ est la variable causale principale — documenter en S3 le rôle discriminant de la cohésion doctrinale bolchévique vs cynisme brejnévien."
+  ],
+  "defi_mepa": "WP (a) double : Février 1917 (déclencheur spontané, S effondrée) + Octobre 1917 (organisation bolchévique γ=0.85). Obtenir ΔC_rel > 1.0 via p10=0.90 explicite = cristallisation maximale. Distinguer les deux mécanismes de bascule : Février = franchissement seuil par S, Octobre = cristallisation doctrinale par γ+p10. Documenter en S3 la sequence : I0=2.5 frontière → déclin EROI 4.5→2.5 fragilise → Février spontané → γ=0.85 capture → Octobre organisé. NEP 1921 = A_d_max post-(a) insuffisant → contrainte redistribution agraire. Contraste direct avec WP-I7 (même Sa=6, γ=0.40, séquence A_i inversée → (d)) : γ est le discriminant principal entre (a) et (d) pour Sa=6."
+}

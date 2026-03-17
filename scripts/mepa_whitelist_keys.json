@@ -1,0 +1,229 @@
+{
+  "$schema": "mepa-whitelist-v2.0",
+  "$meta": {
+    "statut": "REMPLACEMENT",
+    "cible": "/data/mepa/scripts/mepa_whitelist_keys.json",
+    "retrocompatibilite": "Rétrocompatible total. Les contrôles C1-C12 existants sont inchangés. Seule addition : valeur NC désormais autorisée dans toutes les variables continues. IMPORTANT : dans mepa_node2_audit_v62.js, C13 (detection NC) DOIT s'executer avant C9 (validation de plage) — sans quoi NC serait rejeté pour format invalide avant d'être identifié comme NC.",
+    "version": "2.1.0",
+    "remplace": "1.x.x",
+    "mepa_version": "6.2",
+    "note_ordre_controles": "Ordre obligatoire dans Node 2 : C13 -> C1 -> C2 -> C3 -> C4 -> C9 -> C10-C12",
+    "note_v2_1": "V2.1.0 : correction variables_commandes.EROI.note — WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (WP-EXT-5)."
+  },
+  "variables_continues": {
+    "E_split": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Fraction énergie institutionnelle. NC si aucune source sur la structure énergétique de la période."
+    },
+    "gamma": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "gamma — cohésion culturelle. Cle JSON uniquement (symbole grec dans le texte). NC si sources contradictoires sans résolution possible."
+    },
+    "A_d_eff": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        10.0
+      ],
+      "precision_min": 0.1,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Efficacité administrative. Echelle [0,10]. NC possible pour structures pré-étatiques sans documentation administrative."
+    },
+    "A_r_c": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Capacité de réforme culturelle."
+    },
+    "A_r_ne": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Capacité de réforme normative externe. Valeur 0.00 légitime (ex: WP-F10-1). NC different de 0.00."
+    },
+    "Cs": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Capital social initial."
+    },
+    "L_t": {
+      "type": "continue",
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "precision_min": 0.01,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Légitimité perçue initiale."
+    },
+    "EROI": {
+      "type": "continue",
+      "plage": [
+        1.01,
+        200.0
+      ],
+      "precision_min": 0.1,
+      "valeurs_speciales": [
+        "NC"
+      ],
+      "note": "Energy Return On Investment. Min > 1 (thermodynamique). NC pour périodes pré-industrielles sans données énergétiques."
+    }
+  },
+  "variables_categorielles": {
+    "Sa": {
+      "type": "categorielle",
+      "valeurs_valides": [
+        2,
+        4,
+        6,
+        7
+      ],
+      "nc_autorise": false,
+      "note": "Niveau de complexité adaptative. NC non autorisé : tout cas historique est classifiable sur cette échelle."
+    }
+  },
+  "variables_commandes": {
+    "T": {
+      "plage": [
+        0.0,
+        2.0
+      ],
+      "note": "Tension institutionnelle."
+    },
+    "Mob": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Mobilisation sociale."
+    },
+    "R": {
+      "plage": [
+        0.0,
+        10.0
+      ],
+      "note": "Résistance institutionnelle."
+    },
+    "Ref": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Taux de réforme initial. Universel = 0.10."
+    },
+    "Rc": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Résistance culturelle."
+    },
+    "Rn": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Résistance normative."
+    },
+    "E": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Energie disponible."
+    },
+    "gamma": {
+      "plage": [
+        0.0,
+        1.0
+      ],
+      "note": "Cle JSON pour la cohésion culturelle."
+    },
+    "EROI": {
+      "plage": [
+        1.01,
+        200.0
+      ],
+      "note": "EROI. WP-C1-1 Haïti = 1.5 (ancre minimum corpus — plancher). Dynamique C1 : EROI_start/EROI_end obligatoire pour Haïti (cmd_linear)."
+    },
+    "Pop": {
+      "plage": [
+        0.0,
+        10.0
+      ],
+      "note": "Population normalisée."
+    }
+  },
+  "cles_interdites": {
+    "liste": [
+      "g",
+      "g_coherence",
+      "gC_ext"
+    ],
+    "note": "REGLE ABSOLUE V6.2 : g est interdit. gC est la variable interne de saturation dans dC — ne jamais renommer. gamma est l'unique cle de commande autorisée pour la cohésion culturelle."
+  },
+  "cles_metadonnees_ignorees": {
+    "liste": [
+      "note",
+      "_note",
+      "Ref_note",
+      "I0_note",
+      "zone",
+      "passes"
+    ],
+    "pattern": "_note$"
+  },
+  "nc_validation": {
+    "champs_requis_si_nc": [
+      "valeur",
+      "justification",
+      "source_id"
+    ],
+    "justification_min_chars": 20,
+    "source_id_si_nc": null,
+    "exemple_valide": {
+      "valeur": "NC",
+      "justification": "NON CODABLE — absence de source documentée sur la structure énergétique de la Commune de Paris (1871). Les archives disponibles ne contiennent pas de données quantitatives sur l'EROI institutionnel pour cette période de 72 jours.",
+      "source_id": null
+    }
+  }
+}

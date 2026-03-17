@@ -1,0 +1,247 @@
+{
+  "$schema": "mepa-fiche-codage-v6.2",
+  "wp_id": "WP-I4-1",
+  "cas": "Allemagne nazie",
+  "periode": "1919-1945",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI croissant 8.0→18.0 · E_split DÉSIGNÉ (Juifs) · A_r_ne=0.70 auto-entretenue · Sa=7 p6×1.5 · seul WP fasciste]",
+  "cluster_note": "WP-I4-1 = seul WP fasciste du corpus. E_split DÉSIGNÉ (Juifs = élite parasite fictive) : mécanisme analytiquement DISTINCT de E_split réel — à différencier explicitement en S1. A_r_ne=0.70 auto-entretenue par délateurs volontaires (Gestapo sous-staffée relayée par population). Sa=7 → p6×1.5 (amortisseur souche) MAIS E_split désigné amplifie C artificiellement. EROI croissant 8→18 (réarmement Autarcie) + Rn=0.70 : trois paramètres sensibles simultanés. Trajectoire (a)→(d) : (a) interne fasciste, (d) exogène = défaite militaire 1945.",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "trajectoire_attendue_libelle": "(a) fasciste → (d) exogène — (a) interne : prise de pouvoir NSDAP 1933, cristallisation désignée. Phase (d) : défaite militaire exogène 1945 (G exogène inversé). Trajectoire endogène ne produirait pas (d) — c'est la défaite militaire qui l'impose.",
+  "sa": 7,
+  "sa_type_todd": "Famille souche — Allemagne",
+  "sa_p6_modulation": true,
+  "sa_note": "Allemagne → Sa=7 (famille souche, Todd 1990 : Allemagne, Japon, Suède). Sa=7 → p6 × 1.5 (amortisseur souche) — ralentit C dans chaque phase. MAIS E_split désigné amplifie C artificiellement → les deux effets se compensent partiellement. Documenter l'interaction Sa=7/E_split_désigné en S3. Sa=7 = premier WP du corpus avec sa_p6_modulation=true.",
+  "zone_stratification": "CŒUR DE MODÈLE — 5 passes de vérification",
+  "raison_loi_physique": "N/A — zone CŒUR DE MODÈLE. Sa=7 → p6×1.5 sensible. EROI croissant + Rn=0.70 : trois paramètres sensibles simultanés. E_split désigné = mécanisme unique nécessitant validation explicite. I0=2.5 frontière I_min.",
+  "t_max": 300,
+  "theta_C": 0.30,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V6.2 — Commandes normatives intégrées — Variables continues à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Evans, Richard — Third Reich Trilogy: The Coming of the Third Reich / The Third Reich in Power / The Third Reich at War (2003-2009)",
+      "type": "N3 — Historique",
+      "acces": "Penguin Press",
+      "variables_concernees": ["E_split", "gamma", "Cs", "A_r_c", "A_r_ne"]
+    },
+    {
+      "id": "S2",
+      "titre": "Gellately, Robert — Backing Hitler: Consent and Coercion in Nazi Germany (2001)",
+      "type": "N3 — Historique/Social",
+      "acces": "Oxford University Press",
+      "variables_concernees": ["A_r_ne", "gamma", "Cs"]
+    },
+    {
+      "id": "S3",
+      "titre": "Kershaw, Ian — Hitler: 1889-1936 Hubris / 1936-1945 Nemesis (1998-2000)",
+      "type": "N3 — Biographique/Historique",
+      "acces": "Allen Lane / Penguin",
+      "variables_concernees": ["gamma", "E_split", "L_t", "Cs"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990)",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa"]
+    },
+    {
+      "id": "S5",
+      "titre": "Overy, Richard — Why the Allies Won (1995)",
+      "type": "N3 — Militaire/Économique",
+      "acces": "Jonathan Cape",
+      "variables_concernees": ["EROI", "A_d_eff"]
+    },
+    {
+      "id": "S6",
+      "titre": "Adam Tooze — The Wages of Destruction: The Making and Breaking of the Nazi Economy (2006)",
+      "type": "N3 — Économique/Historique",
+      "acces": "Allen Lane",
+      "variables_concernees": ["EROI", "A_d_eff", "E_split"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — DISTINCTION CRITIQUE : E_split DÉSIGNÉ (Juifs = élite parasite fictive, ~1% population) ANALYTIQUEMENT DISTINCT de E_split réel (fracture économique Weimar : industriels/Junkers vs chômeurs). Coder E_split réel T=0 (1919). Le désigné est un amplificateur artificiel de C, pas une fracture structurelle.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tooze (2006) fracture économique Weimar + Evans (2003) structure sociale 1919",
+        "valeur_indicateur": "À REMPLIR — Weimar 1919 : chômage 30%+, hyperinflation = fracture réelle élevée",
+        "coherence": "Valeur cible E_split réel ~0.65-0.80 (fracture Weimar : industriels-Junkers vs masses appauvries)"
+      },
+      "valeur_normative_v62": 0.75,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ=0.55 attendu (Instructions V6.2). Cohésion idéologique nazie : doctrine raciste structurée, organisation NSDAP, Volksgemeinschaft. γ modéré à élevé — inférieur à γ bolchévique (0.85) mais supérieur à γ communard (0.15). Interaction avec Sa=7 (p6×1.5).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kershaw (1998) organisation NSDAP + Gellately (2001) soutien populaire",
+        "valeur_indicateur": "À REMPLIR — NSDAP 1932 : 800 000 membres, doctrine unifiée, mobilisation de masse",
+        "coherence": "Valeur cible γ~0.50-0.60 — cohésion doctrinale forte mais inférieures à organisation bolchévique"
+      },
+      "valeur_normative_v62": 0.55,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S5, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — capacité redistributive État Weimar T=0 (1919). République de Weimar : hyperinflation + chômage massif → redistribution quasi-impossible 1919-1923. Reprise relative 1924-1929 puis effondrement 1929. Coder valeur T=0 (1919, Cs effondrée).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Tooze (2006) économie Weimar + données chômage/inflation 1919-1923",
+        "valeur_indicateur": "À REMPLIR — hyperinflation 1923 : épargne anéantie, redistribution impossible",
+        "coherence": "Valeur cible A_d_eff~1.5-3.0/10 T=0 (Weimar : État fonctionnel mais redistribution bloquée hyperinflation)"
+      },
+      "valeur_normative_v62": 2.5,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder — répression classique SA + SS + Gestapo. INTERACTION CRITIQUE avec A_r_ne=0.70 : A_r_c classique relativement faible (Gestapo sous-staffée ~32 000 agents pour 80M habitants) mais amplifiée par délateurs volontaires → A_r_c_eff très élevée. Coder A_r_c nominale T=0.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Gellately (2001) Gestapo effectifs + Evans (2003) SA/SS structure",
+        "valeur_indicateur": "À REMPLIR — Gestapo : ~32 000 agents (1939) pour 80M hab = répression classique sous-staffée",
+        "coherence": "Valeur cible A_r_c nominale ~0.45-0.60 (sous-staffée mais amplifiée par A_r_ne délateurs)"
+      },
+      "valeur_normative_v62": 0.52,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.70,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2 + S2",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.70 : surveillance auto-entretenue par délateurs volontaires. Gestapo fonctionne principalement sur délations spontanées (Gellately 2001 : ~80% des cas Gestapo = dénonciation volontaire). Radio nationale + propagande Goebbels = proto-numérique systémique.",
+      "justification": "Gellately (2001) : Gestapo fonctionne sur délations volontaires (~80% des cas). Radio nationale nazie (Volksempfänger : 16 millions de récepteurs 1939) = système de surveillance médiatique systémique. A_r_ne=0.70 reflète ce système proto-numérique auto-entretenu — second plus élevé du corpus après WP-C6 (0.85).",
+      "sanity_check": {
+        "indicateur": "Gellately (2001) statistiques délations Gestapo + données Volksempfänger",
+        "valeur_indicateur": "~80% cas Gestapo = délation volontaire documentée — A_r_ne=0.70 confirmé",
+        "coherence": "CONFIRMÉ — A_r_ne=0.70 cohérent avec surveillance auto-entretenue documentée"
+      },
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S3, S6",
+      "niveau_source": "N3",
+      "origine": "À coder — crédibilité régime Weimar T=0 (1919). Cs effondrée : capitulation armistice nov. 1918 (Dolchstoßlegende), hyperinflation, instabilité gouvernementale (14 chancelliers en 14 ans). Cs quasi-nulle = condition nécessaire de l'ascension nazie.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Evans (2003) analyse légitimité Weimar + Kershaw (1998) atmosphère politique 1919-1923",
+        "valeur_indicateur": "À REMPLIR — 'Légende du coup de poignard dans le dos' = destruction Cs gouvernement",
+        "coherence": "Valeur cible Cs~0.10-0.20 (Weimar : légitimité quasi-nulle post-armistice + hyperinflation)"
+      },
+      "valeur_normative_v62": 0.15,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S3",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté Reichswehr + administration Weimar T=0 (L0=0.20 conditions initiales). Reichswehr : loyauté conditionnelle à l'État mais Freikorps incontrôlables. Administration : loyauté formelle mais fragile face à instabilité.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Evans (2003) Reichswehr + Freikorps + loyauté bureaucratie Weimar",
+        "valeur_indicateur": "À REMPLIR — Reichswehr : loyauté à l'institution pas à la démocratie ; Freikorps : loyauté personnelle",
+        "coherence": "Valeur cible L_t~0.20 (cohérente avec L0=0.20 — loyauté fragile, institutions fragilisées)"
+      },
+      "valeur_normative_v62": 0.20,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 13.0,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE croissant C2 (EROI_start=8.0, EROI_end=18.0 sur t_max)",
+      "source_id": "Instructions V6.2 + S5 + S6",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=8.0, EROI_end=18.0. Allemagne 1919-1945 : EROI industriel charbonnier + réarmement. Tooze (2006) : capacité industrielle allemande massive, réarmement 1933-1939 multiplie EROI effectif. EROI croissant C2 — cmd_linear obligatoire.",
+      "justification": "Tooze (2006) + Overy (1995) : production industrielle allemande croît massivement 1933-1939 (réarmement). EROI charbon + acier allemand : parmi les plus élevés d'Europe. EROI_start=8.0 (Weimar déprimé), EROI_end=18.0 (sommet réarmement 1944). Croissance linéaire approximation du décollage industriel nazi.",
+      "sanity_check": {
+        "indicateur": "Tooze (2006) production industrielle nazie + Overy (1995) économie de guerre",
+        "valeur_indicateur": "Production industrielle croissante 1933-1944 documentée — EROI croissant confirmé",
+        "coherence": "CONFIRMÉ — EROI 8.0→18.0 cohérent avec réarmement industriel nazi documenté"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 7,
+      "type_todd": "Famille souche",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Allemagne → Sa=7 (famille souche, Todd 1990). Sa=7 → p6 × 1.5 (amortisseur souche). Premier WP du corpus avec sa_p6_modulation=true.",
+      "justification": "Todd (1990) : Allemagne = famille souche par excellence (Stammfamilie). Sa=7 = amortisseur souche → p6×1.5 ralentit C dans chaque phase. MAIS E_split désigné amplifie C artificiellement → interaction complexe à documenter en S3. Cohérent avec Volksgemeinschaft : cohésion souche-autoritaire.",
+      "modulation_p6": true,
+      "note_modulation": "Sa=7 → p6 × 1.5 ACTIF. Premier WP corpus avec sa_p6_modulation=true. Interaction avec E_split désigné : p6×1.5 ralentit C (amortisseur), E_split désigné amplifie C (accélérateur) → effets antagonistes. Documenter équilibre en S3.",
+      "desaccord": null
+    }
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 1919 — République de Weimar naissante, hyperinflation, Cs effondrée). Source : Instructions V6.2.",
+    "S0": 1.3,
+    "L0": 0.20,
+    "C0": 0.10,
+    "I0": 2.5,
+    "I0_note": "I0=2.5 = frontière exacte I_min — identique à WP-I2. Weimar : institutions formellement fonctionnelles mais capacité institutionnelle minimale (hyperinflation, instabilité politique). Surveiller comportement I_min dans runner."
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v2_gamma.py. EROI croissant C2 — cmd_linear obligatoire. Sa=7 → p6×1.5 actif dans apply_sa_modulator().",
+    "T": 0.90,
+    "Mob": 0.20,
+    "R": 0.30,
+    "Ref": 0.10,
+    "Rc": 0.65,
+    "Rn": 0.70,
+    "E": 0.75,
+    "gamma": 0.55,
+    "EROI": 13.0,
+    "EROI_start": 8.0,
+    "EROI_end": 18.0,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C2 croissant — EROI_start/EROI_end obligatoire pour C2 avec variation documentée. Croissance linéaire 8.0→18.0 sur 300 pas.",
+    "EROI": {
+      "start": 8.0,
+      "end": 18.0
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.30,
+    "theta_I": 0.22,
+    "zone": "CŒUR DE MODÈLE",
+    "passes": 5,
+    "note_passes": "CŒUR DE MODÈLE = 5 passes. Sa=7 (p6×1.5) + EROI croissant + Rn=0.70 : trois paramètres sensibles simultanés. Valider interaction Sa=7/E_split_désigné. Seul WP fasciste du corpus."
+  },
+  "alertes_conv_a": [
+    "E_split DÉSIGNÉ vs RÉEL : distinction analytique OBLIGATOIRE en S1. E_split réel = fracture économique Weimar (industriels/Junkers vs masses). E_split désigné = Juifs comme 'élite parasite fictive' = amplificateur artificiel de C. Ne jamais additionner les deux — ce sont des mécanismes distincts.",
+    "Sa=7 → p6×1.5 ACTIF : vérifier dans le runner que apply_sa_modulator() applique correctement le multiplicateur. Documenter l'effet : p6×1.5 ralentit C (amortisseur souche) mais E_split désigné l'amplifie → résultante nette à calculer en S3.",
+    "A_r_ne=0.70 AUTO-ENTRETENUE : distinguer surveillance par délateurs (A_r_ne effectif > nominal) vs surveillance institutionnelle Gestapo sous-staffée. Documenter en S2 le mécanisme de délation comme amplificateur de Rn — unique dans le corpus.",
+    "Trajectoire (a)→(d) : la Phase (d) est EXOGÈNE (défaite militaire 1945), pas endogène. Documenter que le runner ne produit pas (d) endogène — c'est G exogène (Alliés) qui impose (d). Similitude structurelle avec WP-T1 (G exogène décisif).",
+    "I0=2.5 FRONTIÈRE I_min : identique à WP-I2. Comparer comportement runner : WP-I2 (T=1.0, E=0.90) vs WP-I4 (T=0.90, E=0.75) — configurations différentes sur même frontière I_min. Documenter différence en note comparative."
+  ],
+  "defi_mepa": "Seul WP fasciste du corpus — trois mécanismes uniques simultanés : (1) E_split DÉSIGNÉ (Juifs = élite fictive) analytiquement distinct de E_split réel — différencier explicitement en S1 ; (2) A_r_ne=0.70 auto-entretenue par délateurs volontaires (Gestapo sous-staffée, ~80% délations spontanées) ; (3) Sa=7 → p6×1.5 amortisseur souche vs E_split désigné amplificateur C → effets antagonistes à quantifier en S3. Trajectoire (a)→(d) : Phase (d) EXOGÈNE (défaite 1945) — le runner doit montrer que (d) n'est pas produit endogènement. Documenter la distinction avec WP-T1 (G exogène aussi) : là le G impose (γ), ici il impose (d) après (a)."
+}
