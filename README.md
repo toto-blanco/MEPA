@@ -368,4 +368,16 @@ Phase 4 — Zone de stress (10 WP)
 
 ---
 
+## Licence
+
+Ce projet est distribué sous **double licence** :
+
+- **Documentation, fiches WP et cadre théorique** (fichiers `.md`, `.docx`, `.odt`, `.json` de codage)
+  → [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) — Attribution obligatoire, pas de version modifiée redistribuable.
+
+- **Scripts de simulation et d'audit** (`mepa_runner_v2_gamma.py`, `mepa_sensitivity_n1.py`, `mepa_kappa_calculator.py`, `mepa_passeport_schema.py`, `mepa_node2_audit_v62.js`, `correctif_V5_compteur_CCI.js`)
+  → [MIT License](https://opensource.org/licenses/MIT) — Libre utilisation, modification et redistribution avec attribution.
+
+© 2026 — [toto-blanco](https://github.com/toto-blanco)
+
 *MEPA V6.2 — Mars 2026*
