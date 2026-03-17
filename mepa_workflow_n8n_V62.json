@@ -571,6 +571,20 @@
       ],
       "id": "conv-e-node-v62-2026",
       "name": "Nœud CONV-E — Codage historique variables [LLM]"
+    },
+    {
+      "id": "mepa-n-revision-counter",
+      "name": "Noeud Compteur Révision [Fail-Safe MAX=3]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        480
+      ],
+      "parameters": {
+        "jsCode": "// NOEUD COMPTEUR RÉVISION — Fail-Safe MAX=3\n// Insère entre Router Révision et Nœud 6 (CONV-A)\n// Bloque la boucle CONV-A/CONV-B après MAX_ITERATIONS passages\n// Correctif boucle infinie — V6.2 patch 2026-03-17\n\"use strict\";\nconst fs = require(\"fs\");\n\nconst MAX_ITERATIONS = 3;  // max 2 révisions + 1 initial = 3 passages CONV-A\n\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id || \"WP-INCONNU\";\n\n// Lecture/init compteur dans le payload (persisté entre itérations via le flux)\nlet revision_count = (data.revision_count || 0) + 1;\n\nconst MASTER_PATH = process.env.MEPA_OUTPUT_DIR\n  ? process.env.MEPA_OUTPUT_DIR + \"/master_register/master_register.json\"\n  : \"/data/mepa/outputs/master_register/master_register.json\";\n\n// Log dans Master Register si disponible\ntry {\n  let master = {};\n  if (fs.existsSync(MASTER_PATH)) {\n    master = JSON.parse(fs.readFileSync(MASTER_PATH, \"utf8\"));\n  }\n  if (!master[wp_id]) master[wp_id] = {};\n  master[wp_id].revision_count = revision_count;\n  master[wp_id].last_revision_at = new Date().toISOString();\n  fs.mkdirSync(require(\"path\").dirname(MASTER_PATH), { recursive: true });\n  fs.writeFileSync(MASTER_PATH, JSON.stringify(master, null, 2), \"utf8\");\n} catch(e) {\n  // Non bloquant — continuer même si Master Register inaccessible\n}\n\nif (revision_count > MAX_ITERATIONS) {\n  // Fail-safe déclenché — forcer CERTIFIE pour sortir de la boucle\n  // et archiver comme WP_EXPLORATOIRE avec alerte\n  return {\n    json: {\n      ...data,\n      revision_count,\n      verdict_conv_b: \"CERTIFIE\",  // force la sortie vers Nœud 12\n      failsafe_triggered: true,\n      failsafe_reason: `MAX_ITERATIONS=${MAX_ITERATIONS} atteint après ${revision_count} passages CONV-A. WP archivé WP_EXPLORATOIRE.`,\n      anomalies_conv_b: [\n        ...(data.anomalies_conv_b || []),\n        `FAILSAFE: boucle révision bloquée après ${revision_count} itérations`\n      ],\n      message: `[FAIL-SAFE] ${wp_id} — ${revision_count} révisions > MAX=${MAX_ITERATIONS}. Forçage sortie vers certification.`\n    }\n  };\n}\n\n// Passage normal — laisser passer vers CONV-A\nreturn {\n  json: {\n    ...data,\n    revision_count,\n    failsafe_triggered: false,\n    message: `[REVISION ${revision_count}/${MAX_ITERATIONS}] ${wp_id} — retour CONV-A pour correction`\n  }\n};"
+      },
+      "notes": "Fail-safe MAX=3 sur la boucle CONV-A/CONV-B. Au-delà de 3 passages, force la sortie vers certification avec statut WP_EXPLORATOIRE. Correctif boucle infinie V6.2 patch 2026-03-17."
     }
   ],
   "connections": {
@@ -787,7 +801,7 @@
         ],
         [
           {
-            "node": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+            "node": "Noeud Compteur Révision [Fail-Safe MAX=3]",
             "type": "main",
             "index": 0
           }
@@ -855,6 +869,17 @@
           }
         ]
       ]
+    },
+    "Noeud Compteur Révision [Fail-Safe MAX=3]": {
+      "main": [
+        [
+          {
+            "node": "Nœud 6 — Rédaction LLM CONV-A [Claude T=0] [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -869,8 +894,8 @@
     "mepa_version": "6.2",
     "architecture": "WF2-Protocol-Complete",
     "sequence": "CONV-E -> CONV-B-CCI -> Runner -> CONV-A -> CONV-B-Audit -> Certification",
-    "noeuds": 25,
-    "connexions": 26,
+    "noeuds": 26,
+    "connexions": 27,
     "phases": {
       "0_entree": "Trigger + Lecture fiche CONV-E",
       "1a_audit": "Audit structure N2 (C1-C13)",
@@ -895,7 +920,14 @@
     "conversations_manuelles": {
       "CONV-D": "Observatoire resultats -- alimenter avec passeport_compact.json",
       "CONV-F": "Calibration bayesienne -- apres 5 WP certifies (I10,C1,C2,F1,F2)"
-    }
+    },
+    "correctifs": [
+      {
+        "id": "PATCH-2026-03-17-FAILSAFE-REVISION",
+        "description": "Ajout nœud Compteur Révision [Fail-Safe MAX=3] entre Router Révision et Nœud 6. Bloque boucle infinie CONV-A/CONV-B après 3 itérations.",
+        "date": "2026-03-17"
+      }
+    ]
   },
   "id": "mepa-wf2-protocol-complete"
 }
