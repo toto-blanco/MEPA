@@ -4,11 +4,12 @@
     "statut": "REMPLACEMENT",
     "cible": "/data/mepa/scripts/mepa_whitelist_keys.json",
     "retrocompatibilite": "Rétrocompatible total. Les contrôles C1-C12 existants sont inchangés. Seule addition : valeur NC désormais autorisée dans toutes les variables continues. IMPORTANT : dans mepa_node2_audit_v62.js, C13 (detection NC) DOIT s'executer avant C9 (validation de plage) — sans quoi NC serait rejeté pour format invalide avant d'être identifié comme NC.",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "remplace": "1.x.x",
     "mepa_version": "6.2",
     "note_ordre_controles": "Ordre obligatoire dans Node 2 : C13 -> C1 -> C2 -> C3 -> C4 -> C9 -> C10-C12",
-    "note_v2_1": "V2.1.0 : correction variables_commandes.EROI.note — WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (WP-EXT-5)."
+    "note_v2_1": "V2.1.0 : correction variables_commandes.EROI.note — WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (WP-EXT-5).",
+    "note_v2_2": "V2.2.0 : [DOC-002] Ajout section racine_autorisees — alignement avec le nœud N2 embarqué du workflow (V6.3 Fortifié, Correctif A6). Documente les clés racine autorisées dans les fiches v62 de production. N'affecte pas les contrôles C1-C13 (ils restent dans Node 2), mais constitue la référence documentaire des clés racine valides."
   },
   "variables_continues": {
     "E_split": {
@@ -225,5 +226,70 @@
       "justification": "NON CODABLE — absence de source documentée sur la structure énergétique de la Commune de Paris (1871). Les archives disponibles ne contiennent pas de données quantitatives sur l'EROI institutionnel pour cette période de 72 jours.",
       "source_id": null
     }
+  },
+  "racine_autorisees": {
+    "$description": "Clés racine autorisées dans les fiches WP V6.2. Source de référence pour le contrôle C9 du nœud 2 (embarqué dans mepa_workflow_n8n_V62.json). Cette section est documentaire — les clés effectives sont hardcodées dans le nœud N2 du workflow.",
+    "$note_alignement": "Aligné sur RACINE_AUTORISEES du nœud N2 embarqué (V6.3 Fortifié, Correctif A6 — 2026-03-16). La version standalone mepa_node2_audit_v62.js v2.1.1 intègre la même liste.",
+    "metadonnees": [
+      "$schema",
+      "$description",
+      "$statut",
+      "$audit",
+      "$arbitrage",
+      "$note_archive",
+      "$note_correction"
+    ],
+    "identification": [
+      "wp_id",
+      "cas",
+      "periode",
+      "cluster",
+      "cluster_libelle",
+      "cluster_note"
+    ],
+    "trajectoire": [
+      "trajectoire_attendue",
+      "trajectoire_attendue_libelle",
+      "trajectoire_forcee"
+    ],
+    "anthropologie": [
+      "sa",
+      "sa_type_todd",
+      "sa_p6_modulation",
+      "sa_note"
+    ],
+    "contenu_fiche": [
+      "sources_utilisees",
+      "variables",
+      "conditions_initiales",
+      "conditions_initiales_finales",
+      "commandes",
+      "commandes_finales",
+      "cmd_linear",
+      "parametres_simulation",
+      "alertes_actives",
+      "alertes_conv_a",
+      "defi_mepa",
+      "params_p"
+    ],
+    "simulation_directe": [
+      "raison_loi_physique",
+      "zone_stratification",
+      "t_max",
+      "theta_C",
+      "theta_I"
+    ],
+    "codage_meta": [
+      "date_codage",
+      "codeur",
+      "statut"
+    ],
+    "pipeline_interne": [
+      "_conv_e_meta",
+      "_pipeline_message",
+      "cleanup",
+      "message"
+    ],
+    "$note_cles_interdites": "Les clés de la section cles_interdites (g, g_coherence, gC_ext) déclenchent le rejet C4 si présentes dans cmd. La clé g dans RACINE ne déclencherait que C9 (clé non autorisée à la racine)."
   }
 }

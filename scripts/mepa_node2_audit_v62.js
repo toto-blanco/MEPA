@@ -19,8 +19,18 @@
 //   - theta_C / theta_I injectes dans runner_config.params. [RESOUT ARCH-014]
 //   - Chemins canoniques /data/mepa/scripts/ via MEPA_SCRIPTS_DIR. [RESOUT ARCH-015]
 //   - Labels D4 alignes sur le referentiel officiel Runner V6.2.
-// Version          : 2.1.0
+// Version          : 2.1.1
 // MEPA version     : 6.2 Fortifiee
+// Corrections V2.1.1 vs V2.1.0 :
+//   [DOC-001] Note de versioning : ce fichier est la VERSION DE RÉFÉRENCE DOCUMENTAIRE.
+//             La version opérationnelle active est le code embarqué dans le nœud N2 du
+//             workflow mepa_workflow_n8n_V62.json (étiquette "V6.3 Fortifié", Correctif A6
+//             du 2026-03-16). Les 13 contrôles C1-C13 sont fonctionnellement identiques.
+//             Divergences mineures : lecture constants via \ vs fs.readFileSync,
+//             whitelist RACINE_AUTORISEES étendue aux clés fiches v62 (zone_stratification etc.)
+//   [DOC-002] RACINE_AUTORISEES : ajout des clés présentes dans les fiches v62 de production
+//             (zone_stratification, t_max, theta_C, theta_I, trajectoire_attendue_libelle,
+//              cluster_libelle, _conv_e_meta, _pipeline_message, cleanup, message).
 // Corrections V2.1.0 vs V2.0.0 :
 //   [BUG-006] P_DEFAULTS chargés dynamiquement depuis mepa_constants.json (fallback embarqué).
 //   [BUG-007] "(d) Dissolution" ajouté dans LABELS_D4 — Manuel Gouvernance Annexe A.
@@ -131,6 +141,11 @@ const RACINE_AUTORISEES = new Set([
   "defi_mepa", "params_p",
   "cluster_libelle", "raison_loi_physique", "trajectoire_attendue_libelle",
   "date_codage", "codeur", "statut",                   // champs standard fiche étalon
+  // [DOC-002] Clés présentes dans les fiches v62 de production — alignement nœud embarqué
+  "zone_stratification",                                // stratification LOI PHYSIQUE / CŒUR / STRESS
+  "t_max", "theta_C", "theta_I",                       // paramètres sim à la racine (fiches v62)
+  "_conv_e_meta", "_pipeline_message",                  // métadonnées pipeline CONV-E
+  "cleanup", "message",                                  // métadonnées nœud nettoyage /tmp/
 ]);
 
 // Variables NC bloquantes (source: mepa_constants.json, fallback)
