@@ -1,0 +1,240 @@
+{
+  "cmd_base": {
+    "E": 0.75,
+    "EROI": 13.0,
+    "Mob": 0.2,
+    "Pop": 1.0,
+    "R": 0.3,
+    "Rc": 0.65,
+    "Ref": 0.1,
+    "Rn": 0.7,
+    "T": 0.9,
+    "gamma": 0.55
+  },
+  "cmd_linear": {
+    "EROI": {
+      "end": 18.0,
+      "start": 8.0
+    }
+  },
+  "params": {
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "p1": 0.08,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.18,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "simulation": {
+    "C_final": 0.0461,
+    "C_max": 0.1027,
+    "FR_bascule": null,
+    "FR_final": 0.1255,
+    "FR_max": 0.3089,
+    "F_bascule": null,
+    "I_final": 8.2389,
+    "I_min_sim": 2.5,
+    "L_final": 0.2999,
+    "R_bascule": null,
+    "S_final": 0.75,
+    "dC_rel": null,
+    "dCdt_bascule": null,
+    "dI_rel": null,
+    "t_bascule": null,
+    "tableau_S2": [
+      {
+        "C": 0.1,
+        "F": 0.2573,
+        "FR": 0.1624,
+        "I": 2.5,
+        "L": 0.2,
+        "R": 1.5846,
+        "S": 1.3,
+        "note": "",
+        "t": 0
+      },
+      {
+        "C": 0.0719,
+        "F": 0.347,
+        "FR": 0.1988,
+        "I": 3.4982,
+        "L": 0.3497,
+        "R": 1.7454,
+        "S": 0.8671,
+        "note": "",
+        "t": 25
+      },
+      {
+        "C": 0.0518,
+        "F": 0.296,
+        "FR": 0.1627,
+        "I": 4.0387,
+        "L": 0.3105,
+        "R": 1.8198,
+        "S": 0.7749,
+        "note": "",
+        "t": 50
+      },
+      {
+        "C": 0.0473,
+        "F": 0.285,
+        "FR": 0.1519,
+        "I": 4.4818,
+        "L": 0.3022,
+        "R": 1.876,
+        "S": 0.7553,
+        "note": "",
+        "t": 75
+      },
+      {
+        "C": 0.0464,
+        "F": 0.2827,
+        "FR": 0.1468,
+        "I": 4.904,
+        "L": 0.3004,
+        "R": 1.9263,
+        "S": 0.7511,
+        "note": "",
+        "t": 100
+      },
+      {
+        "C": 0.0462,
+        "F": 0.2821,
+        "FR": 0.1398,
+        "I": 5.7388,
+        "L": 0.3,
+        "R": 2.0177,
+        "S": 0.7501,
+        "note": "",
+        "t": 150
+      },
+      {
+        "C": 0.0461,
+        "F": 0.2821,
+        "FR": 0.1343,
+        "I": 6.5722,
+        "L": 0.2999,
+        "R": 2.1004,
+        "S": 0.75,
+        "note": "",
+        "t": 200
+      },
+      {
+        "C": 0.0461,
+        "F": 0.2821,
+        "FR": 0.1296,
+        "I": 7.4056,
+        "L": 0.2999,
+        "R": 2.1765,
+        "S": 0.75,
+        "note": "",
+        "t": 250
+      },
+      {
+        "C": 0.0461,
+        "F": 0.2821,
+        "FR": 0.1255,
+        "I": 8.2389,
+        "L": 0.2999,
+        "R": 2.247,
+        "S": 0.75,
+        "note": "",
+        "t": 300
+      }
+    ],
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "traj": "(b) Répression réussie"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "dC_rel": null,
+      "dI_rel": null,
+      "traj": "(b) Répression réussie"
+    },
+    "pessimiste": {
+      "dC_rel": null,
+      "dI_rel": null,
+      "traj": "(b) Répression réussie"
+    }
+  },
+  "stress_n2": [
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "E+0.1",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "E-0.1",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "R+0.08",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "R-0.08",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "EROI+0.5",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "EROI-0.5",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "Rc+0.1",
+      "traj": "(b) Répression réussie"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "Rc-0.1",
+      "traj": "(b) Répression réussie"
+    }
+  ],
+  "t_max": 300,
+  "verdict": {
+    "concordance_attendue": false,
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(b) Répression réussie",
+    "trajs_set_n1": [
+      "(b) Répression réussie"
+    ]
+  },
+  "y0": [
+    1.3,
+    0.2,
+    0.1,
+    2.5
+  ]
+}

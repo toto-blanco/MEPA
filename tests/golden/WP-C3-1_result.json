@@ -1,0 +1,279 @@
+{
+  "cmd_base": {
+    "E": 0.55,
+    "EROI": 9.0,
+    "Mob": 0.3,
+    "Pop": 1.0,
+    "R": 0.35,
+    "Rc": 0.35,
+    "Ref": 0.1,
+    "Rn": 0.1,
+    "T": 0.8,
+    "gamma": 0.45
+  },
+  "cmd_linear": {},
+  "params": {
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "p1": 0.08,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "simulation": {
+    "C_final": 0.0653,
+    "C_max": 0.1305,
+    "FR_bascule": null,
+    "FR_final": 0.1259,
+    "FR_max": 0.2649,
+    "F_bascule": null,
+    "I_final": 4.0,
+    "I_min_sim": 3.5,
+    "L_final": 0.2016,
+    "R_bascule": null,
+    "S_final": 0.5042,
+    "dC_rel": null,
+    "dCdt_bascule": null,
+    "dI_rel": null,
+    "t_bascule": null,
+    "tableau_S2": [
+      {
+        "C": 0.1,
+        "F": 0.4348,
+        "FR": 0.2649,
+        "I": 3.5,
+        "L": 0.45,
+        "R": 1.6412,
+        "S": 1.0,
+        "note": "",
+        "t": 0
+      },
+      {
+        "C": 0.1024,
+        "F": 0.2858,
+        "FR": 0.1685,
+        "I": 3.8935,
+        "L": 0.2465,
+        "R": 1.6961,
+        "S": 0.6097,
+        "note": "",
+        "t": 25
+      },
+      {
+        "C": 0.0744,
+        "F": 0.2315,
+        "FR": 0.1356,
+        "I": 3.9773,
+        "L": 0.2112,
+        "R": 1.7073,
+        "S": 0.5266,
+        "note": "",
+        "t": 50
+      },
+      {
+        "C": 0.0673,
+        "F": 0.2188,
+        "FR": 0.128,
+        "I": 3.9952,
+        "L": 0.2036,
+        "R": 1.7097,
+        "S": 0.509,
+        "note": "",
+        "t": 75
+      },
+      {
+        "C": 0.0657,
+        "F": 0.216,
+        "FR": 0.1263,
+        "I": 3.999,
+        "L": 0.202,
+        "R": 1.7102,
+        "S": 0.5052,
+        "note": "",
+        "t": 100
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 150
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 200
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 250
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 300
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 350
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 400
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 450
+      },
+      {
+        "C": 0.0653,
+        "F": 0.2153,
+        "FR": 0.1259,
+        "I": 4.0,
+        "L": 0.2016,
+        "R": 1.7103,
+        "S": 0.5042,
+        "note": "",
+        "t": 500
+      }
+    ],
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "traj": "(h)/(e) Stabilité ou réforme lente"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "dC_rel": null,
+      "dI_rel": null,
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    "pessimiste": {
+      "dC_rel": null,
+      "dI_rel": null,
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    }
+  },
+  "stress_n2": [
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "E+0.1",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "E-0.1",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "R+0.08",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "R-0.08",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "EROI+0.5",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "EROI-0.5",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "Rc+0.1",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    },
+    {
+      "dC_rel": null,
+      "dI_rel": null,
+      "label": "Rc-0.1",
+      "traj": "(h)/(e) Stabilité ou réforme lente"
+    }
+  ],
+  "t_max": 500,
+  "verdict": {
+    "concordance_attendue": false,
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(h)/(e) Stabilité ou réforme lente",
+    "trajs_set_n1": [
+      "(h)/(e) Stabilité ou réforme lente"
+    ]
+  },
+  "y0": [
+    1.0,
+    0.45,
+    0.1,
+    3.5
+  ]
+}
