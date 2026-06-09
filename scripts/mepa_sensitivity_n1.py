@@ -114,6 +114,7 @@ def run_sensitivity_n1(config: dict) -> dict:
     """
     # ── Simulation de référence ──────────────────────────────────────────────
     p_ref      = runner.apply_sa_modulator(config['params'], int(config['sa']))
+    p_ref      = runner._inject_theta(p_ref, config)   # ARCH-014 : garantit theta_C/I effectifs
     cmd_base   = runner._normalize_cmd(config['cmd'])
     # Note : normalizeGamma_dict() n'existe pas dans runner V2.0 — _normalize_cmd() est la méthode correcte.
     linear     = config.get('cmd_linear', {})
@@ -151,6 +152,7 @@ def run_sensitivity_n1(config: dict) -> dict:
         for signe, label in [(+1, '+20%'), (-1, '-20%')]:
             params_pert = perturber_param(config['params'], var, signe)
             p_pert = runner.apply_sa_modulator(params_pert, int(config['sa']))
+            p_pert = runner._inject_theta(p_pert, config)  # ARCH-014
             res = runner.simulate(p_pert, cmd_fn_ref, y0, t_max)
             resultats_params[var][label] = {
                 'traj'       : res['traj'],

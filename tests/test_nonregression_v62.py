@@ -11,7 +11,13 @@ Usage :
     pytest tests/ -v
 """
 import json
+import sys
+from pathlib import Path
+
 import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+import mepa_sensitivity_n1 as sensitivity  # noqa: E402
 
 from _mepa_helpers import (
     GOLDEN_DIR,
@@ -145,3 +151,58 @@ def test_cmd_linear_c1_eroi_dynamic():
     assert 'EROI' in result['cmd_linear'], (
         f"cmd_linear devrait contenir 'EROI', contenu : {result['cmd_linear']}"
     )
+
+
+# ── Mission 2 — Bug theta dans mepa_sensitivity_n1 ───────────────────────────
+
+def test_theta_injection_sensitivity_baseline():
+    """
+    Prouve que _inject_theta() est maintenant appelé dans run_sensitivity_n1().
+
+    Construit un config avec theta_C=0.40 / theta_I=0.30 à la racine mais
+    ABSENT de config['params'] (format v1.x qui déclenchait le bug).
+    Vérifie que la traj_baseline de sensitivity_n1 correspond à celle de run_wp()
+    avec les mêmes theta effectifs.
+    """
+    from mepa_runner_v2_gamma import _inject_theta, apply_sa_modulator
+
+    base = _config_for_wp_id("WP-C2-1")
+
+    # Construire un config v1.x : theta à la racine, absent de params
+    custom_theta_C = 0.40
+    custom_theta_I = 0.30
+    config = dict(base)
+    config['theta_C'] = custom_theta_C
+    config['theta_I'] = custom_theta_I
+    params_sans_theta = {k: v for k, v in base['params'].items()
+                         if k not in ('theta_C', 'theta_I')}
+    config['params'] = params_sans_theta
+
+    # Vérifier que _inject_theta propage bien les valeurs racine dans p
+    p_sa = apply_sa_modulator(config['params'], config['sa'])
+    p_injected = _inject_theta(p_sa, config)
+    assert abs(p_injected['theta_C'] - custom_theta_C) < 1e-9, (
+        f"_inject_theta : theta_C attendu {custom_theta_C}, obtenu {p_injected['theta_C']}"
+    )
+    assert abs(p_injected['theta_I'] - custom_theta_I) < 1e-9, (
+        f"_inject_theta : theta_I attendu {custom_theta_I}, obtenu {p_injected['theta_I']}"
+    )
+
+    # Vérifier que run_wp et sensitivity_n1 partagent la même traj de référence
+    result_runner   = run_wp(config)
+    rapport_n1      = sensitivity.run_sensitivity_n1(config)
+
+    assert rapport_n1['traj_baseline'] == result_runner['simulation']['traj'], (
+        f"Divergence theta : sensitivity baseline='{rapport_n1['traj_baseline']}' "
+        f"≠ runner traj='{result_runner['simulation']['traj']}'"
+    )
+
+
+@pytest.mark.parametrize("wp_id,fiche_path",
+                         [(wid, p) for wid, p in FICHES if wid.startswith("WP-")],
+                         ids=[wid for wid, _ in FICHES if wid.startswith("WP-")])
+def test_sensitivity_no_error(wp_id, fiche_path):
+    """Aucune exception sur les 27 WP après correction du bug theta."""
+    fiche  = load_fiche(fiche_path)
+    config = fiche_to_runner_config(fiche)
+    sensitivity.run_sensitivity_n1(config)  # doit terminer sans exception
