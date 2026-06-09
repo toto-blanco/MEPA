@@ -105,6 +105,12 @@ NC_BLOQUANTES_RUNNER = frozenset({"gamma", "EROI"})
 # Variables NC non bloquantes pour le runner (dégradent qualité, pas simulation)
 NC_NON_BLOQUANTES_RUNNER = frozenset({"E", "T", "Mob", "R", "Ref", "Rc", "Rn", "Pop"})
 
+# Ensemble des 18 paramètres obligatoires dans config['params']
+PARAMS_REQUIS = frozenset({
+    'p1', 'p2', 'p2b', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9',
+    'p10', 'p11a', 'p11b', 'p13', 'lam', 'mu', 'nu', 'rho',
+})
+
 
 # ── CHARGEMENT mepa_constants.json (fallback si absent) ──────────────────────
 
@@ -241,18 +247,16 @@ def _inject_theta(p: dict, config: dict) -> dict:
     p_out = dict(p)
     # theta_C
     if 'theta_C' not in p_out or p_out.get('theta_C') is None:
-        p_out['theta_C'] = float(
-            config.get('params', {}).get('theta_C')
-            or config.get('theta_C')
-            or 0.30
-        )
+        _tc = config.get('params', {}).get('theta_C')
+        if _tc is None:
+            _tc = config.get('theta_C')
+        p_out['theta_C'] = float(_tc if _tc is not None else 0.30)
     # theta_I
     if 'theta_I' not in p_out or p_out.get('theta_I') is None:
-        p_out['theta_I'] = float(
-            config.get('params', {}).get('theta_I')
-            or config.get('theta_I')
-            or 0.22
-        )
+        _ti = config.get('params', {}).get('theta_I')
+        if _ti is None:
+            _ti = config.get('theta_I')
+        p_out['theta_I'] = float(_ti if _ti is not None else 0.22)
     return p_out
 
 
@@ -581,6 +585,13 @@ def run_wp(config: dict) -> dict:
     if y0_raw is None:
         raise ValueError("Champ 'y0' manquant dans la config.")
     y0 = _normalize_y0(y0_raw)
+
+    # ── Validation paramètres requis ──────────────────────────────────────────
+    manquants = PARAMS_REQUIS - set(config.get('params', {}).keys())
+    if manquants:
+        raise ValueError(
+            f"Paramètres manquants dans config['params'] : {sorted(manquants)}"
+        )
 
     # ── A1 : Garde-fou NC sur cmd (JAMAIS de NaN silencieux) ──────────────────
     cmd_raw = config.get('cmd', {})

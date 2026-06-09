@@ -208,6 +208,16 @@ def test_sensitivity_no_error(wp_id, fiche_path):
     sensitivity.run_sensitivity_n1(config)  # doit terminer sans exception
 
 
+# ── Mission 4 — Validation paramètres requis ─────────────────────────────────
+
+def test_params_manquants_raises():
+    """config['params'] sans 'p6' → ValueError mentionnant 'p6'."""
+    config = _config_for_wp_id("WP-C2-1")
+    del config['params']['p6']
+    with pytest.raises(ValueError, match="p6"):
+        run_wp(config)
+
+
 # ── Mission 3 — Provenance et versions dans mepa_passeport_schema ────────────
 
 import importlib
