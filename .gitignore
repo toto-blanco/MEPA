@@ -1,0 +1,37 @@
+# Sorties de simulation (générées par le pipeline)
+outputs/
+
+# Staging déploiement
+prod/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environnement Python
+.env
+.venv
+env/
+venv/
+
+# Sécurité — clés API
+*.env
+.env.*
+secrets.*
+
+# Temporaires pipeline
+*.tmp
+*.log
+/tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
