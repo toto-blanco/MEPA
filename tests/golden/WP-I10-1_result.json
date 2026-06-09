@@ -1,0 +1,275 @@
+{
+  "cmd_base": {
+    "E": 0.8,
+    "EROI": 3.0,
+    "Mob": 0.05,
+    "Pop": 1.0,
+    "R": 0.15,
+    "Rc": 0.6,
+    "Ref": 0.1,
+    "Rn": 0.1,
+    "T": 1.0,
+    "gamma": 0.55
+  },
+  "cmd_linear": {
+    "EROI": {
+      "end": 3.0,
+      "start": 3.0
+    }
+  },
+  "params": {
+    "lam": 0.72,
+    "lam_note": "Poids λ de L dans F(t) = C + λ·L·(1 + μ·γ·E). P_DEFAULT=0.68. Valeur 0.72 = borne haute de la plage autorisée [0.60, 0.75] — prompt V3-gamma Partie 2 §3. Justifiée par la loyauté exceptionnelle des FAR et milices Interahamwe comme amplificateur de force dans Phase 1 (refus total de négociation, exécution systématique). Dans plage corpus admissible.",
+    "mu": 0.38,
+    "nu": 0.62,
+    "p1": 0.08,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.2,
+    "p5_note": "Flux C ← L (mobilisation collective → capital institutionnel). P_DEFAULT=0.05 insuffisant pour capturer l'intensité de la cohésion génocidaire Interahamwe (Phase 1). Valeur 0.20 = 4× le défaut, justifiée par l'organisation paramilitaire documentée (Prunier 1995, S1 ; Des Forges HRW 1999, S2). Dans plage corpus [0.01, 0.80] — mepa_constants.json.",
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "simulation": {
+    "C_final": 0.9758,
+    "C_max": 1.0643,
+    "FR_bascule": 1.0416,
+    "FR_final": 1.2102,
+    "FR_max": 1.2765,
+    "F_bascule": 1.2509,
+    "I_final": 1.0,
+    "I_min_sim": 1.0,
+    "L_final": 0.4347,
+    "R_bascule": 1.2009,
+    "S_final": 1.1083,
+    "dC_rel": 0.599,
+    "dCdt_bascule": 0.057512,
+    "dI_rel": 0.0616,
+    "t_bascule": 8,
+    "tableau_S2": [
+      {
+        "C": 0.1,
+        "F": 0.184,
+        "FR": 0.1469,
+        "I": 1.5,
+        "L": 0.1,
+        "R": 1.2529,
+        "S": 1.5,
+        "note": "",
+        "t": 0
+      },
+      {
+        "C": 0.8013,
+        "F": 1.2509,
+        "FR": 1.0416,
+        "I": 1.3048,
+        "L": 0.535,
+        "R": 1.2009,
+        "S": 1.3471,
+        "note": "← bascule",
+        "t": 8
+      },
+      {
+        "C": 1.0639,
+        "F": 1.4584,
+        "FR": 1.2765,
+        "I": 1.1065,
+        "L": 0.4694,
+        "R": 1.1425,
+        "S": 1.1917,
+        "note": "",
+        "t": 25
+      },
+      {
+        "C": 1.0069,
+        "F": 1.3784,
+        "FR": 1.2355,
+        "I": 1.0227,
+        "L": 0.4421,
+        "R": 1.1157,
+        "S": 1.1261,
+        "note": "",
+        "t": 50
+      },
+      {
+        "C": 0.9829,
+        "F": 1.3496,
+        "FR": 1.216,
+        "I": 1.0048,
+        "L": 0.4363,
+        "R": 1.1098,
+        "S": 1.1121,
+        "note": "",
+        "t": 75
+      },
+      {
+        "C": 0.9773,
+        "F": 1.343,
+        "FR": 1.2114,
+        "I": 1.001,
+        "L": 0.435,
+        "R": 1.1086,
+        "S": 1.1091,
+        "note": "",
+        "t": 100
+      },
+      {
+        "C": 0.9759,
+        "F": 1.3412,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1084,
+        "note": "",
+        "t": 150
+      },
+      {
+        "C": 0.9758,
+        "F": 1.3411,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1083,
+        "note": "",
+        "t": 200
+      },
+      {
+        "C": 0.9758,
+        "F": 1.3411,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1083,
+        "note": "",
+        "t": 250
+      },
+      {
+        "C": 0.9758,
+        "F": 1.3411,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1083,
+        "note": "",
+        "t": 300
+      },
+      {
+        "C": 0.9758,
+        "F": 1.3411,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1083,
+        "note": "",
+        "t": 350
+      },
+      {
+        "C": 0.9758,
+        "F": 1.3411,
+        "FR": 1.2102,
+        "I": 1.0,
+        "L": 0.4347,
+        "R": 1.1082,
+        "S": 1.1083,
+        "note": "",
+        "t": 400
+      }
+    ],
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "traj": "(a) Rupture transformatrice"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "dC_rel": 0.7544,
+      "dI_rel": 0.0871,
+      "traj": "(a) Rupture transformatrice"
+    },
+    "pessimiste": {
+      "dC_rel": 0.747,
+      "dI_rel": 0.0497,
+      "traj": "(a) Rupture transformatrice"
+    }
+  },
+  "stress_n2": [
+    {
+      "dC_rel": 0.4885,
+      "dI_rel": 0.0476,
+      "label": "E+0.1",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.689,
+      "dI_rel": 0.0747,
+      "label": "E-0.1",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.6825,
+      "dI_rel": 0.0747,
+      "label": "R+0.08",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.4915,
+      "dI_rel": 0.0476,
+      "label": "R-0.08",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.599,
+      "dI_rel": 0.0616,
+      "label": "EROI+0.5",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.599,
+      "dI_rel": 0.0616,
+      "label": "EROI-0.5",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.5984,
+      "dI_rel": 0.0616,
+      "label": "Rc+0.1",
+      "traj": "(a) Rupture transformatrice"
+    },
+    {
+      "dC_rel": 0.4847,
+      "dI_rel": 0.0476,
+      "label": "Rc-0.1",
+      "traj": "(a) Rupture transformatrice"
+    }
+  ],
+  "t_max": 400,
+  "verdict": {
+    "concordance_attendue": true,
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(a) Rupture transformatrice",
+    "trajs_set_n1": [
+      "(a) Rupture transformatrice"
+    ]
+  },
+  "y0": [
+    1.5,
+    0.1,
+    0.1,
+    1.5
+  ]
+}
