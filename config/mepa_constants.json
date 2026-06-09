@@ -483,5 +483,15 @@
       "C5"
     ],
     "note": "C6 réservé. Cluster détermine le contexte de modélisation, pas les équations."
+  },
+
+  "versions_scripts": {
+    "$description": "Versions opérationnelles des scripts V6.2. Source de vérité pour MEPA_VERSION_META dans mepa_passeport_schema.py. Mettre à jour ici lors de toute montée de version.",
+    "runner":     "mepa_runner_v2_gamma 2.1.1",
+    "audit":      "mepa_node2_audit_v62 2.1.1",
+    "kappa_calc": "mepa_kappa_calculator 2.0.0",
+    "passeport":  "mepa_passeport_schema 2.0.0",
+    "constants":  "mepa_constants 1.2.3",
+    "whitelist":  "mepa_whitelist_keys 2.0"
   }
 }

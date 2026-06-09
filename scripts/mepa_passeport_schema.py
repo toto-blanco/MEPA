@@ -60,8 +60,10 @@ MEPA_SCRIPTS_DIR = os.environ.get("MEPA_SCRIPTS_DIR", "/data/mepa/scripts")
 MEPA_OUTPUT_DIR  = os.environ.get("MEPA_OUTPUT_DIR",  "/data/mepa/outputs")
 
 # ── Métadonnées IA codeur (traçabilité provenance) ────────────────────────────
+# modele : lu depuis MEPA_IA_MODEL (env) à l'import ; fallback "claude-sonnet-4-6".
+# Permet à n8n de changer de modèle sans modifier ce fichier.
 IA_CODEUR = {
-    "modele":           "claude-sonnet-4-6",
+    "modele":           os.environ.get("MEPA_IA_MODEL", "claude-sonnet-4-6"),
     "famille":          "Claude 4",
     "fournisseur":      "Anthropic",
     "role_pipeline":    "CONV-E (Historien-Codeur) / CONV-B (Auditeur) / CONV-A (Rédacteur)",
@@ -74,17 +76,52 @@ IA_CODEUR = {
     ),
 }
 
-MEPA_VERSION_META = {
-    "version":          "6.2",
-    "sous_version":     "Fortifiée",
-    "label":            "MEPA V6.2 Fortifiée",
-    "runner":           "mepa_runner_v2_gamma v2.0",
-    "audit":            "mepa_node2_audit_v62 v2.0",
-    "kappa_calc":       "mepa_kappa_calculator v2.0",
-    "passeport":        "mepa_passeport_schema v2.0",
-    "constants":        "mepa_constants v1.0",
-    "whitelist":        "mepa_whitelist_keys v2.0",
-}
+
+def _load_version_meta() -> dict:
+    """
+    Charge MEPA_VERSION_META depuis mepa_constants.json (clé versions_scripts).
+    Fallback : valeurs hardcodées avec les versions réelles des fichiers.
+    """
+    hardcoded = {
+        "version":      "6.2",
+        "sous_version": "Fortifiée",
+        "label":        "MEPA V6.2 Fortifiée",
+        "runner":       "mepa_runner_v2_gamma 2.1.1",
+        "audit":        "mepa_node2_audit_v62 2.1.1",
+        "kappa_calc":   "mepa_kappa_calculator 2.0.0",
+        "passeport":    "mepa_passeport_schema 2.0.0",
+        "constants":    "mepa_constants 1.2.3",
+        "whitelist":    "mepa_whitelist_keys 2.0",
+    }
+    try:
+        path = os.path.join(MEPA_SCRIPTS_DIR, "mepa_constants.json")
+        with open(path, encoding="utf-8") as f:
+            vs = json.load(f).get("versions_scripts")
+        if vs:
+            hardcoded.update(vs)
+    except Exception:
+        pass
+    return hardcoded
+
+
+MEPA_VERSION_META = _load_version_meta()
+
+
+def _build_provenance_ia(result: dict = None) -> dict:
+    """
+    Retourne le dict provenance_ia pour le passeport.
+
+    Priorité pour le champ 'modele' :
+      1. result['_conv_e_meta']['modele']  (injecté par n8n depuis la fiche WP)
+      2. MEPA_IA_MODEL env var            (capturé dans IA_CODEUR à l'import)
+      3. Fallback "claude-sonnet-4-6"
+    """
+    ia = dict(IA_CODEUR)
+    if result:
+        meta_model = result.get("_conv_e_meta", {}).get("modele")
+        if meta_model:
+            ia["modele"] = meta_model
+    return ia
 
 # ── Seuils de certification (miroir mepa_constants.json) ─────────────────────
 SEUIL_CCI_CERTIFIE    = 0.70
@@ -317,7 +354,7 @@ def generer_passeport(
 
         # ── § 5 : Provenance IA ───────────────────────────────────────────────
         "provenance_ia": {
-            **IA_CODEUR,
+            **_build_provenance_ia(result),
             "generated_at_runner": identite["generated_at_runner"],
             "integration":         identite["integration"],
             "cmd_type":            identite["cmd_type"],
@@ -502,7 +539,7 @@ def passeport_depuis_result(result: dict, result_path: str = "?") -> dict:
             "rapport_md_sha256":         None,
             "empreinte_composite_sha256":empreinte_composite,
         },
-        "provenance_ia":   IA_CODEUR,
+        "provenance_ia":   _build_provenance_ia(result),
         "mepa_version":    MEPA_VERSION_META,
         "friction_vecteur":{},
         "params_effectifs":{k: v for k, v in result.get("params", {}).items()

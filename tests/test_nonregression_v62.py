@@ -206,3 +206,83 @@ def test_sensitivity_no_error(wp_id, fiche_path):
     fiche  = load_fiche(fiche_path)
     config = fiche_to_runner_config(fiche)
     sensitivity.run_sensitivity_n1(config)  # doit terminer sans exception
+
+
+# ── Mission 3 — Provenance et versions dans mepa_passeport_schema ────────────
+
+import importlib
+import mepa_passeport_schema as passeport_schema  # noqa: E402
+
+
+def _make_minimal_result(wp_id: str = "WP-C2-1") -> dict:
+    """Construit un result dict minimal valide pour passeport_depuis_result()."""
+    fiche  = load_fiche(str(next(p for wid, p in FICHES if wid == wp_id)))
+    config = fiche_to_runner_config(fiche)
+    return run_wp(config)
+
+
+def test_passeport_modele_env_var(monkeypatch):
+    """MEPA_IA_MODEL=claude-test → provenance_ia['modele'] == 'claude-test'."""
+    monkeypatch.setenv("MEPA_IA_MODEL", "claude-test")
+    # Recharger le module pour que os.environ.get() soit réévalué
+    importlib.reload(passeport_schema)
+
+    result    = _make_minimal_result()
+    passeport = passeport_schema.passeport_depuis_result(result)
+
+    assert passeport["provenance_ia"]["modele"] == "claude-test", (
+        f"modele attendu 'claude-test', obtenu '{passeport['provenance_ia']['modele']}'"
+    )
+
+    # Restaurer l'état du module après le test
+    monkeypatch.delenv("MEPA_IA_MODEL", raising=False)
+    importlib.reload(passeport_schema)
+
+
+def test_passeport_modele_conv_e_meta():
+    """_conv_e_meta dans result → prioritaire sur env var."""
+    result = _make_minimal_result()
+    result["_conv_e_meta"] = {"modele": "claude-opus-custom"}
+
+    passeport = passeport_schema.passeport_depuis_result(result)
+
+    assert passeport["provenance_ia"]["modele"] == "claude-opus-custom", (
+        f"_conv_e_meta non prioritaire : obtenu '{passeport['provenance_ia']['modele']}'"
+    )
+
+
+def test_passeport_versions_reelles():
+    """mepa_version reflète les versions réelles des scripts (runner 2.1.1, constants 1.2.3)."""
+    result    = _make_minimal_result()
+    passeport = passeport_schema.passeport_depuis_result(result)
+    mv        = passeport["mepa_version"]
+
+    assert "2.1.1" in mv["runner"], (
+        f"runner attendu contenir '2.1.1', obtenu '{mv['runner']}'"
+    )
+    assert "2.1.1" in mv["audit"], (
+        f"audit attendu contenir '2.1.1', obtenu '{mv['audit']}'"
+    )
+    assert "1.2.3" in mv["constants"], (
+        f"constants attendu contenir '1.2.3', obtenu '{mv['constants']}'"
+    )
+
+
+def test_passeport_structure_valide():
+    """Le passeport contient toutes les sections obligatoires (équivalent validate())."""
+    CLES_OBLIGATOIRES = [
+        "$schema", "generated_at", "identite", "certification",
+        "simulation", "hash_integrite", "provenance_ia", "mepa_version",
+        "statut_global",
+    ]
+    result    = _make_minimal_result()
+    passeport = passeport_schema.passeport_depuis_result(result)
+
+    manquantes = [k for k in CLES_OBLIGATOIRES if k not in passeport]
+    assert not manquantes, f"Clés obligatoires manquantes dans le passeport : {manquantes}"
+
+    assert passeport["$schema"] == "mepa-passeport-v2.0", (
+        f"$schema inattendu : '{passeport['$schema']}'"
+    )
+    assert passeport["provenance_ia"].get("modele"), "provenance_ia.modele vide"
+    assert passeport["mepa_version"].get("label") == "MEPA V6.2 Fortifiée"
