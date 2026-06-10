@@ -22,7 +22,7 @@
         340
       ],
       "parameters": {
-        "filePath": "={{ $env.MEPA_FICHE_PATH || '/data/mepa/config/WP-C2-1_Egypte2011_v62.json' }}",
+        "filePath": "={{ $json.fiche_path || $env.MEPA_FICHE_PATH || '/data/mepa/config/WP-C2-1_Egypte2011_v62.json' }}",
         "options": {}
       },
       "notes": "Lit la fiche WP JSON depuis le disque. Chemin configurable via variable d'environnement MEPA_FICHE_PATH ou paramètre direct. Valeur par défaut : WP-C1-1 Haïti (ancre plancher corpus V6.2)."
