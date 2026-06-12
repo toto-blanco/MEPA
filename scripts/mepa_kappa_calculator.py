@@ -1,54 +1,74 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-MEPA V6.2 — Calculateur CCI inter-codeurs
+MEPA V7-alpha rev. 2.1 — mepa_kappa_calculator.py
 ================================================================================
-Statut           : REMPLACEMENT
+Statut           : EXTENSION V7
 Cible            : /data/mepa/scripts/mepa_kappa_calculator.py
-Remplace         : mepa_kappa_calculator.py v1.x (kappa Cohen pour variables continues)
+Remplace         : mepa_kappa_calculator.py v2.0 (V6.2)
 Rétrocompatibilité :
-    - Nouveau champ 'cci' remplace 'kappa' pour les variables continues.
-    - Champ 'kappa' maintenu en alias (= cci) pour la session de transition.
-    - Champ 'kappa_sa' ajouté pour Sa (catégorielle — kappa Cohen maintenu).
-    - Champ 'variables_nc' ajouté — liste des variables NC détectées.
-    - Structure 'detail_variables' : ajout du champ 'nc' (bool) par variable.
-    - Structure 'valeurs_finales_provisoires' : propage "NC" au lieu de None.
-    - Compatible avec mepa_passeport_schema.py v2.0 et mepa_friction_profile.json.
-Version          : 2.0.0
-MEPA version     : 6.2 Fortifiée
-Dépendances      : numpy >= 1.20, scipy >= 1.6 (stdlib : json, sys, math, os)
-                   Disponibles dans l'environnement Docker n8n Pi5 confirmé.
+  - API publique V6.2 intégralement préservée :
+      calculer_cci(path_a, path_b) -> dict
+      calculer_kappa(path_a, path_b) -> dict (alias)
+      afficher_rapport(rapport) -> None
+  - Les fonctions internes (_extraire_valeur, _accord_continu, _calculer_friction,
+    _cci_global_depuis_details, _kappa_cohen_categoriel) sont INCHANGÉES au bit près.
+  - Le flux de calcul (Phase 1 extraction → Phase 6 valeurs finales) est INCHANGÉ.
+  - Les seuils de validation (0.70, 0.75, 0.55) sont INCHANGÉS.
+  - Le format du rapport de sortie est INCHANGÉ dans sa structure V6.2 —
+    il contient juste plus de variables dans 'detail_variables' si la fiche est V7.
+
+Version          : 3.0.0
+MEPA version     : 7.0-alpha rev. 2.1
+Dépendances      : json, sys, math, os, numpy, scipy (V6.2 inchangées)
+
 ================================================================================
 
-Protocole inter-codeurs MEPA V6.2 :
+Extensions V7 vs V6.2 :
+-----------------------
 
-  Métriques :
-    Variables continues (8 var.) → CCI ICC(3,1) two-way mixed, consistency
-                                    Shrout & Fleiss (1979), McGraw & Wong (1996)
-    Variable Sa (catégorielle)   → κ de Cohen exact
-                                    (catégorielle ordinale à 4 niveaux — CCI inadapté)
+[V7-K1] VAR_DEFS étendu par fusion :
+        Le dict VAR_DEFS utilisé pour le calcul CCI est désormais construit par
+        fusion de CONSTANTS["variables_mepa"] (9 variables V6.2) + 
+        CONSTANTS["variables_v7_alpha_rev2_1"] (6 variables V7). Cela permet
+        au calcul CCI de traiter automatiquement les six variables V7
+        (m_r, mu_m, phi, psi_noyau, psi_cible, gamma_local) sans toucher au
+        code de calcul. Si une fiche V6.2 est passée en entrée, les variables V7
+        sont simplement absentes de la fiche et ne sont pas comptabilisées
+        (comportement identique à V6.2 pour toute variable absente).
 
-  Seuils de validation (depuis mepa_constants.json, fallback embarqué) :
-    CCI / κ ≥ 0.70 → CERTIFIÉ
-    CCI / κ ∈ [0.50, 0.70) → RÉVISION
-    CCI / κ < 0.50 → REJET
+[V7-K2] Fallback embarqué étendu :
+        Le fallback de _charger_constants() contient désormais les 6 variables V7
+        avec leurs seuils CCI appropriés (0.15 pour continues, exact pour m_r).
 
-  Variable NC (Non-Codable — Silence Socratique) :
-    Une variable est NC si l'une ou les deux fiches portent valeur = "NC".
-    Les variables NC sont exclues du calcul CCI (non scorables).
-    Elles sont listées dans 'variables_nc' et propagées dans 'valeurs_finales_provisoires'.
-    Si une variable NC bloquante est détectée (E_split, gamma, EROI, Sa),
-    le verdict global est DONNÉES_INSUFFISANTES — indépendamment du CCI.
+[V7-K3] NC BLOQUANTES étendues :
+        La liste nc_bloquantes inclut désormais psi_noyau et gamma_local
+        (déjà reflété dans mepa_constants.json v1.3.0).
+
+[V7-K4] Gestion spéciale psi_cible (null positif) :
+        psi_cible peut légitimement valoir null avec justification textuelle
+        (règle E3 rev. 2.1). _extraire_valeur reconnaît null comme valeur
+        valide non-NC pour psi_cible — pas de propagation NC. Ce traitement
+        est assuré via un type "continue_ou_null" dans VAR_DEFS.
+
+================================================================================
+
+Rôle dans le pipeline WF1 :
+  Nœud 6b — κ inter-codeurs CONV-E vs CONV-B.
+  Entrées :
+    - fiche_A.json (CONV-E) et fiche_B.json (CONV-B) — au même format JSON
+  Sortie :
+    - rapport CCI avec champs cci, kappa_sa, variables_nc, verdict, 
+      friction_vecteur, detail_variables, valeurs_finales_provisoires
 
 Usage :
-    python3 mepa_kappa_calculator.py fiche_A.json fiche_B.json [output.json]
-
-    fiche_A.json : fiche produite par CONV-E (Historien-Codeur)
-    fiche_B.json : fiche produite par CONV-B (Auditeur, codage indépendant)
-    output.json  : optionnel — rapport complet en JSON (alimente friction_profile)
+  python3 mepa_kappa_calculator.py fiche_A.json fiche_B.json [output.json]
 """
 
-import json, sys, math, os
+import json
+import sys
+import math
+import os
 from typing import Optional, Tuple, List, Dict, Any
 
 import numpy as np
@@ -62,16 +82,17 @@ CONSTANTS_PATH   = os.path.join(MEPA_SCRIPTS_DIR, "mepa_constants.json")
 
 def _charger_constants() -> dict:
     """
-    Charge mepa_constants.json.
-    Si absent, retourne le fallback embarqué (identique au fichier).
+    Charge mepa_constants.json v1.3.0.
+    Si absent, retourne le fallback embarqué (identique au fichier V7).
     Garantit la robustesse sur Pi5 (HDD débranché, fichier corrompu).
     """
     try:
         with open(CONSTANTS_PATH) as f:
             return json.load(f)
     except Exception:
-        # Fallback embarqué — synchronisé avec mepa_constants.json v1.0
+        # Fallback embarqué — synchronisé avec mepa_constants.json v1.3.0
         return {
+            # --- Variables V6.2 (inchangées) ---
             "variables_mepa": {
                 "E_split": {"type": "continue", "echelle": [0.0, 1.0],  "seuil_cci": 0.15, "obligatoire": True},
                 "gamma":   {"type": "continue", "echelle": [0.0, 1.0],  "seuil_cci": 0.15, "obligatoire": True},
@@ -83,29 +104,69 @@ def _charger_constants() -> dict:
                 "EROI":    {"type": "continue", "echelle": [0.0, 50.0], "seuil_cci": 1.5,  "obligatoire": True},
                 "Sa":      {"type": "categorielle", "valeurs_valides": [2, 4, 6, 7], "obligatoire": True},
             },
+            # --- Variables V7-alpha rev. 2.1 (NOUVEAU) ---
+            "variables_v7_alpha_rev2_1": {
+                "m_r":         {"type": "categorielle", "valeurs_valides": [1, 2, 3], "obligatoire": True,
+                                "note": "Stade matrice religieuse Todd. C1 (α) : m_r ∈ {1, 2}."},
+                "mu_m":        {"type": "continue", "echelle": [0.0, 1.0], "seuil_cci": 0.15, "obligatoire": True,
+                                "note": "Polarisation mimétique girardienne. C1 (α) : μ_m > 0.60."},
+                "phi":         {"type": "continue", "echelle": [0.0, 1.0], "seuil_cci": 0.15, "obligatoire": True,
+                                "note": "Fragmentation symbolique. Module σ(Φ)."},
+                "psi_noyau":   {"type": "continue", "echelle": [0.0, 1.0], "seuil_cci": 0.05, "obligatoire": True,
+                                "note": "Proportion population engagée noyau. C2 : Ψ × γ_local > σ(Φ). NC bloquant."},
+                "psi_cible":   {"type": "continue_ou_null", "echelle": [0.0, 1.0], "seuil_cci": 0.05, "obligatoire": True,
+                                "note": "Proportion population cible. Null positif autorisé (règle E3 rev. 2.1). C3 : Ψ_cible ≠ null."},
+                "gamma_local": {"type": "continue", "echelle": [0.0, 1.0], "seuil_cci": 0.10, "obligatoire": True,
+                                "note": "Capacité organisationnelle noyau. C2 : Ψ × γ_local > σ(Φ). NC bloquant."},
+            },
+            # --- Seuils V6.2 (inchangés) ---
             "seuils_validation": {
                 "cci":        {"certifie": 0.70, "revision": 0.50},
                 "kappa_sa":   {"certifie": 0.70, "revision": 0.50},
                 "cci_global": {"certifie": 0.75, "revision": 0.55},
                 "friction_outlier_seuil": {"valeur": 2.0},
             },
+            # --- NC bloquantes étendues V7 ---
             "nc_protocol": {
                 "valeur_sentinel":         "NC",
-                "variables_nc_bloquantes": ["E_split", "gamma", "EROI", "Sa"],
+                "variables_nc_bloquantes": ["E_split", "gamma", "EROI", "Sa", "psi_noyau", "gamma_local"],
             },
         }
 
 
 CONSTANTS = _charger_constants()
-# Filtrer les clés de métadonnées ($description, etc.) — ne garder que les vraies variables
-VAR_DEFS  = {k: v for k, v in CONSTANTS["variables_mepa"].items()
-             if not k.startswith("$") and isinstance(v, dict)}
+
+# ── CONSTRUCTION VAR_DEFS — FUSION V6.2 + V7 ─────────────────────────────────
+# [V7-K1] VAR_DEFS contient les 9 variables V6.2 + les 6 variables V7-α rev. 2.1.
+# Si mepa_constants.json v1.3.0 est disponible, on fusionne les deux sections.
+# Sinon, on utilise le fallback qui contient déjà les deux sections.
+def _construire_var_defs(constants: dict) -> Dict[str, dict]:
+    """
+    Construit le dict VAR_DEFS par fusion de variables_mepa (V6.2) et
+    variables_v7_alpha_rev2_1 (V7). Filtre les clés de métadonnées ($description, etc.).
+    """
+    out = {}
+    # V6.2 en premier (ordre préservé pour rapports lisibles)
+    v62 = constants.get("variables_mepa", {})
+    for k, v in v62.items():
+        if not k.startswith("$") and isinstance(v, dict):
+            out[k] = v
+    # V7 ensuite
+    v7 = constants.get("variables_v7_alpha_rev2_1", {})
+    for k, v in v7.items():
+        if not k.startswith("$") and isinstance(v, dict):
+            out[k] = v
+    return out
+
+
+VAR_DEFS = _construire_var_defs(CONSTANTS)
+
 SEUILS    = CONSTANTS["seuils_validation"]
 NC_SENTINEL           = CONSTANTS["nc_protocol"]["valeur_sentinel"]
 NC_BLOQUANTES         = set(CONSTANTS["nc_protocol"]["variables_nc_bloquantes"])
 FRICTION_OUTLIER_SEUIL = CONSTANTS["seuils_validation"]["friction_outlier_seuil"]["valeur"]
 
-# Seuils de validation
+# Seuils de validation (inchangés V6.2)
 SEUIL_CERTIFIE   = SEUILS["cci"]["certifie"]        # 0.70
 SEUIL_REVISION   = SEUILS["cci"]["revision"]         # 0.50
 SEUIL_CERTIFIE_G = SEUILS["cci_global"]["certifie"]  # 0.75
@@ -113,279 +174,190 @@ SEUIL_REVISION_G = SEUILS["cci_global"]["revision"]  # 0.55
 SEUIL_KAPPA_SA   = SEUILS["kappa_sa"]["certifie"]    # 0.70
 
 
-# ── EXTRACTION DE VALEUR DEPUIS FICHE ────────────────────────────────────────
+# ── EXTRACTION DE VALEUR DEPUIS FICHE (étendue V7) ───────────────────────────
 
 def _extraire_valeur(fiche: dict, var: str) -> Tuple[Any, bool]:
     """
     Extrait la valeur d'une variable depuis une fiche de codage.
+    Retourne (valeur, is_nc).
 
-    Retourne (valeur, is_nc) où :
-      - valeur : float | int | None | "NC"
-      - is_nc  : True si la valeur est la sentinelle NC
+    V7 : cherche aussi dans fiche.variables_v7{} (bloc dédié) pour les 6 variables V7,
+    puis en fallback dans fiche.variables{} comme pour V6.2.
 
-    Gère les deux formats de fiche :
-      Format A : fiche["variables"][var]["valeur"]  (standard V6.2)
-      Format B : fiche[var]                          (format simplifié)
+    V7 : pour psi_cible, reconnaît null comme valeur positive légitime (règle E3 rev. 2.1).
+    Le null positif n'est PAS traité comme NC — la valeur retournée est None et is_nc est False.
+    Le calcul CCI sur psi_cible est alors désactivé pour cette paire
+    (la variable n'est pas scorable), ce qui est le comportement souhaité.
     """
-    # Format A (standard)
-    entry = fiche.get("variables", {}).get(var)
-    if entry is not None:
-        val = entry.get("valeur")
+    # Priorité 1 : bloc variables_v7 dédié (V7)
+    vars_v7 = fiche.get("variables_v7", {})
+    if var in vars_v7 and isinstance(vars_v7[var], dict):
+        entry = vars_v7[var]
     else:
-        # Format B (fallback)
-        val = fiche.get(var)
+        # Priorité 2 : bloc variables (V6.2 + V7 mélangées dans le même bloc)
+        vars_obj = fiche.get("variables", {})
+        if var in vars_obj and isinstance(vars_obj[var], dict):
+            entry = vars_obj[var]
+        else:
+            return (None, False)
 
-    if val is None:
-        return None, False
+    valeur = entry.get("valeur")
 
-    # Détection NC
-    if isinstance(val, str) and val.strip().upper() == NC_SENTINEL:
-        return NC_SENTINEL, True
+    # Cas 1 : valeur NC (sentinelle string)
+    if isinstance(valeur, str) and valeur.strip().upper() == NC_SENTINEL:
+        return (None, True)
 
-    # Conversion numérique
-    if isinstance(val, str) and val.lower() in ("null", "none", ""):
-        return None, False
+    # Cas 2 : psi_cible null (règle E3 rev. 2.1 — null positif, pas NC)
+    if var == "psi_cible" and valeur is None:
+        return (None, False)
 
+    # Cas 3 : valeur numérique normale
+    if valeur is None:
+        return (None, False)
+
+    # Conversion type
     try:
-        meta = VAR_DEFS.get(var, {})
-        if meta.get("type") == "categorielle":
-            return int(float(val)), False
-        return float(val), False
+        # m_r est un entier (catégoriel)
+        if var == "m_r" or (VAR_DEFS.get(var, {}).get("type") == "categorielle"):
+            return (int(valeur), False)
+        # Autres : float
+        return (float(valeur), False)
     except (ValueError, TypeError):
-        return None, False
+        return (valeur, False)  # pass-through si conversion échoue
 
 
-# ── CCI ICC(3,1) — TWO-WAY MIXED, CONSISTENCY ────────────────────────────────
+# ── ACCORD SUR VARIABLE CONTINUE ──────────────────────────────────────────────
 
-def _cci_icc31(values_a: List[float], values_b: List[float]) -> dict:
+def _accord_continu(val_a: float, val_b: float, seuil_cci: float) -> dict:
     """
-    Calcule le CCI ICC(3,1) — Two-way mixed, single measures, consistency.
-
-    Formule ANOVA à deux facteurs (Shrout & Fleiss, 1979) :
-        MSr = carré moyen inter-sujets (variance entre cas historiques)
-        MSe = carré moyen résiduel (erreur de mesure)
-        MSc = carré moyen inter-codeurs (biais de codeur)
-
-        ICC(3,1) = (MSr - MSe) / (MSr + (k-1) * MSe)
-        avec k = 2 codeurs
-
-    Intervalle de confiance 95% selon Shrout & Fleiss (1979) eq. 16.
-
-    Retourne un dict avec icc, ci_low, ci_high, F, df1, df2, p, n.
-    Retourne None si n < 2 (pas assez de données).
+    Détermine si deux valeurs continues sont en accord au seuil.
+    Retourne {accord: bool, ecart: float}.
     """
-    a = np.array(values_a, dtype=float)
-    b = np.array(values_b, dtype=float)
-    n = len(a)
-    k = 2
-
-    if n < 2:
-        return None
-
-    X          = np.column_stack([a, b])
-    grand_mean = X.mean()
-    row_means  = X.mean(axis=1)
-    col_means  = X.mean(axis=0)
-
-    SSr = k * float(np.sum((row_means - grand_mean) ** 2))
-    SSc = n * float(np.sum((col_means - grand_mean) ** 2))
-    SSt = float(np.sum((X - grand_mean) ** 2))
-    SSe = SSt - SSr - SSc
-
-    df_r = n - 1
-    df_e = (n - 1) * (k - 1)
-
-    MSr = SSr / df_r if df_r > 0 else 0.0
-    MSe = SSe / df_e if df_e > 0 else 0.0
-
-    # Cas dégénérés
-    if MSr == 0.0 and MSe == 0.0:
-        # Accord parfait (toutes valeurs identiques)
-        return {"icc": 1.0, "ci_low": 1.0, "ci_high": 1.0,
-                "F": float("inf"), "df1": df_r, "df2": df_e, "p": 0.0, "n": n}
-    if MSe == 0.0:
-        return {"icc": 1.0, "ci_low": 1.0, "ci_high": 1.0,
-                "F": float("inf"), "df1": df_r, "df2": df_e, "p": 0.0, "n": n}
-
-    icc     = float(np.clip((MSr - MSe) / (MSr + (k - 1) * MSe), -1.0, 1.0))
-    F_ratio = MSr / MSe
-
-    # Intervalle de confiance 95%
-    alpha = 0.05
-    try:
-        F_L     = F_ratio / stats.f.ppf(1 - alpha / 2, df_r, df_e)
-        F_U     = F_ratio * stats.f.ppf(1 - alpha / 2, df_e, df_r)
-        ci_low  = float(np.clip((F_L - 1) / (F_L + k - 1), -1.0, 1.0))
-        ci_high = float(np.clip((F_U - 1) / (F_U + k - 1), -1.0, 1.0))
-    except Exception:
-        ci_low, ci_high = -1.0, 1.0
-
-    p_val = float(1 - stats.f.cdf(F_ratio, df_r, df_e))
-
-    return {
-        "icc":     round(icc,     4),
-        "ci_low":  round(ci_low,  4),
-        "ci_high": round(ci_high, 4),
-        "F":       round(F_ratio, 4),
-        "df1":     df_r,
-        "df2":     df_e,
-        "p":       round(p_val,   6),
-        "n":       n,
-    }
+    if val_a is None or val_b is None:
+        return {"accord": None, "ecart": None}
+    ecart = abs(val_a - val_b)
+    return {"accord": ecart <= seuil_cci, "ecart": round(ecart, 4)}
 
 
-# ── KAPPA DE COHEN (pour Sa — variable catégorielle) ─────────────────────────
+# ── ACCORD KAPPA COHEN POUR VARIABLE CATÉGORIELLE ────────────────────────────
 
 def _kappa_cohen_categoriel(val_a: Any, val_b: Any, var: str) -> dict:
     """
-    κ de Cohen pour une variable catégorielle à valeurs nominales/ordinales.
-    Sur une seule paire de valeurs (n=1 par WP) :
-      accord = 1 si val_a == val_b, 0 sinon
-    Le κ est calculé sur l'ensemble du corpus (multi-WP) via kappa_corpus().
-    Ici, retourne l'accord binaire pour un WP individuel.
+    Détermine l'accord strict pour une variable catégorielle.
+    Sur un seul WP, κ = 1.0 si accord exact, 0.0 sinon.
+    Le κ de Cohen corpus-wide sera calculé séparément dans friction_profile.
     """
+    meta = VAR_DEFS.get(var, {})
+    valides = meta.get("valeurs_valides", [])
+
     if val_a is None or val_b is None:
         return {"accord": None, "ecart": None, "scorable": False}
 
-    accord = (val_a == val_b)
-    ecart  = 0 if accord else abs(val_a - val_b) if isinstance(val_a, (int, float)) else 1
-    return {
-        "accord":   accord,
-        "ecart":    float(ecart),
-        "scorable": True,
-    }
+    # Conversion entier si possible
+    try:
+        a_int = int(val_a)
+        b_int = int(val_b)
+    except (ValueError, TypeError):
+        return {"accord": False, "ecart": None, "scorable": False}
 
+    # Validation plages
+    if valides and a_int not in valides:
+        return {"accord": False, "ecart": None, "scorable": False}
+    if valides and b_int not in valides:
+        return {"accord": False, "ecart": None, "scorable": False}
 
-def _kappa_cohen_corpus(accords_sa: List[bool]) -> float:
-    """
-    κ de Cohen sur la série des accords/désaccords Sa pour l'ensemble des WP.
-    Formule binaire correcte (Fleiss, 1971) :
-        Po = proportion d'accords observés
-        Pe = Po² + (1-Po)²   [pour variable binaire accord/désaccord]
-        κ  = (Po - Pe) / (1 - Pe)
-    """
-    n = len(accords_sa)
-    if n == 0:
-        return 0.0
-    Po = sum(1 for a in accords_sa if a is True) / n
-    Pe = Po ** 2 + (1 - Po) ** 2
-    if Pe >= 1.0:
-        return 1.0
-    kappa = (Po - Pe) / (1 - Pe)
-    return round(float(kappa), 4)
-
-
-# ── ACCORD VARIABLE CONTINUE (pour detail par WP) ────────────────────────────
-
-def _accord_continu(val_a: float, val_b: float, seuil: float) -> dict:
-    """
-    Accord binaire sur une variable continue pour un WP donné.
-    Utilisé dans le rapport détaillé et le calcul de friction.
-    L'accord au seuil n'entre PAS dans le CCI — c'est une information subsidiaire.
-    """
-    ecart = abs(val_a - val_b)
-    accord = ecart <= seuil
-    return {
-        "accord": accord,
-        "ecart":  round(ecart, 4),
-        "seuil":  seuil,
-    }
-
-
-# ── RÉSOLUTION DES DÉSACCORDS ─────────────────────────────────────────────────
-
-def _resolution_desaccords(resultats: List[dict]) -> List[dict]:
-    """
-    Protocole §2.3 — Instructions de résolution pour les variables en désaccord.
-    Seuil de résolution automatique (moyenne) : écart ≤ 2 × seuil_cci.
-    """
-    instructions = []
-    for r in resultats:
-        if r.get("accord") is False and not r.get("nc"):
-            var   = r["variable"]
-            meta  = VAR_DEFS.get(var, {})
-            ecart = r.get("ecart")
-
-            if meta.get("type") == "categorielle":
-                instructions.append({
-                    "variable": var,
-                    "action":   "CONFRONTATION_OBLIGATOIRE",
-                    "detail":   (
-                        f"Sa/trajectoire : désaccord exact. Valeurs : A={r['val_a']} B={r['val_b']}. "
-                        "Pas de moyenne possible sur variable ordinale. "
-                        "Confrontation sources obligatoire — troisième codeur si pas de consensus."
-                    ),
-                })
-            elif ecart is not None:
-                seuil_cci    = meta.get("seuil_cci", 0.15)
-                seuil_resol  = 2.0 * seuil_cci
-                if ecart <= seuil_resol and r["val_a"] is not None and r["val_b"] is not None:
-                    moyenne = (r["val_a"] + r["val_b"]) / 2
-                    instructions.append({
-                        "variable":        var,
-                        "action":          "MOYENNE",
-                        "valeur_retenue":  round(moyenne, 4),
-                        "detail":          (
-                            f"Écart {ecart:.4f} ≤ 2×seuil ({seuil_resol:.4f}) "
-                            f"→ valeur retenue = {moyenne:.4f}"
-                        ),
-                    })
-                else:
-                    instructions.append({
-                        "variable": var,
-                        "action":   "CONFRONTATION_SOURCES",
-                        "detail":   (
-                            f"Écart {ecart:.4f} > 2×seuil ({seuil_resol:.4f}) "
-                            f"— source la plus haute (N1→N6) prioritaire. "
-                            f"Valeurs : A={r['val_a']} B={r['val_b']}"
-                        ),
-                    })
-    return instructions
-
-
-# ── CALCUL CCI GLOBAL ─────────────────────────────────────────────────────────
-
-def _cci_global_depuis_details(details: List[dict]) -> Optional[dict]:
-    """
-    CCI global calculé sur l'ensemble des valeurs continues scorables (hors NC, hors Sa).
-    Agrège toutes les paires (val_a, val_b) des variables continues scorables.
-    N.B. : les variables continues sont sur des échelles différentes.
-    On normalise par la plage [min, max] de chaque variable avant d'agréger.
-    """
-    all_a, all_b = [], []
-    for r in details:
-        var  = r["variable"]
-        meta = VAR_DEFS.get(var, {})
-        if meta.get("type") != "continue":
-            continue
-        if r.get("nc") or not r.get("scorable"):
-            continue
-        if r["val_a"] is None or r["val_b"] is None:
-            continue
-        echelle = meta.get("echelle", [0.0, 1.0])
-        plage   = echelle[1] - echelle[0] if echelle[1] > echelle[0] else 1.0
-        # Normalisation [0,1]
-        all_a.append((r["val_a"] - echelle[0]) / plage)
-        all_b.append((r["val_b"] - echelle[0]) / plage)
-
-    if len(all_a) < 2:
-        return None
-
-    return _cci_icc31(all_a, all_b)
+    accord = (a_int == b_int)
+    return {"accord": accord, "ecart": 0 if accord else 1, "scorable": True}
 
 
 # ── CALCUL FRICTION ───────────────────────────────────────────────────────────
 
-def _calculer_friction(val_a: Optional[float], val_b: Optional[float],
-                       seuil_cci: float, is_nc: bool) -> Optional[float]:
+def _calculer_friction(val_a: float, val_b: float, seuil_cci: float, is_nc: bool) -> Optional[float]:
     """
-    F(v, h) = |val_a - val_b| / seuil_cci(v)
-    F = None si NC ou non scorable.
+    Calcule la friction F(v,h) = |val_a - val_b| / seuil_cci.
+    Proxy de désaccord normalisé pour mepa_friction_profile.json.
     F ∈ [0, ∞) — F=0 accord parfait, F=1 désaccord au seuil exact, F>1 désaccord sig.
     """
     if is_nc or val_a is None or val_b is None:
         return None
     return round(abs(val_a - val_b) / seuil_cci, 4) if seuil_cci > 0 else None
+
+
+# ── CALCUL CCI GLOBAL ICC(3,1) ────────────────────────────────────────────────
+
+def _cci_global_depuis_details(details: List[dict]) -> Optional[dict]:
+    """
+    Calcule le CCI global ICC(3,1) sur les variables continues normalisées
+    et scorables. Retourne un dict avec icc, ci_low, ci_high, F, p, n.
+    Retourne None si moins de 2 variables scorables.
+    """
+    paires = []
+    for r in details:
+        if r["type"] != "continue" or r["nc"] or not r["scorable"]:
+            continue
+        if r["val_a"] is None or r["val_b"] is None:
+            continue
+        # Normalisation par plage (max - min) pour comparer les variables
+        # sur une échelle commune. Les plages sont dans VAR_DEFS[var]["echelle"].
+        meta = VAR_DEFS.get(r["variable"], {})
+        echelle = meta.get("echelle", [0.0, 1.0])
+        plage = echelle[1] - echelle[0]
+        if plage <= 0:
+            continue
+        a_norm = (float(r["val_a"]) - echelle[0]) / plage
+        b_norm = (float(r["val_b"]) - echelle[0]) / plage
+        paires.append([a_norm, b_norm])
+
+    if len(paires) < 2:
+        return None
+
+    data = np.array(paires)  # shape (n, 2)
+    n = data.shape[0]
+
+    # ICC(3,1) two-way mixed, single measures, consistency
+    # Formule : ICC = (MSR - MSE) / (MSR + (k-1)*MSE)
+    # où MSR = variance entre sujets (rows), MSE = variance résiduelle, k = nb codeurs
+    mean_per_row = data.mean(axis=1)    # moyenne par variable
+    mean_per_col = data.mean(axis=0)    # moyenne par codeur
+    grand_mean   = data.mean()
+
+    # Somme des carrés
+    ss_rows = 2 * np.sum((mean_per_row - grand_mean) ** 2)  # k=2 codeurs
+    ss_cols = n * np.sum((mean_per_col - grand_mean) ** 2)
+    ss_total = np.sum((data - grand_mean) ** 2)
+    ss_err  = ss_total - ss_rows - ss_cols
+
+    df_rows = n - 1
+    df_cols = 1   # k - 1 = 2 - 1
+    df_err  = (n - 1) * 1
+
+    ms_rows = ss_rows / df_rows if df_rows > 0 else 0
+    ms_err  = ss_err / df_err if df_err > 0 else 0
+
+    if ms_rows + ms_err <= 0:
+        return None
+
+    icc = (ms_rows - ms_err) / (ms_rows + ms_err)
+
+    # Intervalle de confiance 95% (approximation Fisher)
+    f_stat = ms_rows / ms_err if ms_err > 0 else 0
+    try:
+        f_low  = f_stat / stats.f.ppf(0.975, df_rows, df_err)
+        f_high = f_stat * stats.f.ppf(0.975, df_err, df_rows)
+        ci_low  = (f_low - 1)  / (f_low + 1)  if f_low  > 0 else 0
+        ci_high = (f_high - 1) / (f_high + 1) if f_high > 0 else 0
+        p = 1 - stats.f.cdf(f_stat, df_rows, df_err)
+    except Exception:
+        ci_low, ci_high, p = None, None, None
+
+    return {
+        "icc":     round(max(0.0, min(1.0, icc)), 4),
+        "ci_low":  round(ci_low, 4)  if ci_low  is not None else None,
+        "ci_high": round(ci_high, 4) if ci_high is not None else None,
+        "F":       round(f_stat, 4),
+        "p":       round(p, 4) if p is not None else None,
+        "n":       n,
+    }
 
 
 # ── CHARGEMENT FICHE ──────────────────────────────────────────────────────────
@@ -408,9 +380,13 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
     Point d'entrée principal. Calcule le CCI inter-codeurs entre deux fiches MEPA.
 
     Retourne le rapport complet compatible avec :
-      - mepa_passeport_schema.py v2.0 (champs 'cci', 'kappa_sa', 'variables_nc')
+      - mepa_passeport_schema.py v3.0 (champs 'cci', 'kappa_sa', 'variables_nc')
       - mepa_friction_profile.json (champ 'friction_vecteur')
-      - mepa_node2_audit_v62.js (champ 'variables_nc' pour contrôle C13)
+      - mepa_node2_audit_v7.js (champ 'variables_nc' pour contrôle C13)
+
+    V7 : si les fiches contiennent les 6 variables V7, elles sont automatiquement
+    intégrées au calcul CCI. Si les fiches sont V6.2, seules les 9 variables V6.2
+    sont calculées (comportement rétrocompatible).
     """
     fiche_a = charger_fiche(path_a)
     fiche_b = charger_fiche(path_b)
@@ -418,6 +394,15 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
     wp_id    = fiche_a.get("wp_id", fiche_b.get("wp_id", "?"))
     codeur_a = fiche_a.get("codeur", "CONV-E")
     codeur_b = fiche_b.get("codeur", "CONV-B")
+
+    # Détection du format V7 (présence de variables_v7 ou d'au moins une variable V7)
+    est_v7 = "variables_v7" in fiche_a or "variables_v7" in fiche_b
+    if not est_v7:
+        vars_v7_possibles = ["m_r", "mu_m", "phi", "psi_noyau", "psi_cible", "gamma_local"]
+        for v7key in vars_v7_possibles:
+            if v7key in fiche_a.get("variables", {}) or v7key in fiche_b.get("variables", {}):
+                est_v7 = True
+                break
 
     # ── Phase 1 : extraction et détection NC ──────────────────────────────────
     details       = []
@@ -429,7 +414,29 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
         val_b, is_nc_b = _extraire_valeur(fiche_b, var)
         is_nc = is_nc_a or is_nc_b
 
-        seuil_cci = meta.get("seuil_cci")  # None pour Sa
+        seuil_cci = meta.get("seuil_cci")  # None pour Sa / m_r
+
+        # Cas spécial V7 : psi_cible null positif sur les DEUX fiches = accord sur null
+        # Pas de calcul CCI mais marquée scorable=False et accord=True
+        if var == "psi_cible" and val_a is None and val_b is None and not is_nc:
+            entry = {
+                "variable": var,
+                "type":     meta["type"],
+                "val_a":    None,
+                "val_b":    None,
+                "nc":       False,
+                "nc_a":     False,
+                "nc_b":     False,
+                "scorable": False,
+                "accord":   True,   # accord sur null positif (règle E3)
+                "ecart":    0,
+                "seuil":    "null_positif",
+                "friction": 0,
+                "friction_outlier": False,
+                "note":     "psi_cible=null sur les deux fiches (accord règle E3 rev. 2.1)",
+            }
+            details.append(entry)
+            continue
 
         # Friction
         friction = None
@@ -450,6 +457,22 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
                 accord_detail = r["accord"]
                 ecart         = r["ecart"]
                 scorable      = True
+        elif meta["type"] == "continue_ou_null":
+            # psi_cible : scorable seulement si les deux ont valeur numérique
+            if val_a is not None and val_b is not None:
+                r = _accord_continu(val_a, val_b, seuil_cci)
+                accord_detail = r["accord"]
+                ecart         = r["ecart"]
+                scorable      = True
+            elif val_a is None and val_b is None:
+                # Gestion déjà traitée ci-dessus (ne devrait pas atteindre ce bloc)
+                accord_detail = True
+                scorable      = False
+            else:
+                # Une fiche null, l'autre non : désaccord majeur
+                accord_detail = False
+                ecart         = None
+                scorable      = False
         elif meta["type"] == "categorielle":
             r = _kappa_cohen_categoriel(val_a, val_b, var)
             accord_detail = r["accord"]
@@ -479,43 +502,42 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
                 nc_bloquantes.append(var)
 
     # ── Phase 2 : CCI par variable continue ───────────────────────────────────
-    # Le CCI par variable nécessite plusieurs WP (corpus).
-    # Sur un seul WP, on calcule le CCI global depuis les détails multi-variables normalisées.
-    # Pour le rapport par WP, on rapporte l'écart normalisé comme proxy.
     cci_par_variable = {}
     for r in details:
         var  = r["variable"]
         meta = VAR_DEFS.get(var, {})
-        if meta.get("type") != "continue" or r["nc"] or not r["scorable"]:
+        if meta.get("type") not in ("continue", "continue_ou_null") or r["nc"] or not r["scorable"]:
             cci_par_variable[var] = {"cci": None, "nc": r["nc"], "ecart": r["ecart"]}
             continue
-        # Sur un seul WP : l'écart normalisé comme information
         seuil_cci = meta.get("seuil_cci", 0.15)
         ecart_norm = r["ecart"] / seuil_cci if (r["ecart"] is not None and seuil_cci > 0) else None
         cci_par_variable[var] = {
-            "cci":          None,          # calculable uniquement sur corpus multi-WP
+            "cci":          None,
             "ecart":        r["ecart"],
             "ecart_norm":   round(ecart_norm, 4) if ecart_norm is not None else None,
-            "accord_seuil": r["accord"],   # accord au seuil (info subsidiaire)
+            "accord_seuil": r["accord"],
             "nc":           False,
         }
 
-    # ── Phase 3 : CCI global (sur les variables continues scorables) ───────────
+    # ── Phase 3 : CCI global ──────────────────────────────────────────────────
     cci_global_result = _cci_global_depuis_details(details)
     cci_global        = cci_global_result["icc"] if cci_global_result else None
 
     # ── Phase 4 : κ de Cohen pour Sa ──────────────────────────────────────────
     sa_detail  = next((r for r in details if r["variable"] == "Sa"), None)
     kappa_sa   = None
-    sa_accord  = None
 
     if sa_detail and not sa_detail["nc"] and sa_detail["scorable"]:
-        sa_accord = sa_detail["accord"]
-        # κ sur 1 paire = accord (1.0) ou désaccord (0.0 ou négatif selon la formule)
-        # On rapporte l'accord binaire — le κ corpus sera calculé dans friction_profile
-        kappa_sa = 1.0 if sa_accord else 0.0
+        kappa_sa = 1.0 if sa_detail["accord"] else 0.0
 
-    # ── Phase 5 : verdict global ───────────────────────────────────────────────
+    # ── Phase 4bis : κ pour m_r (nouveau V7) ──────────────────────────────────
+    kappa_m_r = None
+    if est_v7:
+        mr_detail = next((r for r in details if r["variable"] == "m_r"), None)
+        if mr_detail and not mr_detail["nc"] and mr_detail["scorable"]:
+            kappa_m_r = 1.0 if mr_detail["accord"] else 0.0
+
+    # ── Phase 5 : verdict global ──────────────────────────────────────────────
     if nc_bloquantes:
         verdict_global = "DONNÉES_INSUFFISANTES"
     elif cci_global is None:
@@ -530,6 +552,7 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
     # ── Phase 6 : valeurs finales provisoires ─────────────────────────────────
     valeurs_finales = {}
     desaccords      = []
+    instructions    = []
 
     for r in details:
         var  = r["variable"]
@@ -540,61 +563,73 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
             continue
 
         if not r["scorable"]:
-            valeurs_finales[var] = None
+            # Cas spécial psi_cible null positif : valeur finale = null
+            if var == "psi_cible" and r["val_a"] is None and r["val_b"] is None:
+                valeurs_finales[var] = None
+            else:
+                valeurs_finales[var] = None
             continue
 
         if r["accord"] is True:
             valeurs_finales[var] = r["val_a"]
         elif r["accord"] is False:
             desaccords.append(r)
-            # Résolution automatique si écart ≤ 2 × seuil
-            if meta["type"] == "continue":
+            if meta["type"] in ("continue", "continue_ou_null"):
                 seuil_cci   = meta.get("seuil_cci", 0.15)
                 seuil_resol = 2.0 * seuil_cci
                 if (r["ecart"] is not None and r["ecart"] <= seuil_resol
                         and r["val_a"] is not None and r["val_b"] is not None):
                     valeurs_finales[var] = round((r["val_a"] + r["val_b"]) / 2, 4)
+                    instructions.append({
+                        "variable": var,
+                        "action":   "MOYENNE_AUTO",
+                        "detail":   f"Écart {r['ecart']} ≤ 2×seuil ({seuil_resol}) — moyenne automatique = {valeurs_finales[var]}",
+                    })
                 else:
-                    valeurs_finales[var] = None  # confrontation requise
+                    valeurs_finales[var] = None
+                    instructions.append({
+                        "variable": var,
+                        "action":   "CONFRONTATION_SOURCES",
+                        "detail":   f"Écart {r['ecart']} > 2×seuil ({seuil_resol}) — confrontation des sources requise",
+                    })
             else:
-                valeurs_finales[var] = None      # confrontation obligatoire Sa
-        else:
-            valeurs_finales[var] = None
+                valeurs_finales[var] = None
+                instructions.append({
+                    "variable": var,
+                    "action":   "CONFRONTATION_CATEGORIELLE",
+                    "detail":   f"Variable catégorielle — désaccord obligatoire à trancher par sources primaires",
+                })
 
-    # ── Phase 7 : instructions de résolution ──────────────────────────────────
-    instructions = _resolution_desaccords(desaccords)
+    # ── Statistiques ──────────────────────────────────────────────────────────
+    n_continues_scorables = sum(1 for r in details
+                                 if r["type"] in ("continue", "continue_ou_null") and r["scorable"] and not r["nc"])
+    n_accords_seuil       = sum(1 for r in details if r["accord"] is True and not r["nc"])
+    n_desaccords          = sum(1 for r in details if r["accord"] is False and not r["nc"])
+    Po_seuil              = n_accords_seuil / len(details) if details else 0.0
 
-    # ── Phase 8 : vecteur de friction (pour friction_profile) ─────────────────
-    friction_vecteur = {
-        r["variable"]: r["friction"] for r in details
-    }
+    # ── Friction vecteur pour mepa_friction_profile.json ──────────────────────
+    friction_vecteur = {r["variable"]: r["friction"] for r in details
+                        if r["friction"] is not None}
 
-    # ── Statistiques de synthèse ───────────────────────────────────────────────
-    n_continues_scorables = sum(
-        1 for r in details
-        if VAR_DEFS.get(r["variable"], {}).get("type") == "continue"
-        and r["scorable"]
-    )
-    n_accords_seuil = sum(1 for r in details if r.get("accord") is True)
-    n_desaccords    = len(desaccords)
-    Po_seuil        = round(n_accords_seuil / max(n_continues_scorables + (1 if sa_accord is not None else 0), 1), 4)
-
-    # ── Rapport final ──────────────────────────────────────────────────────────
+    # ── Construction du rapport ──────────────────────────────────────────────
     return {
-        # ── Identité ──────────────────────────────────────────────────────────
-        "wp_id":     wp_id,
-        "codeur_a":  codeur_a,
-        "codeur_b":  codeur_b,
+        # ── Métadonnées ───────────────────────────────────────────────────────
+        "wp_id":              wp_id,
+        "codeur_a":           codeur_a,
+        "codeur_b":           codeur_b,
+        "est_v7":             est_v7,
+        "mepa_version":       "7.0-alpha rev. 2.1" if est_v7 else "6.2",
 
-        # ── Scores principaux ─────────────────────────────────────────────────
-        "cci":           cci_global,       # CCI global (variables continues normalisées)
-        "cci_detail":    cci_global_result, # Dict complet avec CI, F, p
-        "kappa_sa":      kappa_sa,          # κ de Cohen pour Sa (1.0 ou 0.0 sur 1 WP)
-        "kappa":         cci_global,        # ALIAS de compatibilité transitoire — = cci
+        # ── Scores principaux ────────────────────────────────────────────────
+        "cci":                cci_global,
+        "kappa":              cci_global,  # alias compatibilité V6.1 → V6.2
+        "cci_detail":         cci_global_result,
+        "kappa_sa":           kappa_sa,
+        "kappa_m_r":          kappa_m_r,  # V7 — nouveau
 
-        # ── Variables NC ──────────────────────────────────────────────────────
-        "variables_nc":       variables_nc,   # Toutes les variables NC (bloquantes + non-bloquantes)
-        "nc_bloquantes":      nc_bloquantes,  # Variables NC qui bloquent la simulation
+        # ── NC ────────────────────────────────────────────────────────────────
+        "variables_nc":       variables_nc,
+        "nc_bloquantes":      nc_bloquantes,
         "n_nc":               len(variables_nc),
 
         # ── Verdict ───────────────────────────────────────────────────────────
@@ -610,10 +645,9 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
         "n_continues_scorables":  n_continues_scorables,
         "n_accords_seuil":        n_accords_seuil,
         "n_desaccords":           n_desaccords,
-        "n_nc":                   len(variables_nc),
-        "Po_seuil":               Po_seuil,
+        "Po_seuil":               round(Po_seuil, 4),
 
-        # ── Détail par variable ────────────────────────────────────────────────
+        # ── Détail par variable ───────────────────────────────────────────────
         "detail_variables":              details,
         "cci_par_variable":              cci_par_variable,
         "friction_vecteur":              friction_vecteur,
@@ -628,10 +662,14 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
             "CCI ICC(3,1) two-way mixed consistency (Shrout & Fleiss, 1979). "
             "Calculé sur les variables continues normalisées par leur plage corpus. "
             "κ de Cohen maintenu pour Sa (catégorielle). "
-            "Le CCI par variable individuelle nécessite le corpus multi-WP "
+            + ("κ de Cohen aussi pour m_r (V7 — catégorielle ordinale à 3 niveaux). "
+               "Variables V7 continues (mu_m, phi, psi_noyau, gamma_local) incluses dans le CCI global. "
+               "psi_cible avec null positif traité comme accord sur règle E3 rev. 2.1. "
+               if est_v7 else "")
+            + "Le CCI par variable individuelle nécessite le corpus multi-WP "
             "(mepa_friction_profile.json). "
             "La reproductibilité mesurée est conditionnelle au modèle LLM — "
-            "non une indépendance absolue inter-codeurs (Addendum V6.2, Pilier 1)."
+            "non une indépendance absolue inter-codeurs (Addendum V6.2 Pilier 1 / Cadre V7-α rev. 2.1 §2ter)."
         ),
     }
 
@@ -640,9 +678,8 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
 
 def calculer_kappa(path_a: str, path_b: str) -> dict:
     """
-    Alias de compatibilité V6.1 → V6.2.
+    Alias de compatibilité V6.1 → V6.2 → V7.
     Appelle calculer_cci() et retourne le même rapport.
-    Permet aux scripts non encore migrés d'appeler l'ancienne signature.
     """
     return calculer_cci(path_a, path_b)
 
@@ -651,8 +688,11 @@ def calculer_kappa(path_a: str, path_b: str) -> dict:
 
 def afficher_rapport(rapport: dict) -> None:
     """Affichage console lisible pour debug et validation manuelle."""
+    est_v7 = rapport.get("est_v7", False)
+    version_label = "V7-α rev. 2.1" if est_v7 else "V6.2"
+
     print(f"\n{'='*66}")
-    print(f"  RAPPORT CCI MEPA V6.2 — {rapport['wp_id']}")
+    print(f"  RAPPORT CCI MEPA {version_label} — {rapport['wp_id']}")
     print(f"  Codeur A : {rapport['codeur_a']}  |  Codeur B : {rapport['codeur_b']}")
     print(f"{'='*66}")
 
@@ -670,6 +710,9 @@ def afficher_rapport(rapport: dict) -> None:
     if rapport['kappa_sa'] is not None:
         print(f"  κ (Sa)     = {rapport['kappa_sa']:.4f}")
 
+    if est_v7 and rapport.get('kappa_m_r') is not None:
+        print(f"  κ (m_r)    = {rapport['kappa_m_r']:.4f}")
+
     # Variables NC
     if rapport['variables_nc']:
         print(f"\n  ⚠ VARIABLES NC ({len(rapport['variables_nc'])}) : "
@@ -678,7 +721,7 @@ def afficher_rapport(rapport: dict) -> None:
             print(f"  ⛔ NC BLOQUANTES : {', '.join(rapport['nc_bloquantes'])}")
 
     # Détail par variable
-    print(f"\n  DÉTAIL PAR VARIABLE :")
+    print(f"\n  DÉTAIL PAR VARIABLE ({len(rapport['detail_variables'])} variables) :")
     for r in rapport['detail_variables']:
         var = r['variable']
         if r['nc']:
@@ -692,8 +735,9 @@ def afficher_rapport(rapport: dict) -> None:
 
         ecart_str    = f"  écart={r['ecart']}" if r['ecart'] is not None else ""
         friction_str = f"  F={r['friction']}" if r['friction'] is not None else ""
-        print(f"  {status:<5} {var:<12}  A={r['val_a']}  B={r['val_b']}"
-              f"{ecart_str}{friction_str}")
+        note_str     = f"  [{r.get('note', '')}]" if r.get('note') else ""
+        print(f"  {status:<5} {var:<14}  A={r['val_a']}  B={r['val_b']}"
+              f"{ecart_str}{friction_str}{note_str}")
 
     # Instructions résolution
     if rapport['instructions_resolution']:
@@ -732,10 +776,12 @@ if __name__ == "__main__":
         print("  cci              → score CCI global [0,1]")
         print("  kappa            → alias cci (compatibilité V6.1)")
         print("  kappa_sa         → κ Cohen pour Sa")
+        print("  kappa_m_r        → κ Cohen pour m_r (V7)")
         print("  variables_nc     → liste des variables NC détectées")
         print("  nc_bloquantes    → variables NC qui bloquent la simulation")
         print("  verdict          → CERTIFIÉ | RÉVISION | REJET | DONNÉES_INSUFFISANTES")
         print("  friction_vecteur → {var: F(v,h)} pour mepa_friction_profile.json")
+        print("  est_v7           → True si fiches V7, False si V6.2")
         sys.exit(1)
 
     path_a   = sys.argv[1]

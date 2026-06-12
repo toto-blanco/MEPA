@@ -1,22 +1,25 @@
 {
-  "$schema": "mepa-constants-v1.0",
+  "$schema": "mepa-constants-v1.3",
   "$meta": {
-    "statut": "NOUVEAU",
+    "statut": "ETENDU V7",
     "cible": "/data/mepa/scripts/mepa_constants.json",
-    "retrocompatibilite": "Aucun script existant ne charge ce fichier. Introduction V6.2 Fortifiée. Sans risque de régression.",
-    "version": "1.2.3",
-    "mepa_version": "6.2",
-    "description": "Source unique de vérité pour les bornes paramétriques, seuils de validation et constantes de simulation MEPA. Chargé au démarrage par mepa_runner_v2_gamma.py, mepa_kappa_calculator.py, mepa_node2_audit_v62.js. Chaque fichier embarque un fallback interne identique à ce fichier.",
+    "retrocompatibilite": "V1.3.0 préserve intégralement la structure V1.2.3. Tous les champs V6.2 existants sont inchangés. Les nouveaux champs V7 sont ajoutés sous des clés dédiées (variables_v7_alpha_rev2_1, hyperparametres_v7_alpha_rev2_1, intervalles_tolerance_v7_gamma) pour ne pas casser les scripts V6.2 qui ne les liront pas. Les scripts V7-β liront ces nouvelles clés via une logique de fallback vers les valeurs V6.2 si les clés V7 sont absentes.",
+    "version": "1.3.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "description": "Source unique de vérité pour les bornes paramétriques, seuils de validation et constantes de simulation MEPA. Étendue en V1.3.0 pour intégrer les hyperparamètres V7-α rev. 2.1 (trajectoire α Cristallisation sacrificielle d'État, branche b explicative, clause de repli A_r_c_eff). Chargée au démarrage par mepa_runner_v3_v7.py, mepa_kappa_calculator.py, mepa_node2_audit_v7.js. Chaque fichier embarque un fallback interne identique à ce fichier.",
     "references": [
       "Shrout & Fleiss (1979) — Intraclass correlations: uses in assessing rater reliability. Psychological Bulletin 86(2).",
       "McGraw & Wong (1996) — Forming inferences about some intraclass correlation coefficients. Psychological Methods 1(1).",
       "Turchin et al. (2015) — Seshat Global History Databank — méthodologie de codage et codes d'incertitude.",
-      "Système d'équations MEPA V6.2 — prompt V3-gamma Partie 2, paramètres p1-p13, λ, μ, ν, ρ."
+      "Système d'équations MEPA V6.2 — prompt V3-gamma Partie 2, paramètres p1-p13, λ, μ, ν, ρ.",
+      "MEPA cadre théorique V7-α rev. 2.1 — §2bis (mécanisme sacrificiel), §2ter.5 (conditions C1-C5), §5.3 (branche d V7-C2), Annexes C, D, E rev. 2.1.",
+      "Décision V7-D1 rev. 4 — §5.3 intervalles de tolérance pré-enregistrés, §6 cahier des charges V7.1."
     ],
     "note_v1_1": "V1.1.0 : ajout label (γ) Transformation forcée dans labels_trajectoire_d4 (D4 — 8e label). Correction bornes_corpus_commandes.EROI.note : WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (déplacée WP-EXT-5).",
     "note_v1_2_1": "V1.2.1 : Correctif BUG-001 — 3 résidus 'WP-C1 Islande' remplacés par 'WP-EXT-5 Islande' dans bornes_corpus_commandes (T, Rn, gamma). Correctif BUG-002 — bornes_corpus_commandes.EROI.note alignée sur l'ancre MAX réelle WP-EXT-5 Islande=35.0 (suppression références erronées WP-I9/WP-F9).",
     "note_v1_2": "V1.2.0 : Ajout theta_FR dans parametres_simulation (D5 — seuil 0.75, anciennement hardcodé dans runner). Correction bornes_commandes : WP-C1 Islande → WP-EXT-5 Islande dans les notes de T, Rn, gamma, EROI (Islande déplacée WP-EXT-5 — WP-C1-1 = Haïti).",
-    "note_v1_2_3": "V1.2.3 : [BUG-004] p5.min 0.1→0.01, p5.defaut 0.4→0.05. [BUG-006] 13 defaut alignés sur valeurs opérationnelles calibrées V6.2 (node2). [BUG-007] '(d) Dissolution' ajouté comme 9e label D4 officiel (source : Manuel Gouvernance Annexe A)."
+    "note_v1_2_3": "V1.2.3 : [BUG-004] p5.min 0.1→0.01, p5.defaut 0.4→0.05. [BUG-006] 13 defaut alignés sur valeurs opérationnelles calibrées V6.2 (node2). [BUG-007] '(d) Dissolution' ajouté comme 9e label D4 officiel (source : Manuel Gouvernance Annexe A).",
+    "note_v1_3": "V1.3.0 : Extension V7-α rev. 2.1. Ajout du label '(α) Cristallisation sacrificielle d'État' dans labels_trajectoire_d4 (10e label, source : cadre théorique V7-α rev. 2.1 §2ter). Ajout des sections variables_v7_alpha_rev2_1 (six nouvelles variables M_r, mu_m, phi, psi_noyau, psi_cible, gamma_local), hyperparametres_v7_alpha_rev2_1 (sigma_base, alpha_phi, mu_m_etoile, modulateurs rampe en trois phases, coefficient A_r_c_eff, seuils branche b explicative), et intervalles_tolerance_v7_gamma (10 intervalles pré-enregistrés selon Décision V7-D1 rev. 4 §5.3). Aucune modification des sections V6.2 existantes."
   },
   "seuils_validation": {
     "$description": "Seuils de validation inter-codeurs. CCI pour variables continues ; κ pour Sa (catégorielle).",
@@ -35,61 +38,59 @@
       "note": "Sa est catégorielle ordinale à 4 niveaux — κ reste la métrique correcte."
     },
     "cci_global": {
-      "$description": "CCI agrégé sur l'ensemble des variables continues scorables (hors NC, hors Sa).",
+      "$description": "CCI global multi-variables. Seuil de certification global d'une fiche.",
       "certifie": 0.75,
       "revision": 0.55,
-      "rejet": 0.0,
-      "note": "Seuil légèrement plus élevé que le CCI par variable — standard publication."
+      "note": "CCI global ≥ 0.75 → fiche CERTIFIÉE | 0.55 ≤ CCI global < 0.75 → fiche en RÉVISION"
     },
     "friction_outlier_seuil": {
-      "$description": "F(v,h) = |delta| / seuil_cci(v). Valeur au-delà de laquelle un WP est flagué outlier de friction.",
       "valeur": 2.0,
-      "note": "F > 2.0 → désaccord supérieur à 2× le seuil CCI → signal d'ambiguïté documentaire exceptionnelle."
+      "$description": "Seuil de détection des outliers de friction (z-score > 2.0)."
     }
   },
   "bornes_commandes": {
-    "$description": "Plages physiquement admissibles pour les variables de commande (cmd). Utilisées par Node 2 contrôle C4 et runner garde-fou NC. Ces bornes sont plus larges que les plages corpus — elles définissent l'espace théoriquement possible.",
+    "$description": "Bornes physiques absolues des variables de commande du runner. Hors de ces bornes = erreur structurelle bloquante.",
     "T": {
       "min": 0.0,
       "max": 2.0,
-      "unite": "adim",
-      "note": "Tension institutionnelle. >1.0 = état de surtension extrême. WP-F2 Rome tardive ~1.0 ; WP-EXT-5 Islande 0.80."
+      "unite": "[0,2]",
+      "note": "Pression sociale totale. WP-F2 Rome tardive ~1.0, WP-EXT-5 Islande 0.80."
     },
     "Mob": {
       "min": 0.0,
       "max": 1.0,
       "unite": "[0,1]",
-      "note": "Capacité de mobilisation sociale."
+      "note": "Mobilité sociale ascendante. WP-F7 Haïti 0.80, WP-I8 Chine Deng 0.05."
     },
     "R": {
       "min": 0.0,
       "max": 10.0,
-      "unite": "adim",
-      "note": "Résistance institutionnelle. Plage large pour cas extrêmes."
+      "unite": "[0,10]",
+      "note": "Capacité redistributive (mappée sur A_d_eff). WP-I4 Allemagne nazie ~2.5, WP-F8 France 1789 ~0.20."
     },
     "Ref": {
       "min": 0.0,
       "max": 1.0,
       "unite": "[0,1]",
-      "note": "Taux de réforme. Valeur initiale universelle = 0.10 (tous 27 WP)."
+      "note": "Capacité de réforme. Valeur initiale universelle = 0.10."
     },
     "Rc": {
       "min": 0.0,
       "max": 1.0,
       "unite": "[0,1]",
-      "note": "Résistance culturelle."
+      "note": "Répression classique (mappée sur A_r_c). WP-I9 Singapour ~0.60, WP-F7 Haïti ~0.05."
     },
     "Rn": {
       "min": 0.0,
       "max": 1.0,
       "unite": "[0,1]",
-      "note": "Résistance normative. WP-EXT-5 Islande 0.15 ; plusieurs WP = 0.00."
+      "note": "Répression numérique/non-étatique (mappée sur A_r_ne). WP-EXT-5 Islande 0.15, WP-F10 Commune Paris 0.00."
     },
     "E": {
       "min": 0.0,
       "max": 1.0,
       "unite": "[0,1]",
-      "note": "Énergie disponible / capacité d'action."
+      "note": "E_split — fracture de l'élite. WP-F9 Angleterre 0.70, WP-F2 Rome tardive 0.15."
     },
     "gamma": {
       "min": 0.0,
@@ -213,7 +214,7 @@
       "defaut": 0.12,
       "note_sa7": "Multiplié par 1.5 si Sa=7 → plage effective [0.075, 0.375].",
       "role": "Taux de mobilisation du capital institutionnel C.",
-      "note": "RÈGLE ABSOLUE : Sa=7 → p6 × 1.5 (WP-I3 Japon, WP-I4 Allemagne, WP-I9 Singapour)."
+      "note": "RÈGLE ABSOLUE V6.2 : Sa=7 → p6 × 1.5 (WP-I3 Japon, WP-I4 Allemagne, WP-I9 Singapour). RÈGLE V7-α rev. 2.1 : modulé par la rampe mod_mimétique en trois phases si la branche (α) est activée — voir hyperparametres_v7_alpha_rev2_1.rampe_mod_mimetique."
     },
     "p7": {
       "min": 0.01,
@@ -267,16 +268,16 @@
     "lam": {
       "min": 0.3,
       "max": 0.9,
-      "defaut": 0.85,
+      "defaut": 0.68,
       "role": "λ — coefficient d'élasticité S dans F (force de transformation).",
-      "note": "Notation : 'lam' en JSON/Python, λ dans le texte. [BUG-006] defaut calibré V6.2=0.68 (théorique initial=0.65). [CV13-test] defaut recalibré 0.68→0.85 — test Option A, non validé."
+      "note": "Notation : 'lam' en JSON/Python, λ dans le texte. [BUG-006] defaut calibré V6.2=0.68 (théorique initial=0.65)."
     },
     "mu": {
       "min": 0.1,
       "max": 0.7,
-      "defaut": 0.55,
+      "defaut": 0.38,
       "role": "μ — coefficient d'élasticité L dans F.",
-      "note": "Notation : 'mu' en JSON/Python, μ dans le texte. [BUG-006] defaut calibré V6.2=0.38 (théorique initial=0.35). [CV13-test] defaut recalibré 0.38→0.55 — test Option A, non validé."
+      "note": "Notation : 'mu' en JSON/Python, μ dans le texte. ATTENTION V7 : ne pas confondre avec μ_m (mu_m) qui est la polarisation mimétique V7. [BUG-006] defaut calibré V6.2=0.38 (théorique initial=0.35)."
     },
     "nu": {
       "min": 0.2,
@@ -300,7 +301,7 @@
       "min": 0.1,
       "max": 0.6,
       "role": "Seuil de bascule capital institutionnel C (critère D3).",
-      "note": "Valeur fixe par fiche WP. LOI PHYSIQUE — ne pas ajuster pour forcer une trajectoire."
+      "note": "Valeur fixe par fiche WP. LOI PHYSIQUE — ne pas ajuster pour forcer une trajectoire. RÔLE V7 : sert également de seuil C5 de confirmation pour la branche (α) — C_max > theta_C est une condition nécessaire de la cristallisation sacrificielle."
     },
     "theta_I": {
       "defaut": 0.22,
@@ -314,11 +315,11 @@
       "min": 50,
       "max": 500,
       "unite": "pas de temps (dt=1)",
-      "note": "WP-F10-1 Commune de Paris : t_max=80 (événement court). WP-I10-1 Rwanda : t_max=400."
+      "note": "WP-F10-1 Commune de Paris : t_max=80 (événement court). WP-I10-1 Rwanda : t_max=400. WP-I4-1 Allemagne nazie : t_max=200."
     },
     "dt": {
       "valeur": 1,
-      "note": "Pas d'intégration Euler explicite. Fixe — ne pas modifier."
+      "note": "Pas d'intégration Euler explicite V6.2 — fixe. RÔLE V7-β : remplacé par solve_ivp(method='LSODA') avec pas adaptatif — voir addendum V7-β-ING. La valeur dt=1 reste utilisée comme pas d'échantillonnage de sortie pour préserver la compatibilité des fichiers result_sim_N.json."
     },
     "sa_valeurs_valides": [
       2,
@@ -329,7 +330,7 @@
     "sa_p6_multiplicateur": {
       "sa": 7,
       "mult": 1.5,
-      "note": "RÈGLE ABSOLUE V6.2 : Sa=7 → p6 × 1.5. Appliqué dans apply_sa_modulator() ET contrôle C5 Node 2."
+      "note": "RÈGLE ABSOLUE V6.2 : Sa=7 → p6 × 1.5. Appliqué dans apply_sa_modulator() ET contrôle C5 Node 2. RÈGLE V7-α rev. 2.1 : ce multiplicateur est combiné multiplicativement avec la rampe mod_mimétique si la branche (α) est activée."
     },
     "theta_FR": {
       "defaut": 0.75,
@@ -340,127 +341,277 @@
     }
   },
   "variables_mepa": {
-    "$description": "Définition des 9 variables MEPA codées par CONV-E et CONV-B. Utilisée par mepa_kappa_calculator.py pour la configuration du calcul CCI.",
+    "$description": "Définition des 9 variables MEPA V6.2 codées par CONV-E et CONV-B. Utilisée par mepa_kappa_calculator.py pour la configuration du calcul CCI. Inchangée depuis V1.2.3 — les nouvelles variables V7 sont définies dans variables_v7_alpha_rev2_1.",
     "E_split": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
       "note": "Fraction de l'énergie sociétale allouée aux institutions."
     },
     "gamma": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
       "note": "γ — cohésion culturelle. Clé JSON 'gamma', symbole γ dans le texte."
     },
     "A_d_eff": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        10.0
-      ],
+      "echelle": [0.0, 10.0],
       "seuil_cci": 1.5,
       "obligatoire": true,
       "note": "Efficacité administrative documentée. Mappe sur cmd.R dans le runner (C9b)."
     },
     "A_r_c": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
-      "note": "Capacité de réforme culturelle."
+      "note": "Capacité de réforme culturelle. RÔLE V7 : utilisée dans la condition C4 d'alignement État/noyau (clause directe A_r_c > 0.7) et dans la clause de repli A_r_c_eff = A_r_c + 0.5 × A_r_ne."
     },
     "A_r_ne": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
-      "note": "Capacité de réforme normative externe. WP-F10-1 Commune de Paris = 0.00 (cas extrême)."
+      "note": "Capacité de réforme normative externe. WP-F10-1 Commune de Paris = 0.00 (cas extrême). RÔLE V7 : utilisée dans la clause de repli A_r_c_eff pour formaliser l'amplification de l'appareil répressif par délateurs/réseaux non-étatiques (cas WP-I4-1 Allemagne nazie : A_r_ne=0.70 auto-entretenue)."
     },
     "Cs": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
-      "note": "Capital social initial C0."
+      "note": "Crédibilité du régime. RÔLE V7 : utilisée dans la branche (b) explicative comme filtre de validité (Cs ∈ [0.10, 0.50] pour qualifier une répression active)."
     },
     "L_t": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        1.0
-      ],
+      "echelle": [0.0, 1.0],
       "seuil_cci": 0.15,
       "obligatoire": true,
-      "note": "Légitimité perçue initiale L0."
+      "note": "Loyauté des appareils."
     },
     "EROI": {
       "type": "continue",
-      "echelle": [
-        0.0,
-        50.0
-      ],
+      "echelle": [0.0, 50.0],
       "seuil_cci": 1.5,
       "obligatoire": true,
-      "note": "Energy Return On Investment. Échelle [0,50] pour le calcul CCI (bornes physiques du corpus)."
+      "note": "Energy Return On Investment."
     },
     "Sa": {
       "type": "categorielle",
-      "valeurs_valides": [
-        2,
-        4,
-        6,
-        7
-      ],
+      "valeurs_valides": [2, 4, 6, 7],
       "obligatoire": true,
-      "metrique": "kappa_cohen",
-      "note": "Niveau de complexité adaptative. Catégorielle ordinale — κ de Cohen (pas CCI)."
+      "note": "Structure anthropologique Todd. Sa=7 → p6 × 1.5."
     }
   },
-  "nc_protocol": {
-    "$description": "Protocole de gestion des variables Non-Codables (NC) — Silence Socratique MEPA V6.2.",
-    "valeur_sentinel": "NC",
-    "statut_pipeline": "DONNÉES_INSUFFISANTES",
-    "bloquant_simulation": true,
-    "variables_nc_bloquantes": [
-      "E_split",
-      "gamma",
-      "EROI",
-      "Sa"
-    ],
-    "variables_nc_non_bloquantes": [
-      "A_r_ne",
-      "Cs",
-      "L_t"
-    ],
-    "note_bloquantes": "Si l'une des variables bloquantes est NC, le pipeline s'arrête. Les variables non-bloquantes NC génèrent un warning mais n'empêchent pas la simulation — elles dégradent le CCI global et sont signalées dans le Passeport.",
-    "champs_requis_dans_fiche": {
-      "valeur": "\"NC\"",
-      "justification": "Texte obligatoire — ex: 'NON CODABLE — absence de source documentée pour la période 1871-1871'",
-      "source_id": "null"
+  "variables_v7_alpha_rev2_1": {
+    "$description": "Six nouvelles variables introduites par le cadre V7-α rev. 2.1 pour le mécanisme de cristallisation sacrificielle d'État (trajectoire α). Codées par CONV-E selon les règles E1-E3 du protocole V7-α. Lues par mepa_runner_v3_v7.py et mepa_node2_audit_v7.js. Sources : cadre théorique V7-α rev. 2.1 §2bis et §2ter.",
+    "$reference": "Cadre théorique MEPA V7-α rev. 2.1 — §2bis (mécanisme sacrificiel girardien), §2ter (trajectoire α et conditions C1-C5).",
+    "m_r": {
+      "type": "categorielle",
+      "valeurs_valides": [1, 2, 3],
+      "obligatoire": true,
+      "symbole_redactionnel": "M_r",
+      "role": "Stade matrice religieuse Todd. 1 = religion active (Rwanda 1994 : christianisme actif), 2 = religion en transition zombie (Allemagne nazie 1933 : protestantisme/catholicisme déclinants), 3 = religion zombie post-Stade 3 (France contemporaine).",
+      "note": "Condition C1 d'activation de (α) : M_r ∈ {1, 2}. Les cas M_r = 3 sont exclus de la branche (α) actuelle et seront traités par la Configuration B en V7.1.",
+      "sources_recommandees": ["Todd Emmanuel — L'Invention de l'Europe (1990)", "Todd Emmanuel — Où en sommes-nous (2017)"]
+    },
+    "mu_m": {
+      "type": "continue",
+      "echelle": [0.0, 1.0],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "symbole_redactionnel": "μ_m",
+      "role": "Polarisation mimétique girardienne. Mesure le degré de désignation publique d'une opposition binaire intra-société (eux vs nous, pur vs impur, fidèle vs renégat).",
+      "note": "Condition C1 d'activation de (α) : μ_m > μ_m* = 0.60. ATTENTION : ne pas confondre avec mu (μ) qui est le coefficient d'élasticité L dans F (paramètre dynamique V6.2). Le mu_m V7 est une variable codée sur sources, pas un paramètre dynamique.",
+      "sources_recommandees": ["Girard René — La Violence et le Sacré (1972)", "Analyses de discours politiques sur le cas concerné", "V-DEM polarization index"]
+    },
+    "phi": {
+      "type": "continue",
+      "echelle": [0.0, 1.0],
+      "seuil_cci": 0.15,
+      "obligatoire": true,
+      "symbole_redactionnel": "Φ",
+      "role": "Fragmentation symbolique. Mesure le degré de monopole médiatique/symbolique du noyau organisé (Φ bas) vs le degré de pluralisme symbolique résiduel (Φ haut).",
+      "note": "Modulation σ(Φ) = sigma_base × (1 + alpha_phi × Φ) — voir hyperparametres_v7_alpha_rev2_1. Le seuil de masse critique de la condition C2 dépend de Φ.",
+      "sources_recommandees": ["V-DEM media freedom index", "Analyse historique du paysage médiatique du cas"]
+    },
+    "psi_noyau": {
+      "type": "continue",
+      "echelle": [0.0, 1.0],
+      "seuil_cci": 0.05,
+      "obligatoire": true,
+      "symbole_redactionnel": "Ψ_noyau",
+      "role": "Proportion de la population engagée activement dans le noyau organisé porteur du mécanisme sacrificiel. Définition stricte : 'engagement actif soutenu' (adhésion formelle ou participation régulière). NE PAS élargir aux sympathisants passifs ou aux votants — règle pré-enregistrée par Décision V7-D1 rev. 4.",
+      "note": "Condition C2 d'activation de (α) : Ψ_noyau × γ_local > σ(Φ). Pour WP-I4-1 Allemagne nazie, le codage strict produit Ψ_noyau ≈ 0.01 (NSDAP ≈ 1% population), ce qui entraîne un échec attendu sur C2 — voir §2ter.7 du cadre rev. 2.1 et Décision V7-D1 rev. 4 §5.",
+      "sources_recommandees": ["Recensements historiques", "Archives officielles des organisations concernées", "Études démographiques académiques"]
+    },
+    "psi_cible": {
+      "type": "continue_ou_null",
+      "echelle": [0.0, 1.0],
+      "seuil_cci": 0.05,
+      "obligatoire": true,
+      "symbole_redactionnel": "Ψ_cible",
+      "role": "Proportion de la population désignée comme cible démographique du mécanisme sacrificiel. CODAGE NULL POSITIF autorisé si aucune cible démographique unique n'est désignée publiquement.",
+      "regle_e3_rev_2_1": "Si Ψ_cible est codé null, une justification textuelle positive est OBLIGATOIRE dans le champ 'justification' de la fiche : 'Les sources historiques consultées [S1, S2, ...] ne mentionnent aucune désignation publique de cible démographique unique au sens de la trajectoire (α). La fracture principale du cas est codée dans E_split comme [nature de la fracture : économique, politique, sectorielle, régionale]. L'absence de Ψ_cible est donc une propriété positive du cas, pas une omission.' Sans cette justification (longueur ≥ 50 caractères), la clé psi_cible null est rejetée par mepa_node2_audit_v7.js (contrôle C14 nouveau).",
+      "note": "Condition C3 d'activation de (α) : Ψ_cible ≠ null. Cas connus avec Ψ_cible non-null : Rwanda (Tutsis ≈ 0.15), Allemagne nazie (Juifs ≈ 0.01). Cas connus avec Ψ_cible null : Rome IIIe siècle, Haïti, Égypte 2011, Commune de Paris.",
+      "sources_recommandees": ["Sources sur le discours public officiel du noyau organisé", "Analyses historiques de la désignation symbolique des cibles"]
+    },
+    "gamma_local": {
+      "type": "continue",
+      "echelle": [0.0, 1.0],
+      "seuil_cci": 0.10,
+      "obligatoire": true,
+      "symbole_redactionnel": "γ_local",
+      "role": "Capacité organisationnelle propre au noyau Ψ. Distincte de gamma (γ V6.2) qui est la cohésion culturelle de l'élite globale. γ_local mesure la discipline doctrinale et la capacité opérationnelle du seul noyau organisé porteur.",
+      "note": "Condition C2 d'activation de (α) : Ψ_noyau × γ_local > σ(Φ). Pour WP-I10-1 Rwanda : γ_local ≈ 0.55 (Hutu Power organisé). Pour WP-I4-1 Allemagne nazie : γ_local ≈ 0.55 (NSDAP discipliné). Pour WP-F10-1 Commune de Paris : γ_local ≈ 0.15 (V_col sans doctrine unifiée — Jacobins, Blanquistes, Proudhoniens en compétition interne).",
+      "sources_recommandees": ["Études sur l'organisation interne du noyau concerné", "Analyses doctrinales académiques"]
+    }
+  },
+  "hyperparametres_v7_alpha_rev2_1": {
+    "$description": "Hyperparamètres du cadre V7-α rev. 2.1 pour la trajectoire (α) Cristallisation sacrificielle d'État, la branche (b) explicative et la branche (d) V7-C2. Source unique de vérité — les valeurs ici doivent correspondre à celles du cadre théorique V7-α rev. 2.1 et de la Décision V7-D1 rev. 4 §5.3.",
+    "$reference": "MEPA cadre théorique V7-α rev. 2.1 — §2ter.5, §5.3, Annexes C, D, E.",
+    "trajectoire_alpha": {
+      "$description": "Hyperparamètres de la branche (α) Cristallisation sacrificielle d'État.",
+      "mu_m_etoile": {
+        "valeur": 0.60,
+        "role": "Seuil μ_m* de polarisation mimétique pour la condition C1 de (α). C1 satisfaite si μ_m > 0.60.",
+        "intervalle_tolerance_v7_gamma": [0.55, 0.65]
+      },
+      "sigma_base": {
+        "valeur": 0.018,
+        "role": "Composante de base du seuil de masse critique σ(Φ). Formule : σ(Φ) = sigma_base × (1 + alpha_phi × Φ).",
+        "intervalle_tolerance_v7_gamma": [0.015, 0.025]
+      },
+      "alpha_phi": {
+        "valeur": 1.7,
+        "role": "Facteur de modulation de σ par Φ. Plus Φ est élevé (fragmentation symbolique), plus le seuil de masse critique augmente.",
+        "intervalle_tolerance_v7_gamma": [1.2, 2.5]
+      },
+      "theta_C_alpha": {
+        "valeur": 0.30,
+        "role": "Seuil C5 de confirmation dynamique de (α). C_max produit par la simulation avec rampe active doit dépasser ce seuil.",
+        "intervalle_tolerance_v7_gamma": [0.30, 0.50],
+        "note": "Identique à parametres_simulation.theta_C. La condition C5 est : C_max > theta_C_alpha sur la simulation avec rampe mod_mimétique active."
+      },
+      "coefficient_a_r_c_eff": {
+        "valeur": 0.5,
+        "role": "Coefficient de la clause de repli A_r_c_eff = A_r_c + 0.5 × A_r_ne. Utilisé si A_r_c ≤ 0.7 pour formaliser l'amplification répressive par délateurs/réseaux non-étatiques.",
+        "intervalle_tolerance_v7_gamma": [0.3, 0.7],
+        "note": "Source de la formalisation : note de codage WP-I4-1 Allemagne nazie V6.2 — 'A_r_c classique sous-staffée mais amplifiée par délateurs volontaires → A_r_c_eff très élevée'."
+      }
+    },
+    "rampe_mod_mimetique": {
+      "$description": "Rampe d'activation du modulateur p6 en trois phases (incubation, décharge, stabilisation) lorsque la branche (α) est activée. Source théorique : structure girardienne du rituel sacrificiel.",
+      "phase_1_incubation": {
+        "duree_pas": [15, 30],
+        "duree_par_defaut": 22,
+        "modulateur_p6": 0.50,
+        "intervalle_tolerance_v7_gamma": [0.40, 0.60],
+        "role": "Phase d'incubation : p6 réduit (montée progressive de la tension mimétique, accumulation de C avant décharge)."
+      },
+      "phase_2_decharge": {
+        "duree_pas": [5, 10],
+        "duree_par_defaut": 7,
+        "modulateur_p6": 2.50,
+        "intervalle_tolerance_v7_gamma": [2.00, 3.00],
+        "role": "Phase de décharge : p6 fortement augmenté (événement sacrificiel compressé dans le temps, dissipation brutale de C)."
+      },
+      "phase_3_stabilisation": {
+        "duree_pas": [20, 50],
+        "duree_par_defaut": 30,
+        "modulateur_p6": 1.15,
+        "intervalle_tolerance_v7_gamma": [1.05, 1.25],
+        "role": "Phase de stabilisation : p6 légèrement augmenté (nouveau régime installé, dynamique post-sacrifice)."
+      }
+    },
+    "branche_b_explicative": {
+      "$description": "Hyperparamètres de la branche (b) explicative V7-C4 rev. 2.1. Distingue une répression active (pic de C puis chute) d'une absence de mobilisation. Calibrée sur les valeurs V6.2 réelles des 4 cas du cluster pilote original.",
+      "seuil_c_max": {
+        "valeur": 0.12,
+        "role": "Seuil minimal de C_max pour qualifier une mobilisation significative. Si C_max ≤ 0.12, la branche (b) explicative ne se déclenche pas (cas Rome IIIe siècle).",
+        "intervalle_tolerance_v7_gamma": [0.10, 0.18]
+      },
+      "seuil_chute_c": {
+        "valeur": 0.20,
+        "role": "Seuil minimal de chute relative de C ((C_max - C_final) / C_max) pour qualifier une dissipation active par répression. Si chute ≤ 0.20, la branche (b) explicative ne se déclenche pas (cas Haïti).",
+        "intervalle_tolerance_v7_gamma": [0.15, 0.30]
+      },
+      "intervalle_cs_valide": {
+        "min": 0.10,
+        "max": 0.50,
+        "role": "Plage de Cs (crédibilité du régime) compatible avec une répression active. En dehors de cette plage, la branche (b) explicative ne se déclenche pas."
+      }
+    },
+    "branche_d_v7_c2": {
+      "$description": "Hyperparamètres de la branche (d) V7-C2 rev. 2.1. Détecte les effondrements progressifs sans bascule F ≥ R. Quatre conditions cumulatives.",
+      "seuil_chute_i": {
+        "valeur": 0.5,
+        "role": "Seuil minimal de chute relative de I ((I_initial - I_min_sim) / I_initial) pour qualifier un effondrement institutionnel."
+      },
+      "seuil_fr_max": {
+        "valeur": 1.2,
+        "role": "Seuil maximal de F/R pour qualifier 'pas de quasi-bascule' (la force n'a jamais approché le seuil F=R à moins de 20%)."
+      },
+      "exclusion_branche_b_explicative": {
+        "regle": "La branche (d) V7-C2 ne se déclenche pas si la branche (b) explicative s'est déclenchée. Cette exclusion remplace la condition C_max < theta_C de la rev. 2 et résout la discrimination Haïti/Égypte.",
+        "note": "Voir §5.3 et Annexe C du cadre rev. 2.1."
+      }
+    }
+  },
+  "intervalles_tolerance_v7_gamma": {
+    "$description": "Intervalles de tolérance pré-enregistrés pour le test V7-γ rev. 2 selon Décision V7-D1 rev. 4 §5.3. Si une valeur observée en V7-γ est en dehors de l'intervalle pré-enregistré, l'hyperparamètre est considéré comme réfuté et déclenche une révision rev. 3 avant certification V7.0.",
+    "$reference": "Décision V7-D1 rev. 4 §5.3 — Intervalles de tolérance pré-enregistrés.",
+    "$note_serres": "Les intervalles sont volontairement serrés pour éviter la tautologie du pré-enregistrement. Le projet MEPA préfère prendre un vrai risque empirique de réfutation plutôt qu'une certification garantie par des intervalles larges.",
+    "theta_C_rwanda_c5": {
+      "valeur_v7_alpha": 0.30,
+      "intervalle": [0.30, 0.50],
+      "operateur_validation": ">",
+      "note": "C_max Rwanda en condition C5 doit être > 0.30 pour valider (α). Intervalle [0.30, 0.50] = plage acceptée pour validation V7-γ."
+    },
+    "sigma_base": {
+      "valeur_v7_alpha": 0.018,
+      "intervalle": [0.015, 0.025]
+    },
+    "alpha_phi": {
+      "valeur_v7_alpha": 1.7,
+      "intervalle": [1.2, 2.5]
+    },
+    "mu_m_etoile": {
+      "valeur_v7_alpha": 0.60,
+      "intervalle": [0.55, 0.65]
+    },
+    "modulateur_p6_phase_1": {
+      "valeur_v7_alpha": 0.50,
+      "intervalle": [0.40, 0.60]
+    },
+    "modulateur_p6_phase_2": {
+      "valeur_v7_alpha": 2.50,
+      "intervalle": [2.00, 3.00]
+    },
+    "modulateur_p6_phase_3": {
+      "valeur_v7_alpha": 1.15,
+      "intervalle": [1.05, 1.25]
+    },
+    "coefficient_a_r_c_eff": {
+      "valeur_v7_alpha": 0.5,
+      "intervalle": [0.3, 0.7]
+    },
+    "seuil_chute_c_branche_b": {
+      "valeur_v7_alpha": 0.20,
+      "intervalle": [0.15, 0.30]
+    },
+    "seuil_c_max_branche_b": {
+      "valeur_v7_alpha": 0.12,
+      "intervalle": [0.10, 0.18]
     }
   },
   "labels_trajectoire_d4": {
-    "$description": "9 labels officiels D4. Identiques au caractère près. Source : prompt V3-gamma Partie 1 + Stratification V6.2 + Manuel Gouvernance Annexe A.",
+    "$description": "Labels officiels D4 — au caractère près. 10 labels en V7-α rev. 2.1 (9 V6.2 + 1 nouveau (α) Cristallisation sacrificielle d'État).",
     "labels": [
       "(a) Rupture transformatrice",
+      "(α) Cristallisation sacrificielle d'État",
       "(b) Répression réussie",
       "(c) Stase / ambigu",
       "(d) Effondrement progressif",
@@ -470,28 +621,71 @@
       "(h)/(e) Stabilité ou réforme lente",
       "(γ) Transformation forcée"
     ],
-    "$note_dissolution": "(d) Dissolution est distinct de (d) Effondrement progressif (Manuel Gouvernance Annexe A). Conditions : F≥R, Ref>0.35, Rc+Rn<0.35. Non produit par l'arbre runner automatique — assigné via trajectoire_attendue fiche étalon (LOI PHYSIQUE 3 passes).",
-    "$note_trajectoire_e": "(e) Réforme institutionnelle : absente des 27 WP principaux V6.2 comme trajectoire FINALE par décision d'architecture (Mars 2026). Cas étalon : WP-EXT-5 (Islande 2008-2013) — archivé, candidat V7 si P5 requiert cas de contrôle Sa=2. Active comme phase INTERMÉDIAIRE dans : WP-I3 (Japon : (a)→(e)→(h)→(d)), WP-I8 (Chine Deng : (e)→(h)), WP-I10 (Rwanda : (a)→(e) reconstruction). Chantiers V7 : Portugal 1974 (WP-C4-3), New Deal américain 1933 (WP-C5-2), Espagne 2010."
+    "$note_alpha": "(α) Cristallisation sacrificielle d'État : trajectoire NOUVELLE V7-α rev. 2.1. Activée par les conditions C1-C5 de §2ter.5 du cadre. Cas étalon : WP-I10-1 Rwanda 1994. Cas secondaire : WP-I4-1 Allemagne nazie 1933-1945 (échec attendu sur C2 — voir Décision V7-D1 rev. 4 §5).",
+    "$note_dissolution": "(d) Dissolution : 9e label V6.2. Conditions : F≥R, Ref>0.35, Rc+Rn<0.35. Non produit par l'arbre automatique — fiche étalon LOI PHYSIQUE.",
+    "$note_trajectoire_e": "(e) Réforme institutionnelle : trajectoire finale absente des 27 WP principaux V6.2 par décision d'architecture. Cas étalon : WP-EXT-5 (Islande 2008). Présente comme phase intermédiaire dans WP-I3 (Japon), WP-I8 (Chine Deng), WP-I10 (Rwanda). Chantier V7 : Portugal 1974 (WP-C4-3), New Deal 1933 (WP-C5-2)."
   },
-  "clusters": {
-    "$description": "Clusters MEPA V6.2 — 5 clusters actifs.",
-    "valides": [
-      "C1",
-      "C2",
-      "C3",
-      "C4",
-      "C5"
-    ],
-    "note": "C6 réservé. Cluster détermine le contexte de modélisation, pas les équations."
+  "annotations_branches_v7_c4": {
+    "$description": "Annotation EXPLICATIVE/CATCHALL des branches de l'arbre de décision V7 selon V7-C4 rev. 2.1. Une concordance est DISCRIMINANTE si la branche est EXPLICATIVE, NON-DISCRIMINANTE si la branche est CATCHALL. Source : cadre théorique V7-α rev. 2.1 Annexe E §E.3.",
+    "$reference": "MEPA cadre théorique V7-α rev. 2.1 — Annexe E §E.3 et §E.5.",
+    "branches": {
+      "(α) Cristallisation sacrificielle d'État": "EXPLICATIVE",
+      "(d) V7-C2 sans bascule": "EXPLICATIVE",
+      "(a) Rupture transformatrice": "EXPLICATIVE",
+      "(b) Répression réussie — explicative": "EXPLICATIVE",
+      "(b) Répression réussie — catchall": "CATCHALL",
+      "(c) Stase polarisée": "EXPLICATIVE",
+      "(e) Réforme institutionnelle": "EXPLICATIVE",
+      "(f) Réforme technologique": "EXPLICATIVE",
+      "(g) Dérive oligarchique": "EXPLICATIVE",
+      "(h) Stabilité basse — catchall": "CATCHALL",
+      "(i) Blocage anomique": "EXPLICATIVE"
+    }
   },
-
-  "versions_scripts": {
-    "$description": "Versions opérationnelles des scripts V6.2. Source de vérité pour MEPA_VERSION_META dans mepa_passeport_schema.py. Mettre à jour ici lors de toute montée de version.",
-    "runner":     "mepa_runner_v2_gamma 2.1.1",
-    "audit":      "mepa_node2_audit_v62 2.1.1",
-    "kappa_calc": "mepa_kappa_calculator 2.0.0",
-    "passeport":  "mepa_passeport_schema 2.0.0",
-    "constants":  "mepa_constants 1.2.3",
-    "whitelist":  "mepa_whitelist_keys 2.0"
+  "nc_protocol": {
+    "$description": "Protocole de gestion des valeurs Non Codables (NC). NC bloquant pour {gamma, EROI} ET maintenant {psi_noyau, gamma_local} en V7. NC non-bloquant pour les autres (dégradent la qualité, n'empêchent pas la simulation).",
+    "valeur_sentinel": "NC",
+    "variables_nc_bloquantes": ["E_split", "gamma", "EROI", "Sa", "psi_noyau", "gamma_local"],
+    "$note_v7": "V7-α rev. 2.1 : ajout de psi_noyau et gamma_local comme variables NC bloquantes. Sans ces deux valeurs, la condition C2 de la branche (α) ne peut pas être évaluée. psi_cible n'est PAS bloquant — son codage null est autorisé avec justification textuelle (règle E3 rev. 2.1)."
+  },
+  "wp_cluster_pilote_v7_gamma_rev2": {
+    "$description": "Composition du cluster pilote V7-γ rev. 2 et trajectoires attendues pré-enregistrées par Décision V7-D1 rev. 4 §4.",
+    "$reference": "Décision V7-D1 rev. 4 §4.",
+    "WP-I10-1": {
+      "cas": "Rwanda 1994",
+      "trajectoire_attendue_v7": "(α) Cristallisation sacrificielle d'État",
+      "statut_certification": "BLOQUANTE",
+      "role": "Cas positif principal de (α) — calibration du mécanisme sacrificiel"
+    },
+    "WP-I4-1": {
+      "cas": "Allemagne nazie 1933-1945",
+      "trajectoire_attendue_v7": "(α) Cristallisation sacrificielle d'État",
+      "statut_certification": "CONDITIONNELLE",
+      "role": "Cas positif secondaire de (α) — échec attendu sur condition C2 (Ψ_noyau × γ_local = 0.0055 < σ ≈ 0.0275). Voir Décision V7-D1 rev. 4 §5."
+    },
+    "WP-F10-1": {
+      "cas": "Commune de Paris 1871",
+      "trajectoire_attendue_v7": "(a) Rupture transformatrice",
+      "statut_certification": "BLOQUANTE",
+      "role": "Contrôle négatif — doit NE PAS produire (α). Test de la spécificité de (α)."
+    },
+    "WP-F1-1": {
+      "cas": "Rome IIIe siècle",
+      "trajectoire_attendue_v7": "(d) Effondrement progressif",
+      "statut_certification": "BLOQUANTE",
+      "role": "Cas test principal du correctif V7-C2"
+    },
+    "WP-C1-1": {
+      "cas": "Haïti 2010-2024",
+      "trajectoire_attendue_v7": "(d) Effondrement progressif",
+      "statut_certification": "BLOQUANTE",
+      "role": "Cas test secondaire du correctif V7-C2"
+    },
+    "WP-C2-1": {
+      "cas": "Égypte 2011",
+      "trajectoire_attendue_v7": "(b) Répression réussie — EXPLICATIVE",
+      "statut_certification": "BLOQUANTE",
+      "role": "Cas test du correctif V7-C4 — discrimination explicative/catchall"
+    }
   }
 }

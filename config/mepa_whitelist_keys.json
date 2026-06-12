@@ -1,0 +1,317 @@
+{
+  "$schema": "mepa-whitelist-v3.0",
+  "$meta": {
+    "statut": "ETENDU V7",
+    "cible": "/data/mepa/scripts/mepa_whitelist_keys.json",
+    "retrocompatibilite": "V3.0.0 préserve intégralement la structure V2.1.0. Toutes les variables V6.2 (E_split, gamma, A_d_eff, A_r_c, A_r_ne, Cs, L_t, EROI, Sa) sont inchangées. Les six nouvelles variables V7-α rev. 2.1 (m_r, mu_m, phi, psi_noyau, psi_cible, gamma_local) sont ajoutées sous une nouvelle section variables_continues_v7 et variables_categorielles_v7. Le contrôle C13 (NC) reste actif. Les nouveaux contrôles C14 (justification psi_cible null) et C15 (présence variables V7) seront implémentés dans mepa_node2_audit_v7.js.",
+    "version": "3.0.0",
+    "remplace": "2.1.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "note_ordre_controles": "Ordre obligatoire dans Node 2 V7 : C13 -> C1 -> C2 -> C3 -> C4 -> C9 -> C10-C12 -> C14 (psi_cible null justifié) -> C15 (vars V7 présentes si fiche V7)",
+    "note_v2_1": "V2.1.0 : correction variables_commandes.EROI.note — WP-C1-1 = Haïti (ancre MIN=1.5), remplace Islande (WP-EXT-5).",
+    "note_v3_0": "V3.0.0 : Extension V7-α rev. 2.1. Ajout de variables_continues_v7 (mu_m, phi, psi_noyau, psi_cible, gamma_local) et variables_categorielles_v7 (m_r). Ajout de NC bloquant pour psi_noyau et gamma_local (sans ces deux valeurs, la condition C2 de la branche α n'est pas évaluable). Ajout de la règle E3 rev. 2.1 sur le codage null positif de psi_cible avec justification textuelle obligatoire (longueur ≥ 50 caractères). Ajout des contraintes spécifiques pour les WP du cluster pilote V7-γ rev. 2.",
+    "$reference": "MEPA cadre théorique V7-α rev. 2.1, Décision V7-D1 rev. 4."
+  },
+  "variables_continues": {
+    "$description": "Variables continues V6.2 — inchangées en V3.0.0.",
+    "E_split": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "Fraction énergie institutionnelle. NC si aucune source sur la structure énergétique de la période."
+    },
+    "gamma": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "gamma — cohésion culturelle. Cle JSON uniquement (symbole grec dans le texte). NC si sources contradictoires sans résolution possible."
+    },
+    "A_d_eff": {
+      "type": "continue",
+      "plage": [0.0, 10.0],
+      "precision_min": 0.1,
+      "valeurs_speciales": ["NC"],
+      "note": "Efficacité administrative. Echelle [0,10]. NC possible pour structures pré-étatiques sans documentation administrative."
+    },
+    "A_r_c": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "Capacité de réforme culturelle. RÔLE V7 : utilisée dans la condition C4 de la branche (α) — clause directe A_r_c > 0.7 ou clause de repli A_r_c_eff = A_r_c + 0.5 × A_r_ne."
+    },
+    "A_r_ne": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "Capacité de réforme normative externe. Valeur 0.00 légitime (ex: WP-F10-1). NC different de 0.00. RÔLE V7 : entre dans la formule A_r_c_eff comme amplification de l'appareil répressif (cas WP-I4-1 Allemagne nazie : A_r_ne=0.70 auto-entretenue par délateurs)."
+    },
+    "Cs": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "Capital social / crédibilité initiale. RÔLE V7 : filtre de validité de la branche (b) explicative — Cs ∈ [0.10, 0.50] pour qualifier une répression active."
+    },
+    "L_t": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "note": "Légitimité perçue initiale."
+    },
+    "EROI": {
+      "type": "continue",
+      "plage": [1.01, 200.0],
+      "precision_min": 0.1,
+      "valeurs_speciales": ["NC"],
+      "note": "Energy Return On Investment. Min > 1 (thermodynamique). NC pour périodes pré-industrielles sans données énergétiques. WP-C1-1 Haïti = 1.5 (ancre MIN corpus)."
+    }
+  },
+  "variables_continues_v7": {
+    "$description": "Variables continues nouvelles V7-α rev. 2.1 pour la trajectoire (α) Cristallisation sacrificielle d'État. Six variables au total (cinq continues ci-dessous + une catégorielle m_r dans variables_categorielles_v7). Source : cadre théorique V7-α rev. 2.1 §2bis et §2ter.",
+    "$reference": "MEPA cadre théorique V7-α rev. 2.1 §2bis (mécanisme sacrificiel) et §2ter (conditions C1-C5 de la branche α).",
+    "mu_m": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "symbole_redactionnel": "μ_m",
+      "note": "Polarisation mimétique girardienne. Mesure le degré de désignation publique d'une opposition binaire intra-société. Condition C1 d'activation de (α) : μ_m > 0.60. ATTENTION : ne pas confondre avec mu (μ) qui est le coefficient d'élasticité L dans F (paramètre dynamique V6.2)."
+    },
+    "phi": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "symbole_redactionnel": "Φ",
+      "note": "Fragmentation symbolique. Mesure le degré de monopole médiatique/symbolique du noyau organisé (Φ bas) vs pluralisme symbolique résiduel (Φ haut). Module σ(Φ) = 0.018 × (1 + 1.7 × Φ) dans la condition C2."
+    },
+    "psi_noyau": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.005,
+      "valeurs_speciales": ["NC"],
+      "symbole_redactionnel": "Ψ_noyau",
+      "note": "Proportion population engagée activement dans le noyau organisé porteur. Définition stricte 'engagement actif soutenu'. NE PAS élargir aux sympathisants passifs ou aux votants — règle pré-enregistrée par Décision V7-D1 rev. 4. Condition C2 : Ψ_noyau × γ_local > σ(Φ). Pour WP-I4-1 Allemagne nazie : Ψ_noyau ≈ 0.01 strict (NSDAP ≈ 1% population). NC bloquant si non codable."
+    },
+    "psi_cible": {
+      "type": "continue_ou_null",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.005,
+      "valeurs_speciales": ["NC", null],
+      "symbole_redactionnel": "Ψ_cible",
+      "regle_e3_rev_2_1": {
+        "$description": "Règle de codage E3 rev. 2.1 — codage null positif de psi_cible.",
+        "regle": "Si Ψ_cible est codé null, une justification textuelle positive est OBLIGATOIRE dans le champ 'justification' de la fiche, avec une longueur minimale de 50 caractères. Format : 'Les sources historiques consultées [S1, S2, ...] ne mentionnent aucune désignation publique de cible démographique unique au sens de la trajectoire (α). La fracture principale du cas est codée dans E_split comme [nature]. L'absence de Ψ_cible est donc une propriété positive du cas, pas une omission.'",
+        "controle_node2": "C14 nouveau dans mepa_node2_audit_v7.js : si psi_cible == null et longueur(justification) < 50 → erreur bloquante",
+        "exemple_valide": {
+          "valeur": null,
+          "justification": "Les sources historiques consultées [S1 Tombs 1999, S2 Rougerie 1971] ne mentionnent aucune désignation publique de cible démographique unique au sens de la trajectoire (α). La violence des otages d'avril-mai 1871 et l'exécution de Mgr Darboy ne constituent pas une désignation de cible démographique homogène. La fracture principale du cas est codée dans E_split comme fracture politique entre Versaillais conservateurs et Communards révolutionnaires. L'absence de Ψ_cible est donc une propriété positive du cas, pas une omission."
+        }
+      },
+      "note": "Condition C3 d'activation de (α) : Ψ_cible ≠ null. Cas avec Ψ_cible non-null connus : Rwanda (Tutsis ≈ 0.15), Allemagne nazie (Juifs ≈ 0.01). Cas avec Ψ_cible null connus : Rome IIIe siècle, Haïti, Égypte 2011, Commune de Paris."
+    },
+    "gamma_local": {
+      "type": "continue",
+      "plage": [0.0, 1.0],
+      "precision_min": 0.01,
+      "valeurs_speciales": ["NC"],
+      "symbole_redactionnel": "γ_local",
+      "note": "Capacité organisationnelle propre du noyau Ψ. DISTINCTE de gamma (γ V6.2) qui est la cohésion culturelle de l'élite globale. γ_local mesure la discipline doctrinale et la capacité opérationnelle du seul noyau organisé porteur. Pour WP-I10-1 Rwanda : γ_local ≈ 0.55 (Hutu Power organisé). Pour WP-F10-1 Commune de Paris : γ_local ≈ 0.15 (V_col sans doctrine unifiée). NC bloquant si non codable."
+    }
+  },
+  "variables_categorielles": {
+    "$description": "Variables catégorielles V6.2 — inchangées en V3.0.0.",
+    "Sa": {
+      "type": "categorielle",
+      "valeurs_valides": [2, 4, 6, 7],
+      "nc_autorise": false,
+      "note": "Niveau de complexité adaptative Todd. NC non autorisé : tout cas historique est classifiable sur cette échelle."
+    }
+  },
+  "variables_categorielles_v7": {
+    "$description": "Variables catégorielles nouvelles V7-α rev. 2.1.",
+    "$reference": "MEPA cadre théorique V7-α rev. 2.1 §2bis (matrice religieuse Todd).",
+    "m_r": {
+      "type": "categorielle",
+      "valeurs_valides": [1, 2, 3],
+      "nc_autorise": false,
+      "symbole_redactionnel": "M_r",
+      "note": "Stade matrice religieuse Todd. 1 = religion active (Rwanda 1994 christianisme actif), 2 = religion en transition zombie (Allemagne nazie 1933 protestantisme/catholicisme déclinants), 3 = religion zombie post-Stade 3 (France contemporaine). Condition C1 d'activation de (α) : M_r ∈ {1, 2}. Les cas M_r = 3 sont exclus de la branche (α) actuelle et seront traités par la Configuration B en V7.1."
+    }
+  },
+  "variables_commandes": {
+    "$description": "Variables de commande du runner — inchangées en V3.0.0.",
+    "T": {
+      "plage": [0.0, 2.0],
+      "note": "Tension institutionnelle."
+    },
+    "Mob": {
+      "plage": [0.0, 1.0],
+      "note": "Mobilisation sociale."
+    },
+    "R": {
+      "plage": [0.0, 10.0],
+      "note": "Résistance institutionnelle."
+    },
+    "Ref": {
+      "plage": [0.0, 1.0],
+      "note": "Taux de réforme initial. Universel = 0.10."
+    },
+    "Rc": {
+      "plage": [0.0, 1.0],
+      "note": "Résistance culturelle."
+    },
+    "Rn": {
+      "plage": [0.0, 1.0],
+      "note": "Résistance normative."
+    },
+    "E": {
+      "plage": [0.0, 1.0],
+      "note": "Energie disponible."
+    },
+    "gamma": {
+      "plage": [0.0, 1.0],
+      "note": "Cle JSON pour la cohésion culturelle."
+    },
+    "EROI": {
+      "plage": [1.01, 200.0],
+      "note": "EROI. WP-C1-1 Haïti = 1.5 (ancre minimum corpus — plancher). Dynamique C1 : EROI_start/EROI_end obligatoire pour Haïti (cmd_linear)."
+    },
+    "Pop": {
+      "plage": [0.0, 10.0],
+      "note": "Population normalisée."
+    }
+  },
+  "cles_interdites": {
+    "liste": ["g", "g_coherence", "gC_ext"],
+    "note": "REGLE ABSOLUE V6.2 : g est interdit. gC est la variable interne de saturation dans dC — ne jamais renommer. gamma est l'unique cle de commande autorisée pour la cohésion culturelle. RÈGLE V7 maintenue : ne pas créer de variantes des nouvelles clés V7 (m_r, mu_m, phi, psi_noyau, psi_cible, gamma_local) avec des notations alternatives."
+  },
+  "cles_metadonnees_ignorees": {
+    "liste": [
+      "note",
+      "_note",
+      "Ref_note",
+      "I0_note",
+      "zone",
+      "passes",
+      "configuration_c_note",
+      "_v7_meta"
+    ],
+    "pattern": "_note$",
+    "$note_v7": "configuration_c_note : champ optionnel V7 pour documenter qu'un cas relève de la Configuration C (fragmentation multipolaire active) — non opérationnel dans le runner V7-α rev. 2.1, voir §2bis.7 du cadre. _v7_meta : champ optionnel pour métadonnées V7 (annotation branche, score continu V7.1...)."
+  },
+  "nc_validation": {
+    "$description": "Validation des codages NC. Champs requis si une variable est codée NC.",
+    "champs_requis_si_nc": ["valeur", "justification", "source_id"],
+    "justification_min_chars": 20,
+    "source_id_si_nc": null,
+    "exemple_valide": {
+      "valeur": "NC",
+      "justification": "NON CODABLE — absence de source documentée sur la structure énergétique de la Commune de Paris (1871). Les archives disponibles ne contiennent pas de données quantitatives sur l'EROI institutionnel pour cette période de 72 jours.",
+      "source_id": null
+    }
+  },
+  "nc_bloquant_v7": {
+    "$description": "Variables dont une valeur NC bloque l'évaluation de la branche (α). Ajouté en V3.0.0.",
+    "variables": ["psi_noyau", "gamma_local"],
+    "note": "Sans psi_noyau ET gamma_local valides, la condition C2 (Ψ × γ_local > σ(Φ)) de la branche (α) ne peut pas être évaluée. Le runner V7 doit signaler cette impossibilité explicitement plutôt que de tomber en silence. Pour psi_cible, le NC est interdit (utiliser null avec justification textuelle selon règle E3 rev. 2.1)."
+  },
+  "contraintes_par_wp": {
+    "$description": "Contraintes spécifiques par WP — utilisées par mepa_node2_audit_v62.js (V6.2) et mepa_node2_audit_v7.js (V7) pour le contrôle C10. Étendues en V3.0.0 pour les WP du cluster pilote V7-γ rev. 2.",
+    "WP-C1-1": {
+      "cluster": "C1",
+      "EROI_min": 1.01,
+      "EROI_max": 2.5,
+      "cmd_linear_requis": true,
+      "note": "Haïti 2010-2024 — EROI dynamique 1.2→2.0. Ancre plancher corpus.",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(d) Effondrement progressif",
+      "statut_v7": "BLOQUANTE"
+    },
+    "WP-F1-1": {
+      "cmd_linear_requis": true,
+      "cluster": "C1",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(d) Effondrement progressif",
+      "statut_v7": "BLOQUANTE"
+    },
+    "WP-F2-1": {
+      "cmd_linear_requis": true,
+      "A_r_ne_max": 0.00,
+      "cluster": "C1"
+    },
+    "WP-F3-1": {
+      "cmd_linear_requis": true,
+      "cluster": "C1"
+    },
+    "WP-F10-1": {
+      "t_max": 80,
+      "cluster": "C2",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(a) Rupture transformatrice",
+      "role_v7": "CONTRÔLE NÉGATIF — doit NE PAS produire (α)",
+      "statut_v7": "BLOQUANTE"
+    },
+    "WP-I3-1": {
+      "sa_p6_mult": true,
+      "cluster": "C5"
+    },
+    "WP-I4-1": {
+      "sa_p6_mult": true,
+      "cluster": "C2",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(α) Cristallisation sacrificielle d'État",
+      "echec_attendu_v7": "Condition C2 de la branche (α) — Ψ_noyau × γ_local = 0.0055 < σ(Φ=0.30) ≈ 0.0275. Voir Décision V7-D1 rev. 4 §5.",
+      "statut_v7": "CONDITIONNELLE",
+      "note_v7": "Le codage Ψ_noyau ≈ 0.01 strict (NSDAP membres formels uniquement) est une exigence pré-enregistrée. Ne pas élargir aux sympathisants pour 'sauver' la condition C2."
+    },
+    "WP-I9-1": {
+      "sa_p6_mult": true,
+      "cluster": "C4"
+    },
+    "WP-I10-1": {
+      "cmd_linear_requis": true,
+      "cluster": "C1",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(α) Cristallisation sacrificielle d'État",
+      "statut_v7": "BLOQUANTE",
+      "note_v7": "Cas positif principal de (α) — calibration du mécanisme sacrificiel"
+    },
+    "WP-C2-1": {
+      "cluster": "C2",
+      "cluster_pilote_v7_gamma": true,
+      "trajectoire_attendue_v7": "(b) Répression réussie — EXPLICATIVE",
+      "statut_v7": "BLOQUANTE",
+      "note_v7": "Cas test du correctif V7-C4 — discrimination explicative/catchall. Doit être classé par la branche (b) explicative et NON par la branche (b) catchall."
+    },
+    "WP-C4-1": {
+      "EROI_max": 2.0,
+      "cluster": "C1",
+      "configuration_c_v7_alpha": true,
+      "note_v7": "Liban — Configuration C documentée comme note anthropologique non-opérationnelle en V7-α rev. 2.1 (§2bis.7 du cadre). Sera réintégrée en V8."
+    },
+    "WP-EXT-5": {
+      "EROI_min": 30,
+      "cluster": "C4",
+      "note": "Islande — étalon (e). Sa=2 nucléaire absolu. Hors corpus principal V6.2. Candidat V7."
+    }
+  },
+  "wp_cluster_pilote_v7_gamma_rev2": {
+    "$description": "Liste des 6 WP du cluster pilote V7-γ rev. 2 — pré-enregistrée par Décision V7-D1 rev. 4 §4.",
+    "$reference": "Décision V7-D1 rev. 4 §4.",
+    "wp_ids": ["WP-I10-1", "WP-I4-1", "WP-F10-1", "WP-F1-1", "WP-C1-1", "WP-C2-1"],
+    "details": {
+      "WP-I10-1": "Rwanda 1994 — (α) attendue — bloquante",
+      "WP-I4-1": "Allemagne nazie 1933-1945 — (α) attendue — conditionnelle (échec C2 attendu)",
+      "WP-F10-1": "Commune de Paris 1871 — (a) attendue, contrôle négatif — bloquante",
+      "WP-F1-1": "Rome IIIe siècle — (d) attendue — bloquante",
+      "WP-C1-1": "Haïti 2010-2024 — (d) attendue — bloquante",
+      "WP-C2-1": "Égypte 2011 — (b) explicative attendue — bloquante"
+    }
+  }
+}
