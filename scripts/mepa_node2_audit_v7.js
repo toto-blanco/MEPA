@@ -189,6 +189,16 @@ const RACINE_AUTORISEES = new Set([
   "variables_v7",                  // bloc des 6 variables V7 (alternative a imbrication dans variables)
   "configuration_c_note",          // note anthropologique Configuration C (non-operationnel V7-alpha rev. 2.1)
   "cluster_pilote_v7_gamma",       // boolean : WP membre du cluster pilote V7-gamma rev. 2
+  // --- Cles V7 fiche (metadonnees de statut et contexte) ---
+  "statut_v7",                     // statut dans le cluster pilote (BLOQUANTE, CONDITIONNELLE)
+  "role_v7",                       // role dans le cluster (CONTROLE NEGATIF, etc.)
+  "trajectoire_attendue_v62",      // trajectoire V6.2 de reference pour comparaison
+  "note_difference_v62_v7",        // note explicative difference V6.2 vs V7
+  "v7_conditions_precheck",        // bloc precheck conditions C1-C5 (pre-calcule)
+  // --- Cles simulation V6.2 presentes a la racine des fiches existantes ---
+  "t_max",                         // duree simulation (aussi dans params — accepte aux deux niveaux)
+  "theta_C",                       // seuil capital institutionnel (aussi dans params)
+  "theta_I",                       // seuil EROI institutionnel (aussi dans params)
 ]);
 
 // ============================================================================
