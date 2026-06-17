@@ -71,7 +71,7 @@ const _CLES_PIPELINE = new Set([
 // (ils sont aussi dans params — les deux niveaux sont valides)
 
 // Construire la fiche nettoyée
-const _raw_input = fiche;
+const _raw_input = $input.item.json;
 const _fiche_clean = Object.fromEntries(
   Object.entries(_raw_input).filter(([k]) => !_CLES_PIPELINE.has(k))
 );
@@ -406,7 +406,7 @@ function _getVarV7(fiche, varName) {
 // DEBUT AUDIT
 // ============================================================================
 
-const fiche    = $input.item.json;
+const fiche    = _fiche_clean; // nettoyé par le bloc pré-audit (clés pipeline retirées)
 const erreurs  = [];
 const warnings = [];
 const nc_bloquantes_det    = [];
