@@ -72,12 +72,12 @@ const _CLES_PIPELINE = new Set([
 
 // Construire la fiche nettoyée
 const _raw_input = fiche;
-const fiche = Object.fromEntries(
+const _fiche_clean = Object.fromEntries(
   Object.entries(_raw_input).filter(([k]) => !_CLES_PIPELINE.has(k))
 );
 // Propager fiche_v7 depuis le champ pipeline si présent dans raw mais pas dans fiche
-if (fiche.fiche_v7 === undefined && _raw_input._pipe_fiche_v7 !== undefined) {
-  fiche.fiche_v7 = _raw_input._pipe_fiche_v7;
+if (_fiche_clean.fiche_v7 === undefined && _raw_input._pipe_fiche_v7 !== undefined) {
+  _fiche_clean.fiche_v7 = _raw_input._pipe_fiche_v7;
 }
 // ── Fin nettoyage ─────────────────────────────────────────────────────────────
 
