@@ -56,6 +56,32 @@
 
 "use strict";
 
+// ── Nettoyage pré-audit : retirer les clés injectées par le pipeline ─────────
+// (zone_stratification, cleanup, message, _conv_e_meta, _pipeline_message, etc.)
+// Ces clés ne font pas partie de la fiche et déclencheraient une erreur C9.
+const _CLES_PIPELINE = new Set([
+  "fiche_path","zone_stratification","seq_index","seq_total","seq_started_at",
+  "mode","phase","cleanup","message","_conv_e_meta","_pipeline_message",
+  "toutes_passes_terminees","pass_count","statut_audit","nb_erreurs",
+  "nb_warnings","audit_log","action_requise",
+  // Préfixes pipeline
+  "_pipe_zone","_pipe_seq_idx","_pipe_fiche_v7"
+]);
+// t_max, theta_C, theta_I : acceptés à la racine pour compat V6.2
+// (ils sont aussi dans params — les deux niveaux sont valides)
+
+// Construire la fiche nettoyée
+const _raw_input = fiche;
+const fiche = Object.fromEntries(
+  Object.entries(_raw_input).filter(([k]) => !_CLES_PIPELINE.has(k))
+);
+// Propager fiche_v7 depuis le champ pipeline si présent dans raw mais pas dans fiche
+if (fiche.fiche_v7 === undefined && _raw_input._pipe_fiche_v7 !== undefined) {
+  fiche.fiche_v7 = _raw_input._pipe_fiche_v7;
+}
+// ── Fin nettoyage ─────────────────────────────────────────────────────────────
+
+
 // Chemins canoniques Pi5 - ARCH-015 resolu
 const MEPA_SCRIPTS_DIR = (typeof process !== "undefined" && process.env && process.env.MEPA_SCRIPTS_DIR)
   ? process.env.MEPA_SCRIPTS_DIR
