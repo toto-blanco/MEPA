@@ -432,7 +432,9 @@ const cluster = fiche.cluster || null;
 audit_log.wp_id = wp_id;
 
 // Detection format V7
-const fiche_v7 = _estFicheV7(fiche);
+const fiche_v7 = _estFicheV7(fiche)
+  || (_raw_input.fiche_v7 === true)       // flag séquenceur V7
+  || (_raw_input.cluster_pilote_v7_gamma === true); // marqueur fiche V7
 audit_log.fiche_v7 = fiche_v7;
 
 // ============================================================================
