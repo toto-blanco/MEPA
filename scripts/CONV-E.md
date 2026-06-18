@@ -285,12 +285,18 @@ Pour le cas WP-F10-1 Commune de Paris, le codage doit produire un cas qui **ne d
 - **Ψ_cible = null** (avec justification textuelle positive — voir règle E3 rev. 2.1 ci-dessus)
 - γ_local ≈ 0.15-0.20 (désorganisation interne de la Commune, pas de doctrine unifiée sur 72 jours)
 
-**Double échec attendu sur les conditions de (α)** :
-- Échec sur **C2** : Ψ_noyau × γ_local = 0.10 × 0.18 = 0.018 < σ(Φ=0.65) ≈ 0.038 (γ_local trop bas malgré Ψ_noyau correct)
+**Échec multiple attendu sur les conditions de (α)** :
+- Échec sur **C1** : μ_m = 0.50 < 0.60 (polarisation mimétique insuffisante —
+  insurrection de classe sans dynamique sacrificielle désignante)
+- Échec sur **C2** : Ψ_noyau × γ_local = 0.10 × 0.18 = 0.018 < σ(Φ=0.65) ≈ 0.038
+  (γ_local trop bas — pas de discipline doctrinale du noyau)
 - Échec sur **C3** : Ψ_cible = null (aucune cible démographique désignée)
 
-Le double échec garantit la robustesse du contrôle négatif. Si par erreur le codage produisait (α), il faudrait relire les sources pour trouver l'erreur de codage — **ne pas** ajuster les autres variables pour compenser.
-
+L'échec multiple C1+C2+C3 garantit la robustesse du contrôle négatif par trois
+voies indépendantes. Note : C2 échoue ici par γ_local bas (mode distinct de
+l'Allemagne nazie où C2 échoue par Ψ_noyau bas malgré γ_local élevé).
+Si par erreur le codage produisait (α), il faudrait relire les sources pour
+trouver l'erreur de codage — **ne pas** ajuster les autres variables pour compenser.
 ---
 
 ## PROTOCOLE DE CODAGE V7 (suivre impérativement)
