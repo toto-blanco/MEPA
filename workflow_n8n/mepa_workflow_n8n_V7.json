@@ -37,7 +37,7 @@
         340
       ],
       "parameters": {
-        "jsCode": "// Nœud B — Decode Binary → JSON (No-FS)\n// Remplace \"Extract From File\" qui encapsule sous une clé \"data\" parasite\n// Retourne le JSON de la fiche directement à la racine pour le Nœud 2\n\nconst binaryData = $input.item.binary.data;\nconst raw = Buffer.from(binaryData.data, 'base64').toString('utf-8');\nreturn { json: JSON.parse(raw) };"
+        "jsCode": "// Nœud B — Decode Binary → JSON (No-FS)\n// Remplace \"Extract From File\" qui encapsule sous une clé \"data\" parasite\n// Retourne le JSON de la fiche directement à la racine pour le Nœud 2\n\nconst binaryData = $input.item.binary.data;\nconst raw = Buffer.from(binaryData.data, 'base64').toString('utf-8');\n// Injecter fiche_v7 depuis $env.MEPA_FICHE_V7 si défini\nconst parsed = JSON.parse(raw);\nconst env_v7 = $env.MEPA_FICHE_V7;\nif (env_v7 === \"true\" || env_v7 === \"1\") {\n  parsed.fiche_v7 = true;\n}\nreturn { json: parsed };"
       },
       "notes": "Remplace Extract From File (v1.123 incompatible JSON). Décode le binaire et retourne le JSON de la fiche directement à la racine — sans encapsulation 'data' parasite."
     },
