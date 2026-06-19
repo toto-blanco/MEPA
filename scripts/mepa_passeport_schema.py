@@ -286,11 +286,15 @@ def _extraire_simulation_digest(result: dict) -> dict:
         digest["chute_C_metric"]           = sim.get("chute_C_metric")
         digest["integrator"]               = "LSODA"
 
-        # Annotation EXPLICATIVE/CATCHALL de la branche
+        # Annotation EXPLICATIVE/CATCHALL de la branche.
+        # Priorité : valeur calculée par le runner V7 (déjà correcte dans sim).
+        # Fallback dict pour fiches V6.2 sans ce champ.
+        # Ne pas recalculer depuis traj seul : "(b) Répression réussie" est
+        # utilisé pour EXPLICATIVE et CATCHALL — seul le runner sait lequel.
         traj = sim.get("traj", "")
-        digest["branche_annotation"] = BRANCHES_ANNOTATION_V7.get(
-            traj,
-            "UNKNOWN"
+        digest["branche_annotation"] = (
+            sim.get("branche_annotation")
+            or BRANCHES_ANNOTATION_V7.get(traj, "UNKNOWN")
         )
 
     return digest
@@ -537,6 +541,12 @@ def _calculer_statut_global(
                           sur condition C2 (Décision V7-D1 rev. 4 §5)
                           Le rapport doit contenir les Réserves 1 et 2 §4bis.
     """
+    # statut_global suit les critères V6.2 (CCI ≥ 0.70, concordance, robustesse).
+    # Pour les passeports V7, certification_v2 (ajouté par Nœud 15 n8n) suit les
+    # critères V7-S7 stricts (CCI ≥ 0.75, CONV-B CERTIFIÉ) — les deux champs
+    # peuvent légitimement diverger et mesurent des niveaux distincts.
+    _cv = "V6.2 (CCI ≥ 0.70, concordance, robustesse)"
+
     # --- V7 : cas conditionnel Allemagne nazie ---
     if est_v7 and wp_id == "WP-I4-1" and not concordance:
         return {
@@ -553,6 +563,7 @@ def _calculer_statut_global(
             ),
             "cluster_pilote_v7_gamma": True,
             "reference": "Décision V7-D1 rev. 4 §4bis + §5",
+            "criteres_version": _cv,
         }
 
     if statut_nc == "DONNÉES_INSUFFISANTES":
@@ -560,6 +571,7 @@ def _calculer_statut_global(
             "code": "REJET_NC",
             "label": "Données Insuffisantes",
             "detail": "Variable(s) NC bloquante(s). Simulation non certifiable.",
+            "criteres_version": _cv,
         }
 
     if verdict_cci == "REJET":
@@ -567,6 +579,7 @@ def _calculer_statut_global(
             "code": "REJET_CCI",
             "label": "CCI Insuffisant",
             "detail": "CCI < 0.50 — désaccord inter-codeurs trop élevé.",
+            "criteres_version": _cv,
         }
 
     if verdict_cci == "RÉVISION":
@@ -574,6 +587,7 @@ def _calculer_statut_global(
             "code": "RÉVISION",
             "label": "Révision Requise",
             "detail": "CCI 0.50–0.70 — désaccords résiduels. Confrontation sources requise.",
+            "criteres_version": _cv,
         }
 
     if verdict_cci in ("CERTIFIÉ", "NON_CALCULÉ"):
@@ -588,6 +602,7 @@ def _calculer_statut_global(
                        "hypothèse théorique sous contrainte, Réserves 1 et 2 §4bis). "
                        if est_v7 else "")
                 ),
+                "criteres_version": _cv,
             }
 
         if robustesse == "ROBUSTE":
@@ -599,6 +614,7 @@ def _calculer_statut_global(
                         "WP certifié. Variables NC non bloquantes présentes — "
                         "signalées dans le rapport (Silence Socratique V6.2)."
                     ),
+                    "criteres_version": _cv,
                 }
             return {
                 "code": "CERTIFIÉ",
@@ -606,6 +622,7 @@ def _calculer_statut_global(
                 "detail": "Concordance + Robustesse + CCI validés." + (
                     " [V7]" if est_v7 else ""
                 ),
+                "criteres_version": _cv,
             }
 
         if robustesse == "MÉTASTABLE":
@@ -617,12 +634,14 @@ def _calculer_statut_global(
                     "les stress-tests N1 produisent des trajectoires alternatives. "
                     "Mentionner dans le rapport S7."
                 ),
+                "criteres_version": _cv,
             }
 
     return {
         "code": "INCOMPLET",
         "label": "Incomplet",
         "detail": "CCI non calculé — passeport partiel (simulation seule).",
+        "criteres_version": _cv,
     }
 
 
