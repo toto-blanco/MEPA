@@ -13,7 +13,7 @@
   "cluster": "C1",
   "cluster_libelle": "C1 — Limites biophysiques [EROI critique 1.2→2.0 · effondrement institutionnel post-séisme · I chute avant C]",
   "cluster_note": "Haïti = ancre plancher du corpus V6.2. EROI le plus bas du programme (1.2→2.0). Déterminisme direct : I s'effondre avant que C puisse monter → trajectoire (d) Dissolution structurelle.",
-  "trajectoire_attendue": "(d) Dissolution",
+  "trajectoire_attendue": "(d) Effondrement progressif",
   "trajectoire_attendue_libelle": "Cas (d) attendu. C3 échoue par Ψ_cible=null légitime (effondrement institutionnel sans désignation démographique par un noyau). (α) non satisfaite.",
   "trajectoire_attendue_v62": "(d) Dissolution",
   "cluster_pilote_v7_gamma": true,
