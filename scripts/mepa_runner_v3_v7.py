@@ -715,6 +715,8 @@ def make_cmd_linear(cmd_base: dict, linear: dict, t_max: int) -> Callable:
     def cmd_fn(t):
         c = dict(cmd_base_norm)
         for var, rng in linear.items():
+            if not isinstance(rng, dict):
+                continue
             val = rng['start'] + (rng['end'] - rng['start']) * (t / max(t_max, 1))
             if var == 'EROI':
                 val = max(val, 1.01)
