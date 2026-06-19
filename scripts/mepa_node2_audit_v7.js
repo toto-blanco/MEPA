@@ -223,6 +223,7 @@ const RACINE_AUTORISEES = new Set([
   "trajectoire_attendue_v62",      // trajectoire V6.2 de reference pour comparaison
   "note_difference_v62_v7",        // note explicative difference V6.2 vs V7
   "v7_conditions_precheck",        // bloc precheck conditions C1-C5 (pre-calcule)
+  "role_test",                     // alias de role_v7 utilise dans certaines fiches (ex: WP-F10-1 CONTRÔLE NÉGATIF)
   // --- Cles simulation V6.2 presentes a la racine des fiches existantes ---
   "t_max",                         // duree simulation (aussi dans params — accepte aux deux niveaux)
   "theta_C",                       // seuil capital institutionnel (aussi dans params)
