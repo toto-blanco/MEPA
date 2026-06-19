@@ -65,7 +65,9 @@ const _CLES_PIPELINE = new Set([
   "toutes_passes_terminees","pass_count","statut_audit","nb_erreurs",
   "nb_warnings","audit_log","action_requise",
   // Préfixes pipeline
-  "_pipe_zone","_pipe_seq_idx","_pipe_fiche_v7"
+  "_pipe_zone","_pipe_seq_idx","_pipe_fiche_v7",
+  // Flag injecté par Nœud B (MEPA_FICHE_V7) ou séquenceur — lu via _raw_input, retiré du root
+  "fiche_v7"
 ]);
 // t_max, theta_C, theta_I : acceptés à la racine pour compat V6.2
 // (ils sont aussi dans params — les deux niveaux sont valides)
@@ -706,7 +708,7 @@ let sa_int = NaN;
 
     if (psi_cible_entry && typeof psi_cible_entry === "object") {
       const val = psi_cible_entry.valeur;
-      const just = (psi_cible_entry.justification || "").toString().trim();
+      const just = (psi_cible_entry.justification_E3 || psi_cible_entry.justification || "").toString().trim();
 
       if (val === null) {
         // Cas null : justification textuelle obligatoire

@@ -1,0 +1,384 @@
+{
+  "$schema": "mepa-fiche-codage-v7",
+  "_v7_meta": {
+    "version": "7.0-alpha",
+    "revision": "rev. 2.1",
+    "cadre_theorique": "MEPA_cadre_theorique_V7_alpha_rev2_1.docx",
+    "decision_gouvernance": "MEPA_Decision_V7_D1_rev4.md",
+    "addendum_ingenierie": "MEPA_Addendum_V7_beta_ING.md",
+    "date_production_v7": "2026-04-12",
+    "mirror_de": "WP-C2-1_Egypte2011_v62.json",
+    "note_mirror": "Fiche V7 produite en miroir exact de la fiche V6.2. Les 9 variables V6.2 et toutes les commandes, conditions initiales sont préservées au bit près. Seuls les champs V7 sont ajoutés : _v7_meta, cluster_pilote_v7_gamma, trajectoire_attendue_v7, variables_v7 avec Ψ_cible=null règle E3 rev. 2.1."
+  },
+  "wp_id": "WP-C2-1",
+  "cas": "Égypte 2011 — Printemps arabe et contre-révolution militaire",
+  "periode": "2010-2014",
+  "cluster": "C2",
+  "cluster_libelle": "C2 — Cristallisation élitiste [EROI déclinant 5.0→2.5 · L(t) économique armée · Q5_stab extérieur · EROI statique C2 avec cmd_linear]",
+  "cluster_note": "WP-C2-1 = ancre LOI PHYSIQUE C2. Séquence (a)→(e)→(b) documentée : soulèvement Tahrir jan 2011, transition Morsi 2011-2013, coup militaire Sissi juillet 2013. Trajectoire finale = (b) Répression réussie. V7 : correction V7-C4 rev. 2.1 distingue (b) EXPLICATIVE (ce cas) de (b) CATCHALL V6.2.",
+  "trajectoire_attendue": "(b) Répression réussie",
+  "trajectoire_attendue_libelle": "(b) Répression réussie — EXPLICATIVE V7-C4 rev. 2.1 — Égypte 2011-2014 comme test de la correction V7-C4 sur la branche (b) explicative. La V7 distingue deux variantes de (b) : EXPLICATIVE (mobilisation réelle suivie de répression efficace avec chute_C > 0.20 et C_max > 0.12) et CATCHALL (absence de mobilisation par défaut, Rc+Rn > 0.6 mais sans dynamique documentée). L'Égypte 2011 est le cas positif typique de (b) EXPLICATIVE : Tahrir mobilise massivement (C_max élevé), puis le coup SCAF + Sissi neutralise la mobilisation (chute_C > 0.20) avec répression active (Rc+Rn > 0.4), et Cs est dans l'intervalle [0.10, 0.50].",
+  "cluster_pilote_v7_gamma": true,
+  "statut_v7": "BLOQUANTE",
+  "role_v7": "Test de la correction V7-C4 — branche (b) EXPLICATIVE doit être distinguée de (b) CATCHALL",
+  "trajectoire_attendue_v62": "(b) Répression réussie",
+  "note_difference_v62_v7": "La trajectoire attendue V6.2 et V7 est identique — (b) Répression réussie. Cependant, la V6.2 produisait cette trajectoire via la branche catchall (Rn + Rc > 0.6 → (b)) sans distinction entre mobilisation réelle et absence de mobilisation. La Décision V7-D1 rev. 4 §2 a décertifié 4 rapports Égypte V6.2 pour concordance non-discriminante sur branche CATCHALL. La V7 introduit la correction V7-C4 : la branche (b) EXPLICATIVE exige C_max > 0.12, chute_C > 0.20, Cs ∈ [0.10, 0.50], Rc+Rn > 0.4. Ce cas est le test du correctif V7-C4 — si la correction est bien implémentée, l'Égypte 2011 doit produire (b) EXPLICATIVE (et non (b) CATCHALL).",
+  "sa": 6,
+  "sa_type_todd": "Famille communautaire exogame — Moyen-Orient/Afrique du Nord",
+  "sa_p6_modulation": false,
+  "sa_note": "Égypte → Sa=6 (famille communautaire exogame, Moyen-Orient/Afrique du Nord, Todd 1990). Résilience autoritaire, ruptures brutales. p6 nominal.",
+  "zone_stratification": "LOI PHYSIQUE — 3 passes de vérification",
+  "raison_loi_physique": "Séquence documentée (a)→(e)→(b) avec coup militaire juillet 2013. Déterminisme C2 : L(t) économique armée (30-40% PIB contrôlé par l'armée) + Q5_stab extérieur (aide US + Golfe) → résistance R structurelle forte → répression réussie. Issue doublement documentée (soulèvement + contre-révolution).",
+  "t_max": 300,
+  "theta_C": 0.3,
+  "theta_I": 0.22,
+  "codeur": "CONV-E",
+  "date_codage": "À REMPLIR",
+  "statut": "MATRICE PRODUCTION V7 — Commandes normatives intégrées — 9 variables V6.2 + 6 variables V7 à coder par CONV-E",
+  "sources_utilisees": [
+    {
+      "id": "S1",
+      "titre": "Kandil, Hazem — Soldiers, Spies, and Statesmen: Egypt's Road to Revolt (2012)",
+      "type": "N3 — Historique/Sociologique",
+      "acces": "Verso",
+      "variables_concernees": ["E_split", "L_t", "A_r_c", "Cs", "gamma_local"]
+    },
+    {
+      "id": "S2",
+      "titre": "El-Sherif, Ashraf — The Muslim Brotherhood and the Future of Political Islam in Egypt (2014)",
+      "type": "N3 — Politologique",
+      "acces": "Carnegie Endowment",
+      "variables_concernees": ["E_split", "gamma", "Cs", "mu_m"]
+    },
+    {
+      "id": "S3",
+      "titre": "Brown, Nathan — The Egyptian Constitution in 2014 (2014)",
+      "type": "N3 — Juridique/Politologique",
+      "acces": "Carnegie Middle East",
+      "variables_concernees": ["Ref", "Cs", "phi"]
+    },
+    {
+      "id": "S4",
+      "titre": "Todd, Emmanuel — L'Invention de l'Europe (1990) + Todd (2011) L'origine des systèmes familiaux",
+      "type": "N2 — Anthropologique",
+      "acces": "Bibliographie MEPA",
+      "variables_concernees": ["Sa", "m_r"]
+    },
+    {
+      "id": "S5",
+      "titre": "Banque mondiale — Egypt Economic Monitor 2010-2014",
+      "type": "N1 — Biophysique/Économique",
+      "acces": "https://data.worldbank.org/country/egypt",
+      "variables_concernees": ["A_d_eff", "EROI"]
+    },
+    {
+      "id": "S6",
+      "titre": "V-DEM Egypt dataset 2010-2014",
+      "type": "N4 — Politique/institutionnel",
+      "acces": "https://v-dem.net/",
+      "variables_concernees": ["E_split", "Cs", "A_r_c", "A_r_ne", "phi"]
+    },
+    {
+      "id": "S7",
+      "titre": "Freedom House — Freedom on the Net Egypt 2010-2014",
+      "type": "N5 — Numérique",
+      "acces": "https://freedomhouse.org/",
+      "variables_concernees": ["A_r_ne"]
+    },
+    {
+      "id": "S8",
+      "titre": "Stacher, Joshua — Adaptable Autocrats: Regime Power in Egypt and Syria (2012)",
+      "type": "N3 — Politologique",
+      "acces": "Stanford University Press",
+      "variables_concernees": ["L_t", "A_r_c", "gamma_local"]
+    }
+  ],
+  "variables": {
+    "E_split": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S2, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — fracture élite égyptienne Moubarak vs SCAF vs Frères musulmans vs libéraux Tahrir. Fracture forte : 3-4 factions documentées.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM elite power Egypt 2010-2014 + analyses Kandil, El-Sherif",
+        "valeur_indicateur": "À REMPLIR — fracture multi-factions documentée",
+        "coherence": "E_split~0.55-0.65 (fracture élite forte mais pas binaire)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "gamma": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "cle_json": "gamma",
+      "symbole_redactionnel": "γ",
+      "source_id": "S1, S2, S8",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — γ modérée : SCAF très organisé, Frères musulmans organisés, mais fracture inter-factions empêche cohésion globale. γ~0.45-0.55. Distinct de γ_local (V7) qui mesurerait la discipline du seul SCAF.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Cohésion factions Égypte 2010-2014",
+        "valeur_indicateur": "À REMPLIR — cohésion intra-factions forte mais inter-factions faible",
+        "coherence": "γ=0.50 cohérent avec fragmentation élitaire"
+      },
+      "valeur_normative_v62": 0.5,
+      "desaccord": null
+    },
+    "A_d_eff": {
+      "valeur": null,
+      "echelle": "[0, 10]",
+      "source_id": "S5",
+      "niveau_source": "N1",
+      "origine": "À coder — Égypte 2010-2014 : administration fonctionnelle mais en crise. Déficit budgétaire, subventions énergie 25% PIB, capacité redistributive en déclin.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "World Bank Egypt 2010-2014 + IMF Article IV",
+        "valeur_indicateur": "À REMPLIR — État encore fonctionnel mais crise budgétaire",
+        "coherence": "A_d_eff~3.5-4.5 (modéré, en déclin)"
+      },
+      "valeur_normative_v62": 4.0,
+      "desaccord": null
+    },
+    "A_r_c": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6, S8",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — répression classique Égypte : forte (SCAF, police, mukhabarat). Rabaa 2013 (800+ morts en un jour) confirme capacité répressive maximale en 2013.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM physical violence + HRW Rabaa 2013",
+        "valeur_indicateur": "À REMPLIR — répression violente documentée",
+        "coherence": "A_r_c~0.55-0.70 (État fort répressif, Rabaa comme marqueur)"
+      },
+      "valeur_normative_v62": 0.6,
+      "desaccord": null
+    },
+    "A_r_ne": {
+      "valeur": 0.35,
+      "echelle": "[0, 1]",
+      "source_id": "Instructions V6.2 + S7",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — Rn=0.35 : surveillance numérique active post-2011 (blocage Facebook/Twitter, censure internet documentée Freedom on the Net). Valeur élevée pour la période.",
+      "justification": "Égypte post-2011 : surveillance numérique active (NTRA, SSIS), blocage périodique des réseaux sociaux, censure medias en ligne, intimidation numérique. Rn=0.35 reflète capacité numérique en construction.",
+      "desaccord": null
+    },
+    "Cs": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S2, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder — crédibilité régime Moubarak T=0 (2010). Légitimité en crise profonde : 30 ans de règne, succession Gamal Moubarak rejetée, ras-le-bol avant Tahrir.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM legitimacy + sondages Arab Barometer 2010",
+        "valeur_indicateur": "À REMPLIR — légitimité Moubarak très basse fin 2010",
+        "coherence": "Cs~0.20-0.30 (régime autoritaire fatigué)"
+      },
+      "valeur_normative_v62": 0.25,
+      "desaccord": null
+    },
+    "L_t": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "source_id": "S1, S6, S8",
+      "niveau_source": "N3",
+      "origine": "À coder — loyauté appareil armée égyptienne. SCAF contrôle 30-40% économie égyptienne (entreprises militaires). Loyauté institutionnelle armée = forte car économique. Cas type C2.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "SCAF économie + analyses Kandil, Stacher",
+        "valeur_indicateur": "À REMPLIR — loyauté armée par intérêt économique 30-40% PIB",
+        "coherence": "L_t~0.55-0.70 (armée très loyale par enjeu économique)"
+      },
+      "valeur_normative_v62": 0.62,
+      "desaccord": null
+    },
+    "EROI": {
+      "valeur": 3.75,
+      "echelle": "[1, +inf]",
+      "type": "DYNAMIQUE déclinant C2 (EROI_start=5.0, EROI_end=2.5)",
+      "source_id": "Instructions V6.2 + S5",
+      "niveau_source": "V6.2 normative",
+      "origine": "HARDCODÉ — EROI_start=5.0 (hydrocarbures égyptiens 2010), EROI_end=2.5 (déclin production, imports croissants). Déclin linéaire documenté BP Statistical Review.",
+      "justification": "Égypte 2010-2014 : pic production hydrocarbures dépassé fin 2000s, imports croissants, subventions énergie insoutenables. EROI déclinant 5.0→2.5 cohérent avec données BP/EIA.",
+      "sanity_check": {
+        "indicateur": "BP Statistical Review Egypt + EIA Egypt",
+        "valeur_indicateur": "EROI déclinant confirmé",
+        "coherence": "CONFIRMÉ — 5.0→2.5 cohérent"
+      },
+      "desaccord": null
+    },
+    "Sa": {
+      "valeur": 6,
+      "type_todd": "Famille communautaire exogame",
+      "source_id": "Todd (1990)",
+      "niveau_source": "N2",
+      "origine": "HARDCODÉ — Égypte → Sa=6 (famille communautaire exogame, MENA, Todd 1990)",
+      "justification": "Todd classe le Moyen-Orient/Afrique du Nord en famille communautaire exogame. Sa=6 = résilience autoritaire et ruptures brutales — cohérent avec cycle Tahrir-Rabaa.",
+      "modulation_p6": false,
+      "note_modulation": "Sa=6 → p6 nominal.",
+      "desaccord": null
+    }
+  },
+  "variables_v7": {
+    "m_r": {
+      "valeur": null,
+      "echelle": "{1, 2, 3}",
+      "symbole_redactionnel": "M_r",
+      "source_id": "S4",
+      "niveau_source": "N2",
+      "origine": "À coder par CONV-E — Égypte 2010-2014 : islam sunnite actif, pratique religieuse robuste (~85% pratique déclarée), structure les institutions (Al-Azhar, mariage, famille, éducation). Stade 1 attendu.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Todd (1990, 2011) matrice religieuse MENA + Arab Barometer pratique religieuse",
+        "valeur_indicateur": "À REMPLIR — islam structurant institutions civiles",
+        "coherence": "M_r=1 cohérent avec rôle central de l'islam dans la société égyptienne"
+      },
+      "valeur_attendue_v7": 1,
+      "desaccord": null
+    },
+    "mu_m": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "symbole_redactionnel": "μ_m",
+      "source_id": "S1, S2",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — Polarisation mimétique forte MAIS pas de désignation démographique unique. Égypte 2011-2014 : clivages multiples (Moubarak/Tahrir, libéraux/islamistes, SCAF/Frères musulmans), polarisation sur lignes politiques et religieuses (islam politique vs sécularisme) mais pas sur une cible démographique homogène. μ_m ≈ 0.45-0.55.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Analyses El-Sherif, Kandil, V-DEM polarization Egypt",
+        "valeur_indicateur": "À REMPLIR — polarisation forte politique mais multi-axes",
+        "coherence": "μ_m ≈ 0.50 cohérent avec polarisation politique sans bouc émissaire démographique"
+      },
+      "valeur_attendue_v7": 0.50,
+      "desaccord": null
+    },
+    "phi": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "symbole_redactionnel": "Φ",
+      "source_id": "S3, S6",
+      "niveau_source": "N3/N4",
+      "origine": "À coder par CONV-E — Fragmentation symbolique modérée à élevée. Égypte 2010-2014 : médias diversifiés (presse privée, satellite, réseaux sociaux post-2011), Al-Azhar comme autorité religieuse centralisée mais contestée, Frères musulmans et salafistes en compétition. Pas de monopole symbolique. Φ ≈ 0.50-0.65.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "V-DEM media freedom Egypt + analyses paysage médiatique Brown 2014",
+        "valeur_indicateur": "À REMPLIR — pluralisme médiatique modéré mais réel",
+        "coherence": "Φ ≈ 0.55 cohérent avec diversité symbolique documentée"
+      },
+      "valeur_attendue_v7": 0.55,
+      "desaccord": null
+    },
+    "psi_noyau": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "symbole_redactionnel": "Ψ_noyau",
+      "source_id": "S1, S8",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — SCAF comme noyau organisé : officiers actifs ≈ 200 000 sur population 80-85 millions = 0.003. Si on élargit aux personnels civils militaires et aux entreprises militaires, ≈ 500 000 = 0.006. Dans tous les cas, bien inférieur au seuil de masse critique. Ψ_noyau ≈ 0.003-0.01.",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kandil (2012), Stacher (2012) effectifs SCAF + économie militaire",
+        "valeur_indicateur": "À REMPLIR — officiers SCAF ≈ 200k / 80M hab",
+        "coherence": "Ψ_noyau ≈ 0.005 cohérent avec noyau militaire étroit mais très organisé"
+      },
+      "valeur_attendue_v7": 0.005,
+      "desaccord": null,
+      "nc_bloquant": true,
+      "note_nc_bloquant": "NC bloquant V7 : sans valeur, la condition C2 de la branche (α) n'est pas évaluable."
+    },
+    "psi_cible": {
+      "valeur": null,
+      "echelle": "[0, 1] ou null",
+      "symbole_redactionnel": "Ψ_cible",
+      "source_id": "S1, S2, S3",
+      "niveau_source": "N3",
+      "origine": "Codage attendu : Ψ_cible = null avec justification textuelle positive conformément à la règle E3 rev. 2.1. Égypte 2011-2014 ne contient aucune désignation publique de cible démographique unique au sens de la trajectoire (α). Les Frères musulmans sont un mouvement politique, pas un groupe démographique.",
+      "justification_e3_rev_2_1": "Les sources historiques consultées [Kandil 2012 (S1), El-Sherif 2014 (S2), Brown 2014 (S3), Stacher 2012 (S8)] ne mentionnent aucune désignation publique de cible démographique unique au sens de la trajectoire (α). La répression post-coup de juillet 2013 (massacre de Rabaa août 2013, 800+ morts en un jour) vise les partisans politiques des Frères musulmans, non un groupe démographique identifié par des critères d'appartenance ethniques, religieux ou raciaux. Les Frères musulmans sont une organisation politique transversale à la société égyptienne (présente dans les classes moyennes, milieux professionnels, étudiants), pas un groupe démographique homogène. La fracture principale du cas est codée dans E_split comme fracture politique multi-factions (Moubarak vs SCAF vs Frères musulmans vs libéraux Tahrir) et non comme cible démographique. Le précédent historique d'Égypte (répression des Frères sous Nasser années 1950-60, sous Sadate puis Moubarak) confirme ce schéma de répression politique sans désignation démographique. L'absence de Ψ_cible est donc une propriété positive du cas, pas une omission.",
+      "sanity_check": {
+        "indicateur": "Analyses Kandil (2012), El-Sherif (2014) : répression politique anti-Frères, pas désignation démographique",
+        "valeur_indicateur": "null avec justification E3 rev. 2.1 (longueur > 50 caractères, format positif)",
+        "coherence": "Cohérent avec (b) EXPLICATIVE V7 : mobilisation politique → répression politique, pas mécanisme girardien"
+      },
+      "valeur_attendue_v7": null,
+      "desaccord": null,
+      "note_regle_e3": "CAS NULL POSITIF RÈGLE E3 REV. 2.1 — justification textuelle obligatoire. La distinction 'mouvement politique' vs 'groupe démographique' est capitale en V7."
+    },
+    "gamma_local": {
+      "valeur": null,
+      "echelle": "[0, 1]",
+      "symbole_redactionnel": "γ_local",
+      "source_id": "S1, S8",
+      "niveau_source": "N3",
+      "origine": "À coder par CONV-E — Capacité organisationnelle propre au SCAF (si on considère le SCAF comme noyau V7). Armée égyptienne très disciplinée, hiérarchie fonctionnelle, doctrine corporatiste (protection de l'économie militaire), capacité de coordination documentée. γ_local ≈ 0.70-0.80 (armée très organisée). ATTENTION : distinct de γ V6.2 qui mesure la cohésion culturelle de l'élite égyptienne globale (plus basse à ~0.50 car fracturée entre SCAF, Frères, libéraux).",
+      "justification": null,
+      "sanity_check": {
+        "indicateur": "Kandil (2012), Stacher (2012) sur discipline et organisation SCAF",
+        "valeur_indicateur": "À REMPLIR — armée très disciplinée, hiérarchie militaire claire",
+        "coherence": "γ_local ≈ 0.75 cohérent avec organisation militaire documentée"
+      },
+      "valeur_attendue_v7": 0.75,
+      "desaccord": null,
+      "nc_bloquant": true,
+      "note_nc_bloquant": "NC bloquant V7 : sans valeur, la condition C2 de la branche (α) n'est pas évaluable."
+    }
+  },
+  "v7_conditions_precheck": {
+    "note": "Évaluation attendue des 5 conditions de la branche (α). Égypte 2011 est un cas non-(α) attendu : la branche (α) doit échouer principalement sur C1 (μ_m trop bas) et C3 (Ψ_cible null). Le runner V7 doit ensuite évaluer la branche (b) EXPLICATIVE V7-C4.",
+    "C1_m_r_mu_m": "ECHEC ATTENDU (M_r=1 ∈ {1,2} OK MAIS μ_m=0.50 < 0.60 → C1 NON SATISFIT)",
+    "C2_psi_noyau_gamma_local": "ECHEC ATTENDU (0.005 × 0.75 = 0.00375 vs σ(Φ=0.55) = 0.018 × (1 + 1.7 × 0.55) = 0.035 → ÉCHEC largement)",
+    "C3_psi_cible_non_null": "ECHEC ATTENDU (Ψ_cible = null règle E3 rev. 2.1 → C3 NON SATISFIT)",
+    "C4_alignement_a_r_c": "SATISFIT MARGINAL (A_r_c=0.60 < 0.7, A_r_c_eff = 0.60 + 0.5 × 0.35 = 0.775 > 0.7 → C4 SATISFIT par clause de repli)",
+    "C5_theta_c_dynamique": "INDETERMINE (calcul post-simulation)",
+    "prediction_globale": "non-(α) — branche (α) exclue par C1 et C3 (et C2). Le runner évalue ensuite l'arbre V7 standard : bascule F≥R non attendue (répression étouffe mobilisation avant bascule durable), puis branche (b) EXPLICATIVE V7-C4 : C_max > 0.12 attendu (Tahrir mobilise) AND chute_C > 0.20 attendu (Rabaa neutralise) AND Cs=0.25 dans [0.10, 0.50] AND Rc+Rn = 0.95 > 0.4 → (b) EXPLICATIVE attendue. CE CAS EST LE TEST CENTRAL DE LA CORRECTION V7-C4."
+  },
+  "conditions_initiales": {
+    "note": "Valeurs T=0 (état du système 2010 — fin règne Moubarak, veille Tahrir). Source : Instructions V6.2.",
+    "S0": 1.2,
+    "L0": 0.25,
+    "C0": 0.1,
+    "I0": 3.0
+  },
+  "commandes": {
+    "note": "Valeurs normatives V6.2 — entrée directe runner mepa_runner_v3_v7.py (V7-β LSODA) ou mepa_runner_v2_gamma.py (V6.2 legacy). EROI déclinant C2 avec cmd_linear. INCHANGÉES V7.",
+    "T": 0.9,
+    "Mob": 0.2,
+    "R": 0.25,
+    "Ref": 0.1,
+    "Rc": 0.55,
+    "Rn": 0.35,
+    "E": 0.6,
+    "gamma": 0.5,
+    "EROI": 3.75,
+    "EROI_start": 5.0,
+    "EROI_end": 2.5,
+    "Pop": 1.0
+  },
+  "cmd_linear": {
+    "note": "C2 avec EROI déclinant documenté — cmd_linear obligatoire pour capture dynamique 5.0→2.5.",
+    "EROI": {
+      "start": 5.0,
+      "end": 2.5
+    }
+  },
+  "parametres_simulation": {
+    "t_max": 300,
+    "theta_C": 0.3,
+    "theta_I": 0.22,
+    "zone": "LOI PHYSIQUE",
+    "passes": 3,
+    "note_passes": "LOI PHYSIQUE = 3 passes. V7 : test central de la correction V7-C4 — la branche (b) produite doit être (b) EXPLICATIVE V7-C4, PAS (b) CATCHALL V6.2."
+  },
+  "alertes_conv_a": [
+    "V7 — Égypte 2011 = test CENTRAL de la correction V7-C4. La branche (b) attendue est (b) EXPLICATIVE, PAS (b) CATCHALL. Documenter explicitement dans S2 le calcul des 4 conditions (b) EXPLICATIVE : C_max > 0.12 AND chute_C > 0.20 AND Cs ∈ [0.10, 0.50] AND Rc+Rn > 0.4.",
+    "V7 — Annotation EXPLICATIVE obligatoire. Si le runner produit (b) CATCHALL, c'est un échec de la correction V7-C4 qui doit être signalé en S3 comme divergence architecturale.",
+    "DEUX PHASES SÉQUENTIELLES : Phase (a) Tahrir jan 2011 (mobilisation, C_max atteint), Phase (b) coup SCAF juillet 2013 + Rabaa août 2013 (chute_C > 0.20). Documenter t_b si la mobilisation bascule brièvement.",
+    "L_t économique armée ≈ 0.62 = marqueur Q5_stab extérieur C2. L'armée reste loyale PAR l'économie militaire, pas par loyauté institutionnelle abstraite.",
+    "A_r_ne=0.35 hardcodé pour surveillance numérique active post-2011. Documenter dans S1.",
+    "V7 — Ψ_cible = null avec justification règle E3 rev. 2.1 obligatoire. DISTINCTION CAPITALE : Frères musulmans = mouvement politique, PAS groupe démographique. Cette distinction est au cœur de la correction V7-C4.",
+    "EROI 5.0→2.5 cohérent avec pic pétrolier égyptien dépassé 2009. Ne pas modifier."
+  ],
+  "defi_mepa": "WP ancre LOI PHYSIQUE C2. Séquence (a)→(e)→(b) = seul cas du corpus où la trajectoire finale (b) est déterminée par L(t) économique institutionnel (calcul SCAF) plutôt que par A_r_c pur. Démontrer que l'armée reste loyale par intérêt économique (30-40% PIB contrôlé) malgré la mobilisation Tahrir. V7 — TEST CENTRAL DE LA CORRECTION V7-C4 REV. 2.1 : la branche (b) Répression réussie produite doit être EXPLICATIVE (conditions C_max > 0.12, chute_C > 0.20, Cs ∈ [0.10, 0.50], Rc+Rn > 0.4 toutes satisfaites par le cas empirique), PAS CATCHALL (Rc+Rn > 0.6 sans dynamique documentée). Cette distinction est le point capital de la V7 pour démonter que l'Égypte 2011 est un cas discriminant et non une simple concordance par fallback. Ψ_cible null règle E3 : les Frères musulmans sont un mouvement politique transversal à la société égyptienne, pas un groupe démographique homogène. La répression post-Rabaa vise des partisans politiques, pas une cible démographique au sens de la branche (α)."
+}
