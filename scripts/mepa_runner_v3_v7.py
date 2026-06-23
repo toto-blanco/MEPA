@@ -82,6 +82,16 @@ EPS      = 1e-6
 SEUIL_FR            = None
 _SEUIL_FR_FALLBACK  = 0.75
 
+# ── P_DEFAULTS (miroir de _mepa_helpers.py / mepa_node2_audit_v7.js) ─────────
+_P_DEFAULTS_V7 = {
+    'p1': 0.08, 'p2': 0.045, 'p2b': 0.06, 'p3': 0.02, 'p4': 0.40,
+    'p5': 0.05, 'p6': 0.12,  'p7': 0.04,  'p8': 0.03, 'p9': 0.06,
+    'p10': 0.80, 'p11a': 0.60, 'p11b': 0.15, 'p13': 1.2,
+    'lam': 0.68, 'mu': 0.38, 'nu': 0.62, 'rho': 0.06,
+}
+
+_CMD_KEYS_V7 = ["T", "Mob", "R", "Ref", "Rc", "Rn", "E", "gamma", "EROI", "Pop"]
+
 # ── NC ───────────────────────────────────────────────────────────────────────
 NC_SENTINEL   = "NC"
 NC_BLOQUANTES_RUNNER = frozenset({"gamma", "EROI"})
@@ -859,13 +869,80 @@ def _compare_non_regression(res_lsoda: dict, res_euler: dict, wp_id: str) -> dic
     }
 
 
+# ── NORMALISATION FICHE → RUNNER CONFIG ──────────────────────────────────────
+
+def _normalize_fiche_to_runner_config(config: dict) -> dict:
+    """
+    Convertit une fiche de codage V7 (conditions_initiales/commandes) en
+    runner_config (y0/cmd/params) si nécessaire. Accepte aussi les runner_configs
+    déjà formés (pass-through).
+    Miroir de fiche_to_runner_config() dans _mepa_helpers.py / node2_audit_v7.js.
+    """
+    if 'y0' in config and 'cmd' in config:
+        return config
+
+    out = dict(config)
+
+    # conditions_initiales → y0
+    if 'y0' not in out:
+        ci = out.get('conditions_initiales', {})
+        if isinstance(ci, list):
+            out['y0'] = ci[:4]
+        else:
+            out['y0'] = [
+                float(ci.get('S0', 1.0)),
+                float(ci.get('L0', 0.5)),
+                float(ci.get('C0', 0.1)),
+                float(ci.get('I0', 3.5)),
+            ]
+
+    # commandes → cmd
+    if 'cmd' not in out:
+        cmd_raw = out.get('commandes', {})
+        cmd_clean = {}
+        for key in _CMD_KEYS_V7:
+            if key in cmd_raw:
+                val = cmd_raw[key]
+                if isinstance(val, str) and val.strip().upper() == 'NC':
+                    cmd_clean[key] = 'NC'
+                else:
+                    try:
+                        cmd_clean[key] = float(val)
+                    except (TypeError, ValueError):
+                        cmd_clean[key] = val
+        out['cmd'] = cmd_clean
+
+    # params → P_DEFAULTS + params_p overrides
+    if 'params' not in out:
+        params_p = {k: v for k, v in out.get('params_p', {}).items()
+                    if not k.startswith('$')}
+        params_sim = out.get('parametres_simulation', {})
+        theta_C = float(params_sim.get('theta_C', out.get('theta_C', 0.30)))
+        theta_I = float(params_sim.get('theta_I', out.get('theta_I', 0.22)))
+        out['params'] = {**_P_DEFAULTS_V7, **params_p,
+                         'theta_C': theta_C, 'theta_I': theta_I}
+
+    # fiche_v7 : détection automatique depuis variables_v7
+    if 'fiche_v7' not in out:
+        out['fiche_v7'] = bool(out.get('variables_v7'))
+
+    # t_max depuis parametres_simulation si absent
+    if 't_max' not in out:
+        ps = out.get('parametres_simulation', {})
+        out['t_max'] = int(ps.get('t_max', 300))
+
+    return out
+
+
 # ── POINT D'ENTRÉE PRINCIPAL ────────────────────────────────────────────────
 
 def run_wp(config: dict) -> dict:
     """
     Lance simulation V7-β complète + stress-tests N1 + N2.
     Détecte automatiquement V6.2 vs V7.
+    Accepte fiche de codage (conditions_initiales/commandes) OU runner_config (y0/cmd).
     """
+    config = _normalize_fiche_to_runner_config(config)
     sa = config.get('sa')
     if sa is None:
         raise ValueError("Champ 'sa' manquant.")
@@ -982,6 +1059,34 @@ def run_wp(config: dict) -> dict:
             config.get('wp_id', '?')
         )
 
+    # ── Advisory Dev 1 — V7 (Ω ≡ I, additif, non bloquant) ──────────────────────
+    advisory_dev1 = None
+    if fiche_v7:
+        try:
+            import importlib.util, os as _os
+            _adv_path = _os.path.join(MEPA_SCRIPTS_DIR, "mepa_dev1_advisory_v7.py")
+            _spec = importlib.util.spec_from_file_location("mepa_dev1_advisory_v7", _adv_path)
+            _adv_mod = importlib.util.module_from_spec(_spec)
+            _spec.loader.exec_module(_adv_mod)
+            advisory_dev1 = _adv_mod.calculer_advisory_dev1(
+                cmd_base_norm = cmd_base_norm,
+                sa            = sa,
+                y0            = y0,
+                cmd_fn        = cmd_fn,
+                t_max         = t_max,
+                constants     = _get_constants(),
+                i_t0          = float(y0[3]),
+                i_tmax        = float(res.get('I_final', y0[3])),
+                omega_mode    = 'I',
+            )
+        except Exception as _adv_err:
+            advisory_dev1 = {
+                "$advisory": True,
+                "statut": "ADVISORY_DEV1_ERREUR_NON_BLOQUANTE",
+                "erreur": f"{type(_adv_err).__name__}: {_adv_err}",
+                "note": "Advisory absent — simulation principale non affectée.",
+            }
+
     # ── Résultat complet ─────────────────────────────────────────────────────
     return {
         'meta': {
@@ -1028,6 +1133,7 @@ def run_wp(config: dict) -> dict:
             'a_r_c_eff_calc'      : a_r_c_eff_calc,
         } if fiche_v7 else None,
         'non_regression_t1_t5': non_regression,
+        'advisory_dev1'        : advisory_dev1,
         'params'    : {k: v for k, v in p.items() if not k.startswith('_')},
         'cmd_base'  : cmd_base_norm,
         'cmd_linear': linear,
