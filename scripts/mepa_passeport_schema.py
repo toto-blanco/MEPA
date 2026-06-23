@@ -475,6 +475,9 @@ def generer_passeport(
         "theta_C_effectif":  identite["theta_C_effectif"],
         "theta_I_effectif":  identite["theta_I_effectif"],
 
+        # ── § 10 : Advisory Dev 1 (V7 — Ω ≡ I, additive, non bloquant) ────────
+        "advisory_dev1": result.get("advisory_dev1", None),
+
         # ── § 9 : Statut global (étendu V7) ───────────────────────────────────
         "statut_global": _calculer_statut_global(
             concordance   = identite["concordance"],
