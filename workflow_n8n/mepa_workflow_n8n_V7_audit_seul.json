@@ -1,0 +1,87 @@
+{
+  "name": "MEPA V7 — Audit Seul (CONV-B isolé)",
+  "nodes": [
+    {
+      "id": "mepa-audit-webhook",
+      "name": "Webhook — Entrée Audit",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        300
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mepa-audit-seul",
+        "responseMode": "lastNode"
+      },
+      "notes": "Attend en POST : { wp_id, rapport_md (string), result_json (object) }"
+    },
+    {
+      "id": "mepa-audit-convb",
+      "name": "Noeud AUDIT — CONV-B Post-Rédaction",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// AUDIT SEUL — CONV-B isolé (sous-workflow)\n// Entrée depuis Webhook POST : { wp_id, rapport_md (string), result_json (object) }\n// result_json = contenu du _result.json (équivalent de result_data dans le pipeline principal)\n// NOEUD 6b-AUDIT -- CONV-B Audit Final C1-C5 (POST-REDACTION)\n// Guide Survie Etape 5 : CONV-B verifie le WP redige par CONV-A\n// Distinct du codage CCI (deja fait en N8a)\n\"use strict\";\nconst https = require(\"https\");\nconst data   = $input.item.json;\nconst wp_id  = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\n\nconst rapport_md    = data.rapport_md   || \"\";\nconst result_data   = data.result_json || data.result_data || {};\nconst sim           = result_data.simulation || {};\nconst stress_n2_audit = (result_data.stress_n2 || []).length > 0\n  ? (result_data.stress_n2 || []).map(s => `  - ${s.label}: ${s.traj}`).join(\"\\n\")\n  : \"Non calculé\";\nconst traj_attendue = result_data.meta?.trajectoire_attendue || \"?\";\n\nconst SYSTEM = `Tu es CONV-B, l'Auditeur Scientifique MEPA V6.2.\nTu audites le WP redige par CONV-A. Checklist obligatoire C1-C5.\n\n[C1] CONFORMITE NUMERIQUE : t_b, dC_rel, dI_rel, FR_max dans le texte \n     correspondent exactement aux valeurs du _result.json ?\n[C2] NOMENCLATURE : aucun \"g\" isole, \"gamma\"->JSON uniquement, γ(U+03B3)->texte redactionnel, labels D4 exacts ?\n[C3] COHERENCE CONV-E : le WP utilise les valeurs codées par CONV-E (mepa_full_vars) ?\n     Vérifier cohérence entre valeurs citées dans le rapport et variables_codees CONV-E.\n     NOTE : CCI=null est normal si CONV-B CCI ne s'est pas déclenché — ne pas pénaliser.\n[C4] NARRATIVE SMOOTHING (§4.3 Manuel Gouvernance) :\n     La divergence traj_diagn != attendue est-elle documentée selon le format §4.3 ?\n     Format CORRECT : \"Divergence documentée — simulation produit (X) au lieu de (Y).\n       [Condition technique : F<R toute simulation / t_bascule=null / etc.].\n       Potentielle zone de réfutation.\"\n     SMOOTHING DÉTECTÉ si : justification a posteriori par l'histoire\n       (\"ce résultat est cohérent avec [fait historique]\") OU\n       phrase expliquant POURQUOI la simulation a raison malgré la divergence.\n     NOTE : l'explication historique est AUTORISÉE en S6/S7 — pas en S2.\n[C5] COHERENCE STRESS-TESTS (référence : _result.json champs stress_n1 et stress_n2) :\n     - Les trajectoires stress N1 (optimiste/pessimiste) dans S4 correspondent aux valeurs\n       de stress_n1 dans _result.json ?\n     - Les 8 combinaisons stress N2 documentées dans S4 correspondent aux valeurs\n       de stress_n2 dans _result.json (données runner Python ci-dessous) ?\n     - Le verdict ROBUSTE/METASTABLE dans S4 est cohérent avec verdict.robustesse ?\n     NOTE PROTOCOLE : la source de référence pour C5 est _result.json (runner Python),\n     pas le Nœud 12 du pipeline. Les stress N2 runner sont fournis ci-dessous.\n     C5 = ANOMALIE si les trajectoires citées dans S4 divergent des valeurs runner,\n     ou si S4 omet totalement de documenter les stress-tests disponibles.\n\nVERDICT : CERTIFIE / REVISION_MINEURE / REVISION_MAJEURE / REJET\nCERTIFIE = 5/5 ou anomalies mineures non bloquantes\nREVISION_MINEURE = 1-2 anomalies C1/C2/C5 corrigeables sans re-simulation\nREVISION_MAJEURE = anomalie C4 (narrative smoothing) OU anomalie C1 valeur cle\nREJET = anomalie C1 trajectoire OU 3+ anomalies OU CCI<0.50\n\nReponds UNIQUEMENT en JSON pur sans markdown.`;\n\nconst USER = `WP: ${wp_id}\nTrajectoire attendue : ${traj_attendue}\nTrajectoire simulee : ${sim.traj || \"?\"}\nFR_max : ${sim.FR_max || \"?\"} | t_bascule : ${sim.t_bascule ?? \"null\"}\ndC_rel : ${sim.dC_rel ?? \"null\"} | dI_rel : ${sim.dI_rel ?? \"null\"}\n\nSTRESS-TESTS N2 (depuis runner — référence pour contrôle C5) :\n${stress_n2_audit}\n\nRAPPORT CONV-A (extrait):\n${rapport_md}\n\nFormat:\n{\n  \"wp_id\": \"${wp_id}\",\n  \"audit_c1_c5\": {\n    \"C1\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C2\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C3\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C4\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"},\n    \"C5\": {\"statut\": \"OK|ANOMALIE\", \"anomalies\": [], \"detail\": \"...\"}\n  },\n  \"score_checklist\": 0,\n  \"verdict\": \"CERTIFIE|REVISION_MINEURE|REVISION_MAJEURE|REJET\",\n  \"instructions_revision\": [],\n  \"anomalies\": []\n}`;\n\nconst payload = JSON.stringify({\n  model: \"claude-sonnet-4-6\", max_tokens: 4000,\n  system: [{ type: \"text\", text: SYSTEM, cache_control: { type: \"ephemeral\" } }], messages: [{ role: \"user\", content: USER }]\n});\n\nlet audit_result = null;\nlet audit_error  = null;\ntry {\n  audit_result = await new Promise((resolve, reject) => {\n    const req = https.request({\n      hostname: \"api.anthropic.com\", path: \"/v1/messages\", method: \"POST\",\n      headers: { \"Content-Type\": \"application/json\",\n        \"x-api-key\": ANTHROPIC_API_KEY,\n        \"anthropic-version\": \"2023-06-01\",\n        \"anthropic-beta\": \"prompt-caching-2024-07-31\" }\n    }, (res) => {\n      let body = \"\";\n      res.on(\"data\", c => body += c);\n      res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n          const t = JSON.parse(body).content?.[0]?.text || \"{}\";\n          resolve(JSON.parse(t.replace(/```json|```/g,\"\").trim()));\n        } catch(e) { reject(e); }\n      });\n    });\n    req.setTimeout(90000, () => { req.destroy(); reject(new Error(\"Timeout 90s\")); });\n  req.on(\"error\", reject);\n    req.write(payload); req.end();\n  });\n} catch(e) { audit_error = e.message; }\n\nconst verdict = audit_result?.verdict || \"NON_CALCULE\";\nconst need_revision = verdict === \"REVISION_MINEURE\" || verdict === \"REVISION_MAJEURE\";\n\nreturn {\n  json: {\n    ...data,\n    audit_conv_b: audit_result,\n    verdict_conv_b: verdict,\n    score_checklist: audit_result?.score_checklist || 0,\n    anomalies_conv_b: audit_result?.anomalies || [],\n    instructions_revision: audit_result?.instructions_revision || [],\n    need_revision,\n    audit_error,\n    message: `CONV-B audit: ${verdict} -- ${audit_result?.score_checklist || \"?\"}/5`\n  }\n};"
+      }
+    },
+    {
+      "id": "mepa-audit-respond",
+      "name": "Réponse Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        80,
+        300
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook — Entrée Audit": {
+      "main": [
+        [
+          {
+            "node": "Noeud AUDIT — CONV-B Post-Rédaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Noeud AUDIT — CONV-B Post-Rédaction": {
+      "main": [
+        [
+          {
+            "node": "Réponse Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "timezone": "Europe/Paris"
+  },
+  "meta": {
+    "mepa_version": "7.0-alpha-rev-2.1",
+    "description": "Sous-workflow CONV-B isolé — re-lancer l'audit sur un rapport modifié sans ré-exécuter le pipeline complet",
+    "usage": "POST /webhook/mepa-audit-seul avec { wp_id, rapport_md, result_json }",
+    "parent_workflow": "mepa_workflow_n8n_V7.json",
+    "created": "2026-06-23",
+    "task": "T1-A A6"
+  },
+  "id": "mepa-audit-seul-v7"
+}
