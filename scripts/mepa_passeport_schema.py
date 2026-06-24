@@ -19,9 +19,25 @@ Rétrocompatibilité :
   - Champs NC : inchangés. Ajout de psi_noyau et gamma_local dans la liste des
     NC bloquantes V7.
 
-Version          : 3.0.0
+Version          : 3.0.1
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, sys, hashlib, datetime, os (stdlib uniquement)
+
+Changelog 3.0.1 (correctif D3 — traçabilité κ, décision QG) :
+  - certification.kappa_sa  : propagé dans les 3 chemins de construction
+    (generer_passeport, passeport_depuis_result, enrich_from_audit).
+  - certification.kappa_m_r : NOUVEAU champ de traçabilité V7 (κ de Cohen
+    pour m_r). Présent à None pour les fiches V6.2.
+  - certification.kappa     : SUPPRIMÉ. Ce champ contenait le CCI via l'alias
+    du calculateur — nom trompeur (rien ne s'appelle 'kappa' sans être un κ
+    de Cohen). La valeur reste disponible sous certification.cci.
+    NB consommateur : CONV-D doit lire certification.cci (et non .kappa) pour
+    le score qualité cluster — migration a coordonner (voir audit CTO).
+  - enrich_from_audit lit desormais audit_result['cci'] (champ reel) plutot
+    que l'alias 'kappa'.
+  AUCUN changement de gate : cci_global reste l'unique critere lu par
+  statut_global. kappa_sa et kappa_m_r sont des champs de tracabilite, jamais
+  des gates (decision QG).
 ================================================================================
 
 Extensions V7 vs V6.2 :
@@ -96,7 +112,7 @@ MEPA_VERSION_META = {
     "runner_legacy":    "mepa_runner_v2_gamma v2.1.1 (Euler dt=1, cas V6.2)",
     "audit":            "mepa_node2_audit_v7 v3.0",
     "kappa_calc":       "mepa_kappa_calculator v3.0",
-    "passeport":        "mepa_passeport_schema v3.0",
+    "passeport":        "mepa_passeport_schema v3.0.1",
     "constants":        "mepa_constants v1.3.0",
     "whitelist":        "mepa_whitelist_keys v3.0.0",
     "cadre_theorique":  "MEPA_cadre_theorique_V7_alpha_rev2_1.docx",
@@ -345,6 +361,7 @@ def generer_passeport(
     # ── Certification inter-codeurs ───────────────────────────────────────────
     cci_global  = None
     kappa_sa    = None
+    kappa_m_r   = None
     variables_nc = []
     nc_bloquantes = []
     friction_vecteur = {}
@@ -354,6 +371,7 @@ def generer_passeport(
     if cci_rapport:
         cci_global    = cci_rapport.get("cci")
         kappa_sa      = cci_rapport.get("kappa_sa")
+        kappa_m_r     = cci_rapport.get("kappa_m_r")
         variables_nc  = cci_rapport.get("variables_nc", [])
         nc_bloquantes = cci_rapport.get("nc_bloquantes", [])
         friction_vecteur = cci_rapport.get("friction_vecteur", {})
@@ -417,8 +435,8 @@ def generer_passeport(
         # ── § 2 : Certification inter-codeurs ─────────────────────────────────
         "certification": {
             "cci":              cci_global,
-            "kappa":            cci_global,
             "kappa_sa":         kappa_sa,
+            "kappa_m_r":        kappa_m_r,
             "verdict_cci":      verdict_cci,
             "variables_nc":     variables_nc,
             "nc_bloquantes":    nc_bloquantes,
@@ -687,8 +705,8 @@ def passeport_depuis_result(result: dict, result_path: str = "?") -> dict:
         },
         "certification": {
             "cci":              None,
-            "kappa":            None,
             "kappa_sa":         None,
+            "kappa_m_r":        None,
             "verdict_cci":      "NON_CALCULÉ",
             "variables_nc":     variables_nc,
             "nc_bloquantes":    nc_bloquantes,
@@ -733,15 +751,18 @@ def enrich_from_audit(passeport: dict, audit_result: dict) -> dict:
 
     Paramètres :
       passeport    : dict passeport (issu de generer_passeport)
-      audit_result : dict avec clés : kappa, verdict, anomalies
+      audit_result : dict avec clés : cci, kappa_sa, kappa_m_r, verdict, anomalies
 
     Retourne le passeport enrichi.
     """
     if "certification" not in passeport:
         passeport["certification"] = {}
 
-    passeport["certification"]["cci"]         = audit_result.get("kappa")
-    passeport["certification"]["kappa"]       = audit_result.get("kappa")
+    # cci : champ réel du calculateur. Fallback sur l'ancien alias 'kappa'
+    # pour les appelants antérieurs à 3.0.1 (le calculateur émet les deux).
+    passeport["certification"]["cci"]         = audit_result.get("cci", audit_result.get("kappa"))
+    passeport["certification"]["kappa_sa"]    = audit_result.get("kappa_sa")
+    passeport["certification"]["kappa_m_r"]   = audit_result.get("kappa_m_r")
     passeport["certification"]["verdict_cci"] = audit_result.get("verdict", "NON_CALCULÉ")
     passeport["certification"]["anomalies"]   = audit_result.get("anomalies", [])
 
