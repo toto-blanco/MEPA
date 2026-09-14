@@ -19,9 +19,17 @@ Rétrocompatibilité :
   - Champs NC : inchangés. Ajout de psi_noyau et gamma_local dans la liste des
     NC bloquantes V7.
 
-Version          : 3.0.1
+Version          : 3.0.2
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, sys, hashlib, datetime, os (stdlib uniquement)
+
+Changelog 3.0.2 (correctif D5 — désync a_r_c_eff_calc) :
+  - a_r_c_eff_calc est PRODUIT par le runner dans result['v7_alpha'], mais le
+    digest simulation le lisait dans result['simulation'] → toujours None.
+    Conséquence : la valeur de la clause de repli A_r_c_eff (déterminante de la
+    branche α) était perdue dans tous les passeports de cas α.
+    Correctif consommateur : lecture depuis result['v7_alpha']. Ne touche pas
+    le result.json hashé (aucun impact sur les empreintes d'intégrité).
 
 Changelog 3.0.1 (correctif D3 — traçabilité κ, décision QG) :
   - certification.kappa_sa  : propagé dans les 3 chemins de construction
@@ -112,7 +120,7 @@ MEPA_VERSION_META = {
     "runner_legacy":    "mepa_runner_v2_gamma v2.1.1 (Euler dt=1, cas V6.2)",
     "audit":            "mepa_node2_audit_v7 v3.0",
     "kappa_calc":       "mepa_kappa_calculator v3.0",
-    "passeport":        "mepa_passeport_schema v3.0.1",
+    "passeport":        "mepa_passeport_schema v3.0.2",
     "constants":        "mepa_constants v1.3.0",
     "whitelist":        "mepa_whitelist_keys v3.0.0",
     "cadre_theorique":  "MEPA_cadre_theorique_V7_alpha_rev2_1.docx",
@@ -298,7 +306,7 @@ def _extraire_simulation_digest(result: dict) -> dict:
     if _est_result_v7(result):
         digest["v7_alpha_diagnostic"]      = sim.get("v7_alpha_diagnostic", {})
         digest["rampe_mod_mimetique_active"] = sim.get("rampe_mod_mimetique_active", False)
-        digest["a_r_c_eff_calc"]           = sim.get("a_r_c_eff_calc")
+        digest["a_r_c_eff_calc"]           = (result.get("v7_alpha") or {}).get("a_r_c_eff_calc")
         digest["chute_C_metric"]           = sim.get("chute_C_metric")
         digest["integrator"]               = "LSODA"
 
