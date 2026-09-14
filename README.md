@@ -1,20 +1,15 @@
-# MEPA V6.2 — Modèle Énergétique du Potentiel Adaptatif
+# MEPA V7 — Modèle Énergétique du Potentiel Adaptatif
 
-> Simulation des transitions socio-institutionnelles sur 27 cas historiques via équations différentielles couplées, pipeline n8n automatisé, audit inter-codeurs (CCI / κ de Cohen) et analyse de sensibilité bayésienne.
+> Simulation des transitions socio-institutionnelles sur 27 cas historiques via équations différentielles couplées, pipeline n8n automatisé, audit inter-codeurs (κ de Cohen / CCI), et modélisation conditionnelle du mécanisme sacrificiel (extension Todd-Girard).
 
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)](https://python.org)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
-[![n8n](https://img.shields.io/badge/Orchestration-n8n-EA4B71)](https://n8n.io)
-[![Claude](https://img.shields.io/badge/Claude-Anthropic-D4A017)](https://www.anthropic.com)
-[![Raspberry Pi](https://img.shields.io/badge/Infra-Raspberry_Pi_5-A22846?logo=raspberrypi&logoColor=white)](https://www.raspberrypi.com)
-[![License](https://img.shields.io/badge/License-CC_BY--ND_4.0-lightgrey)](https://creativecommons.org/licenses/by-nd/4.0/)
+**Statut : cluster pilote V7-γ rev. 2 certifié (6 WP). Pipeline V7 opérationnel. Extension au corpus complet (21 WP restants) en préparation.**
 
 ---
 
 ## Table des matières
 
 1. [Vue d'ensemble](#vue-densemble)
-2. [Rôle de Claude dans MEPA](#rôle-de-claude-dans-mepa)
+2. [État du projet](#état-du-projet)
 3. [Architecture du projet](#architecture-du-projet)
 4. [Corpus historique (27 WP)](#corpus-historique-27-wp)
 5. [Cadre théorique](#cadre-théorique)
@@ -23,9 +18,10 @@
 8. [Installation et utilisation](#installation-et-utilisation)
 9. [Format d'entrée — Fiche WP](#format-dentrée--fiche-wp)
 10. [Trajectoires diagnostiquées](#trajectoires-diagnostiquées)
-11. [Contrôle qualité](#contrôle-qualité)
-12. [Feuille de route V7](#feuille-de-route-v7)
+11. [Contrôle qualité et gouvernance](#contrôle-qualité-et-gouvernance)
+12. [Feuille de route](#feuille-de-route)
 13. [Références](#références)
+14. [Licence](#licence)
 
 ---
 
@@ -33,144 +29,115 @@
 
 **MEPA** (Modèle Énergétique du Potentiel Adaptatif) est un cadre de modélisation quantitatif-qualitatif conçu pour analyser les **transitions socio-institutionnelles** à travers l'histoire. Le modèle postule que tout système socio-politique bascule lorsque la force transformatrice `F(t)` dépasse la résistance du système `R(t)`.
 
-Le projet V6.2 couvre **27 Working Papers (WP)** répartis sur cinq clusters thématiques (C1–C5), de la Rome du IIIe siècle au Rwanda contemporain, en passant par la Révolution française, la montée du nazisme ou l'effondrement de l'URSS.
+Le projet couvre **27 Working Papers (WP)** répartis sur cinq clusters thématiques, de la Rome du IIIe siècle au Rwanda contemporain, en passant par la Révolution française, la montée du nazisme ou l'effondrement de l'URSS.
+
+Depuis la version V7 (extension Todd-Girard, cadre V7-α rev. 2.1), le modèle intègre en plus un mécanisme conditionnel de **cristallisation sacrificielle d'État** — la trajectoire où l'État organise une partie de la société contre une autre partie publiquement désignée, distincte analytiquement de la répression classique.
 
 ### Deux composantes complémentaires
 
 | Composante | Rôle | Outils |
 |---|---|---|
-| **MEPA Full** | Codage qualitatif de 9 variables sur sources historiques, audit inter-codeurs, rédaction des WP | Fiches JSON · CCI · **Claude** (CONV-A, CONV-B, CONV-E) |
-| **MEPA Lite** | Simulation numérique de 4 équations différentielles couplées | `mepa_runner_v2_gamma.py` · n8n |
+| **MEPA Full** | Codage qualitatif de 9 variables historiques (V6.2) + 6 variables V7 (Todd-Girard) sur sources documentées | Fiches JSON, audit inter-codeurs |
+| **MEPA Lite** | Simulation numérique de 4 équations différentielles couplées | `mepa_runner_v3_v7.py` (LSODA), n8n |
 
 ---
 
-## Rôle de Claude dans MEPA
+## État du projet
 
-Claude (API Anthropic) n'est pas un outil parmi d'autres dans MEPA : il est l'**opérateur central de la chaîne qualitative** et le **partenaire de développement du cadre théorique**. Il intervient sous quatre rôles distincts, chacun isolé par le protocole double aveugle du pipeline.
+La **certification V7.0 du cluster pilote V7-γ rev. 2** a été prononcée sur 6 WP (Rwanda, Allemagne nazie, Commune de Paris, Rome IIIe siècle, Haïti, Égypte 2011), contre les 6 conditions de la Décision de gouvernance V7-D1 rev. 4 §4 :
 
-### Les quatre rôles CONV
-
-| Rôle | Conv | Mission | Modèle |
+| Cas | Trajectoire diagnostiquée | Concordance | Statut |
 |---|---|---|---|
-| **Historien-Codeur** | CONV-E | Coder les 9 variables MEPA sur sources historiques primaires, produire les fiches JSON conformes au schéma `mepa-fiche-codage-v6.2` | claude-sonnet-4-6 (T=0) |
-| **Auditeur scientifique** | CONV-B | Codage indépendant (double aveugle), calcul du CCI / κ de Cohen, audit des 7 sections du WP final | claude-sonnet-4-6 (T=0) |
-| **Rédacteur** | CONV-A | Rédiger les sections S1–S7 du Working Paper depuis les résultats de simulation, sans accès aux scores du codeur | claude-sonnet-4-6 (T=0) |
-| **Architecte scientifique / QG** | CONV-C | Co-développement du cadre théorique et de l'architecture du modèle : critique épistémique, décisions d'architecture (équations, paramètres, protocoles), préparation des chantiers V7 | claude-sonnet-4-6 |
+| WP-I10-1 Rwanda | (α) Cristallisation sacrificielle | ✓ | CERTIFIÉ |
+| WP-I4-1 Allemagne nazie | (b) Répression réussie | Divergence attendue* | CONDITIONNELLE_V7 |
+| WP-F10-1 Commune de Paris | (b) Répression réussie | Contrôle négatif ✓ | CERTIFIÉ |
+| WP-F1-1 Rome IIIe s. | (d) Effondrement progressif | ✓ | CERTIFIÉ_MÉTASTABLE |
+| WP-C1-1 Haïti | (d) Effondrement progressif | ✓ | CERTIFIÉ |
+| WP-C2-1 Égypte 2011 | (b) Répression réussie | ✓ | CERTIFIÉ_MÉTASTABLE |
 
-> **Note sur CONV-C.** Le rôle QG va au-delà de l'usage API classique. Il s'agit d'une collaboration stratégique sur la théorie du modèle — vérification des équations différentielles, cohérence des paramètres, définition des prédictions falsifiables, feuille de route V7. C'est dans ce rôle que l'architecture V6.2 a été fortifiée, que les chantiers Dev 1–Dev 3 ont été instruits, et que les décisions collégiales CV1–CV11 ont été formalisées.
+\* *Allemagne nazie n'atteint pas la trajectoire (α) attendue — échec pré-enregistré de la condition C2 du précheck sacrificiel (masse critique du noyau formel insuffisante), documenté comme limite assumée du cadre V7-α et traité selon le protocole anti-rationalisation V7-C3 (Réserves 1 et 2 du §4bis de la Décision V7-D1 rev. 4).*
 
-### Étanchéité informationnelle
-
-Le protocole garantit que CONV-E (codeur) et CONV-B (auditeur) opèrent **sans accès aux résultats l'un de l'autre** jusqu'au calcul du CCI. La mesure de reproductibilité est conditionnelle au modèle LLM utilisé — non une indépendance absolue inter-codeurs humains. Ce point est documenté dans l'Addendum Théorique V6.2 (Pilier 4) et tracé dans chaque passeport via le champ `provenance_ia`.
-
-### Traçabilité
-
-Chaque résultat de simulation embarque dans son passeport de certification le modèle exact utilisé :
-
-```json
-"provenance_ia": {
-  "modele": "claude-sonnet-4-6",
-  "famille": "Claude 4",
-  "fournisseur": "Anthropic",
-  "temperature": 0.0,
-  "protocole": "Double aveugle n8n — étanchéité informationnelle garantie par le workflow"
-}
-```
+Ce résultat déverrouille l'extension du pipeline aux 21 WP restants du corpus, sous réserve de garde-fous de fiabilité mis en place lors de l'audit technique post-certification (voir [Contrôle qualité et gouvernance](#contrôle-qualité-et-gouvernance)).
 
 ---
 
 ## Architecture du projet
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│  Fiche WP (JSON)                                                        │
-│     ↓                                                                   │
-│  [Nœud 2] Audit C1–C13     →  INVALIDE : recodage CONV-E (Claude)      │
-│                             →  DONNÉES_INSUFFISANTES : escalade Archi.  │
-│     ↓ VALIDE                                                            │
-│  [Nœud 8a] CONV-B (Claude) — CCI pré-simulation (double aveugle)       │
-│     ↓ valeurs résolues injectées                                        │
-│  [Nœud 4] Runner Python (ODE Euler dt=1) + [Nœud 4b] Sensibilité N1   │
-│     ↓                                                                   │
-│  [Nœud 6] CONV-A (Claude) — Rédaction WP S1→S7 (T=0)                  │
-│     ↓                                                                   │
-│  [Nœud 7] CONV-B (Claude) — Audit WP complet C1–C5                    │
-│     ↓ CERTIFIÉ                                                          │
-│  [Nœud 12] Stress-test N2 + [Nœud 13] Prédiction Popper RF1/RF2/RF3   │
-│     ↓                                                                   │
-│  [Nœud 14] Certification (WP_CERTIFIÉ / WP_EXPLORATOIRE)               │
-│     ↓                                                                   │
-│  [Nœud 15] Archivage /data/mepa/outputs/ + Passeport compact CONV-D    │
-└─────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────┐
+│  Fiche WP (JSON)  →  Audit conformité (C1–C15)  →  Runner (ODE LSODA) │
+│                                              →  CONV-B Temps 1 (CCI)   │
+│                                              →  Rédaction LLM (S1→S7)  │
+│                                              →  CONV-B Temps 2 (audit) │
+│                                              →  Certification (cci_global)│
+│                                              →  Passeport WP archivé   │
+│                                              →  Export / Méta-analyse  │
+└───────────────────────────────────────────────────────────────────────┘
 ```
 
-Le pipeline complet est orchestré via **n8n** (workflow `mepa_workflow_n8n_V62.json`, WF2 — 26 nœuds) et suit la séquence : `CONV-E → CONV-B CCI → Runner → CONV-A → CONV-B Audit → Certification`.
+Le pipeline est orchestré via **n8n**. Deux workflows coexistent :
 
-> **Note technique :** Le nœud 2 opérationnel est le code embarqué dans `mepa_workflow_n8n_V62.json` (version "V6.3 Fortifié", Correctif A6 — 2026-03-16). Le fichier `scripts/mepa_node2_audit_v62.js` est la version de référence documentaire (v2.1.0) — légèrement antérieure à la version embarquée mais fonctionnellement équivalente pour les 13 contrôles C1–C13.
+- `mepa_workflow_n8n_V7.json` — pipeline complet (codage → simulation → audit → certification → archivage)
+- `mepa_workflow_n8n_V7_audit_seul.json` — sous-workflow isolé permettant de relancer l'audit CONV-B sur un rapport corrigé, sans ré-exécuter la simulation ni le codage
+
+Le runner V6.2 (`mepa_runner_v2_gamma.py`, intégration Euler dt=1) reste disponible pour comparaison de non-régression avec le runner V7 (`mepa_runner_v3_v7.py`, intégration LSODA adaptative).
 
 ---
 
 ## Corpus historique (27 WP)
 
-> **Rappel de nomenclature :** Les clusters **C1–C5** ci-dessous sont les clusters **MEPA** (déterminés par la dynamique du modèle), non des catégories éditoriales.
-
-### Cluster C1 — Effondrements et transitions longue durée (11 WP)
-
-| WP | Cas | Période | Sa | Trajectoire attendue |
+### Cluster C1 — Crises contemporaines (6 WP)
+| WP | Cas | Période | Trajectoire attendue | Fiche V7 |
 |---|---|---|---|---|
-| WP-C1-1 | Haïti — Crise post-séisme | 2010–2024 | 4 | (d) Dissolution |
-| WP-C4-1 | Liban — Effondrement institutionnel | 2019–2026 | 6 | (d) Dissolution |
-| WP-F1-1 | Rome — Crise du IIIe siècle | 235–284 | 4 | (d) Effondrement progressif |
-| WP-F2-1 | Rome tardive | IIIe–Ve s. | 4 | (d) Effondrement progressif |
-| WP-F3-1 | Empire Maya classique | 800–950 | 6 | (d) Effondrement progressif |
-| WP-F6-1 | Empire Ottoman | 1908–1922 | 6 | (d) Effondrement progressif |
-| WP-F7-1 | Révolution haïtienne | 1791–1804 | 6 | (a) Rupture transformatrice |
-| WP-I2-1 | Russie 1917 | 1905–1921 | 6 | (a) Rupture transformatrice |
-| WP-I7-1 | URSS — Effondrement | 1970–1991 | 6 | (d) Effondrement progressif |
-| WP-I10-1 | Rwanda — Génocide et reconstruction | 1990–2010 | 6 | (a) Rupture transformatrice |
-| WP-T1-1 | Guerre de Sécession — États-Unis | 1860–1877 | 2 | (γ) Transformation forcée |
+| WP-C1-1 | Haïti | 2010–2024 | (d) Effondrement progressif | ✓ certifié |
+| WP-C2-1 | Égypte 2011 | 2010–2014 | (b) Répression réussie | ✓ certifié |
+| WP-C3-1 | Argentine | 1998–2003 | (a) Rupture transformatrice | — |
+| WP-C4-1 | Liban | 2019–2023 | (d) Effondrement progressif | — |
+| WP-C5-1 | Iran | 2009–2022 | (b) Répression réussie | — |
+| WP-C6-1 | Chine (Xi) | 2012–2023 | (b) Répression réussie | — |
 
-### Cluster C2 — Transitions oligarchiques et réformes bloquées (5 WP)
+### Cluster C2 — Fondements / Effondrements historiques (10 WP)
+| WP | Cas | Trajectoire attendue | Fiche V7 |
+|---|---|---|---|
+| WP-F1-1 | Rome IIIe s. | (d) Effondrement progressif | ✓ certifié |
+| WP-F2-1 | Rome tardive | (d) Effondrement progressif | — |
+| WP-F3-1 | Maya classique | (d) Effondrement progressif | — |
+| WP-F4-1 | Égypte ancienne | (c) Stase / ambigu | — |
+| WP-F5-1 | Venise déclin | (d) Effondrement progressif | — |
+| WP-F6-1 | Empire ottoman | (d) Effondrement progressif | — |
+| WP-F7-1 | Révolution haïtienne | (a) Rupture transformatrice | — |
+| WP-F8-1 | France révolutionnaire | (a) Rupture transformatrice | — |
+| WP-F9-1 | Angleterre stabilité | (h) Stabilité | — |
+| WP-F10-1 | Commune de Paris | (a) attendue / (b) diagnostiquée — contrôle négatif α | ✓ certifié |
 
-| WP | Cas | Période | Sa | Trajectoire attendue |
-|---|---|---|---|---|
-| WP-C2-1 | Égypte 2011 — Printemps arabe | 2010–2014 | 6 | (b) Répression réussie |
-| WP-F5-1 | Venise — Déclin oligarchique | XVIIe–XVIIIe s. | 4 | (c) Stase / ambigu |
-| WP-F8-1 | France révolutionnaire | 1787–1799 | 4 | (a) Rupture transformatrice |
-| WP-F10-1 | Commune de Paris | 1871 | 4 | (a) Rupture transformatrice |
-| WP-I4-1 | Allemagne nazie *(Sa=7)* | 1919–1945 | 7 | (a) Rupture transformatrice |
+### Cluster C3 — Industrialisation & Ruptures (10 WP)
+| WP | Cas | Trajectoire attendue | Fiche V7 |
+|---|---|---|---|
+| WP-I1-1 | Angleterre industrielle | (h) Stabilité | — |
+| WP-I2-1 | Russie 1917 | (a) Rupture transformatrice | — |
+| WP-I3-1 | Japon Meiji-Guerre *(Sa=7)* | (a)→(e)→(h)→(d) | — |
+| WP-I4-1 | Allemagne nazie *(Sa=7)* | (α) attendue / (b) diagnostiquée — divergence assumée | ✓ certifié conditionnel |
+| WP-I5-1 | Espagne Guerre civile | (a) Rupture transformatrice | — |
+| WP-I6-1 | Tiananmen | (b) Répression réussie | — |
+| WP-I7-1 | URSS | (d) Effondrement progressif | — |
+| WP-I8-1 | Chine Deng | (e)→(h) | — |
+| WP-I9-1 | Singapour *(Sa=7)* | (h) Stabilité | — |
+| WP-I10-1 | Rwanda | (α) Cristallisation sacrificielle d'État | ✓ certifié |
 
-### Cluster C3 — Cas singuliers / instabilité structurelle (1 WP)
-
-| WP | Cas | Période | Sa | Trajectoire attendue |
-|---|---|---|---|---|
-| WP-I5-1 | Espagne — Guerre civile | 1931–1939 | 4 | (γ) Transformation forcée |
-
-### Cluster C4 — Crédibilité du système et résilience institutionnelle (6 WP)
-
-| WP | Cas | Période | Sa | Trajectoire attendue |
-|---|---|---|---|---|
-| WP-C6-1 | Chine Xi Jinping | 2012–2026 | 6 | (h) Stabilité |
-| WP-F9-1 | Angleterre — Stabilité sous pression | 1789–1815 | 2 | (h) Stabilité |
-| WP-I1-1 | Angleterre industrielle | 1760–1840 | 2 | (h) Stabilité |
-| WP-I6-1 | Chine — Tiananmen 1989 | 1989 | 6 | (b) Répression réussie |
-| WP-I8-1 | Chine Deng | 1978–1997 | 6 | (h) Stabilité |
-| WP-I9-1 | Singapour *(Sa=7)* | 1965–2024 | 7 | (h) Stabilité |
-
-### Cluster C5 — Transitions complexes avec réorganisation partielle (4 WP)
-
-| WP | Cas | Période | Sa | Trajectoire attendue |
-|---|---|---|---|---|
-| WP-C3-1 | Argentine — Cycles Turchin | 2001–2024 | 4 | (c) Stase / ambigu |
-| WP-C5-1 | Iran 1979–2026 | 1979–2026 | 6 | (h)/(e) Stabilité ou réforme lente |
-| WP-F4-1 | Égypte ancienne — Cycles dynastiques | 3000 av.–640 ap. | 6 | (c) Stase / ambigu |
-| WP-I3-1 | Japon Meiji–Guerre–Reconstruction *(Sa=7)* | 1853–1945 | 7 | (d) Effondrement progressif |
+### Cluster C4 — Transitions (1 WP)
+| WP | Cas | Trajectoire attendue |
+|---|---|---|
+| WP-T1-1 | Guerre de Sécession | (a) Rupture transformatrice |
 
 ### Étalon (hors corpus principal)
-
 | WP | Cas | Note |
 |---|---|---|
-| WP-EXT-5 | Islande 2008–2013 | Ancre MAX EROI=35.0 — candidat V7 — (e) Réforme institutionnelle |
+| WP-EXT-5 | Islande 2008–2013 | Ancre MAX EROI=35.0 |
+
+### Cas prévu — chantier V7.1
+| WP | Cas | Rôle |
+|---|---|---|
+| WP-I11-1 *(à créer)* | Grande Terreur soviétique 1937-1938 | Troisième cas positif (α), requis pour la calibration du score continu d'activation sacrificielle (Décision V7-D1 rev. 4 §6) |
 
 ---
 
@@ -185,144 +152,163 @@ Le pipeline complet est orchestré via **n8n** (workflow `mepa_workflow_n8n_V62.
 | `C` | Chaleur collective (capital social) |
 | `I` | Complexité institutionnelle |
 
-### Équations différentielles (intégration Euler explicite, dt=1)
+### Équations différentielles
 
 ```
-ℓ = R / (R + p13)
-gC = C / (C + ε)              ← variable interne de saturation (≠ γ, ne pas renommer)
-Θ = 1 / (1 + exp(-K_SIG × (C − Cc)))
-M = p10 × (1 + a×E) × L / (1 + p11a×ℓ×Rc + p11b×ℓ×Rn×(1 − κ×C))
+dS = p1·T − p2·(R + Ref + Mob) − p2b·S
+dL = p4·S − L − p3·L·Θ
+dC = p5·M − p6·C − p7·(Rc + Rn)·ℓ·gC
+dI = p8·(EROI − 1)·Pop − p9·I
 
-dS = p1×T − p2×(R + Ref + Mob) − p2b×S
-dL = p4×S − L − p3×L×Θ
-dC = p5×M − p6×C − p7×(Rc + Rn)×ℓ×gC
-dI = p8×(EROI − 1)×Pop − p9×I
-
-F(t) = C + λ×L×(1 + μ×γ×E)
-R(t) = I^(1/3) + ν×(Rc + Rn)×ℓ + ρ
+F(t) = C + λ·L·(1 + μ·γ·E)
+R(t) = I^(1/3) + ν·(Rc + Rn)·ℓ + ρ
 
 Condition de bascule : F(t) ≥ R(t)
 ```
 
-### Variables de commande (9 variables MEPA Full → 10 commandes runner)
+Runner V7 : intégration LSODA (`scipy.solve_ivp`, rtol=1e-6, atol=1e-9). Runner V6.2 conservé pour non-régression : intégration Euler explicite dt=1.
 
-| Symbole MEPA Full | Clé JSON runner | Échelle | Description |
+### Variables de commande — socle V6.2 (9 variables)
+
+| Symbole | Clé JSON | Échelle | Description |
 |---|---|---|---|
-| E_split | `E` | [0,1] | Fracture de l'élite |
-| **γ** | **`gamma`** | [0,1] | Capacité organisationnelle de l'élite |
-| A_d_eff | `R` | [0,10] | Capacité redistributive effective |
+| E_split | `E` (cmd) | [0,1] | Part des élites marginalisées |
+| **γ** | `gamma` | [0,1] | Capacité organisationnelle de l'élite (globale) |
+| A_d_eff | `R` (cmd) | [0,10] | Capacité redistributive effective |
 | A_r_c | `Rc` | [0,1] | Répression classique |
-| A_r_ne | `Rn` | [0,1] | Répression numérique (0.00 si pré-numérique) |
-| Cs | `Mob` | [0,1] | Crédibilité du régime / mobilisation *(mapping approx.)* |
-| L_t | `y0[L0]` | [0,1] | Loyauté des appareils (condition initiale L0) |
+| A_r_ne | `Rn` | [0,1] | Répression numérique / non-étatique |
+| Cs | — | [0,1] | Crédibilité du régime |
+| L(t) | `L` (y0) | [0,1] | Loyauté des appareils |
 | EROI | `EROI` | >1 | Rendement énergétique net |
 | Sa | `sa` | {2,4,6,7} | Structure anthropologique Todd |
 
-> **Règle de nomenclature absolue V6.2 :** `gamma` est la clé JSON/Python exclusive. **γ** est le symbole dans les équations et le texte rédigé. La lettre `g` isolée est interdite dans tout contexte MEPA.
->
-> **Note mapping Cs → Mob :** La variable Cs (crédibilité du régime) est mappée vers la commande runner `Mob` — approximation connue, à résoudre en V7 (chantier C0).
+> **Règle de nomenclature absolue :** `gamma` est la clé JSON/Python exclusive du paramètre γ. La lettre `g` isolée est interdite dans tout contexte MEPA.
+
+### Extension V7 — variables Todd-Girard (6 variables supplémentaires)
+
+| Symbole | Clé JSON | Échelle | Description |
+|---|---|---|---|
+| M_r | `m_r` | {1,2,3} | Stade de la matrice religieuse Todd (1 = active, 2 = zombie, 3 = zéro) |
+| μ_m | `mu_m` | [0,1] | Polarisation mimétique girardienne |
+| Φ | `phi` | [0,1] | Fragmentation symbolique de l'espace médiatique |
+| Ψ_noyau | `psi_noyau` | [0,1] | Proportion de population engagée dans le noyau de croyance cohérent |
+| Ψ_cible | `psi_cible` | [0,1] ou `null` | Proportion de population désignée comme cible démographique |
+| γ_local | `gamma_local` | [0,1] | Capacité organisationnelle propre du noyau (distincte de γ, capacité moyenne de l'élite globale) |
+
+> **Distinction impérative** : `gamma` (γ, cohésion de l'élite globale, V6.2) et `gamma_local` (γ_local, discipline du seul noyau organisé, V7) mesurent des objets différents et peuvent diverger fortement pour un même cas (ex. Rwanda : γ ≈ 0.55, γ_local ≈ 0.55 par coïncidence numérique documentée ; Allemagne : γ_local = γ = 0.55 également, distinction conceptuelle maintenue). De même, `mu` (μ, amplification γ-élite dans F(t)) est distincte de `mu_m` (μ_m, polarisation mimétique).
+
+### Précheck de la branche sacrificielle (α)
+
+Quatre conditions doivent être simultanément satisfaites pour que la trajectoire (α) soit évaluable :
+
+```
+C1 = (M_r ∈ {1,2}) AND (μ_m > μ_m* = 0.60)
+C2 = (Ψ_noyau × γ_local > σ(Φ))         où σ(Φ) = σ_base × (1 + α × Φ), σ_base = 0.018, α = 1.7
+C3 = (Ψ_cible ≠ null)
+C4 = (A_r_c_eff > 0.70)                  où A_r_c_eff = A_r_c + 0.5 × A_r_ne (clause de repli si A_r_c ≤ 0.70)
+```
+
+Si `alpha_precheck = C1 AND C2 AND C3 AND C4` est faux, la branche (α) est exclue avant simulation et le système retombe sur l'arbre de décision V6.2 standard.
+
+> **Statut épistémologique** : les valeurs numériques du mécanisme sacrificiel (σ_base, α, seuil μ_m*, modulateurs de la rampe en trois phases) sont calibrées sur un nombre restreint de cas actifs (Rwanda, Égypte) et explicitement documentées comme hyperparamètres V7-α à confirmer — non comme constantes établies. Voir cadre théorique V7-α rev. 2.1 pour le détail des intervalles plausibles et le plan de validation.
 
 ### Modulateur Todd (Sa)
 
 | Sa | Type familial | Effet sur le modèle |
 |---|---|---|
-| 2 | Nucléaire absolu (monde anglo-saxon) | Instabilité haute — dissolution rapide des mobilisations |
+| 2 | Nucléaire absolu (monde anglo-saxon) | Instabilité haute |
 | 4 | Nucléaire égalitaire (France, Amérique latine) | Instabilité chronique |
 | 6 | Communautaire (Russie, Chine, Iran) | Résilience autoritaire |
-| **7** | **Souche (Allemagne, Japon, Corée)** | **p6 × 1.5 obligatoire** — mobilisation maximale |
+| **7** | **Souche (Allemagne, Japon, Corée)** | **p6 × 1.5 obligatoire** |
 
 ---
 
 ## Pipeline technique
 
-### Séquence WF2 Protocole Complet (26 nœuds)
+### Flux V7 (résumé des nœuds n8n clés)
 
 ```
-N0   ▶ Démarrage Manuel
-NA   Lecture fiche WP JSON (binaire → décodage)
-NB   Décode JSON [No-FS]
-N2   Audit C1–C13 [mepa_node2_audit_v62.js v2.1 embarqué]
-     ├─ INVALIDE     → Alerte recodage CONV-E (Claude)
-     └─ DONNÉES_INSUFFISANTES → Alerte escalade Architecte
-     ↓ VALIDE
-N8a  CONV-B (Claude) — codage indépendant + CCI pré-simulation [double aveugle, T=0]
-N8b  Router CCI — AUTO / WAIT_HUMAIN
-     ├─ WAIT → N8c Validation humaine
-     └─ AUTO →
-N8d  Injection valeurs résolues dans runner_config
-N3   Write runner_config.json [/tmp/]
-N4   Execute Runner [mepa_runner_v2_gamma.py v2.1.1]  ←─ parallèle
-N4b  Execute Sensibilité N1 [mepa_sensitivity_n1.py]  ←─ parallèle
-N5   Parse Runner Result
-N5b  Parse Sensibilité N1
-N6   CONV-A (Claude) — Rédaction WP S1→S7 [T=0, sans accès scores codeur]
-NC   Nettoyage /tmp/ [Anti-Contamination]
-N7   CONV-B (Claude) — Audit WP complet C1–C5
-     Router CONV-B → CERTIFIÉ / RÉVISION_MINEURE / RÉVISION_MAJEURE / REJET
-N12  Stress-test N2 [combinaisons critiques optimiste/pessimiste]
-N13  Prédiction Popper [RF1/RF2/RF3 + horizon temporel]
-N14  Certification [WP_CERTIFIÉ / WP_EXPLORATOIRE]
-N15  Archivage Final [/data/mepa/outputs/ + Passeport compact CONV-D]
+Nœud 1   → Audit & Conformité structurelle       [mepa_node2_audit_v7.js]
+Nœud 4   → Execute Runner                        [mepa_runner_v3_v7.py]
+Nœud 6   → Rédaction LLM CONV-A (S1→S7)
+Nœud 6b  → CONV-B Temps 2 — Audit final C1–C6    [mepa_node2_audit_v7.js]
+Nœud 8a  → CONV-B Temps 1 — CCI pré-simulation    [mepa_kappa_calculator.py]
+Nœud 14  → Certification (gate cci_global)
+Nœud 15  → Archivage passeport WP                [mepa_passeport_schema.py]
 ```
 
-### Scripts et nœuds associés
+Sous-workflow indépendant : `mepa_workflow_n8n_V7_audit_seul.json`, pour ré-audit CONV-B isolé sur rapport révisé.
 
-| Script | Nœud | Rôle | Claude | Seuil bloquant |
-|---|---|---|---|---|
-| `mepa_node2_audit_v62.js` | N2 | Validation structurelle C1–C13, normalisation `gamma`, détection NC | — | INVALIDE ou DONNÉES_INSUFFISANTES |
-| `mepa_runner_v2_gamma.py` | N4 | Simulation ODE Euler dt=1 + stress N1 interne | — | RuntimeError NC bloquant |
-| `mepa_sensitivity_n1.py` | N4b | Sensibilité ±20% (9 cmd + 16 params) | — | flag verdict_n1 |
-| `mepa_kappa_calculator.py` | N8a | CCI / κ de Cohen CONV-E / CONV-B | Post-codage Claude | CCI < 0.50 → REJET |
-| `mepa_passeport_schema.py` | N15 | Construction + validation Passeport WP | Trace `provenance_ia` Claude | toute erreur bloquante |
-| `CONV-E.md` | — | Instructions codage historien | **CONV-E** (Claude, T=0) | — |
-| `CONV-A.md` | N6 | Instructions rédaction WP | **CONV-A** (Claude, T=0) | — |
-| `CONV-B.md` | N8a, N7 | Instructions audit scientifique | **CONV-B** (Claude, T=0) | — |
-| `CONV-D.md` | N15 | Instructions observatoire résultats | **CONV-D** (Claude) | — |
+### Scripts
+
+| Script | Rôle | Notes |
+|---|---|---|
+| `mepa_runner_v3_v7.py` | Simulation ODE (LSODA) + précheck α + stress-tests N1/N2 + non-régression T1-T5 vs Euler | v3.0.0 |
+| `mepa_runner_v2_gamma.py` | Runner V6.2 (Euler dt=1) — conservé pour non-régression et corpus non migré | v2.1.1 |
+| `mepa_dev1_advisory_v7.py` | Module advisory diagnostique — plafond redistributif dérivé de l'EROI (Ω ≡ I(t)) — NON CALIBRÉ, non bloquant | Dev 2 gelé |
+| `mepa_kappa_calculator.py` | CCI (ICC 3,1) et κ de Cohen inter-codeurs | v3.0 |
+| `mepa_passeport_schema.py` | Construction et validation du Passeport WP archivé | v3.0.2 |
+| `mepa_node2_audit_v7.js` | Audit conformité structurelle fiche (contrôles C1–C15, incl. C14/C15 spécifiques V7) | v3.0.0 |
+| `mepa_consistency_check.py` | Vérifie la cohérence des seuils de certification répliqués contre `mepa_constants.json` — bloquant en préflight | v1.0.0 |
+| `mepa_deploy_check.py` | Garde-fou d'intégrité de déploiement — compare le sha256 des scripts déployés à un manifeste de référence | v1.0.0 |
 
 ---
 
 ## Structure des fichiers
 
 ```
-mepa-v62/
+mepa/
 │
-├── README.md
-├── LICENSE
-├── mepa_workflow_n8n_V62.json        ← Workflow WF2 Protocole Complet (26 nœuds)
+├── prompt_projet_MEPA_V4_alpha.md           ← Prompt système LLM (moteur MEPA V7)
+├── mepa_pipeline_architecture_V62.md        ← Documentation technique pipeline (socle)
+├── INSTRUCTIONS_WORKFLOW_N8N_V7.md          ← Modifications V7 du workflow n8n
 │
 ├── scripts/
-│   ├── mepa_runner_v2_gamma.py       ← Runner ODE (v2.1.1)
-│   ├── mepa_sensitivity_n1.py        ← Analyse sensibilité N1
-│   ├── mepa_kappa_calculator.py      ← CCI / κ inter-codeurs
-│   ├── mepa_passeport_schema.py      ← Passeport WP (trace provenance_ia Claude)
-│   ├── mepa_node2_audit_v62.js       ← Audit conformité (v2.1.0 référence doc.)
-│   ├── correctif_V5_compteur_CCI.js  ← Correctif compteur CCI V5
-│   ├── mepa_pipeline_architecture_V62.md
-│   ├── prompt_projet_MEPA_V3_gamma.md ← Prompt système Claude CONV-E
-│   ├── CONV-A.md                     ← Instructions Claude — rédaction WP
-│   ├── CONV-B.md                     ← Instructions Claude — audit scientifique
-│   ├── CONV-D.md                     ← Instructions Claude — observatoire résultats
-│   ├── CONV-E.md                     ← Instructions Claude — codage MEPA Full
-│   └── mepa_whitelist_keys.json
+│   ├── mepa_runner_v3_v7.py
+│   ├── mepa_runner_v2_gamma.py
+│   ├── mepa_dev1_advisory_v7.py
+│   ├── mepa_sensitivity_n1.py
+│   ├── mepa_kappa_calculator.py
+│   ├── mepa_passeport_schema.py
+│   ├── mepa_node2_audit_v7.js
+│   ├── mepa_node2_audit_v62.js
+│   ├── mepa_consistency_check.py
+│   ├── mepa_deploy_check.py
+│   └── correctif_V5_compteur_CCI.js         ← reliquat V5, archivage prévu
 │
 ├── config/
-│   ├── mepa_constants.json           ← Source unique de vérité (v1.2.3)
+│   ├── mepa_constants.json                  ← Source unique de vérité (paramètres, seuils)
+│   ├── mepa_whitelist_keys.json
 │   ├── mepa_friction_profile.json
-│   ├── MEPA_V62_Ordre_de_Marche_1_WP-C1-1.json
-│   ├── mepa_fiches_WP-F10-1_WP-I10-1.json
-│   ├── fiche_etalon_WP-C1-1_Haiti_v62.json   ← Étalon ancre EROI min
-│   ├── fiche_etalon_WP-EXT-5_Islande_v62.json ← Étalon ancre EROI max
-│   └── WP-*.json                     ← 27 fiches WP
+│   ├── mepa_deploy_manifest.json
+│   └── v7/                                  ← Fiches V7 (6 pilotes certifiées)
 │
-├── documentation/                    ← Fichiers .docx, .odt, .md
+├── workflow_n8n/
+│   ├── mepa_workflow_n8n_V7.json
+│   ├── mepa_workflow_n8n_V7_audit_seul.json
+│   ├── mepa_workflow_n8n_V7_sequencer.json
+│   └── mepa_workflow_n8n_V62*.json          ← workflows V6.2 (référence, non migrés)
 │
-└── outputs/                          ← Générés par le pipeline
-    ├── cluster_C1/
-    │   ├── results/
-    │   └── rapports/
-    ├── passeports/
-    ├── sensitivity/
-    └── certification/
+├── WP-F*/  WP-I*/  WP-C*/  WP-T*/           ← 27 fiches, V6.2 + V7 selon migration
+│
+├── MEPA_Decision/                           ← Série des décisions de gouvernance (CV-series)
+│   ├── MEPA_Decision_V7_D1_rev4.md
+│   ├── MEPA_Certification_V7_gamma_rev2.md
+│   ├── MEPA_Decision_CV14_Gel_Dev2.md
+│   ├── MEPA_Decision_CV15_Sequencement_Post_V7.md
+│   └── ...
+│
+├── Docs/
+│   ├── MEPA_cadre_theorique_V7_alpha_rev2_1.docx
+│   ├── MEPA_cadre_theorique_V6_2.docx
+│   ├── MEPA_Addendum_Theorique_V6_2.docx
+│   └── ...
+│
+└── Conversations/
+    ├── CONV-A.md   (rédaction rapport)
+    ├── CONV-B.md   (audit inter-codeurs, Temps 1 et 2)
+    ├── CONV-E.md   (codage MEPA Full)
+    └── CONV-D.md   (synthèse cumulative de cluster)
 ```
 
 ---
@@ -331,59 +317,45 @@ mepa-v62/
 
 ### Prérequis
 
-```
+```bash
 Python >= 3.9
 Node.js >= 18
-n8n (self-hosted — testé sur Raspberry Pi 5 / CasaOS / Docker)
-Compte API Anthropic (Claude — pour CONV-A, CONV-B, CONV-E)
+n8n (self-hosted ou cloud)
 ```
 
 ### Dépendances Python
 
 ```bash
-pip install numpy scipy --break-system-packages
+pip install numpy scipy
 ```
 
-### Variables d'environnement n8n (obligatoires)
+### Lancer une simulation V7
 
 ```bash
-ANTHROPIC_API_KEY=sk-ant-...      # Clé API Claude (Anthropic) — CONV-A, CONV-B, CONV-E
-MEPA_SCRIPTS_DIR=/data/mepa/scripts
-MEPA_OUTPUT_DIR=/data/mepa/outputs
-MEPA_FICHE_PATH=/data/mepa/config/WP-C1-1_Haiti_v62.json
+python mepa_runner_v3_v7.py WP-C2-1_Egypte2011_v7.json
 ```
 
-### Lancer une simulation directe
+### Lancer une simulation V6.2 (référence / non-régression)
 
 ```bash
-python3 scripts/mepa_runner_v2_gamma.py config/WP-C2-1_Egypte2011_v62.json
+python mepa_runner_v2_gamma.py WP-C2-1_Egypte2011_v62.json
 ```
 
-### Lancer l'analyse de sensibilité N1
+### Calculer le CCI / κ inter-codeurs
 
 ```bash
-python3 scripts/mepa_sensitivity_n1.py config/WP-C2-1_Egypte2011_v62.json /tmp/n1_result.json
+python mepa_kappa_calculator.py fiche_CONV-E.json fiche_CONV-B.json
 ```
 
-### Calculer le CCI inter-codeurs
+### Vérifier la cohérence des seuils de certification
 
 ```bash
-python3 scripts/mepa_kappa_calculator.py fiche_CONV-E.json fiche_CONV-B.json cci_result.json
+python mepa_consistency_check.py
 ```
 
 ### Pipeline complet via n8n
 
-Importer `mepa_workflow_n8n_V62.json` dans votre instance n8n, configurer les variables d'environnement (dont `ANTHROPIC_API_KEY`), puis déclencher manuellement en pointant `MEPA_FICHE_PATH` vers la fiche WP souhaitée.
-
-**Ordre de traitement recommandé (Stratification V6.2) :**
-
-```
-Phase 1 — LOI PHYSIQUE (3 passes)    : WP-C1-1 Haïti, WP-C4-1 Liban
-Phase 2 — Fondateurs calibration     : WP-I10-1 Rwanda, WP-F1-1 Rome IIIe, WP-F2-1 Rome tardive
-Phase 3 — Cœur de modèle (11 WP)
-Phase 4 — Zone de stress (10 WP)
-  ⚠ WP-I3-1, WP-I4-1, WP-I9-1 : Sa=7 → vérifier p6×1.5 dans audit_log
-```
+Importer `mepa_workflow_n8n_V7.json` dans votre instance n8n, puis déclencher le workflow avec une fiche WP V7 en entrée. Pour ré-auditer un rapport révisé sans relancer toute la chaîne, utiliser `mepa_workflow_n8n_V7_audit_seul.json`.
 
 ---
 
@@ -393,91 +365,107 @@ Phase 4 — Zone de stress (10 WP)
 {
   "wp_id": "WP-C2-1",
   "cas": "Égypte 2011",
-  "periode": "2010-2014",
   "cluster": "C2",
   "trajectoire_attendue": "(b) Répression réussie",
   "sa": 6,
-  "sa_p6_modulation": false,
+  "fiche_v7": true,
+  "y0": [1.2, 0.28, 0.1, 3],
+  "cmd_base": {
+    "T": 0.9, "Mob": 0.2, "R": 0.25, "Ref": 0.1,
+    "Rc": 0.62, "Rn": 0.35, "E": 0.65,
+    "gamma": 0.48,
+    "EROI": 3.75, "Pop": 1.0
+  },
+  "variables_v7": {
+    "m_r": 1, "mu_m": 0.5, "phi": 0.55,
+    "psi_noyau": 0.03, "psi_cible": null, "gamma_local": 0.75
+  },
   "t_max": 300,
   "theta_C": 0.30,
-  "theta_I": 0.22,
-  "conditions_initiales": { "S0": 1.1, "L0": 0.4, "C0": 0.10, "I0": 6.0 },
-  "commandes": {
-    "T": 0.9, "Mob": 0.6, "R": 2.5, "Ref": 0.10,
-    "Rc": 0.5, "Rn": 0.2, "E": 0.7,
-    "gamma": 0.55,
-    "EROI": 4.0, "Pop": 1.0
-  }
+  "theta_I": 0.22
 }
 ```
 
-> ⚠️ La clé `gamma` est la seule forme acceptée. Les clés `g` ou `Gamma` sont rejetées par C4 du Nœud 2.
->
-> ⚠️ Pour Cluster C1 (EROI dynamique), `cmd_linear.EROI: { start, end }` est obligatoire (contrôle C11).
+> ⚠️ La clé `gamma` est la seule forme acceptée pour γ. Les clés `g` ou `Gamma` sont rejetées par l'audit de conformité. `psi_cible: null` requiert une justification positive explicite dans le codage (règle E3 rev. 2.1).
 
 ---
 
 ## Trajectoires diagnostiquées
 
-**9 labels D4 officiels** (source : `mepa_constants.json` v1.2.3) :
+Dix trajectoires possibles, dont une nouvelle en V7 :
 
-| Label complet | Code | Condition principale | Produit par l'arbre auto |
-|---|---|---|---|
-| `(a) Rupture transformatrice` | (a) | F≥R, ΔC_rel > θ_C, dC/dt > 0 à t_b | ✓ |
-| `(b) Répression réussie` | (b) | F < R sur tout t_max, Rc+Rn > 0.6 | ✓ |
-| `(c) Stase / ambigu` | (c) | Bascule sans dominance nette | ✓ |
-| `(d) Effondrement progressif` | (d) | ΔI_rel > θ_I ET ΔC_rel < θ_C | ✓ |
-| `(d) Dissolution` | (d) var. | F≥R, Ref>0.35, Rc+Rn<0.35 | ✗ — LOI PHYSIQUE |
-| `(e) Réforme institutionnelle` | (e) | Bascule avec Ref>0.35 et Rc+Rn<0.35 | ✓ |
-| `(h) Stabilité` | (h) | F < R, répression faible | ✓ |
-| `(h)/(e) Stabilité ou réforme lente` | (h)/(e) | F < R sur tout t_max, Rc+Rn ≤ 0.6 | ✓ |
-| `(γ) Transformation forcée` | (γ) | Cas extrêmes (WP-I5-1 Espagne, WP-T1-1 Sécession) | ✗ — `trajectoire_forcee` |
+| Label | Code | Condition principale |
+|---|---|---|
+| Rupture transformatrice | `(a)` | F≥R, ΔC_rel élevé, dC/dt>0 à t_b |
+| **Cristallisation sacrificielle d'État** | **`(α)`** | **V7 — précheck C1-C4 satisfait, rampe mod_mimétique activée** |
+| Répression réussie | `(b)` | F<R sur tout t_max, Rc+Rn>0.6 |
+| Stase / ambigu | `(c)` | Bascule sans dominance nette |
+| Effondrement progressif | `(d)` | ΔI_rel élevé, ΔC_rel faible |
+| Réforme institutionnelle | `(e)` | Bascule avec Ref>0.35, Rc+Rn<0.35 |
+| Stabilité | `(h)` | F<R, répression faible |
+| Stabilité ou réforme lente | `(h)/(e)` | Sortie runner si F<R sur tout t_max |
+| Transformation forcée | `(γ)` | Cas extrêmes à override documenté |
+| Dissolution | `(d)` var. | Variante effondrement (Manuel Gouvernance Annexe A) |
+
+Chaque passeport porte une **annotation de branche** (`branche_annotation`) : `EXPLICATIVE` (le mécanisme identifié rend compte de la trajectoire) ou `CATCHALL` (trajectoire par défaut du modèle V6.2, hors mécanisme V7 spécifique).
 
 ---
 
-## Contrôle qualité
+## Contrôle qualité et gouvernance
 
 ### Seuils de validation inter-codeurs
 
 | Métrique | Certifié | Révision | Rejet |
 |---|---|---|---|
-| CCI par variable (continues) | ≥ 0.70 | 0.50–0.69 | < 0.50 |
+| CCI (variables continues) | ≥ 0.70 | 0.50–0.69 | < 0.50 |
 | κ de Cohen (Sa catégorielle) | ≥ 0.70 | 0.50–0.69 | < 0.50 |
-| CCI global agrégé | ≥ 0.75 | 0.55–0.74 | < 0.55 |
+| **cci_global (gate de certification)** | **≥ 0.75** | **0.55–0.74** | **< 0.55** |
 
-### Critères de certification WP (Nœud 14)
+Le gate de certification est **`cci_global` seul**. `kappa_sa` et `kappa_m_r` sont des champs de traçabilité de l'accord inter-codeurs archivés dans le passeport — jamais des critères bloquants.
 
-Un WP est classé `WP_CERTIFIÉ` si et seulement si :
+### Garde-fous de fiabilité (issus de l'audit technique post-certification V7.0)
 
-- CCI global ≥ 0.75
-- Robustesse N1 = ROBUSTE ou MÉTASTABLE
-- Concordance trajectoire = OUI
-- CONV-B (Claude) verdict = CERTIFIÉ
+- **Sauvegarde du registre scientifique** : chaque passeport certifié doit exister simultanément sur au moins deux supports indépendants, sans fenêtre où il n'existe qu'à un seul endroit.
+- **Intégrité de déploiement** : `mepa_deploy_check.py` compare le sha256 des scripts en production à un manifeste de référence versionné — bloque tout run si un script diverge silencieusement de sa version committée.
+- **Cohérence des seuils** : `mepa_consistency_check.py` vérifie que les seuils de certification (répliqués dans plusieurs scripts pour robustesse) restent identiques à la source unique de vérité `mepa_constants.json`.
+- **Traçabilité de la résolution inter-codeurs** : chaque passeport archive, par variable, la valeur CONV-E, la valeur CONV-B, l'action de résolution appliquée et la valeur finale retenue — condition requise avant l'extension aux 21 WP restants.
+- **Gel des entrées résolues à la certification** : une fois un WP certifié, ses entrées numériques résolues (`y0`, `cmd_base`) sont figées comme partie intégrante de l'artefact certifié. Tout re-run ultérieur réutilise cette configuration gelée plutôt que de repasser par un nouveau tirage d'audit inter-codeurs — condition de reproductibilité stricte du corpus.
 
-Sinon : `WP_EXPLORATOIRE` (résultats disponibles mais non certifiables sans révision).
+### Protocole anti-rationalisation (V7-C3)
+
+Pour tout WP dont la trajectoire diagnostiquée diverge de la trajectoire attendue dans le cluster pilote, le rapport doit contenir deux sections obligatoires :
+- **Anomalie documentée** — énoncé neutre de la divergence, signature numérique brute, sans interprétation justificative.
+- **Hypothèse théorique sous contrainte** — hypothèse falsifiable sur un cas futur distinct, avec critères d'acceptation et de réfutation explicites, disclaimer anti-rationalisation.
 
 ---
 
-## Feuille de route V7
+## Feuille de route
 
-- [ ] Intégration Dev 1 — chaîne biophysique EROI→S\*→A_d_max (en advisory depuis V6.3)
-- [ ] Intégration Dev 2 — dette D(t) comme variable d'état (découplage temporaire surplus)
-- [ ] Intégration Dev 3 — technologie T(t) comme modificateur endogène de l'EROI
-- [ ] Implémentation θ_C adaptatif (0.15 si C0 ≥ 0.4)
-- [ ] Nouveaux WP : Portugal 1974, New Deal 1933, Espagne démocratique 2010
-- [ ] Calibration bayésienne complète post-27 WP (après Cluster C1 complet)
-- [ ] Résolution mapping Cs → Mob (chantier C0 — variable intermédiaire dédiée)
-- [ ] Extension cluster C6 (réservé)
-- [ ] Analyse d'identifiabilité structurelle (Annexe Addendum Théorique)
+### Court terme
+- [ ] Extension du pipeline aux 21 WP restants du corpus (gatée sur le chantier V7.1, voir ci-dessous)
+- [ ] Création de WP-I11-1 (Grande Terreur soviétique 1937-1938) — troisième cas de calibration positive (α)
+- [ ] V7.1 — score continu d'activation sacrificielle (remplace le seuil binaire du précheck C2)
+
+### Moyen terme
+- [ ] Réintégration du mécanisme de dette institutionnelle (Dev 2 — actuellement gelé, réactivation conditionnée à la certification V7.0)
+- [ ] Calibration bayésienne complète post-27 WP
+- [ ] Plancher de complexité I_min dynamique
+
+### Suivi théorique ouvert
+- [ ] Limite documentée sur WP-I4-1 (Allemagne nazie) : le critère de masse critique du noyau (Ψ_noyau formel) exclut les mécanismes de mobilisation par adhésion tacite de masse — piste de révision en V7.1/V8
 
 ---
 
 ## Références
 
-- Turchin, P. et al. (2015). *Seshat Global History Databank* — méthodologie de codage.
+- Turchin, P. — Cliodynamique et régularités mathématiques dans l'histoire longue.
+- Tainter, J. (1988). *The Collapse of Complex Societies* — mécanique de la surcharge de complexité.
+- Todd, E. — Typologies anthropologiques familiales (Sa ∈ {2, 4, 6, 7}) et stades de la matrice religieuse (M_r ∈ {1, 2, 3}).
+- Girard, R. (1972). *La Violence et le Sacré* — mécanisme mimétique et bouc émissaire (base de l'extension V7).
+- Chenoweth, E. — seuil empirique de mobilisation active (~3,5 % de population), utilisé comme point d'ancrage (non causal) pour la calibration du seuil sacrificiel.
 - Shrout & Fleiss (1979). Intraclass correlations: uses in assessing rater reliability. *Psychological Bulletin* 86(2).
 - McGraw & Wong (1996). Forming inferences about some intraclass correlation coefficients. *Psychological Methods* 1(1).
-- Todd, E. — Typologies anthropologiques familiales (Sa ∈ {2, 4, 6, 7}).
+- Gellately, R. (2001) ; Mallmann & Paul (1994) — répression non-étatique auto-entretenue (délation volontaire).
 - BP Statistical Review / Our World in Data — données EROI.
 - V-DEM, Freedom House, Polity V — indicateurs E_split / Cs.
 - IMF / World Bank — A_d_eff (dette/PIB, inflation, GFCF).
@@ -489,26 +477,11 @@ Sinon : `WP_EXPLORATOIRE` (résultats disponibles mais non certifiables sans ré
 Ce projet est distribué sous **double licence** :
 
 - **Documentation, fiches WP et cadre théorique** (fichiers `.md`, `.docx`, `.odt`, `.json` de codage)
-→ [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) — Attribution obligatoire, pas de version modifiée redistribuable.
+  → [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/) — Attribution obligatoire, pas de version modifiée redistribuable.
 
-- **Scripts de simulation et d'audit** (`mepa_runner_v2_gamma.py`, `mepa_sensitivity_n1.py`, `mepa_kappa_calculator.py`, `mepa_passeport_schema.py`, `mepa_node2_audit_v62.js`, `correctif_V5_compteur_CCI.js`)
-→ [MIT License](https://opensource.org/licenses/MIT) — Libre utilisation, modification et redistribution avec attribution.
+- **Scripts de simulation et d'audit** (`mepa_runner_v3_v7.py`, `mepa_runner_v2_gamma.py`, `mepa_dev1_advisory_v7.py`, `mepa_sensitivity_n1.py`, `mepa_kappa_calculator.py`, `mepa_passeport_schema.py`, `mepa_node2_audit_v7.js`, `mepa_node2_audit_v62.js`, `mepa_consistency_check.py`, `mepa_deploy_check.py`)
+  → [MIT License](https://opensource.org/licenses/MIT) — Libre utilisation, modification et redistribution avec attribution.
 
 © 2026 — [toto-blanco](https://github.com/toto-blanco)
 
-*MEPA V6.2 — Mars 2026*
-
----
-
-## 🤖 Collaboration avec Claude (Anthropic)
-
-Ce projet a été développé en collaboration active avec **Claude Sonnet** et **Claude Opus** (Anthropic).
-
-**Ce que Claude a fait :**
-La rédaction du code a été intégralement déléguée à Claude : scripts Python du pipeline de simulation (`mepa_runner_v2_gamma.py`, `mepa_kappa_calculator.py`, `mepa_sensitivity_n1.py`, `mepa_passeport_schema.py`), nœuds JavaScript des 26 étapes du workflow n8n (`mepa_node2_audit_v62.js`, correctifs A1–A6), et débogage itératif en conditions réelles (race conditions, correctifs architecture, gestion des edge cases statistiques).
-
-**Ce que j'ai fait :**
-La conception de l'architecture complète — séparation des rôles entre agents (CONV-E codeur historique, CONV-A rédacteur à T=0, CONV-B auditeur, CONV-D observatoire), protocole de double aveugle inter-codeurs (CCI / κ de Cohen), checklist C1–C13 de validation des données, checklist C1–C5 de détection du narrative smoothing, système de certification WP_CERTIFIÉ / WP_EXPLORATOIRE. Les 27 cas historiques du corpus, les hypothèses théoriques du modèle (équations F/R, 13 paramètres dynamiques), et la validation de chaque output produit par le pipeline.
-
-**Pourquoi cette transparence ?**
-L'IA agentique est un outil de production — pas un substitut à la conception. Architecturer un système multi-agents avec des contraintes méthodologiques explicites, déléguer l'implémentation, auditer les résultats : c'est la posture d'un chef de projet IA, pas d'un développeur.
+*MEPA V7 — Juin 2026*
