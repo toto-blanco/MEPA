@@ -1,5 +1,6 @@
 # Sorties de simulation (générées par le pipeline)
-outputs/
+outputs/*
+!outputs/mesures/
 
 # Staging déploiement
 prod/

@@ -1,0 +1,458 @@
+{
+  "meta": {
+    "wp_id": "WP-I10-1",
+    "cas": "Rwanda — Génocide et reconstruction 1990-2010",
+    "cluster": "C1",
+    "trajectoire_attendue": "(α) Cristallisation sacrificielle d'État",
+    "sa": 6,
+    "sa_modulator": "p6 nominal (Sa=6)",
+    "cmd_type": "linear_dynamic",
+    "integration": "LSODA (scipy solve_ivp rtol=1e-6 atol=1e-9)",
+    "nomenclature": "V7-alpha-rev2.1-gamma (cmd[\"gamma\"] = γ)",
+    "runner_version": "mepa_runner_v3_v7_v3.0.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "fiche_v7": true,
+    "generated_at": "2026-09-30T18:51:26.324392+00:00",
+    "nc_bloquantes": [],
+    "nc_non_bloquantes": [],
+    "statut_nc": "OK",
+    "theta_C_effectif": 0.3,
+    "theta_I_effectif": 0.22,
+    "y0_normalise": [
+      1.5,
+      0.12,
+      0.1,
+      1.5
+    ],
+    "variables_v7": {
+      "m_r": {
+        "valeur": 1,
+        "source_id": "Todd 1990 (S4) ; Longman 2010 (S8)",
+        "justification": "Rwanda 1994 = Stade 1 (religion active). M_r mesure le rôle structural de la matrice religieuse : au Rwanda, le christianisme (~90 % de la population, catholiques et protestants) structure encore les institutions civiles, l'école et la morale publique en 1994. Longman 2010 documente l'imbrication des Églises dans l'appareil social — au point de leur complicité organisationnelle dans le génocide. M_r ∈ {1,2} requis pour C1 : satisfait."
+      },
+      "mu_m": {
+        "valeur": 0.85,
+        "source_id": "Prunier 1995 (S1) ; Chrétien 1995 (S9)",
+        "justification": "μ_m = 0.85, bande [0.80–1.00] : polarisation mimétique maximale avec désignation d'un ennemi démographique. Le discours public (RTLM, Kangura) désigne ouvertement les Tutsis comme « inyenzi » (cafards) à éliminer ; Chrétien 1995 documente l'appel systématique à la purge dans les médias contrôlés. Valeur pré-enregistrée μ_m_max_programme (ancre corpus V7). μ_m > μ_m* = 0.60 requis pour C1 : satisfait. (Ne pas confondre avec le paramètre dynamique μ ≈ 0.38.)"
+      },
+      "phi": {
+        "valeur": 0.15,
+        "source_id": "Chrétien 1995 (S9) ; ancre corpus V7 (Φ_min_programme)",
+        "justification": "Φ = 0.15, bande [0.00–0.20] : monopole symbolique quasi-complet du noyau Hutu Power. RTLM et Kangura saturent l'espace médiatique intérieur ; la seule voix concurrente (Radio Muhabura) est une radio d'opposition EXTERNE émise depuis les zones FPR, pas un pluralisme intérieur toléré. Valeur pré-enregistrée Φ_min_programme (ancre corpus V7). Φ bas = mécanisme sacrificiel facilité, σ(Φ) faible. Correction QG actée : l'exemple Rwanda de la grille Φ de CONV-E.md (anciennement bande [0.20–0.40]) est reclassé en [0.00–0.20], distinction radio d'opposition externe vs pluralisme intérieur."
+      },
+      "psi_noyau": {
+        "valeur": 0.05,
+        "source_id": "Straus 2006 (S2) ; Des Forges 1999 (S10)",
+        "justification": "Ψ_noyau = 0.05, bande [0.01–0.05] : engagement actif soutenu de l'appareil génocidaire mobilisé (Interahamwe entraînés + cadres MRND/CDR + administrateurs et auxiliaires organisant les tueries). Codage élargi pré-enregistré (Ψ_noyau_max_programme = 0.05, lecture Straus 2006). Le noyau d'auteurs effectifs estimé par Straus (~175 000–200 000) rapporté à ~7 M d'habitants donne ~0.025–0.03 ; l'élargissement à l'ensemble de l'appareil mobilisé (encadrement, miliciens auxiliaires) atteint le plafond programme 0.05. Sont exclus du comptage les votants, sympathisants passifs et populations contraintes. Valeur au plafond corpus : à surveiller en audit κ."
+      },
+      "psi_cible": {
+        "valeur": 0.15,
+        "source_id": "Recensement colonial ; Prunier 1995 (S1) ; Des Forges 1999 (S10)",
+        "justification": "Ψ_cible = 0.15 : les Tutsis sont désignés PUBLIQUEMENT par le noyau Hutu Power comme cible démographique unique du mécanisme sacrificiel — désignation ethnique (critère d'appartenance, pas adversaire politique conjoncturel), publique (RTLM, Kangura) et dominante. Proportion ≈ 14–18 % de la population (recensement colonial), codée 0.15. Valeur non-null : condition C3 de la branche (α) satisfaite. Cohérent avec μ_m = 0.85 (la règle de cohérence impose Ψ_cible non-null si μ_m > 0.80)."
+      },
+      "gamma_local": {
+        "valeur": 0.55,
+        "source_id": "Prunier 1995 (S1) ; Straus 2006 (S2) ; Des Forges 1999 (S10)",
+        "justification": "γ_local = 0.55, bande [0.40–0.60] : organisation structurée du seul noyau Hutu Power (MRND + CDR + Interahamwe), avec doctrine commune du « travail » (euphémisme génocidaire), entraînement militaire des miliciens, hiérarchie fonctionnelle et coordination opérationnelle avec l'armée régulière (FAR). γ_local mesure la discipline du noyau, distincte de γ (V6.2, cohésion de l'élite globale, fragmentée ≈ 0.35 entre Akazu, opposition et modérés). Les deux valeurs divergent volontairement — cas canonique du protocole V7."
+      }
+    }
+  },
+  "simulation": {
+    "traj": "(α) Cristallisation sacrificielle d'État",
+    "branche_annotation": "EXPLICATIVE",
+    "t_bascule": 7,
+    "dC_rel": 0.6003,
+    "dI_rel": 0.0465,
+    "dCdt_bascule": 0.097557,
+    "FR_bascule": 1.061,
+    "F_bascule": 1.3032,
+    "R_bascule": 1.2282,
+    "FR_max": 1.7601,
+    "FR_final": 1.1723,
+    "I_min_sim": 1.0,
+    "I_final": 1.0,
+    "C_max": 1.6587,
+    "C_final": 0.9568,
+    "S_final": 1.1083,
+    "L_final": 0.4347,
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "tableau_S2": [
+      {
+        "t": 0,
+        "S": 1.5,
+        "L": 0.12,
+        "C": 0.1,
+        "I": 1.5,
+        "F": 0.2012,
+        "R": 1.2736,
+        "FR": 0.158,
+        "note": ""
+      },
+      {
+        "t": 7,
+        "S": 1.3657,
+        "L": 0.5427,
+        "C": 0.8455,
+        "I": 1.3285,
+        "F": 1.3032,
+        "R": 1.2282,
+        "FR": 1.061,
+        "note": "← bascule"
+      },
+      {
+        "t": 25,
+        "S": 1.1957,
+        "L": 0.4711,
+        "C": 0.9228,
+        "I": 1.1116,
+        "F": 1.3201,
+        "R": 1.1648,
+        "FR": 1.1334,
+        "note": ""
+      },
+      {
+        "t": 50,
+        "S": 1.1278,
+        "L": 0.443,
+        "C": 0.841,
+        "I": 1.0249,
+        "F": 1.2147,
+        "R": 1.1371,
+        "FR": 1.0682,
+        "note": ""
+      },
+      {
+        "t": 75,
+        "S": 1.1127,
+        "L": 0.4366,
+        "C": 0.9453,
+        "I": 1.0056,
+        "F": 1.3135,
+        "R": 1.1307,
+        "FR": 1.1616,
+        "note": ""
+      },
+      {
+        "t": 100,
+        "S": 1.1093,
+        "L": 0.4351,
+        "C": 0.9576,
+        "I": 1.0012,
+        "F": 1.3246,
+        "R": 1.1293,
+        "FR": 1.173,
+        "note": ""
+      },
+      {
+        "t": 150,
+        "S": 1.1084,
+        "L": 0.4347,
+        "C": 0.9569,
+        "I": 1.0001,
+        "F": 1.3235,
+        "R": 1.1289,
+        "FR": 1.1724,
+        "note": ""
+      },
+      {
+        "t": 200,
+        "S": 1.1083,
+        "L": 0.4347,
+        "C": 0.9568,
+        "I": 1.0,
+        "F": 1.3234,
+        "R": 1.1289,
+        "FR": 1.1723,
+        "note": ""
+      },
+      {
+        "t": 250,
+        "S": 1.1083,
+        "L": 0.4347,
+        "C": 0.9568,
+        "I": 1.0,
+        "F": 1.3234,
+        "R": 1.1289,
+        "FR": 1.1723,
+        "note": ""
+      },
+      {
+        "t": 300,
+        "S": 1.1083,
+        "L": 0.4347,
+        "C": 0.9568,
+        "I": 1.0,
+        "F": 1.3234,
+        "R": 1.1289,
+        "FR": 1.1723,
+        "note": ""
+      },
+      {
+        "t": 350,
+        "S": 1.1083,
+        "L": 0.4347,
+        "C": 0.9568,
+        "I": 1.0,
+        "F": 1.3234,
+        "R": 1.1289,
+        "FR": 1.1723,
+        "note": ""
+      },
+      {
+        "t": 400,
+        "S": 1.1083,
+        "L": 0.4347,
+        "C": 0.9568,
+        "I": 1.0,
+        "F": 1.3234,
+        "R": 1.1289,
+        "FR": 1.1723,
+        "note": ""
+      }
+    ],
+    "v7_alpha_diagnostic": {
+      "alpha_confirmed": true,
+      "C5_C_max": 1.6587,
+      "C5_threshold": 0.3
+    },
+    "rampe_mod_mimetique_active": true,
+    "chute_C_metric": 0.4232,
+    "chute_I_metric": 0.3333,
+    "integrator": "LSODA"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.4463,
+      "dI_rel": 0.0445
+    },
+    "pessimiste": {
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.8563,
+      "dI_rel": 0.0485
+    }
+  },
+  "stress_n2": [
+    {
+      "label": "E+0.1",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.4194,
+      "dI_rel": 0.0319
+    },
+    {
+      "label": "E-0.1",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.5943,
+      "dI_rel": 0.0465
+    },
+    {
+      "label": "R+0.08",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.5921,
+      "dI_rel": 0.0465
+    },
+    {
+      "label": "R-0.08",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.4208,
+      "dI_rel": 0.0319
+    },
+    {
+      "label": "EROI+0.5",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.6003,
+      "dI_rel": 0.0465
+    },
+    {
+      "label": "EROI-0.5",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.6003,
+      "dI_rel": 0.0465
+    },
+    {
+      "label": "Rc+0.1",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.5997,
+      "dI_rel": 0.0465
+    },
+    {
+      "label": "Rc-0.1",
+      "traj": "(α) Cristallisation sacrificielle d'État",
+      "dC_rel": 0.601,
+      "dI_rel": 0.0465
+    }
+  ],
+  "verdict": {
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(α) Cristallisation sacrificielle d'État",
+    "branche_annotation": "EXPLICATIVE",
+    "concordance_attendue": true,
+    "trajs_set_n1": [
+      "(α) Cristallisation sacrificielle d'État"
+    ]
+  },
+  "v7_alpha": {
+    "precheck": {
+      "c1": true,
+      "c2": true,
+      "c3": true,
+      "c4": true,
+      "all_satisfied": true,
+      "a_r_c_eff": 0.9,
+      "sigma_phi": 0.02259,
+      "produit_c2": 0.0275,
+      "details": {
+        "c1": "M_r=1 in {1,2}: True, mu_m=0.85 > 0.6: True",
+        "c2": "psi_noyau=0.05 × gamma_local=0.55 = 0.027500 > sigma(phi=0.15) = 0.022590: True",
+        "c3": "psi_cible=0.15, non-null: True",
+        "c4": "A_r_c=0.9, A_r_ne=0.1, A_r_c_eff=0.9000 > 0.7: True"
+      }
+    },
+    "rampe_active": true,
+    "a_r_c_eff_calc": 0.9
+  },
+  "non_regression_t1_t5": {
+    "wp_id": "WP-I10-1",
+    "T1_t_bascule": {
+      "lsoda": 7,
+      "euler": 8,
+      "pass": true
+    },
+    "T2_C_max": {
+      "lsoda": 1.6587,
+      "euler": 1.0455,
+      "pass": false
+    },
+    "T3_chute_I": {
+      "lsoda": 0.3333,
+      "euler": 0.3333,
+      "pass": true
+    },
+    "T4_FR_max": {
+      "lsoda": 1.7601,
+      "euler": 1.2387,
+      "pass": false
+    },
+    "T5_traj": {
+      "lsoda": "(α) Cristallisation sacrificielle d'État",
+      "euler": "(a) Rupture transformatrice",
+      "pass": false
+    },
+    "all_pass": false
+  },
+  "advisory_dev1": {
+    "$advisory": true,
+    "statut": "ADVISORY_DEV1_NONCALIBRE",
+    "module_version": "mepa_dev1_advisory_v7 v1.0.0",
+    "disclaimer": "VALEUR INDICATIVE — paramètres NON CALIBRÉS (c_Ω, θ, S*_ref advisory). Ne pas utiliser pour inférence, codage ou décision de trajectoire. Diagnostic Dev 1 V6.3 — précurseur de la dette Dev 2 (V7).",
+    "omega_mode": "I",
+    "i_t0_utilise": 1.5,
+    "i_tmax_utilise": 1.0,
+    "R_code_A_d_eff": 0.15,
+    "a_d_max_advisory_flag": false,
+    "ecart_R_code_moins_a_d_max": -4.562065,
+    "interpretation_flag": "R_codé ≤ A_d_max dérivé : pas d'écart advisory détecté au pas initial.",
+    "calcul_t0": {
+      "EROI_utilise": 3.0,
+      "net_energy_fraction": 0.666667,
+      "Y_proxy": 0.666667,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 1.5,
+      "C_maintenance": 0.138297,
+      "S_etoile_NONCALIBRE": 0.42837,
+      "eta_D_proxy_gamma": 0.55,
+      "a_d_max_normalise": 0.471206,
+      "a_d_max_advisory_NONCALIBRE": 4.712065
+    },
+    "calcul_tmax": {
+      "EROI_utilise": 3.0,
+      "net_energy_fraction": 0.666667,
+      "Y_proxy": 0.666667,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 1.0,
+      "C_maintenance": 0.08,
+      "S_etoile_NONCALIBRE": 0.486667,
+      "eta_D_proxy_gamma": 0.55,
+      "a_d_max_normalise": 0.535333,
+      "a_d_max_advisory_NONCALIBRE": 5.353333
+    },
+    "params_utilises_NONCALIBRE": {
+      "C_OMEGA": 0.08,
+      "THETA": 1.35,
+      "C_SUB": 0.1,
+      "SA_REF": 4.0,
+      "S_REF": 0.5,
+      "ECHELLE_A_D": 10.0
+    },
+    "mapping_note": "R_codé = cmd.R (A_d_eff mappé sur cmd.R en C9b). La commensurabilité R_codé ↔ A_d_max dérivé est elle-même un choix advisory provisoire (cf. CV9). Échelle alignée sur [0,10].",
+    "regime_S_etoile": null
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.2,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.72,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "$note": "Paramètres de calibration spécifiques WP-I10-1 Rwanda. Surchargent les P_DEFAULTS du Node 2 pour capturer la dynamique génocidaire non-standard (deux phases Phase 1 t<100 / Phase 2 t>100). Seuls les paramètres qui dévient des P_DEFAULTS sont listés ici — tous les autres restent aux valeurs génériques du Node 2.",
+    "p5_note": "Flux C ← L (mobilisation collective → capital institutionnel). P_DEFAULT=0.05 insuffisant pour capturer l'intensité de la cohésion génocidaire Interahamwe (Phase 1). Valeur 0.20 = 4× le défaut, justifiée par l'organisation paramilitaire documentée (Prunier 1995, S1 ; Des Forges HRW 1999, S2). Dans plage corpus [0.01, 0.80] — mepa_constants.json.",
+    "lam_note": "Poids λ de L dans F(t) = C + λ·L·(1 + μ·γ·E). P_DEFAULT=0.68. Valeur 0.72 = borne haute de la plage autorisée [0.60, 0.75] — prompt V3-gamma Partie 2 §3. Justifiée par la loyauté exceptionnelle des FAR et milices Interahamwe comme amplificateur de force dans Phase 1 (refus total de négociation, exécution systématique). Dans plage corpus admissible.",
+    "$validation": {
+      "trajectoire_produite": "(a) Rupture transformatrice",
+      "tb": 8,
+      "dC_rel": 0.599,
+      "dI_rel": 0.0616,
+      "FR_max": 1.2765,
+      "robustesse_N1": "ROBUSTE",
+      "trajs_N1": [
+        "(a) Rupture transformatrice",
+        "(a) Rupture transformatrice",
+        "(a) Rupture transformatrice"
+      ],
+      "date_calibration": "2026-03-16",
+      "autorite": "Architecte Système MEPA V6.2 — audit production WP-I10-1"
+    },
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "cmd_base": {
+    "T": 1,
+    "Mob": 0.05,
+    "R": 0.15,
+    "Ref": 0.1,
+    "Rc": 0.9,
+    "Rn": 0.1,
+    "E": 0.82,
+    "gamma": 0.55,
+    "EROI": 3,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "EROI statique dans cluster C1 — EROI_start=EROI_end=3.0 par conformité C11.",
+    "EROI": {
+      "start": 3,
+      "end": 3
+    }
+  },
+  "y0": [
+    1.5,
+    0.12,
+    0.1,
+    1.5
+  ],
+  "t_max": 400,
+  "_warnings": []
+}
