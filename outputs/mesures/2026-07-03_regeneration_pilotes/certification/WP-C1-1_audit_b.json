@@ -1,0 +1,34 @@
+{
+  "wp_id": "WP-C1-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Conformité numérique vérifiée. FR_max = 0.8834 : valeur identique dans le texte (S2.2, S5) et le _result.json fourni. t_bascule = null : cohérent dans les deux sources. dC_rel = null et dI_rel = null : cohérents (absence de bascule, calcul impossible). Le tableau F(t)/R(t) en S2.1 est présenté comme valeurs exactes du runner. Aucune divergence numérique détectée sur les indicateurs clés."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme. Aucun 'g' isolé détecté. La variable gamma est notée γ (U+03B3) dans le texte rédactionnel (S1.2, S3.4, S5, S7.4) et 'gamma' uniquement dans les contextes JSON/JSON-like. Les labels de la fiche standardisée (S5) utilisent γ correctement. Sa = 4 est bien référencé dans la table des variables MEPA Full. Les labels D4 ne sont pas explicitement spécifiés dans le prompt mais les champs de la fiche S5 sont cohérents et complets. Pas d'anomalie nomenclature détectée."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence CONV-E vérifiée. Les valeurs citées dans le rapport (E_split=0.72, γ=0.22, A_d_eff=1.4, A_r_c=0.62, A_r_ne=0.00, Cs=0.25, L(t)=0.22, EROI=1.5, Sa=4, M_r=1, μ_m=0.30, Φ=0.65, Ψ_noyau=0.04, Ψ_cible=null, γ_local=0.15) sont utilisées de manière cohérente et uniforme dans toutes les sections S1 à S7 sans contradiction interne. CCI=null non signalé — normal selon protocole (CONV-B CCI non déclenché). Aucune anomalie de cohérence CONV-E détectée."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Pas de narrative smoothing détecté. La trajectoire simulée (d) Effondrement progressif est identique à la trajectoire attendue (d) Effondrement progressif : aucune divergence à documenter selon §4.3. Le WP ne contient donc pas d'obligation de documentation de divergence. Les explications historiques présentes en S6/S7 sont structurellement autorisées (sections S6-S7, pas S2). L'interprétation mécanistique en S2.3 et S3.3 décrit le mécanisme simulateur sans justification a posteriori problématique : elle explique la dynamique interne du modèle, pas pourquoi la simulation aurait raison malgré une divergence. Aucun narrative smoothing détecté."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Stress-tests N2 vérifiés. Les 8 combinaisons documentées en S4.2 correspondent exactement aux valeurs runner fournies : E+0.1→(d), E-0.1→(d), R+0.08→(d), R-0.08→(d), EROI+0.5→(d), EROI-0.5→(d), Rc+0.1→(d), Rc-0.1→(d). Stress N1 documenté en S4.1 : deux scénarios (optimiste, pessimiste) produisent (d), cohérent avec verdict.robustesse=ROBUSTE. Le verdict ROBUSTE en S4 est cohérent avec le résultat runner. Sensibilité N1 déclarée NON_CALCULÉ avec mention explicite que les données ne sont pas fournies par le runner — traitement transparent et non pénalisable. Aucune anomalie C5 détectée."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": []
+}

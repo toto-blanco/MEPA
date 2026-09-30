@@ -1,0 +1,10 @@
+{
+  "traj_base": "(α) Cristallisation sacrificielle d'État",
+  "optimiste": "(a) Rupture transformatrice",
+  "pessimiste": "(a) Rupture transformatrice",
+  "robustesse_n2": "FRAGILE",
+  "bifurcations": [
+    "(a) Rupture transformatrice",
+    "(a) Rupture transformatrice"
+  ]
+}

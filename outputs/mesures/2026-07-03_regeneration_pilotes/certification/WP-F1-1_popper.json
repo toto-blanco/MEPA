@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "AUCUNE",
+  "justification": "Le cas Rome - Crise du IIIe siècle est un cas historique situé approximativement entre 235 et 284 apr. J.-C., donc hors des fenêtres temporelles des prédictions falsifiables MEPA V6.2 qui sont toutes ancrées dans la période 2025-2055. De plus, les paramètres E_split et gamma ne sont pas renseignés, rendant RF2 non évaluable. RF1 requiert EROI<5 avec maintien paix sociale >15 ans, ce qui est contradictoire avec la trajectoire (d) effondrement progressif documentée historiquement. RF3 requiert complexité croissante, également incompatible avec une trajectoire d'effondrement. Le cas constitue un cas de validation historique archivé, non un cas de prédiction prospective falsifiable.",
+  "condition_observation": "Non applicable - cas historique clos. Les données empiriques romaines de la crise du IIIe siècle confirment la trajectoire (d) avec EROI estimé à 3.15, état MÉTASTABLE aux deux niveaux, sans possibilité d'observation prospective.",
+  "horizon_temporel": "0235-0284",
+  "seuil_refutation": "Non applicable",
+  "cas_test": "WP-F1-1"
+}

@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "AUCUNE",
+  "justification": "Le cas Allemagne nazie (1933-1945) est un cas historique clos antérieur à toutes les fenêtres d'observation des RF (2025-2055). RF1 requiert EROI<5 alors que l'EROI=13 ne satisfait pas ce seuil. RF2 requiert E_split>0.7 ET gamma>0.5 mais ces valeurs sont absentes/non renseignées pour ce cas. RF3 requiert une trajectoire de complexité croissante >30 ans avec EROI déclinant, incompatible avec une trajectoire (b) Répression réussie sur un régime de 12 ans (1933-1945) et un EROI=13 non déclinant documenté. Aucune condition de réfutabilité prospective ne peut être appliquée à un cas historique terminé hors fenêtre temporelle.",
+  "condition_observation": "Néant - cas historique clos, non observable dans les fenêtres prospectives 2025-2055",
+  "horizon_temporel": "N/A",
+  "seuil_refutation": "Non applicable - aucune RF dont les conditions seuils (EROI<5, E_split>0.7, gamma>0.5, fenêtre post-2025) ne sont satisfaites pour ce cas",
+  "cas_test": "WP-I4-1"
+}

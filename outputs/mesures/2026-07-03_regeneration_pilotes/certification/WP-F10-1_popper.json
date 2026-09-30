@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "AUCUNE",
+  "justification": "Le cas Commune de Paris (1871) est un événement historique clos situé hors des fenêtres temporelles définies pour RF1 (2025-2040), RF2 (fenêtre 20 ans depuis présent) et RF3 (2025-2055). La trajectoire (b) Répression réussie implique une résolution par force coercitive en 72 jours, sans maintien de paix sociale durable ni complexité croissante observable sur les horizons requis. L'EROI=7 est supérieur au seuil critique <5 requis pour RF1. Les champs E_split et gamma sont absents, rendant RF2 inapplicable faute de données. Aucune des trois prédictions falsifiables ne peut être testée sur un événement historique du XIXe siècle.",
+  "condition_observation": "Néant - cas historique clos non projetable sur les fenêtres temporelles MEPA V6.2",
+  "horizon_temporel": "1871-1871",
+  "seuil_refutation": "Inapplicable - aucune RF activable sur cet événement",
+  "cas_test": "WP-F10-1"
+}

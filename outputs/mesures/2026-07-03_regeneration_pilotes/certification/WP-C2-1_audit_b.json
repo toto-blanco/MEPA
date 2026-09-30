@@ -1,0 +1,41 @@
+{
+  "wp_id": "WP-C2-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Toutes les valeurs numériques clés correspondent exactement aux données runner : t_bascule=null (✓), dC_rel=null (✓), dI_rel=null (✓), FR_max=0.3139 (✓). Le tableau F(t)/R(t) en S2 est cohérent avec les valeurs attendues. Aucune discordance numérique détectée."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme : γ apparaît en notation JSON dans les tableaux de paramètres (p8) et le symbole γ (U+03B3) est utilisé dans le texte rédactionnel (§1.1, §3.2). Aucun 'g' isolé détecté. μ_m correctement noté. Labels D4 non applicables directement mais la nomenclature des variables V7 (M_r, μ_m, Φ, Ψ_noyau, Ψ_cible, γ_local) est cohérente et correcte dans l'ensemble du document."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Les valeurs citées dans le rapport sont cohérentes avec les variables codées MEPA Full : E_split=0.65, γ=0.48, A_d_eff=3.5, A_r_c=0.62, A_r_ne=0.35, Cs=0.18, L(t)=0.28, EROI=3.75, Sa=6. Les paramètres p1–p13 sont dérivés de manière traçable depuis les variables MEPA Full. CCI=null non évalué car alpha_precheck=FALSE — conforme à la note protocole C3 (non pénalisé). Cohérence interne entre S1, S2, S3, S5 confirmée."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Trajectoire simulée (b) = trajectoire attendue (b). Aucune divergence à documenter. La section §2.3 indique explicitement 'Concordance : OUI. Aucune divergence à documenter.' Le format §4.3 Manuel Gouvernance n'est pas requis en cas de concordance. Aucun narrative smoothing détecté — le rapport ne justifie pas a posteriori une divergence inexistante. Les explications historiques présentes (S6, S7) sont autorisées en ces sections."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Les 8 combinaisons stress N2 documentées en §4.2 correspondent exactement aux valeurs runner fournies : E+0.1→(b)✓, E-0.1→(b)✓, R+0.08→(b)✓, R-0.08→(d)✓, EROI+0.5→(b)✓, EROI-0.5→(b)✓, Rc+0.1→(b)✓, Rc-0.1→(b)✓. Les trajectoires N1 (optimiste→(b), pessimiste→(d)) sont cohérentes avec les valeurs runner. Le verdict MÉTASTABLE en §4.1 et §4.3 est cohérent avec verdict.robustesse attendu (2 scénarios sur 10 dévient). Note : 'Sensibilité N1 : NON_CALCULÉ' est une anomalie mineure de présentation mais non bloquante car les trajectoires N1 sont bien documentées."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": [
+    {
+      "code": "MINOR-C5-N1",
+      "severite": "non_bloquante",
+      "localisation": "S4 §4.2",
+      "description": "Le champ 'Sensibilité N1 : NON_CALCULÉ' est laissé vide sans valeur quantitative. Les trajectoires N1 sont correctement documentées mais l'indicateur de sensibilité numérique n'est pas calculé. Anomalie de présentation sans impact sur la validité du diagnostic."
+    }
+  ]
+}

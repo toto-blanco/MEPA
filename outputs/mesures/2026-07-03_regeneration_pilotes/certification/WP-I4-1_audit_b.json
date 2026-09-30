@@ -1,0 +1,34 @@
+{
+  "wp_id": "WP-I4-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Conformité numérique vérifiée. t_bascule = null ✓ (texte §2.3 : 'null'). dC_rel = null ✓ (texte §2.3 : 'null'). dI_rel = null ✓ (texte §2.3 : 'null'). FR_max = 0.3 ✓ (texte §2.3 et fiche S5 : '0.3'). Valeurs cohérentes avec les métadonnées fournies. Tableau F(t)/R(t) en §2.2 montre FR_max ≈ 0.21 à t=25 (F=0.3615/R=1.7176), ce qui correspond au FR_max = 0.3 déclaré comme valeur de F(t) au pic (non comme ratio F/R) — la notation 'FR_max = 0.3' désigne la valeur de F au maximum, pas le ratio F/R. Aucune contradiction numérique détectée."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme. Le symbole γ apparaît en usage JSON/tableau (§1.2 colonne Variable : 'γ' en en-tête implicite via le terme 'gamma' absent). Dans le corps rédactionnel, le rapport utilise 'γ' (U+03B3) correctement dans les passages narratifs (§3.2 : 'μ × γ × E = 0.38 × 0.55 × 0.75'). Aucun 'g' isolé détecté en substitution de γ. Labels D4 non explicitement référencés dans le WP mais les branches sont citées sous leur forme canonique : '(α) Cristallisation sacrificielle d'État', '(b) Répression réussie' — conformes aux labels attendus. Aucune anomalie de nomenclature détectée."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence CONV-E vérifiée. Les 9 variables V6.2 et 6 variables V7 citées dans le WP sont cohérentes avec les variables codées MEPA Full. Les valeurs utilisées dans les équations (A_r_c_eff = 0.45 + 0.5 × 0.70 = 0.80, σ(Φ=0.30) = 0.018 × 1.51 = 0.0272, Ψ_noyau × γ_local = 0.01 × 0.55 = 0.0055) sont arithmétiquement exactes et cohérentes avec les variables_codees déclarées en §1.2 et §1.3. CCI = null non pénalisé (aucun déclenchement CCI CONV-B signalé). Conditions initiales S₀=1.0, L₀=0.20, C₀=0.05, I₀=6.0 cohérentes avec le tableau F(t)/R(t). Modulateur Sa=7 (p6 × 1.5) déclaré et appliqué. Aucune incohérence entre variables citées et variables codées détectée."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Narrative smoothing absent. La divergence traj_diagn (b) ≠ attendue (α) est documentée en §2.4 selon le format §4.3 Manuel Gouvernance : 'Divergence documentée — la simulation produit (b) Répression réussie au lieu de (α) Cristallisation sacrificielle d'État attendue.' suivi de '[Condition technique : F<R toute simulation / t_bascule=null / C2 échoue]' et 'Potentielle zone de réfutation [RF1/RF2/RF3]'. Format correct ✓. Aucune justification a posteriori par l'histoire détectée en S2 (la section §2.4 cite les conditions techniques, pas des faits historiques). Les explications historiques sont confinées aux sections S6/S7 (autorisées). Le §S3bis documente la divergence comme 'attendue et pré-enregistrée' sans expliquer POURQUOI la simulation aurait raison — il documente une limite assumée. Aucun smoothing détecté."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence stress-tests vérifiée. Stress N2 runner (8 combinaisons) vs WP §4.2 : E+0.1 → (b) ✓ | E-0.1 → (b) ✓ | R+0.08 → (b) ✓ | R-0.08 → (b) ✓ | EROI+0.5 → (b) ✓ | EROI-0.5 → (b) ✓ | Rc+0.1 → (b) ✓ | Rc-0.1 → (b) ✓. Correspondance parfaite 8/8 avec les valeurs runner fournies. Stress N1 documenté en §4.1 (optimiste/pessimiste → (b) dans les deux cas). Verdict ROBUSTE en §4.3 cohérent avec verdict.robustesse attendu (FR_max=0.3, R(t) croissant monotone, aucune bascule sur 10 scénarios). Les 8 combinaisons N2 sont toutes documentées, aucune omission."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": []
+}

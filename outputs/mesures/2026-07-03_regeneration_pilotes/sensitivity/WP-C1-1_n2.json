@@ -1,0 +1,10 @@
+{
+  "traj_base": "(d) Effondrement progressif",
+  "optimiste": "(h)/(e) Stabilité ou réforme lente",
+  "pessimiste": "(b) Répression réussie",
+  "robustesse_n2": "FRAGILE",
+  "bifurcations": [
+    "(h)/(e) Stabilité ou réforme lente",
+    "(b) Répression réussie"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "wp_id": "WP-F10-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Toutes les valeurs numériques clés sont cohérentes avec le _result.json fourni : t_bascule = null ✓, dC_rel = null ✓, dI_rel = null ✓, FR_max = 0.2912 ✓. Les valeurs intermédiaires citées dans S2 (FR_max atteint vers t≈25, FR_final = 0.2415, C_max = 0.1648, R(t) = 1.5713 constant) sont internes au WP et cohérentes entre elles. Aucune discordance numérique détectée entre le texte rédigé et les indicateurs de référence."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme : le symbole γ (U+03B3) est utilisé dans le texte rédigé (S1, S3, S5, S6, S7) ; 'gamma' n'apparaît pas isolé dans le texte rédigé. Aucun 'g' isolé détecté en substitution de γ. Les deux usages distincts sont correctement différenciés : γ = 0.15 (capacité organisationnelle élite, variable MEPA Full V6.2) et μ_m = 0.50 (polarisation mimétique V7), avec note explicite en §1.5 distinguant μ_m de p12 (μ paramètre dynamique). Labels D4 : les champs de la fiche S5 (21 champs V6.2 + 7 champs V7) utilisent des intitulés standardisés cohérents avec la nomenclature MEPA V6.2. Aucune anomalie de nomenclature détectée."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Les variables codées par CONV-E (mepa_full_vars) sont utilisées de façon cohérente dans tout le rapport : E_split = 0.63, γ = 0.15, A_d_eff = 3.5, A_r_c = 0.78, A_r_ne = 0, Cs = 0.25, L(t) = 0.30, EROI = 7, Sa = 4, M_r = 2, μ_m = 0.50, Φ = 0.65, Ψ_noyau = 0.10, Ψ_cible = null, γ_local = 0.18. Ces valeurs sont cohérentes entre S1 (tableau de codage), S2 (paramètres p1-p13), S3 (analyse concordance), S5 (fiche standardisée) et S6 (prédictions Popper). CCI = null est normal (CONV-B CCI non déclenché) — non pénalisé. Conversion p1-p13 en S1.5 documentée et tracée aux variables sources. Aucune incohérence interne détectée."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "La divergence traj_diagn (b) != attendue (a) est documentée selon le format §4.3 du Manuel Gouvernance. Le format requis est respecté en §2.4 : 'Divergence documentée — la simulation produit (b) Répression réussie au lieu de (a) Rupture transformatrice attendue. Condition technique non atteinte : F reste < R sur toute la simulation (t_bascule = null). FR_max = 0.2912, très inférieur au seuil de bascule θ_FR = 1.0. [...] Potentielle zone de réfutation [RF2 / RF3].' Aucun narrative smoothing détecté : le WP ne justifie pas a posteriori pourquoi la simulation aurait raison malgré la divergence ; au contraire, §S3bis documente explicitement la divergence comme zone de réfutation potentielle et identifie le mécanisme manquant possible (L_saut). Les sections S6 et S7 contiennent des explications historiques contextuelles (Q6, mémoire inhibitrice, comparaison WP-F8) conformément à la permission S6/S7 du §4.3 — ces éléments ne constituent pas du smoothing en S2. Le protocole §S3ter isole correctement l'hypothèse spéculative. Conformité C4 complète."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Les 8 combinaisons stress N2 documentées en §4.2 correspondent exactement aux valeurs runner fournies en référence : E+0.1 → (b) ✓, E-0.1 → (b) ✓, R+0.08 → (b) ✓, R-0.08 → (b) ✓, EROI+0.5 → (b) ✓, EROI-0.5 → (b) ✓, Rc+0.1 → (b) ✓, Rc-0.1 → (b) ✓. Les trajectoires stress N1 (optimiste et pessimiste) sont documentées en §4.1 avec trajectoire (b) Répression réussie dans les deux cas, cohérent avec verdict.robustesse ROBUSTE. Le verdict ROBUSTE en §4.3 est cohérent avec l'ensemble des 10 scénarios testés. La mention 'NON_CALCULÉ' pour la sensibilité N1 (FR_max estimé < ou > 0.2912) est une limitation documentée, non une anomalie C5 — les trajectoires sont correctement identifiées. Aucune anomalie C5 détectée."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": []
+}

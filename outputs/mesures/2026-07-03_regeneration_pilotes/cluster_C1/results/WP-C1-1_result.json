@@ -1,0 +1,406 @@
+{
+  "meta": {
+    "wp_id": "WP-C1-1",
+    "cas": "Haïti — Crise post-séisme et dissolution institutionnelle 2010-2024",
+    "cluster": "C1",
+    "trajectoire_attendue": "(d) Effondrement progressif",
+    "sa": 4,
+    "sa_modulator": "p6 nominal (Sa=4)",
+    "cmd_type": "linear_dynamic",
+    "integration": "LSODA (scipy solve_ivp rtol=1e-6 atol=1e-9)",
+    "nomenclature": "V7-alpha-rev2.1-gamma (cmd[\"gamma\"] = γ)",
+    "runner_version": "mepa_runner_v3_v7_v3.0.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "fiche_v7": true,
+    "generated_at": "2026-07-03T17:19:29.539498+00:00",
+    "nc_bloquantes": [],
+    "nc_non_bloquantes": [],
+    "statut_nc": "OK",
+    "theta_C_effectif": 0.3,
+    "theta_I_effectif": 0.22,
+    "y0_normalise": [
+      1.5,
+      0.22,
+      0.05,
+      1.5
+    ],
+    "variables_v7": {
+      "m_r": {
+        "valeur": 1,
+        "source_id": "Todd 1990 (S4)",
+        "justification": "Haïti = Stade 1 (religion active). Catholicisme, protestantisme évangélique en expansion et Vodou structurent fortement la vie quotidienne, l'identité et la morale publique. Matrice religieuse socialement active. M_r ∈ {1,2} satisfait ; C1 échoue néanmoins par μ_m."
+      },
+      "mu_m": {
+        "valeur": 0.3,
+        "source_id": "V-DEM (S5) ; Freedom House (S6)",
+        "justification": "μ_m = 0.30, bande [0.20–0.40] : polarisation modérée. Conflits politiques et prédation des gangs, mais aucune désignation publique d'un ennemi démographique unique. La conflictualité est fragmentée (gangs rivaux, factions politiques) sans « nous/eux » mimétique structurant. μ_m = 0.30 < μ_m* = 0.60 : sous-condition C1 non franchie."
+      },
+      "phi": {
+        "valeur": 0.65,
+        "source_id": "V-DEM (S5) ; Freedom House (S6) ; ancre corpus V7 (Φ_max_programme)",
+        "justification": "Φ = 0.65, bande [0.60–0.80] : pluralisme médiatique élevé. Paysage radiophonique et médiatique haïtien dense et fragmenté, multiples voix concurrentes, aucun monopole symbolique. Valeur pré-enregistrée Φ_max_programme (ancre corpus V7). Φ élevé → σ(Φ) élevé → seuil C2 rehaussé."
+      },
+      "psi_noyau": {
+        "valeur": 0.04,
+        "source_id": "Schuller & Morales (S3) ; Farmer 2011 (S4)",
+        "justification": "Ψ_noyau = 0.04, bande [0.01–0.05] : pas de noyau idéologique organisé porteur d'un mécanisme sacrificiel. Les gangs sont des acteurs criminels FRAGMENTÉS et concurrents (motivation prédatrice/territoriale), pas une avant-garde unifiée portant une purge démographique. Valeur reflétant des acteurs armés actifs mais non sacrificiels."
+      },
+      "psi_cible": {
+        "valeur": null,
+        "source_id": "Banque mondiale (S1) ; Schuller & Morales (S3) ; Farmer 2011 (S4) ; V-DEM (S5) ; Freedom House (S6)",
+        "justification": null
+      },
+      "gamma_local": {
+        "valeur": 0.15,
+        "source_id": "Schuller & Morales (S3) ; V-DEM (S5)",
+        "justification": "γ_local = 0.15, bande [0.00–0.20] : aucun noyau organisé discipliné porteur d'un mécanisme sacrificiel. Les gangs ont une organisation interne locale mais sont mutuellement concurrents, sans doctrine commune ni commandement central unifié. γ_local ≈ γ (V6.2 = 0.25), convergence basse."
+      }
+    }
+  },
+  "simulation": {
+    "traj": "(d) Effondrement progressif",
+    "branche_annotation": "EXPLICATIVE",
+    "t_bascule": null,
+    "dC_rel": null,
+    "dI_rel": null,
+    "dCdt_bascule": null,
+    "FR_bascule": null,
+    "F_bascule": null,
+    "R_bascule": null,
+    "FR_max": 0.8834,
+    "FR_final": 0.7631,
+    "I_min_sim": 0.3,
+    "I_final": 0.4778,
+    "C_max": 0.282,
+    "C_final": 0.2793,
+    "S_final": 1.375,
+    "L_final": 0.5489,
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "tableau_S2": [
+      {
+        "t": 0,
+        "S": 1.5,
+        "L": 0.22,
+        "C": 0.05,
+        "I": 1.5,
+        "F": 0.2086,
+        "R": 1.2474,
+        "FR": 0.1672,
+        "note": ""
+      },
+      {
+        "t": 25,
+        "S": 1.4029,
+        "L": 0.5608,
+        "C": 0.2767,
+        "I": 0.4285,
+        "F": 0.681,
+        "R": 0.8566,
+        "FR": 0.795,
+        "note": ""
+      },
+      {
+        "t": 50,
+        "S": 1.3812,
+        "L": 0.5515,
+        "C": 0.2814,
+        "I": 0.3,
+        "F": 0.679,
+        "R": 0.7722,
+        "FR": 0.8793,
+        "note": ""
+      },
+      {
+        "t": 75,
+        "S": 1.3764,
+        "L": 0.5495,
+        "C": 0.2799,
+        "I": 0.3,
+        "F": 0.676,
+        "R": 0.7722,
+        "FR": 0.8755,
+        "note": ""
+      },
+      {
+        "t": 100,
+        "S": 1.3753,
+        "L": 0.549,
+        "C": 0.2794,
+        "I": 0.3,
+        "F": 0.6752,
+        "R": 0.7722,
+        "FR": 0.8744,
+        "note": ""
+      },
+      {
+        "t": 150,
+        "S": 1.375,
+        "L": 0.5489,
+        "C": 0.2793,
+        "I": 0.3,
+        "F": 0.675,
+        "R": 0.7722,
+        "FR": 0.8742,
+        "note": ""
+      },
+      {
+        "t": 200,
+        "S": 1.375,
+        "L": 0.5489,
+        "C": 0.2793,
+        "I": 0.3445,
+        "F": 0.675,
+        "R": 0.8037,
+        "FR": 0.8398,
+        "note": ""
+      },
+      {
+        "t": 250,
+        "S": 1.375,
+        "L": 0.5489,
+        "C": 0.2793,
+        "I": 0.4111,
+        "F": 0.675,
+        "R": 0.8463,
+        "FR": 0.7976,
+        "note": ""
+      },
+      {
+        "t": 300,
+        "S": 1.375,
+        "L": 0.5489,
+        "C": 0.2793,
+        "I": 0.4778,
+        "F": 0.675,
+        "R": 0.8845,
+        "FR": 0.7631,
+        "note": ""
+      }
+    ],
+    "v7_alpha_diagnostic": {
+      "d_v7_c2": true,
+      "chute_I": 0.8,
+      "FR_max": 0.8834
+    },
+    "rampe_mod_mimetique_active": false,
+    "chute_C_metric": 0.0096,
+    "chute_I_metric": 0.8,
+    "integrator": "LSODA"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    "pessimiste": {
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  },
+  "stress_n2": [
+    {
+      "label": "E+0.1",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "E-0.1",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R+0.08",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R-0.08",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI+0.5",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI-0.5",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc+0.1",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc-0.1",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  ],
+  "verdict": {
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(d) Effondrement progressif",
+    "branche_annotation": "EXPLICATIVE",
+    "concordance_attendue": true,
+    "trajs_set_n1": [
+      "(d) Effondrement progressif"
+    ]
+  },
+  "v7_alpha": {
+    "precheck": {
+      "c1": false,
+      "c2": false,
+      "c3": false,
+      "c4": false,
+      "all_satisfied": false,
+      "a_r_c_eff": 0.62,
+      "sigma_phi": 0.03789,
+      "produit_c2": 0.006,
+      "details": {
+        "c1": "M_r=1 in {1,2}: True, mu_m=0.3 > 0.6: False",
+        "c2": "psi_noyau=0.04 × gamma_local=0.15 = 0.006000 > sigma(phi=0.65) = 0.037890: False",
+        "c3": "psi_cible=None, non-null: False",
+        "c4": "A_r_c=0.62, A_r_ne=0.0, A_r_c_eff=0.6200 > 0.7: False"
+      }
+    },
+    "rampe_active": false,
+    "a_r_c_eff_calc": 0.62
+  },
+  "non_regression_t1_t5": {
+    "wp_id": "WP-C1-1",
+    "T1_t_bascule": {
+      "lsoda": null,
+      "euler": null,
+      "pass": true
+    },
+    "T2_C_max": {
+      "lsoda": 0.282,
+      "euler": 0.2824,
+      "pass": true
+    },
+    "T3_chute_I": {
+      "lsoda": 0.8,
+      "euler": 0.8,
+      "pass": true
+    },
+    "T4_FR_max": {
+      "lsoda": 0.8834,
+      "euler": 0.8841,
+      "pass": true
+    },
+    "T5_traj": {
+      "lsoda": "(d) Effondrement progressif",
+      "euler": "(b) Répression réussie",
+      "pass": false
+    },
+    "all_pass": false
+  },
+  "advisory_dev1": {
+    "$advisory": true,
+    "statut": "ADVISORY_DEV1_NONCALIBRE",
+    "module_version": "mepa_dev1_advisory_v7 v1.0.0",
+    "disclaimer": "VALEUR INDICATIVE — paramètres NON CALIBRÉS (c_Ω, θ, S*_ref advisory). Ne pas utiliser pour inférence, codage ou décision de trajectoire. Diagnostic Dev 1 V6.3 — précurseur de la dette Dev 2 (V7).",
+    "omega_mode": "I",
+    "i_t0_utilise": 1.5,
+    "i_tmax_utilise": 0.4778,
+    "R_code_A_d_eff": 0.15,
+    "a_d_max_advisory_flag": false,
+    "ecart_R_code_moins_a_d_max": -0.268159,
+    "interpretation_flag": "R_codé ≤ A_d_max dérivé : pas d'écart advisory détecté au pas initial.",
+    "calcul_t0": {
+      "EROI_utilise": 1.5,
+      "net_energy_fraction": 0.333333,
+      "Y_proxy": 0.333333,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 1.5,
+      "C_maintenance": 0.138297,
+      "S_etoile_NONCALIBRE": 0.095036,
+      "eta_D_proxy_gamma": 0.22,
+      "a_d_max_normalise": 0.041816,
+      "a_d_max_advisory_NONCALIBRE": 0.418159
+    },
+    "calcul_tmax": {
+      "EROI_utilise": 2,
+      "net_energy_fraction": 0.5,
+      "Y_proxy": 0.5,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 0.4778,
+      "C_maintenance": 0.029517,
+      "S_etoile_NONCALIBRE": 0.370483,
+      "eta_D_proxy_gamma": 0.22,
+      "a_d_max_normalise": 0.163013,
+      "a_d_max_advisory_NONCALIBRE": 1.630125
+    },
+    "params_utilises_NONCALIBRE": {
+      "C_OMEGA": 0.08,
+      "THETA": 1.35,
+      "C_SUB": 0.1,
+      "SA_REF": 4,
+      "S_REF": 0.5,
+      "ECHELLE_A_D": 10
+    },
+    "mapping_note": "R_codé = cmd.R (A_d_eff mappé sur cmd.R en C9b). La commensurabilité R_codé ↔ A_d_max dérivé est elle-même un choix advisory provisoire (cf. CV9). Échelle alignée sur [0,10].",
+    "regime_S_etoile": null
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "cmd_base": {
+    "T": 1.2,
+    "Mob": 0.1,
+    "R": 0.15,
+    "Ref": 0.05,
+    "Rc": 0.62,
+    "Rn": 0,
+    "E": 0.72,
+    "gamma": 0.22,
+    "EROI": 1.5,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE pour cluster C1 dynamique.",
+    "EROI": {
+      "start": 1.2,
+      "end": 2
+    }
+  },
+  "y0": [
+    1.5,
+    0.22,
+    0.05,
+    1.5
+  ],
+  "t_max": 300
+}

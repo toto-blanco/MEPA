@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "RF1",
+  "justification": "L'Égypte 2011 présente un EROI de 3.75 (inférieur au seuil de 5) avec une trajectoire (b) de répression réussie maintenant la stabilité sociale via le régime militaire post-Morsi (2013-présent). Les niveaux N1 et N2 MÉTASTABLES indiquent une paix sociale contrainte mais effective sans technologie de substitution énergétique majeure. RF1 teste précisément si un système peut maintenir la cohésion sociale >15 ans avec EROI<5 en l'absence de transition technologique, ce qui correspond exactement au cas égyptien post-2013 sous al-Sissi. E_split et gamma non renseignés excluent RF2 qui requiert E_split>0.7 ET gamma>0.5. RF3 nécessiterait une complexité croissante sur 30 ans incompatible avec la trajectoire (b) de simplification autoritaire.",
+  "condition_observation": "Maintien du régime militaire égyptien sans effondrement social majeur, sans révolte populaire durable supprimant le contrôle étatique, et sans déploiement à grande échelle de technologies énergétiques alternatives compensant la contrainte EROI<5, sur la période 2025-2040",
+  "horizon_temporel": "2025-2040",
+  "seuil_refutation": "Effondrement du régime al-Sissi ou soulèvement populaire prolongé >6 mois incontrôlable avant 2040, OU adoption massive de technologies énergétiques portant l'EROI effectif égyptien au-dessus de 5 avant 2035, invalidant la condition sans-techno de RF1",
+  "cas_test": "WP-C2-1"
+}

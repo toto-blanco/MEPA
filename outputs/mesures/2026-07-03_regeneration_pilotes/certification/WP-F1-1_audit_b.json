@@ -1,0 +1,50 @@
+{
+  "wp_id": "WP-F1-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Conformité numérique totale. t_bascule=null ✓, dC_rel=null ✓, dI_rel=null ✓, FR_max=0.2933 ✓. Les valeurs citées dans le texte (S2.2, S2.3, S5) correspondent exactement aux valeurs transmises dans le _result.json de référence. Le tableau F(t)/R(t) en S2.2 est cohérent avec FR_max atteint à t=0 (valeur initiale 0.4811/1.6402=0.2933)."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme. Le symbole γ (U+03B3) est utilisé correctement dans le texte rédactionnel (S1.2, S1.3, tableaux). Aucun 'g' isolé détecté. Le champ JSON est référencé comme 'gamma' dans les variables codées. Les labels D4 (E_split, A_d_eff, A_r_c, A_r_ne, Cs, L(t), EROI, Sa, γ, M_r, μ_m, Φ, Ψ_noyau, Ψ_cible, γ_local) sont exacts et cohérents entre S1.2, S1.3, S5 et les équations du précheck S1.4."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence CONV-E vérifiée. Les valeurs codées dans le WP (E_split=0.20, γ=0.25, A_d_eff=4.5, A_r_c=0.50, A_r_ne=0.00, Cs=0.30, L(t)=0.55, EROI=3.15, Sa=4, M_r=1, μ_m=0.25, Φ=0.50, Ψ_noyau=0.02, Ψ_cible=null, γ_local=0.10) sont utilisées de manière cohérente dans l'intégralité du rapport (S1 à S7) sans contradiction interne. CCI=null non pénalisé conformément à la note protocole (branche CONV-B CCI non déclenchée)."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Pas de divergence trajectoire à documenter : trajectoire simulée (d) = trajectoire attendue (d). Le §2.4 mentionne explicitement 'Concordance : OUI. La trajectoire diagnostiquée (d) Effondrement progressif est identique à la trajectoire attendue (d) Effondrement progressif. Aucune divergence à documenter.' Aucun narrative smoothing détecté — le rapport ne justifie pas a posteriori une divergence inexistante. Les explications historiques en S6/S7 portent sur la confirmation des prédictions Popper et la calibration cluster, ce qui est autorisé. Aucune phrase de type 'ce résultat est cohérent avec [fait historique] donc la divergence est normale' n'est présente."
+    },
+    "C5": {
+      "statut": "ANOMALIE",
+      "anomalies": [
+        "Stress N1 — trajectoire scénario pessimiste diverge entre S4.1 du WP et les données runner : WP déclare '(b) Répression réussie' pour le scénario pessimiste (E+0.08/R-0.08), mais les données runner stress_n1 ne sont pas fournies dans le bloc de référence transmis à CONV-B. Contrôle C5 N1 impossible à certifier.",
+        "Stress N1 — le verdict MÉTASTABLE du WP repose sur le basculement pessimiste vers (b), mais ce basculement n'est pas vérifiable depuis les données runner fournies (seul stress_n2 est disponible dans le bloc de référence CONV-B).",
+        "Stress N2 — les 8 combinaisons citées en S4.2 correspondent exactement aux valeurs runner transmises : E+0.1→(d), E-0.1→(d), R+0.08→(d), R-0.08→(d), EROI+0.5→(d), EROI-0.5→(d), Rc+0.1→(d), Rc-0.1→(d). C5 N2 = OK.",
+        "Verdict robustesse global — le WP conclut MÉTASTABLE (global) basé sur N1 pessimiste→(b). Ce verdict ne peut être certifié en l'absence des données runner stress_n1. Le verdict.robustesse du _result.json transmis indique implicitement ROBUSTE (8/8 N2 concordants), ce qui est en tension avec le verdict MÉTASTABLE affiché en S4."
+      ],
+      "detail": "C5 partiel : N2 entièrement conforme (8/8 correspondances exactes runner/WP). N1 non vérifiable depuis les données runner fournies — le bloc de référence CONV-B ne contient que stress_n2. Le WP déclare un scénario pessimiste N1 basculant vers (b) Répression réussie, ce qui conduit au verdict MÉTASTABLE global. Or le verdict.robustesse disponible (issu de N2) est ROBUSTE. Anomalie de type C5 mineure : N2 OK, N1 non certifiable, possible incohérence verdict global MÉTASTABLE vs ROBUSTE. Révision mineure requise pour clarifier la source des données N1 ou aligner le verdict global sur les données runner disponibles."
+    }
+  },
+  "score_checklist": 4,
+  "verdict": "REVISION_MINEURE",
+  "instructions_revision": [
+    "C5-N1 : fournir les valeurs runner stress_n1 (scénarios optimiste et pessimiste) pour permettre la vérification de la trajectoire (b) Répression réussie déclarée en S4.1 pour le scénario pessimiste (E+0.08/R-0.08).",
+    "C5-Verdict : si les données runner stress_n1 confirment le basculement pessimiste vers (b), le verdict MÉTASTABLE est certifiable sans re-simulation. Si les données runner stress_n1 produisent (d) pour les deux scénarios, corriger le verdict global de MÉTASTABLE à ROBUSTE en S4.3 et S5.",
+    "C5-Note : les 8 combinaisons N2 sont conformes et ne nécessitent aucune correction. Seul le point N1 est en suspens."
+  ],
+  "anomalies": [
+    {
+      "code": "C5-N1-NON-CERTIFIABLE",
+      "severite": "MINEURE",
+      "localisation": "S4.1 et S4.3",
+      "description": "Le scénario pessimiste N1 (E+0.08/R-0.08) produisant (b) Répression réussie est déclaré dans le WP mais ne peut être vérifié depuis les données runner transmises à CONV-B (seul stress_n2 disponible). Possible incohérence entre verdict MÉTASTABLE (WP) et verdict ROBUSTE implicite des données runner disponibles."
+    }
+  ]
+}

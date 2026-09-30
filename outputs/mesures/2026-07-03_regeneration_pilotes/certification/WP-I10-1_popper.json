@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "AUCUNE",
+  "justification": "Le cas Rwanda 1990-2010 est un cas historique déjà résolu dont la fenêtre temporelle est antérieure à toutes les fenêtres RF (2025-2040, 20 ans depuis présent, 2025-2055). RF1 exige maintien paix sociale >15 ans avec EROI<5 SANS technologie compensatoire sur fenêtre 2025-2040 : Rwanda post-génocide a reconstruit avec EROI~3 mais la fenêtre d'observation est 1995-2010, hors scope RF1. RF2 nécessite E_split>0.7 ET gamma>0.5 comme conditions d'entrée : ces paramètres ne sont pas renseignés pour ce cas, rendant RF2 inapplicable par défaut de données. RF3 requiert complexité croissante >30 ans avec EROI déclinant sur 2025-2055 : la trajectoire (α) Cristallisation sacrificielle d'État correspond à une consolidation autoritaire post-collapse qui n'implique pas nécessairement complexité croissante au sens MEPA. Le cas est un cas d'apprentissage calibration historique, non un cas test prospectif falsifiable. La trajectoire (α) avec EROI=3 et N1/N2 ROBUSTES constitue une validation rétrospective du modèle mais ne génère pas de prédiction falsifiable dans les fenêtres définies.",
+  "condition_observation": "Cas clos historiquement. Pour rendre RF1 applicable, il faudrait projeter la trajectoire Rwanda 2025-2040 avec EROI actuel et vérifier maintien stabilité sans rupture technologique majeure. Données E_split et gamma manquantes empêchent tout test RF2.",
+  "horizon_temporel": "1990-2010",
+  "seuil_refutation": "NON APPLICABLE — fenêtre historique antérieure aux RF; paramètres E_split et gamma non renseignés",
+  "cas_test": "WP-I10-1"
+}

@@ -1,0 +1,8 @@
+{
+  "prediction_applicable": "RF1",
+  "justification": "Haïti présente EROI=1.5 (très inférieur au seuil critique de 5), trajectoire (d) effondrement progressif confirmée, N1 et N2 ROBUSTES indiquant absence de maintien de paix sociale. Le cas teste RF1 par réfutation: si la paix sociale se maintient >15 ans malgré EROI<5 sans technologie compensatoire, RF1 est réfutée. Or Haïti 2010-2024 montre l'inverse — dissolution institutionnelle, gangs contrôlant ~80% de Port-au-Prince en 2024, absence d'État fonctionnel — ce qui CONFIRME RF1 (non-maintien observé). Le cas constitue donc une instance corroboratrice de RF1 dans sa fenêtre 2025-2040 en extrapolant la trajectoire actuelle.",
+  "condition_observation": "Observer si entre 2025-2040 Haïti parvient à maintenir une paix sociale minimale (contrôle territorial étatique >50%, homicides <50/100k/an, services publics fonctionnels) malgré EROI restant <5 et absence de déploiement technologique compensatoire significatif. La non-occurrence de ce maintien corrobore RF1; l'occurrence la réfute.",
+  "horizon_temporel": "2025-2040",
+  "seuil_refutation": "Maintien paix sociale définie comme: contrôle étatique >50% territoire + taux homicide <50/100 000/an + élections tenues + services de base (eau, santé) atteignant >40% population — pendant >15 ans consécutifs avec EROI<5 confirmé et sans input technologique exogène majeur",
+  "cas_test": "WP-C1-1"
+}

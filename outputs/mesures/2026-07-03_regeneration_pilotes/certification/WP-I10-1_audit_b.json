@@ -1,0 +1,42 @@
+{
+  "wp_id": "WP-I10-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "t_bascule=7, dC_rel=0.6003, dI_rel=0.0465, FR_max=1.7601 dans le texte (S2 tableau indicateurs, S5 fiche standardisée) correspondent exactement aux valeurs fournies. Aucune divergence numérique détectée."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme. Le symbole γ isolé n'apparaît qu'en contexte JSON/tableau avec label explicite (γ = 0.55, cohésion élite globale). Le symbole γ_local est correctement distingué de γ. Le caractère γ (U+03B3) est utilisé dans le texte rédactionnel et les tableaux. Le terme 'gamma' n'apparaît pas isolément dans le texte. Labels D4 non explicitement référencés dans le WP mais aucune violation de nomenclature D4 détectée. Un caractère de remplacement ('���') apparaît dans la fiche S5 pour γ_local (ligne 'γ_local | 0.55 ��� Organisation...') — anomalie typographique mineure non bloquante."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence CONV-E vérifiée. Les valeurs citées dans le rapport (E_split=0.82, γ=0.55, A_d_eff=1.5, A_r_c=0.90, A_r_ne=0.10, Cs=0.30, L(t)=0.12, EROI=3.0, Sa=6, M_r=1, μ_m=0.85, Φ=0.15, Ψ_noyau=0.05, Ψ_cible=0.15, γ_local=0.55) sont utilisées de manière cohérente dans l'ensemble du WP (S1, S2, S3, S5, S6, S7). CCI=null non applicable ici — non pénalisé. Aucune incohérence interne entre variables codées et valeurs citées dans le rapport."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Pas de divergence traj_diagn != attendue : trajectoire simulée = (α) Cristallisation sacrificielle d'État = trajectoire attendue. La vérification C4 (narrative smoothing) n'est pas déclenchée. Aucune justification a posteriori suspecte détectée. Les sections S6 et S7 contiennent des explications historiques conformément à la note §4.3 Manuel Gouvernance (autorisées en S6/S7). La mention de WP-I4-1 comme contraste comparatif est analytique et non apologétique. Pas de smoothing détecté."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Les 8 combinaisons stress N2 documentées en S4 correspondent exactement aux valeurs runner fournies : E+0.1, E-0.1, R+0.08, R-0.08, EROI+0.5, EROI-0.5, Rc+0.1, Rc-0.1 produisent toutes (α) Cristallisation sacrificielle d'État dans le WP et dans les données runner. Verdict ROBUSTE dans S4 cohérent avec les résultats runner (8/8). Les trajectoires N1 (optimiste/pessimiste) sont documentées et convergent vers (α). verdict.robustesse=ROBUSTE confirmé."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": [
+    {
+      "code": "TYP-01",
+      "severite": "NON_BLOQUANTE",
+      "localisation": "S5 fiche standardisée, ligne γ_local",
+      "description": "Caractère de remplacement Unicode ('���') dans la cellule γ_local de la fiche S5 ('0.55 ��� Organisation structurée...'). Anomalie typographique d'encodage, sans impact sur la conformité numérique ou la logique du WP.",
+      "correction_requise": false
+    }
+  ]
+}
