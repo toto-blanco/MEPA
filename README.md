@@ -1,6 +1,6 @@
 # MEPA V7 — Modèle Énergétique du Potentiel Adaptatif
 
-> Simulation des transitions socio-institutionnelles sur 27 cas historiques via équations différentielles couplées, pipeline n8n automatisé, audit inter-codeurs (κ de Cohen / CCI), et modélisation conditionnelle du mécanisme sacrificiel (extension Todd-Girard).
+> Simulation des transitions socio-institutionnelles sur 27 cas historiques via équations différentielles couplées, pipeline n8n automatisé, audit inter-codeurs (CCI), et modélisation conditionnelle du mécanisme sacrificiel (extension Todd-Girard).
 
 **Statut : cluster pilote V7-γ rev. 2 certifié (6 WP). Pipeline V7 opérationnel. Extension au corpus complet (21 WP restants) en préparation.**
 
@@ -56,6 +56,8 @@ La **certification V7.0 du cluster pilote V7-γ rev. 2** a été prononcée sur 
 | WP-C2-1 Égypte 2011 | (b) Répression réussie | ✓ | CERTIFIÉ_MÉTASTABLE |
 
 \* *Allemagne nazie n'atteint pas la trajectoire (α) attendue — échec pré-enregistré de la condition C2 du précheck sacrificiel (masse critique du noyau formel insuffisante), documenté comme limite assumée du cadre V7-α et traité selon le protocole anti-rationalisation V7-C3 (Réserves 1 et 2 du §4bis de la Décision V7-D1 rev. 4).*
+
+Un erratum à la certification (septembre 2026) précise le protocole réellement exécuté sur ces 6 cas (entrées simulées issues du seul codeur CONV-E, CONV-B en audit sans rétroaction) et corrige la provenance déclarée de la température des appels LLM. Il ne modifie aucun verdict. Voir `MEPA_Decision/`.
 
 Ce résultat déverrouille l'extension du pipeline aux 21 WP restants du corpus, sous réserve de garde-fous de fiabilité mis en place lors de l'audit technique post-certification (voir [Contrôle qualité et gouvernance](#contrôle-qualité-et-gouvernance)).
 
@@ -246,9 +248,9 @@ Sous-workflow indépendant : `mepa_workflow_n8n_V7_audit_seul.json`, pour ré-au
 | `mepa_runner_v3_v7.py` | Simulation ODE (LSODA) + précheck α + stress-tests N1/N2 + non-régression T1-T5 vs Euler | v3.0.0 |
 | `mepa_runner_v2_gamma.py` | Runner V6.2 (Euler dt=1) — conservé pour non-régression et corpus non migré | v2.1.1 |
 | `mepa_dev1_advisory_v7.py` | Module advisory diagnostique — plafond redistributif dérivé de l'EROI (Ω ≡ I(t)) — NON CALIBRÉ, non bloquant | Dev 2 gelé |
-| `mepa_kappa_calculator.py` | CCI (ICC 3,1) et κ de Cohen inter-codeurs | v3.0 |
-| `mepa_passeport_schema.py` | Construction et validation du Passeport WP archivé | v3.0.2 |
-| `mepa_node2_audit_v7.js` | Audit conformité structurelle fiche (contrôles C1–C15, incl. C14/C15 spécifiques V7) | v3.0.0 |
+| `mepa_kappa_calculator.py` | CCI (ICC 3,1) inter-codeurs + indicateurs d'accord binaires par WP (`accord_sa`, `accord_m_r`) | v3.0 |
+| `mepa_passeport_schema.py` | Construction et validation du Passeport WP archivé (provenance LLM par nœud, version de protocole) | v3.0.4 |
+| `mepa_node2_audit_v7.js` | Audit conformité structurelle fiche (contrôles C1–C15, incl. C14/C15 spécifiques V7) | v3.0.1 |
 | `mepa_consistency_check.py` | Vérifie la cohérence des seuils de certification répliqués contre `mepa_constants.json` — bloquant en préflight | v1.0.0 |
 | `mepa_deploy_check.py` | Garde-fou d'intégrité de déploiement — compare le sha256 des scripts déployés à un manifeste de référence | v1.0.0 |
 
@@ -341,7 +343,7 @@ python mepa_runner_v3_v7.py WP-C2-1_Egypte2011_v7.json
 python mepa_runner_v2_gamma.py WP-C2-1_Egypte2011_v62.json
 ```
 
-### Calculer le CCI / κ inter-codeurs
+### Calculer le CCI inter-codeurs
 
 ```bash
 python mepa_kappa_calculator.py fiche_CONV-E.json fiche_CONV-B.json
@@ -418,18 +420,18 @@ Chaque passeport porte une **annotation de branche** (`branche_annotation`) : `E
 | Métrique | Certifié | Révision | Rejet |
 |---|---|---|---|
 | CCI (variables continues) | ≥ 0.70 | 0.50–0.69 | < 0.50 |
-| κ de Cohen (Sa catégorielle) | ≥ 0.70 | 0.50–0.69 | < 0.50 |
 | **cci_global (gate de certification)** | **≥ 0.75** | **0.55–0.74** | **< 0.55** |
 
-Le gate de certification est **`cci_global` seul**. `kappa_sa` et `kappa_m_r` sont des champs de traçabilité de l'accord inter-codeurs archivés dans le passeport — jamais des critères bloquants.
+Le gate de certification est **`cci_global` seul**. `accord_sa` et `accord_m_r` sont des indicateurs d'accord binaires calculés sur un seul WP (les deux codeurs ont-ils retenu la même valeur ?), archivés pour traçabilité — jamais des critères bloquants. Un κ de Cohen n'est pas calculable sur un cas unique : il sera calculé au niveau du corpus, comme diagnostic, une fois le corpus suffisant.
 
 ### Garde-fous de fiabilité (issus de l'audit technique post-certification V7.0)
 
 - **Sauvegarde du registre scientifique** : chaque passeport certifié doit exister simultanément sur au moins deux supports indépendants, sans fenêtre où il n'existe qu'à un seul endroit.
 - **Intégrité de déploiement** : `mepa_deploy_check.py` compare le sha256 des scripts en production à un manifeste de référence versionné — bloque tout run si un script diverge silencieusement de sa version committée.
 - **Cohérence des seuils** : `mepa_consistency_check.py` vérifie que les seuils de certification (répliqués dans plusieurs scripts pour robustesse) restent identiques à la source unique de vérité `mepa_constants.json`.
-- **Traçabilité de la résolution inter-codeurs** : chaque passeport archive, par variable, la valeur CONV-E, la valeur CONV-B, l'action de résolution appliquée et la valeur finale retenue — condition requise avant l'extension aux 21 WP restants.
-- **Gel des entrées résolues à la certification** : une fois un WP certifié, ses entrées numériques résolues (`y0`, `cmd_base`) sont figées comme partie intégrante de l'artefact certifié. Tout re-run ultérieur réutilise cette configuration gelée plutôt que de repasser par un nouveau tirage d'audit inter-codeurs — condition de reproductibilité stricte du corpus.
+- **Provenance LLM par nœud** (protocole V7.0-P2) : chaque passeport enregistre, pour chaque appel LLM, le modèle servi, la température effectivement transmise, l'identifiant de message et l'usage ; la sortie brute du codeur CONV-E est archivée et référencée par son sha256.
+- **Traçabilité de la résolution inter-codeurs** : chaque passeport archive, par variable, la valeur CONV-E, la valeur CONV-B, l'action de résolution appliquée et la valeur finale retenue — condition requise avant l'extension aux 21 WP restants (en cours de formalisation, CV16).
+- **Gel des entrées avant simulation** : les entrées numériques résolues d'un WP (`y0`, `cmd_base`) sont figées avant la simulation, puis intégrées à l'artefact certifié. Tout re-run ultérieur réutilise cette configuration gelée plutôt que de repasser par un nouveau codage LLM, dont la sortie varie d'un run à l'autre même à température 0 — condition de reproductibilité stricte du corpus (en cours de formalisation, CV16).
 
 ### Protocole anti-rationalisation (V7-C3)
 
