@@ -261,9 +261,9 @@ Sous-workflow indépendant : `mepa_workflow_n8n_V7_audit_seul.json`, pour ré-au
 ```
 mepa/
 │
-├── prompt_projet_MEPA_V4_alpha.md           ← Prompt système LLM (moteur MEPA V7)
-├── mepa_pipeline_architecture_V62.md        ← Documentation technique pipeline (socle)
-├── INSTRUCTIONS_WORKFLOW_N8N_V7.md          ← Modifications V7 du workflow n8n
+├── README.md
+├── LICENSE
+├── requirements.txt
 │
 ├── scripts/
 │   ├── mepa_runner_v3_v7.py
@@ -276,41 +276,55 @@ mepa/
 │   ├── mepa_node2_audit_v62.js
 │   ├── mepa_consistency_check.py
 │   ├── mepa_deploy_check.py
-│   └── correctif_V5_compteur_CCI.js         ← reliquat V5, archivage prévu
+│   ├── mepa_deploy_manifest.json
+│   ├── correctif_V5_compteur_CCI.js
+│   ├── mepa_pipeline_architecture_V62.md
+│   ├── prompt_projet_MEPA_V4_alpha.md
+│   ├── prompt_projet_MEPA_V3_gamma.md
+│   └── CONV-A.md  CONV-B.md  CONV-D.md  CONV-E.md
 │
 ├── config/
-│   ├── mepa_constants.json                  ← Source unique de vérité (paramètres, seuils)
+│   ├── mepa_constants.json                  ← Source unique de vérité (paramètres et seuils)
 │   ├── mepa_whitelist_keys.json
 │   ├── mepa_friction_profile.json
-│   ├── mepa_deploy_manifest.json
-│   └── v7/                                  ← Fiches V7 (6 pilotes certifiées)
+│   ├── mepa_fiches_WP-F10-1_WP-I10-1.json
+│   ├── v6.2/                                ← 27 fiches WP V6.2, 2 fiches étalon, ordre de marche WP-C1-1
+│   └── v7/                                  ← 6 fiches WP V7 (C1-1, C2-1, F1-1, F10-1, I4-1, I10-1)
 │
 ├── workflow_n8n/
 │   ├── mepa_workflow_n8n_V7.json
 │   ├── mepa_workflow_n8n_V7_audit_seul.json
 │   ├── mepa_workflow_n8n_V7_sequencer.json
-│   └── mepa_workflow_n8n_V62*.json          ← workflows V6.2 (référence, non migrés)
+│   ├── mepa_workflow_n8n_V7_mesure_conv_e.json
+│   └── archives/                            ← 5 workflows antérieurs (V6.2, multipass, séquenceur, CV12 pilote)
 │
-├── WP-F*/  WP-I*/  WP-C*/  WP-T*/           ← 27 fiches, V6.2 + V7 selon migration
-│
-├── MEPA_Decision/                           ← Série des décisions de gouvernance (CV-series)
+├── MEPA_Decision/                           ← Décisions de gouvernance (V7-D1, CV12–CV15, QG), certification V7 et erratum, pièces associées
 │   ├── MEPA_Decision_V7_D1_rev4.md
 │   ├── MEPA_Certification_V7_gamma_rev2.md
+│   ├── MEPA_ARCH-AG-01_Architecture_Agentique_rev0.md
+│   ├── MEPA_C1_Tracage_E_Rc_gamma_L0.md
+│   ├── MEPA_Decision_CV12_Architecture_Multipass.md
+│   ├── MEPA_Decision_CV13_Recalibration.md
 │   ├── MEPA_Decision_CV14_Gel_Dev2.md
 │   ├── MEPA_Decision_CV15_Sequencement_Post_V7.md
-│   └── ...
+│   ├── MEPA_Decision_Haiti_trajectoire_attendue_V7.md
+│   ├── MEPA_Decision_QG_ARCH-AG-01_rev0.md
+│   ├── MEPA_Decision_QG_Levee_Reserve_Rwanda_Accord.md
+│   ├── MEPA_Decision_QG_Cloture_L0_D3_A_d_eff.md
+│   └── MEPA_Erratum_Certification_V7_Provenance_Reserve_Rwanda.md
 │
-├── Docs/
-│   ├── MEPA_cadre_theorique_V7_alpha_rev2_1.docx
-│   ├── MEPA_cadre_theorique_V6_2.docx
-│   ├── MEPA_Addendum_Theorique_V6_2.docx
-│   └── ...
+├── documentation/                           ← Documents de référence V6.2 (.docx, .odt, .md)
+├── tests/                                   ← Tests pytest (non-régression V6.2, advisory V7, dry run)
+│   └── golden/                              ← 29 sorties de référence du runner (27 WP + 2 étalons)
+├── tools/                                   ← dry_run_pipeline.py
+├── candidats/                               ← 2 fiches WP-EXT (France 1958–1969, Islande médiévale)
+├── archives/                                ← Rapport de test CV13, instructions et missions Claude Code
 │
-└── Conversations/
-    ├── CONV-A.md   (rédaction rapport)
-    ├── CONV-B.md   (audit inter-codeurs, Temps 1 et 2)
-    ├── CONV-E.md   (codage MEPA Full)
-    └── CONV-D.md   (synthèse cumulative de cluster)
+├── outputs/                                 ← Sorties générées (ignoré par git, sauf mesures/)
+│   ├── v6.2/                                ← Runs V6.2 (27 WP, avant passage V7, dry run)
+│   ├── v7.0/                                ← Runs V7 (run_1 à run_4)
+│   └── mesures/                             ← Pièces de mesure versionnées (contrôle L0 et recodage CONV-E Rwanda, validation V7.0-P2 Égypte)
+└── prod/                                    ← Vide, ignoré par git (à documenter)
 ```
 
 ---
