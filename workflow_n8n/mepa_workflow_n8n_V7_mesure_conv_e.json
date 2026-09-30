@@ -1,0 +1,126 @@
+{
+  "name": "MEPA V7 — Mesure CONV-E Rwanda (hors certification, Erratum §4.3)",
+  "nodes": [
+    {
+      "id": "mepa-n0-trigger",
+      "name": "▶ Démarrage Manuel",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        300
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "mepa-nA-read-file",
+      "name": "Nœud A — Read Binary File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        40,
+        300
+      ],
+      "parameters": {
+        "filePath": "/data/mepa/config/v7/WP-I10-1_Rwanda_v7.json",
+        "options": {}
+      },
+      "notes": "Lit la fiche WP JSON depuis le disque. Chemin configurable via variable d'environnement MEPA_FICHE_PATH ou paramètre direct. Valeur par défaut : WP-C1-1 Haïti (ancre plancher corpus V6.2)."
+    },
+    {
+      "id": "mepa-nB-extract",
+      "name": "Nœud B — Decode JSON [No-FS]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        300
+      ],
+      "parameters": {
+        "jsCode": "// Nœud B — Decode Binary → JSON (No-FS)\n// Remplace \"Extract From File\" qui encapsule sous une clé \"data\" parasite\n// Retourne le JSON de la fiche directement à la racine pour le Nœud 2\n\nconst binaryData = $input.item.binary.data;\nconst raw = Buffer.from(binaryData.data, 'base64').toString('utf-8');\n// Injecter fiche_v7 depuis $env.MEPA_FICHE_V7 si défini\nconst parsed = JSON.parse(raw);\nconst env_v7 = $env.MEPA_FICHE_V7;\nif (env_v7 === \"true\" || env_v7 === \"1\") {\n  parsed.fiche_v7 = true;\n}\nreturn { json: parsed };"
+      },
+      "notes": "Remplace Extract From File (v1.123 incompatible JSON). Décode le binaire et retourne le JSON de la fiche directement à la racine — sans encapsulation 'data' parasite."
+    },
+    {
+      "parameters": {
+        "jsCode": "// NŒUD CONV-E — Codage historique des 6 variables continues\n// Position : après Nœud B (décodage JSON), avant Nœud 2 (audit C1-C13)\n// Double aveugle garanti : ce nœud écrit variables[k].valeur\n// Le Nœud 8a (CONV-B) filtre activement ces valeurs — aucune contamination\n// Correctif architecture — 2026-03-16\n\n\"use strict\";\nconst https = require(\"https\");\nconst data  = $input.item.json;\nconst wp_id = data.wp_id;\nconst ANTHROPIC_API_KEY = $env.ANTHROPIC_API_KEY;\n\n// ── Extraire le contexte de la fiche ────────────────────────────────────────\nconst cas             = data.cas             || \"\";\nconst periode         = data.periode         || \"\";\nconst cluster         = data.cluster         || \"\";\nconst traj_attendue   = data.trajectoire_attendue || \"\";\nconst sa              = data.sa              ?? null;\nconst sa_type         = data.sa_type_todd    || \"\";\nconst vars_fiche      = data.variables       || {};\nconst sources         = data.sources_utilisees || [];\nconst defi            = data.defi_mepa       || \"\";\nconst alertes         = data.alertes_conv_a  || [];\n\n// ── Variables hardcodées (EROI, A_r_ne, Sa) — ne pas recoder ───────────────\nconst vars_hardcodes = {};\nfor (const [k, v] of Object.entries(vars_fiche)) {\n  if (v.valeur !== null && v.valeur !== undefined &&\n      (String(v.source_id || \"\").includes(\"hardcod\") ||\n       String(v.source_id || \"\").includes(\"normative\") ||\n       String(v.source_id || \"\").includes(\"V6.2\") ||\n       String(v.origine  || \"\").toUpperCase().includes(\"HARDCOD\") ||\n       String(v.source_id || \"\").includes(\"Todd\"))) {\n    vars_hardcodes[k] = v.valeur;\n  }\n}\n\n// ── Variables à coder — celles avec valeur: null ────────────────────────────\nconst vars_a_coder = Object.fromEntries(\n  Object.entries(vars_fiche)\n    .filter(([k, v]) => v.valeur === null || v.valeur === undefined)\n    .map(([k, v]) => [k, {\n      echelle:            v.echelle,\n      origine:            v.origine,\n      source_id:          v.source_id,\n      niveau_source:      v.niveau_source,\n      sanity_check:       v.sanity_check,\n      valeur_normative:   v.valeur_normative_v62\n    }])\n);\n\n// ── Commandes actuelles (valeurs normatives — à mettre à jour post-codage) ──\nconst cmd_actuel = data.commandes || {};\n\n// ── Sources disponibles ──────────────────────────────────────────────────────\nconst sources_str = sources.slice(0, 8).map(s =>\n  typeof s === \"object\"\n    ? `[${s.id}] ${s.titre} (${s.type}) — variables: ${(s.variables_concernees || []).join(\", \")}`\n    : String(s)\n).join(\"\\n\");\n\n// ── Chargement CONV-E.md depuis disque (V7 — grilles d'ancrage V7 incluses) ──\n// ── Chargement CONV-E.md depuis disque ──────────────────────────────────────\nconst _fs_conv_e = require('fs');\nconst _scripts_dir = $env.MEPA_SCRIPTS_DIR || '/data/mepa/scripts';\nconst SYSTEM = (() => {\n  let base;\n  try {\n    base = _fs_conv_e.readFileSync(`${_scripts_dir}/CONV-E.md`, 'utf8');\n  } catch(_) {\n    base = \"Tu es CONV-E, l'Historien-Codeur MEPA. Code les variables null en JSON valide.\";\n  }\n  return base + \"\\n\\n=== INSTRUCTION DE FORMAT STRICTE ===\\nTa réponse doit commencer IMMÉDIATEMENT par '{' et ne contenir RIEN d'autre qu'un objet JSON valide. Aucune phrase de confirmation, aucun préambule, aucun texte avant ou après le JSON. Ne dis jamais 'Je confirme' ou toute autre formule introductive.\";\n})();\nconst USER = `WP : ${wp_id} | Cas : ${cas} | Période : ${periode} | Cluster : ${cluster}\nTrajectoire attendue : ${traj_attendue} | Sa : ${sa} (${sa_type})\nDéfi MEPA : ${defi.slice(0, 300)}\nAlertes : ${JSON.stringify(alertes).slice(0, 200)}\n\nSOURCES DISPONIBLES :\n${sources_str}\n\nVARIABLES À CODER (valeur = null) :\n${JSON.stringify(vars_a_coder, null, 2).slice(0, 3000)}\n\nCOMMANDES ACTUELLES (valeurs normatives à mettre à jour) :\n${JSON.stringify({\n  E: cmd_actuel.E, gamma: cmd_actuel.gamma, R: cmd_actuel.R,\n  Mob: cmd_actuel.Mob, Rc: cmd_actuel.Rc, Rn: cmd_actuel.Rn\n})}\n\nCONDITIONS INITIALES ACTUELLES :\n${JSON.stringify(data.conditions_initiales || {})}\n\nProduis un JSON avec exactement cette structure :\n{\n  \"codeur\": \"CONV-E\",\n  \"date_codage\": \"${new Date().toISOString().split(\"T\")[0]}\",\n  \"variables_codees\": {\n    \"E_split\": {\"valeur\": <float>, \"justification\": \"<2-3 phrases avec γ si gamma, indicateurs chiffrés>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"gamma\":   {\"valeur\": <float>, \"justification\": \"<utilise γ dans le texte>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"A_d_eff\": {\"valeur\": <float>, \"justification\": \"<indicateurs chiffrés obligatoires>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"A_r_c\":   {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"Cs\":      {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}},\n    \"L_t\":     {\"valeur\": <float>, \"justification\": \"<source explicite>\", \"sanity_check\": {\"indicateur\": \"<source>\", \"valeur_indicateur\": \"<valeur>\", \"coherence\": \"CONFIRMÉ|À VÉRIFIER|DIVERGENCE\"}}\n  },\n  \"commandes_mises_a_jour\": {\n    \"E\": <float E_split>, \"gamma\": <float gamma>,\n    \"R\": <float normalisé A_d_eff>, \"Mob\": <float Cs>,\n    \"Rc\": <float A_r_c>, \"Rn\": <float A_r_ne hardcodé>\n  },\n  \"L0_mis_a_jour\": <float L_t>,\n  \"resume_coherence\": \"<3-5 phrases — compatibilité scores avec trajectoire attendue et cluster>\"\n}`;\n\nconst REQ = {\n  model: \"claude-sonnet-4-6\",\n  max_tokens: 8000,\n  temperature: 0,\n  system: [{ type: \"text\", text: SYSTEM, cache_control: { type: \"ephemeral\" } }],\n  messages: [{ role: \"user\", content: USER }]\n};\nconst payload = JSON.stringify(REQ);\n\n// ── Appel API Anthropic (L3 prompt caching) ─────────────────────────────────\nconst _conv_e_call = await new Promise((resolve, reject) => {\n  const req = https.request({\n    hostname: \"api.anthropic.com\",\n    path: \"/v1/messages\",\n    method: \"POST\",\n    headers: {\n      \"Content-Type\": \"application/json\",\n      \"x-api-key\": ANTHROPIC_API_KEY,\n      \"anthropic-version\": \"2023-06-01\",\n      \"anthropic-beta\": \"prompt-caching-2024-07-31\",\n      \"Content-Length\": Buffer.byteLength(payload)\n    }\n  }, (res) => {\n    let body = \"\";\n    res.on(\"data\", c => body += c);\n    res.on(\"end\", () => {\n      try {\n        if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}: ${body.slice(0,200)}`)); return; }\n        const api = JSON.parse(body);\n        const raw = api.content?.[0]?.text || \"{}\";\n        // Extraire le premier bloc JSON valide même si du texte précède/suit\n        const clean = raw.replace(/```json|```/g, \"\").trim();\n        const jsonMatch = clean.match(/\\{[\\s\\S]*\\}/);\n        if (!jsonMatch) { reject(new Error(`Aucun JSON trouvé dans la réponse: ${clean.slice(0,200)}`)); return; }\n        resolve({ parsed: JSON.parse(jsonMatch[0]), raw, api });\n      } catch(e) {\n        reject(new Error(`Parse CONV-E: ${e.message} | raw: ${body.slice(0,200)}`));\n      }\n    });\n  });\n  req.setTimeout(240000, () => { req.destroy(); reject(new Error(\"Timeout 240s\")); });\n  req.on(\"error\", reject);\n  req.write(payload);\n  req.end();\n});\nconst conv_e_result = _conv_e_call.parsed;\nconst raw = _conv_e_call.raw;\nconst api = _conv_e_call.api;\nconst prov = {\n  noeud: \"CONV-E\",\n  model_demande: REQ.model,\n  temperature_transmise: (\"temperature\" in REQ) ? REQ.temperature : null,\n  max_tokens: REQ.max_tokens,\n  model_servi: api?.model ?? null,\n  message_id: api?.id ?? null,\n  stop_reason: api?.stop_reason ?? null,\n  usage: api?.usage ?? null,\n  horodatage: new Date().toISOString()\n};\n\n// ── Injecter les valeurs codées dans la fiche ────────────────────────────────\nconst vars_codees  = conv_e_result.variables_codees  || {};\nconst cmd_updates  = conv_e_result.commandes_mises_a_jour || {};\nconst l0_update    = conv_e_result.L0_mis_a_jour;\n\n// Mettre à jour variables[k].valeur\nconst vars_updated = { ...vars_fiche };\nfor (const [k, v] of Object.entries(vars_codees)) {\n  if (vars_updated[k]) {\n    vars_updated[k] = {\n      ...vars_updated[k],\n      valeur:       v.valeur,\n      justification: v.justification,\n      sanity_check: { ...vars_updated[k].sanity_check, ...v.sanity_check },\n      codeur:       \"CONV-E\",\n      date_codage:  conv_e_result.date_codage\n    };\n  }\n}\n\n// Mettre à jour les commandes — mapping sélectif CONV-E\n// RÈGLE V6.2 : E, gamma, Rc, Rn → mapping libre depuis variables codées\n// R (A_d_eff) et Mob (Cs) → NE PAS écraser les valeurs normatives corpus\n// T, Ref, Pop, EROI → structurels, jamais modifiés par CONV-E\nconst CMD_MAPPING_LIBRE = [\"E\", \"gamma\", \"Rc\", \"Rn\"];\nconst cmd_updated = { ...cmd_actuel };\nfor (const key of CMD_MAPPING_LIBRE) {\n  if (cmd_updates[key] !== undefined && cmd_updates[key] !== null) {\n    cmd_updated[key] = cmd_updates[key];\n  }\n}\n// R et Mob : logguer la valeur CONV-E mais préserver la valeur normative\nconst r_conv_e   = cmd_updates[\"R\"]   ?? null;\nconst mob_conv_e = cmd_updates[\"Mob\"] ?? null;\nif (r_conv_e !== null) {\n  console.error(\"[CONV-E] cmd.R propose par CONV-E = \" + r_conv_e + \" -- valeur normative corpus preservee : \" + cmd_actuel.R);\n}\nif (mob_conv_e !== null) {\n  console.error(\"[CONV-E] cmd.Mob propose par CONV-E = \" + mob_conv_e + \" -- valeur normative corpus preservee : \" + cmd_actuel.Mob);\n}\n\n// Mettre à jour L0 dans conditions_initiales\nconst ci_updated = { ...(data.conditions_initiales || {}) };\nif (l0_update !== undefined && l0_update !== null) {\n  ci_updated.L0 = l0_update;\n}\n\n// ── Retourner la fiche enrichie ──────────────────────────────────────────────\n// Champs pipeline (non transmis dans la fiche racine — évite erreur C9)\nconst _conv_e_meta = {\n  conv_e_raw:       conv_e_result,\n  conv_e_raw_text:  raw,\n  conv_e_requete:   { model: REQ.model, temperature: REQ.temperature, max_tokens: REQ.max_tokens },\n  conv_e_reponse:   { id: api.id ?? null, model: api.model ?? null, stop_reason: api.stop_reason ?? null, usage: api.usage ?? null },\n  resume_coherence: conv_e_result.resume_coherence || \"\",\n  nb_vars_codees:   Object.keys(vars_codees).length\n};\n\nreturn {\n  json: {\n    ...data,\n    _provenance_llm: { ...(data._provenance_llm || {}), \"CONV-E\": prov },\n    // Champs fiche — autorisés par RACINE_AUTORISEES\n    variables:            vars_updated,\n    commandes:            cmd_updated,\n    conditions_initiales: ci_updated,\n    statut:               \"CODAGE CONV-E — EN ATTENTE AUDIT CONV-B\",\n    date_codage:          conv_e_result.date_codage || new Date().toISOString().split(\"T\")[0],\n    codeur:               \"CONV-E\",\n    // Champs pipeline — préfixe _ exclu de la fiche mais lisibles par les nœuds suivants\n    _conv_e_meta,\n    _pipeline_message: `[CONV-E] ${wp_id} — ${Object.keys(vars_codees).length} variables codées`\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        300
+      ],
+      "id": "conv-e-node-v62-2026",
+      "name": "Nœud CONV-E — Codage historique variables [LLM]"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ÉCRITURE MESURE CONV-E — Erratum §4.3 (mesure pré-enregistrée, hors certification)\n// Écrit UNIQUEMENT dans /data/mepa/outputs/mesures/WP-I10-1_recodage_CONV-E/\n// Format identique à {wp_id}_conv_e_raw.json (mêmes 6 clés). Aucune interprétation.\n\"use strict\";\nconst fs = require(\"fs\");\nconst data  = $input.item.json;\nconst wp_id = data.wp_id;\nif (wp_id !== \"WP-I10-1\") throw new Error(`[MESURE] wp_id inattendu: ${wp_id} (attendu WP-I10-1) — rien écrit`);\nconst cem = data._conv_e_meta;\nif (!cem) throw new Error(\"[MESURE] _conv_e_meta absent — rien écrit\");\n\nconst DIR = \"/data/mepa/outputs/mesures/WP-I10-1_recodage_CONV-E\";\nfs.mkdirSync(DIR, { recursive: true });\n\n// k = 1 + plus grand index déjà présent (3 exécutions séparées => run_1, run_2, run_3)\nlet kmax = 0;\nfor (const f of fs.readdirSync(DIR)) {\n  const m = /^run_(\\d+)_/.exec(f);\n  if (m) kmax = Math.max(kmax, parseInt(m[1], 10));\n}\nconst k = kmax + 1;\nconst iso = new Date().toISOString();\nconst fichier = `${DIR}/run_${k}_${iso.replace(/:/g, \"-\")}.json`;\n\nconst doc = {\n  wp_id,\n  archive_le:  iso,\n  requete:     cem.conv_e_requete  || null,\n  reponse_api: cem.conv_e_reponse  || null,\n  texte_brut:  cem.conv_e_raw_text ?? null,\n  json_parse:  cem.conv_e_raw      || null\n};\nfs.writeFileSync(fichier, JSON.stringify(doc, null, 2), \"utf8\");\n\nreturn { json: { mesure: \"WP-I10-1_recodage_CONV-E\", run_k: k, fichier, message_id: doc.reponse_api?.id ?? null } };\n"
+      },
+      "id": "mesure-ecriture-conv-e",
+      "name": "Écriture mesure CONV-E [mesures/ uniquement]",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "▶ Démarrage Manuel": {
+      "main": [
+        [
+          {
+            "node": "Nœud A — Read Binary File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud A — Read Binary File": {
+      "main": [
+        [
+          {
+            "node": "Nœud B — Decode JSON [No-FS]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud B — Decode JSON [No-FS]": {
+      "main": [
+        [
+          {
+            "node": "Nœud CONV-E — Codage historique variables [LLM]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nœud CONV-E — Codage historique variables [LLM]": {
+      "main": [
+        [
+          {
+            "node": "Écriture mesure CONV-E [mesures/ uniquement]",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "timezone": "Europe/Paris"
+  },
+  "meta": {
+    "note": "Sous-workflow de mesure. Copie à l'identique du nœud CONV-E du workflow principal (feabca96…). Pas de Nœud 2/8a/runner/passeport."
+  }
+}

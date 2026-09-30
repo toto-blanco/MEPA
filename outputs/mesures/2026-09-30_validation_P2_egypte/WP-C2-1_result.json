@@ -1,0 +1,409 @@
+{
+  "meta": {
+    "wp_id": "WP-C2-1",
+    "cas": "Égypte 2011 — Printemps arabe et contre-révolution militaire",
+    "cluster": "C2",
+    "trajectoire_attendue": "(b) Répression réussie",
+    "sa": 6,
+    "sa_modulator": "p6 nominal (Sa=6)",
+    "cmd_type": "linear_dynamic",
+    "integration": "LSODA (scipy solve_ivp rtol=1e-6 atol=1e-9)",
+    "nomenclature": "V7-alpha-rev2.1-gamma (cmd[\"gamma\"] = γ)",
+    "runner_version": "mepa_runner_v3_v7_v3.0.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "fiche_v7": true,
+    "generated_at": "2026-09-30T17:32:46.500475+00:00",
+    "nc_bloquantes": [],
+    "nc_non_bloquantes": [],
+    "statut_nc": "OK",
+    "theta_C_effectif": 0.3,
+    "theta_I_effectif": 0.22,
+    "y0_normalise": [
+      1.2,
+      0.28,
+      0.1,
+      3
+    ],
+    "variables_v7": {
+      "m_r": {
+        "valeur": 1,
+        "source_id": "Todd 1990 (S4)",
+        "justification": "Égypte = Stade 1 (religion active). L'islam structure le droit (référence à la charia), les institutions et la morale publique ; pratique et identité religieuses fortement actives. M_r ∈ {1,2} satisfait ; C1 échoue néanmoins par μ_m."
+      },
+      "mu_m": {
+        "valeur": 0.5,
+        "source_id": "El-Ghobashy (S1) ; Kandil (S2) ; V-DEM (S6)",
+        "justification": "μ_m = 0.50, bande [0.40–0.60] : polarisation forte (Armée vs Frères musulmans, clivage structurant le discours public) MAIS sans désignation publique systématique d'un bouc émissaire démographique unique. Valeur conforme à l'exemple d'ancrage de la grille CONV-E.md L113 (« Égypte 2011, Frères musulmans vs Armée »). μ_m = 0.50 < μ_m* = 0.60 : sous-condition mimétique de C1 non franchie."
+      },
+      "phi": {
+        "valeur": 0.55,
+        "source_id": "V-DEM (S6) ; Freedom House (S7)",
+        "justification": "Φ = 0.55, bande [0.40–0.60] : pluralisme symbolique partiel. En 2011, l'espace médiatique combine télévision d'État, chaînes satellitaires (Al Jazeera), presse indépendante et réseaux sociaux mobilisés à Tahrir — plusieurs récits coexistent sans monopole d'un noyau. Φ modéré → σ(Φ) modéré."
+      },
+      "psi_noyau": {
+        "valeur": 0.03,
+        "source_id": "Kandil (S2) ; V-DEM (S6)",
+        "justification": "Ψ_noyau = 0.03, bande [0.01–0.05] : le noyau organisé pertinent (appareil militaire/sécuritaire, SCAF) est numériquement restreint rapporté à la population, même s'il est très discipliné. L'engagement actif soutenu concerne l'encadrement militaire et sécuritaire, pas une avant-garde de masse. Noyau petit mais discipliné — d'où l'intérêt du couple avec γ_local élevé pour C2."
+      },
+      "psi_cible": {
+        "valeur": null,
+        "source_id": "El-Ghobashy (S1) ; Kandil (S2) ; C. R. Wickham (S3) ; V-DEM (S6) ; Freedom House (S7)",
+        "justification": null
+      },
+      "gamma_local": {
+        "valeur": 0.75,
+        "source_id": "Kandil (S2) ; ancre corpus V7 (γ_local_max_programme)",
+        "justification": "γ_local = 0.75, bande [0.60–0.80] : organisation très disciplinée. Le SCAF / appareil militaire égyptien possède une discipline hiérarchique forte, une chaîne de commandement centralisée et une capacité d'action coordonnée à grande échelle. Valeur pré-enregistrée γ_local_max_programme (ancre corpus V7). DIVERGENCE NOYAU/ÉLITE : γ_local = 0.75 (discipline militaire) >> γ (V6.2 = 0.50, cohésion de l'élite globale plus fragmentée). Cas de divergence légitime, comme Rwanda ; γ V6.2 laissé intact (décision QG)."
+      }
+    }
+  },
+  "simulation": {
+    "traj": "(b) Répression réussie",
+    "branche_annotation": "EXPLICATIVE",
+    "t_bascule": null,
+    "dC_rel": null,
+    "dI_rel": null,
+    "dCdt_bascule": null,
+    "FR_bascule": null,
+    "F_bascule": null,
+    "R_bascule": null,
+    "FR_max": 0.3159,
+    "FR_final": 0.3159,
+    "I_min_sim": 0.8194,
+    "I_final": 0.8194,
+    "C_max": 0.1472,
+    "C_final": 0.1071,
+    "S_final": 0.7875,
+    "L_final": 0.3149,
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "tableau_S2": [
+      {
+        "t": 0,
+        "S": 1.2,
+        "L": 0.28,
+        "C": 0.1,
+        "I": 3,
+        "F": 0.313,
+        "R": 1.6037,
+        "FR": 0.1952,
+        "note": ""
+      },
+      {
+        "t": 25,
+        "S": 0.8795,
+        "L": 0.354,
+        "C": 0.1372,
+        "I": 2.1729,
+        "F": 0.4065,
+        "R": 1.4567,
+        "FR": 0.279,
+        "note": ""
+      },
+      {
+        "t": 50,
+        "S": 0.808,
+        "L": 0.3236,
+        "C": 0.1156,
+        "I": 1.9074,
+        "F": 0.3617,
+        "R": 1.4017,
+        "FR": 0.258,
+        "note": ""
+      },
+      {
+        "t": 75,
+        "S": 0.7921,
+        "L": 0.3168,
+        "C": 0.1091,
+        "I": 1.7673,
+        "F": 0.3501,
+        "R": 1.3706,
+        "FR": 0.2554,
+        "note": ""
+      },
+      {
+        "t": 100,
+        "S": 0.7885,
+        "L": 0.3153,
+        "C": 0.1075,
+        "I": 1.6551,
+        "F": 0.3474,
+        "R": 1.3444,
+        "FR": 0.2584,
+        "note": ""
+      },
+      {
+        "t": 150,
+        "S": 0.7876,
+        "L": 0.3149,
+        "C": 0.1071,
+        "I": 1.4446,
+        "F": 0.3466,
+        "R": 1.292,
+        "FR": 0.2683,
+        "note": ""
+      },
+      {
+        "t": 200,
+        "S": 0.7875,
+        "L": 0.3149,
+        "C": 0.1071,
+        "I": 1.2361,
+        "F": 0.3466,
+        "R": 1.2348,
+        "FR": 0.2807,
+        "note": ""
+      },
+      {
+        "t": 250,
+        "S": 0.7875,
+        "L": 0.3149,
+        "C": 0.1071,
+        "I": 1.0278,
+        "F": 0.3466,
+        "R": 1.1707,
+        "FR": 0.2961,
+        "note": ""
+      },
+      {
+        "t": 300,
+        "S": 0.7875,
+        "L": 0.3149,
+        "C": 0.1071,
+        "I": 0.8194,
+        "F": 0.3466,
+        "R": 1.0973,
+        "FR": 0.3159,
+        "note": ""
+      }
+    ],
+    "v7_alpha_diagnostic": {
+      "b_explicative": true,
+      "C_max": 0.1472,
+      "chute_C": 0.2726,
+      "Cs_val": 0.3,
+      "Rc_Rn": 0.95
+    },
+    "rampe_mod_mimetique_active": false,
+    "chute_C_metric": 0.2726,
+    "chute_I_metric": 0.7269,
+    "integrator": "LSODA"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    "pessimiste": {
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  },
+  "stress_n2": [
+    {
+      "label": "E+0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "E-0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R+0.08",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R-0.08",
+      "traj": "(d) Effondrement progressif",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI+0.5",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI-0.5",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc+0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc-0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  ],
+  "verdict": {
+    "robustesse": "MÉTASTABLE",
+    "trajectoire_diagn": "(b) Répression réussie",
+    "branche_annotation": "EXPLICATIVE",
+    "concordance_attendue": true,
+    "trajs_set_n1": [
+      "(b) Répression réussie",
+      "(d) Effondrement progressif"
+    ]
+  },
+  "v7_alpha": {
+    "precheck": {
+      "c1": false,
+      "c2": false,
+      "c3": false,
+      "c4": true,
+      "all_satisfied": false,
+      "a_r_c_eff": 0.775,
+      "sigma_phi": 0.03483,
+      "produit_c2": 0.0225,
+      "details": {
+        "c1": "M_r=1 in {1,2}: True, mu_m=0.5 > 0.6: False",
+        "c2": "psi_noyau=0.03 × gamma_local=0.75 = 0.022500 > sigma(phi=0.55) = 0.034830: False",
+        "c3": "psi_cible=None, non-null: False",
+        "c4": "A_r_c=0.6, A_r_ne=0.35, A_r_c_eff=0.7750 > 0.7: True"
+      }
+    },
+    "rampe_active": false,
+    "a_r_c_eff_calc": 0.775
+  },
+  "non_regression_t1_t5": {
+    "wp_id": "WP-C2-1",
+    "T1_t_bascule": {
+      "lsoda": null,
+      "euler": null,
+      "pass": true
+    },
+    "T2_C_max": {
+      "lsoda": 0.1472,
+      "euler": 0.1494,
+      "pass": true
+    },
+    "T3_chute_I": {
+      "lsoda": 0.7269,
+      "euler": 0.7282,
+      "pass": true
+    },
+    "T4_FR_max": {
+      "lsoda": 0.3159,
+      "euler": 0.3163,
+      "pass": true
+    },
+    "T5_traj": {
+      "lsoda": "(b) Répression réussie",
+      "euler": "(b) Répression réussie",
+      "pass": true
+    },
+    "all_pass": true
+  },
+  "advisory_dev1": {
+    "$advisory": true,
+    "statut": "ADVISORY_DEV1_NONCALIBRE",
+    "module_version": "mepa_dev1_advisory_v7 v1.0.0",
+    "disclaimer": "VALEUR INDICATIVE — paramètres NON CALIBRÉS (c_Ω, θ, S*_ref advisory). Ne pas utiliser pour inférence, codage ou décision de trajectoire. Diagnostic Dev 1 V6.3 — précurseur de la dette Dev 2 (V7).",
+    "omega_mode": "I",
+    "i_t0_utilise": 3,
+    "i_tmax_utilise": 0.8194,
+    "R_code_A_d_eff": 0.25,
+    "a_d_max_advisory_flag": false,
+    "ecart_R_code_moins_a_d_max": -2.445653,
+    "interpretation_flag": "R_codé ≤ A_d_max dérivé : pas d'écart advisory détecté au pas initial.",
+    "calcul_t0": {
+      "EROI_utilise": 3.75,
+      "net_energy_fraction": 0.733333,
+      "Y_proxy": 0.733333,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 3,
+      "C_maintenance": 0.352536,
+      "S_etoile_NONCALIBRE": 0.280797,
+      "eta_D_proxy_gamma": 0.48,
+      "a_d_max_normalise": 0.269565,
+      "a_d_max_advisory_NONCALIBRE": 2.695653
+    },
+    "calcul_tmax": {
+      "EROI_utilise": 2.5,
+      "net_energy_fraction": 0.6,
+      "Y_proxy": 0.6,
+      "omega_source": "I(t)_direct",
+      "Omega_valeur": 0.8194,
+      "C_maintenance": 0.061138,
+      "S_etoile_NONCALIBRE": 0.438862,
+      "eta_D_proxy_gamma": 0.48,
+      "a_d_max_normalise": 0.421308,
+      "a_d_max_advisory_NONCALIBRE": 4.213077
+    },
+    "params_utilises_NONCALIBRE": {
+      "C_OMEGA": 0.08,
+      "THETA": 1.35,
+      "C_SUB": 0.1,
+      "SA_REF": 4,
+      "S_REF": 0.5,
+      "ECHELLE_A_D": 10
+    },
+    "mapping_note": "R_codé = cmd.R (A_d_eff mappé sur cmd.R en C9b). La commensurabilité R_codé ↔ A_d_max dérivé est elle-même un choix advisory provisoire (cf. CV9). Échelle alignée sur [0,10].",
+    "regime_S_etoile": null
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "cmd_base": {
+    "T": 0.9,
+    "Mob": 0.2,
+    "R": 0.25,
+    "Ref": 0.1,
+    "Rc": 0.6,
+    "Rn": 0.35,
+    "E": 0.65,
+    "gamma": 0.48,
+    "EROI": 3.75,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "C2 avec EROI déclinant documenté — cmd_linear obligatoire pour capture dynamique 5.0→2.5.",
+    "EROI": {
+      "start": 5,
+      "end": 2.5
+    }
+  },
+  "y0": [
+    1.2,
+    0.28,
+    0.1,
+    3
+  ],
+  "t_max": 300
+}

@@ -1,0 +1,97 @@
+{
+  "wp_id": "WP-I10-1",
+  "archive_le": "2026-09-30T18:04:36.969Z",
+  "requete": {
+    "model": "claude-sonnet-4-6",
+    "temperature": 0,
+    "max_tokens": 8000
+  },
+  "reponse_api": {
+    "id": "msg_011Cfa4iQFE8scDbY71WGyCJ",
+    "model": "claude-sonnet-4-6",
+    "stop_reason": "end_turn",
+    "usage": {
+      "input_tokens": 2779,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 13359,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 2938,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "texte_brut": "```json\n{\n  \"codeur\": \"CONV-E\",\n  \"date_codage\": \"2026-09-30\",\n  \"variables_codees\": {\n    \"E_split\": {\n      \"valeur\": 0.82,\n      \"justification\": \"La fracture ethnique Hutu/Tutsi au Rwanda 1990-1994 constitue l'une des polarisations les plus documentées du corpus : désignation publique systématique des Tutsis comme « inyenzi » (cafards) via RTLM et Kangura, listes nominatives de cibles, propagande d'État intégrée aux structures administratives (Prunier 1995, Straus 2006). Le V-DEM elite power index Rwanda 1990-1994 confirme une structure bipolaire quasi-totale, sans zone grise institutionnelle : les Tutsis représentaient 14-18% de la population (recensement colonial 1956, confirmé Prunier 1995) mais étaient désignés comme ennemi démographique unique. E_split = 0.82 reflète une désignation ethnique explicite et totale, légèrement en deçà du maximum théorique pour tenir compte de la période T=0 (1990) où la désignation est déjà structurée mais pas encore au paroxysme de 1994.\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM elite power index Rwanda 1990-1994 + Prunier 1995 données démographiques Hutu/Tutsi\",\n        \"valeur_indicateur\": \"Structure bipolaire documentée ; Tutsis 14-18% population désignés comme cible unique ; propagande RTLM/Kangura systématique dès 1990\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"gamma\": {\n      \"valeur\": 0.55,\n      \"justification\": \"La cohésion culturelle de l'élite génocidaire rwandaise Phase 1 est documentée par l'organisation structurée des Interahamwe (milices MRND entraînées, estimées à 30 000-50 000 membres actifs selon Straus 2006), la diffusion doctrinale coordonnée via RTLM et Kangura, et l'intégration des FAR (Forces armées rwandaises) dans la chaîne de commandement génocidaire. γ = 0.55 reflète une cohésion organisationnelle forte mais non totale : l'Akazu (noyau dur autour de la veuve Habyarimana) coexiste avec des factions régionales (Nord vs Sud Hutu) qui introduisent une fragmentation partielle de l'élite globale (Prunier 1995, Straus 2006). La mobilisation de 800 000 meurtres en 100 jours confirme une γ élevée sans atteindre le maximum théorique.\",\n      \"sanity_check\": {\n        \"indicateur\": \"Degré d'organisation Interahamwe + structuration doctrine Hutu Power 1990-1994 (Straus 2006, Prunier 1995)\",\n        \"valeur_indicateur\": \"Interahamwe : 30 000-50 000 membres entraînés ; MRND + CDR + FAR coordonnés ; factions régionales Hutu Nord/Sud documentées\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"A_d_eff\": {\n      \"valeur\": 1.5,\n      \"justification\": \"Le Rwanda 1990 présente l'une des capacités redistributives les plus basses du corpus : IDH 1990 = 0.304 (PNUD 1990, parmi les 10 derniers mondiaux), dépenses publiques sociales < 8% du PIB (Banque mondiale Rwanda Economic Update), économie agricole de subsistance à 92% (café et thé = 80% des exportations, Banque mondiale 1990). La capacité institutionnelle de redistribution est quasi-nulle : pas de système de protection sociale, infrastructure sanitaire et éducative minimale, État prédateur plutôt que redistributeur sous Habyarimana. A_d_eff = 1.5/10 reflète une capacité redistributive marginale, cohérente avec I0 = 1.5 (capacité institutionnelle très basse T=0).\",\n      \"sanity_check\": {\n        \"indicateur\": \"World Bank Rwanda dépenses publiques/PIB 1990 + PNUD IDH Rwanda 1990\",\n        \"valeur_indicateur\": \"IDH 1990 = 0.304 ; dépenses publiques sociales < 8% PIB ; 92% population agriculture subsistance\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"A_r_c\": {\n      \"valeur\": 0.90,\n      \"justification\": \"La répression classique Phase 1 (t<100, génocide 1994) constitue le maximum empirique du corpus V6.2 : 800 000 morts en 100 jours (Prunier 1995, Straus 2006), soit un taux d'élimination de la population cible estimé à 75-80% des Tutsis rwandais (Hatzfeld 2003). Le V-DEM physical violence index Rwanda 1994 atteint son maximum historique pour ce pays. La coordination FAR + Interahamwe + administration locale (barrières routières, listes nominatives) documente une répression organisée et systématique, non spontanée. A_r_c = 0.90 est retenu (légèrement en deçà du maximum théorique 1.0 pour tenir compte de la valeur T=0 en 1990, avant le paroxysme de 1994 ; la valeur normative de Phase 1 au pic est 0.90-0.95).\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM physical violence index Rwanda 1994 + estimations démographiques génocide (Prunier 1995, Straus 2006, Hatzfeld 2003)\",\n        \"valeur_indicateur\": \"800 000 morts / 100 jours ; 75-80% Tutsis éliminés ; coordination FAR + Interahamwe documentée\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"Cs\": {\n      \"valeur\": 0.25,\n      \"justification\": \"La crédibilité du régime Habyarimana en T=0 (1990) est déjà fortement dégradée : début de la guerre civile FPR (octobre 1990), pression internationale pour la démocratisation (accords d'Arusha 1993 imposés sous contrainte), légitimité interne contestée par les factions Hutu du Sud et les partis d'opposition légalisés en 1991 (Straus 2006, V-DEM Rwanda 1990). Le régime maintient un contrôle territorial mais sans légitimité populaire consolidée : Cs = 0.25 reflète un régime autoritaire en crise de légitimité, capable de mobiliser la violence d'État mais incapable de générer un consentement actif. La valeur est cohérente avec la trajectoire (a) génocidaire : un régime à Cs élevé n'aurait pas besoin de la mobilisation sacrificielle.\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM government effectiveness Rwanda 1990 + Straus 2006 analyse légitimité régime Habyarimana\",\n        \"valeur_indicateur\": \"Guerre civile FPR dès oct. 1990 ; accords Arusha 1993 sous contrainte ; partis opposition légalisés 1991 ; factions Hutu Nord/Sud documentées\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"L_t\": {\n      \"valeur\": 0.10,\n      \"justification\": \"La légitimité institutionnelle du système rwandais en 1990 est quasi-nulle au sens MEPA : le régime Habyarimana est un parti unique de facto (MRND), sans alternance possible, sans contre-pouvoirs institutionnels fonctionnels, sans presse indépendante (RTLM est l'instrument de propagande d'État). Le V-DEM liberal democracy index Rwanda 1990 est parmi les plus bas d'Afrique subsaharienne (< 0.10 selon V-DEM dataset). L_t = 0.10 reflète l'absence quasi-totale de légitimité institutionnelle libérale, cohérente avec I0 = 1.5 et la trajectoire (a) génocidaire Phase 1 : un syst��me à L_t élevé dispose de mécanismes d'absorption des tensions qui empêchent la cristallisation sacrificielle.\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM liberal democracy index Rwanda 1990 + PNUD Rapport développement humain Rwanda 2000\",\n        \"valeur_indicateur\": \"V-DEM liberal democracy index Rwanda 1990 ≈ 0.05-0.08 ; parti unique MRND de facto ; absence presse indépendante documentée\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    }\n  },\n  \"commandes_mises_a_jour\": {\n    \"E\": 0.82,\n    \"gamma\": 0.55,\n    \"R\": 0.15,\n    \"Mob\": 0.25,\n    \"Rc\": 0.90,\n    \"Rn\": 0.10\n  },\n  \"L0_mis_a_jour\": 0.10,\n  \"resume_coherence\": \"Les six variables codées forment un profil cohérent avec la trajectoire (α) Cristallisation sacrificielle d'État et la double phase génocide/reconstruction. E_split = 0.82 et A_r_c = 0.90 constituent les deux piliers de la Phase 1 (t<100) : désignation ethnique totale et répression maximale du corpus, confirmant l'ancre LOI PHYSIQUE T=1.0 / R=0.15. γ = 0.55 documente la cohésion organisationnelle de l'élite génocidaire (Interahamwe + FAR + administration), suffisante pour coordonner 800 000 meurtres en 100 jours sans atteindre le maximum théorique (factions régionales Hutu résiduelles). A_d_eff = 1.5 et L_t = 0.10 confirment l'effondrement institutionnel T=0 (IDH 0.304, parti unique MRND), cohérent avec I0 = 1.5 et la condition nécessaire de la trajectoire (a) génocidaire Phase 1. Cs = 0.25 reflète un régime en crise de légitimité dès 1990 (guerre civile FPR, pression Arusha), ce qui explique le recours à la mobilisation sacrificielle comme substitut à la légitimité défaillante — mécanisme girardien central de la branche (α). La bascule Phase 2 (t>100) sera portée par l'inversion de A_r_c (tribunaux Gacaca, reconstruction RPF) documentée dans S2 et S6, avec γ qui devra être réévaluée à la baisse pour la Phase 2 (fragmentation post-génocide de l'élite rwandaise).\"\n}\n```",
+  "json_parse": {
+    "codeur": "CONV-E",
+    "date_codage": "2026-09-30",
+    "variables_codees": {
+      "E_split": {
+        "valeur": 0.82,
+        "justification": "La fracture ethnique Hutu/Tutsi au Rwanda 1990-1994 constitue l'une des polarisations les plus documentées du corpus : désignation publique systématique des Tutsis comme « inyenzi » (cafards) via RTLM et Kangura, listes nominatives de cibles, propagande d'État intégrée aux structures administratives (Prunier 1995, Straus 2006). Le V-DEM elite power index Rwanda 1990-1994 confirme une structure bipolaire quasi-totale, sans zone grise institutionnelle : les Tutsis représentaient 14-18% de la population (recensement colonial 1956, confirmé Prunier 1995) mais étaient désignés comme ennemi démographique unique. E_split = 0.82 reflète une désignation ethnique explicite et totale, légèrement en deçà du maximum théorique pour tenir compte de la période T=0 (1990) où la désignation est déjà structurée mais pas encore au paroxysme de 1994.",
+        "sanity_check": {
+          "indicateur": "V-DEM elite power index Rwanda 1990-1994 + Prunier 1995 données démographiques Hutu/Tutsi",
+          "valeur_indicateur": "Structure bipolaire documentée ; Tutsis 14-18% population désignés comme cible unique ; propagande RTLM/Kangura systématique dès 1990",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "gamma": {
+        "valeur": 0.55,
+        "justification": "La cohésion culturelle de l'élite génocidaire rwandaise Phase 1 est documentée par l'organisation structurée des Interahamwe (milices MRND entraînées, estimées à 30 000-50 000 membres actifs selon Straus 2006), la diffusion doctrinale coordonnée via RTLM et Kangura, et l'intégration des FAR (Forces armées rwandaises) dans la chaîne de commandement génocidaire. γ = 0.55 reflète une cohésion organisationnelle forte mais non totale : l'Akazu (noyau dur autour de la veuve Habyarimana) coexiste avec des factions régionales (Nord vs Sud Hutu) qui introduisent une fragmentation partielle de l'élite globale (Prunier 1995, Straus 2006). La mobilisation de 800 000 meurtres en 100 jours confirme une γ élevée sans atteindre le maximum théorique.",
+        "sanity_check": {
+          "indicateur": "Degré d'organisation Interahamwe + structuration doctrine Hutu Power 1990-1994 (Straus 2006, Prunier 1995)",
+          "valeur_indicateur": "Interahamwe : 30 000-50 000 membres entraînés ; MRND + CDR + FAR coordonnés ; factions régionales Hutu Nord/Sud documentées",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "A_d_eff": {
+        "valeur": 1.5,
+        "justification": "Le Rwanda 1990 présente l'une des capacités redistributives les plus basses du corpus : IDH 1990 = 0.304 (PNUD 1990, parmi les 10 derniers mondiaux), dépenses publiques sociales < 8% du PIB (Banque mondiale Rwanda Economic Update), économie agricole de subsistance à 92% (café et thé = 80% des exportations, Banque mondiale 1990). La capacité institutionnelle de redistribution est quasi-nulle : pas de système de protection sociale, infrastructure sanitaire et éducative minimale, État prédateur plutôt que redistributeur sous Habyarimana. A_d_eff = 1.5/10 reflète une capacité redistributive marginale, cohérente avec I0 = 1.5 (capacité institutionnelle très basse T=0).",
+        "sanity_check": {
+          "indicateur": "World Bank Rwanda dépenses publiques/PIB 1990 + PNUD IDH Rwanda 1990",
+          "valeur_indicateur": "IDH 1990 = 0.304 ; dépenses publiques sociales < 8% PIB ; 92% population agriculture subsistance",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "A_r_c": {
+        "valeur": 0.9,
+        "justification": "La répression classique Phase 1 (t<100, génocide 1994) constitue le maximum empirique du corpus V6.2 : 800 000 morts en 100 jours (Prunier 1995, Straus 2006), soit un taux d'élimination de la population cible estimé à 75-80% des Tutsis rwandais (Hatzfeld 2003). Le V-DEM physical violence index Rwanda 1994 atteint son maximum historique pour ce pays. La coordination FAR + Interahamwe + administration locale (barrières routières, listes nominatives) documente une répression organisée et systématique, non spontanée. A_r_c = 0.90 est retenu (légèrement en deçà du maximum théorique 1.0 pour tenir compte de la valeur T=0 en 1990, avant le paroxysme de 1994 ; la valeur normative de Phase 1 au pic est 0.90-0.95).",
+        "sanity_check": {
+          "indicateur": "V-DEM physical violence index Rwanda 1994 + estimations démographiques génocide (Prunier 1995, Straus 2006, Hatzfeld 2003)",
+          "valeur_indicateur": "800 000 morts / 100 jours ; 75-80% Tutsis éliminés ; coordination FAR + Interahamwe documentée",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "Cs": {
+        "valeur": 0.25,
+        "justification": "La crédibilité du régime Habyarimana en T=0 (1990) est déjà fortement dégradée : début de la guerre civile FPR (octobre 1990), pression internationale pour la démocratisation (accords d'Arusha 1993 imposés sous contrainte), légitimité interne contestée par les factions Hutu du Sud et les partis d'opposition légalisés en 1991 (Straus 2006, V-DEM Rwanda 1990). Le régime maintient un contrôle territorial mais sans légitimité populaire consolidée : Cs = 0.25 reflète un régime autoritaire en crise de légitimité, capable de mobiliser la violence d'État mais incapable de générer un consentement actif. La valeur est cohérente avec la trajectoire (a) génocidaire : un régime à Cs élevé n'aurait pas besoin de la mobilisation sacrificielle.",
+        "sanity_check": {
+          "indicateur": "V-DEM government effectiveness Rwanda 1990 + Straus 2006 analyse légitimité régime Habyarimana",
+          "valeur_indicateur": "Guerre civile FPR dès oct. 1990 ; accords Arusha 1993 sous contrainte ; partis opposition légalisés 1991 ; factions Hutu Nord/Sud documentées",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "L_t": {
+        "valeur": 0.1,
+        "justification": "La légitimité institutionnelle du système rwandais en 1990 est quasi-nulle au sens MEPA : le régime Habyarimana est un parti unique de facto (MRND), sans alternance possible, sans contre-pouvoirs institutionnels fonctionnels, sans presse indépendante (RTLM est l'instrument de propagande d'État). Le V-DEM liberal democracy index Rwanda 1990 est parmi les plus bas d'Afrique subsaharienne (< 0.10 selon V-DEM dataset). L_t = 0.10 reflète l'absence quasi-totale de légitimité institutionnelle libérale, cohérente avec I0 = 1.5 et la trajectoire (a) génocidaire Phase 1 : un syst��me à L_t élevé dispose de mécanismes d'absorption des tensions qui empêchent la cristallisation sacrificielle.",
+        "sanity_check": {
+          "indicateur": "V-DEM liberal democracy index Rwanda 1990 + PNUD Rapport développement humain Rwanda 2000",
+          "valeur_indicateur": "V-DEM liberal democracy index Rwanda 1990 ≈ 0.05-0.08 ; parti unique MRND de facto ; absence presse indépendante documentée",
+          "coherence": "CONFIRMÉ"
+        }
+      }
+    },
+    "commandes_mises_a_jour": {
+      "E": 0.82,
+      "gamma": 0.55,
+      "R": 0.15,
+      "Mob": 0.25,
+      "Rc": 0.9,
+      "Rn": 0.1
+    },
+    "L0_mis_a_jour": 0.1,
+    "resume_coherence": "Les six variables codées forment un profil cohérent avec la trajectoire (α) Cristallisation sacrificielle d'État et la double phase génocide/reconstruction. E_split = 0.82 et A_r_c = 0.90 constituent les deux piliers de la Phase 1 (t<100) : désignation ethnique totale et répression maximale du corpus, confirmant l'ancre LOI PHYSIQUE T=1.0 / R=0.15. γ = 0.55 documente la cohésion organisationnelle de l'élite génocidaire (Interahamwe + FAR + administration), suffisante pour coordonner 800 000 meurtres en 100 jours sans atteindre le maximum théorique (factions régionales Hutu résiduelles). A_d_eff = 1.5 et L_t = 0.10 confirment l'effondrement institutionnel T=0 (IDH 0.304, parti unique MRND), cohérent avec I0 = 1.5 et la condition nécessaire de la trajectoire (a) génocidaire Phase 1. Cs = 0.25 reflète un régime en crise de légitimité dès 1990 (guerre civile FPR, pression Arusha), ce qui explique le recours à la mobilisation sacrificielle comme substitut à la légitimité défaillante — mécanisme girardien central de la branche (α). La bascule Phase 2 (t>100) sera portée par l'inversion de A_r_c (tribunaux Gacaca, reconstruction RPF) documentée dans S2 et S6, avec γ qui devra être réévaluée à la baisse pour la Phase 2 (fragmentation post-génocide de l'élite rwandaise)."
+  }
+}

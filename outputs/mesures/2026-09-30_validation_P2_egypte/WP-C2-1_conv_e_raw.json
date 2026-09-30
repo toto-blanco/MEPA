@@ -1,0 +1,97 @@
+{
+  "wp_id": "WP-C2-1",
+  "archive_le": "2026-09-30T17:36:38.906Z",
+  "requete": {
+    "model": "claude-sonnet-4-6",
+    "temperature": 0,
+    "max_tokens": 8000
+  },
+  "reponse_api": {
+    "id": "msg_011Cfa2DLjbreXv64exLuQwr",
+    "model": "claude-sonnet-4-6",
+    "stop_reason": "end_turn",
+    "usage": {
+      "input_tokens": 2693,
+      "cache_creation_input_tokens": 13359,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 13359,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 3091,
+      "service_tier": "standard",
+      "inference_geo": "global"
+    }
+  },
+  "texte_brut": "```json\n{\n  \"codeur\": \"CONV-E\",\n  \"date_codage\": \"2026-09-30\",\n  \"variables_codees\": {\n    \"E_split\": {\n      \"valeur\": 0.65,\n      \"justification\": \"La fracture élite/base est structurée par le contrôle militaro-économique du SCAF (estimé à 25-40% du PIB selon Kandil 2012, S2), opposé à une coalition hétérogène : jeunesse urbaine diplômée (chômage 25-30% chez les 15-29 ans, BM 2010), Frères Musulmans et classes populaires. El-Ghobashy (S1) documente la cristallisation de cette fracture dès 2010 : l'élite militaro-économique constitue un bloc cohérent face à une base fragmentée mais massivement mobilisée. V-DEM Egypt 2010 (S6) situe le power concentration index à un niveau élevé, cohérent avec E_split ≈ 0.65 — légèrement en-dessous du plafond pour refléter la fragmentation interne de l'opposition (Tahrir ≠ FM ≠ libéraux).\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM elite power index Egypt 2010 + part PIB contrôlée par entreprises militaires (Kandil 2012)\",\n        \"valeur_indicateur\": \"SCAF ~25-40% PIB ; Gini Égypte 2010 ≈ 31 (BM) — inégalités modérées mais concentration sectorielle militaire très élevée\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"gamma\": {\n      \"valeur\": 0.48,\n      \"justification\": \"γ reflète la cohésion culturelle de l'élite égyptienne globale en 2010-2011 : les Frères Musulmans disposent d'une organisation décennale dense (réseau de mosquées, associations caritatives, cellules locales — Wickham 2013, S3), mais l'élite au sens large est profondément fragmentée entre SCAF, appareil civil moubarkiste, FM et mouvements Tahrir. El-Ghobashy (S1) souligne que la révolution est « morcelée » dès l'origine : pas de direction unifiée, pas de doctrine commune entre les composantes de l'opposition. γ ≈ 0.48 traduit une organisation partielle (FM structurés) compensée par la fragmentation des autres composantes élitaires, légèrement sous la valeur normative de 0.50.\",\n      \"sanity_check\": {\n        \"indicateur\": \"Degré d'organisation Frères Musulmans 2011 (Wickham 2013) + structuration mouvements Tahrir (El-Ghobashy 2012)\",\n        \"valeur_indicateur\": \"FM : organisation décennale avec réseau social dense ; Tahrir : coalitions ad hoc sans structure permanente (6 Avril, Kefaya — organisations légères)\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"A_d_eff\": {\n      \"valeur\": 3.8,\n      \"justification\": \"La capacité redistributive de l'État égyptien en 2010 repose quasi-exclusivement sur les subventions alimentaires (pain subventionné) et énergétiques, représentant environ 8% du PIB selon la Banque mondiale (S5), mais ces transferts sont partiellement captés par les élites et les entreprises militaires. Le Egypt Economic Monitor BM 2010-2014 (S5) documente un appareil administratif fonctionnel mais corrompu, avec des dépenses publiques totales autour de 30-32% du PIB — dont une part significative absorbée par les salaires de la fonction publique (6 millions d'agents) sans effet redistributif réel vers les plus pauvres. A_d_eff ≈ 3.8/10 traduit un État capable de maintenir des mécanismes redistributifs minimaux (subventions structurelles) mais dont l'efficacité redistributive effective est fortement limitée par la corruption et la capture par les réseaux militaro-économiques.\",\n      \"sanity_check\": {\n        \"indicateur\": \"BM Egypt dépenses publiques/PIB 2010 + subventions alimentaires/énergie (Egypt Economic Monitor S5)\",\n        \"valeur_indicateur\": \"Subventions ~8% PIB 2010 ; dépenses publiques ~31% PIB ; IDH Égypte 2010 = 0.644 (rang 101/169 PNUD)\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"A_r_c\": {\n      \"valeur\": 0.60,\n      \"justification\": \"La répression classique du régime Moubarak en T=0 (2010) est structurellement assurée par la Sécurité d'État (SSI/Amn al-Dawla) avec une capacité répressive documentée : torture systématique, détentions arbitraires, état d'urgence permanent depuis 1981 (Freedom House 2010, S7 ; V-DEM physical violence index Egypt 2010, S6). Kandil (S2) documente la structure duale police/armée : la SSI assure la répression quotidienne tandis que l'armée reste en retrait stratégique. A_r_c ≈ 0.60 en T=0 reflète une capacité répressive élevée mais non maximale — le régime Moubarak évite la répression de masse visible pour préserver sa légitimité internationale, contrairement à la phase Sissi post-Rabaa 2013 où A_r_c atteindrait ~0.85.\",\n      \"sanity_check\": {\n        \"indicateur\": \"V-DEM physical violence index Egypt 2010 + Freedom House Egypt 2010 (S6, S7)\",\n        \"valeur_indicateur\": \"Freedom House Egypt 2010 : Not Free (score 5.5/7) ; V-DEM liberal democracy index 2010 : 0.07/1 ; état d'urgence continu depuis 1981\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"Cs\": {\n      \"valeur\": 0.18,\n      \"justification\": \"La crédibilité du régime Moubarak en T=0 (2010) est effondrée : 30 ans de règne autoritaire, chômage structurel des jeunes diplômés (25-30% chez les 15-29 ans), corruption endémique documentée (Égypte classée 98e/178 sur l'indice de perception de la corruption Transparency International 2010), et succession dynastique en préparation (Gamal Moubarak). El-Ghobashy (S1) et V-DEM (S6) convergent sur une légitimité populaire quasi-nulle : Arab Barometer Egypt 2010 situe l'approbation du régime sous 25%, et les élections législatives de novembre 2010 (fraude massive documentée) ont achevé de délégitimer le processus électoral. Cs ≈ 0.18 traduit un régime maintenu par la coercition et la rente pétrolière, non par la légitimité.\",\n      \"sanity_check\": {\n        \"indicateur\": \"Arab Barometer Egypt 2010 + Transparency International CPI Egypt 2010 + V-DEM electoral democracy index 2010 (S6)\",\n        \"valeur_indicateur\": \"Approbation Moubarak < 25% (Arab Barometer 2010) ; CPI Égypte 2010 : 3.1/10 (rang 98/178) ; V-DEM electoral democracy index 2010 : 0.12/1\",\n        \"coherence\": \"CONFIRMÉ\"\n      }\n    },\n    \"L_t\": {\n      \"valeur\": 0.28,\n      \"justification\": \"La légitimité institutionnelle de l'armée égyptienne (SCAF) en T=0 est distincte de celle du régime Moubarak : l'armée bénéficie d'un capital symbolique résiduel (héros de 1973, institution nationale) mais son emprise économique (25-40% du PIB selon Kandil 2012, S2) est perçue comme prédatrice par la population. El-Ghobashy (S1) et Kandil (S2) documentent que le SCAF calcule sa position en termes d'intérêts institutionnels, non de légitimité populaire — ce qui est précisément le mécanisme L(t) économique institutionnel identifié comme défi MEPA de ce WP. L_t ≈ 0.28 en T=0 reflète une légitimité institutionnelle faible mais non nulle, cohérente avec la trajectoire (a)→(e)→(b) : le SCAF dispose d'assez de légitimité résiduelle pour orchestrer la transition Morsi puis le coup Sissi, mais pas assez pour gouverner directement sans passer par une phase électorale intermédiaire.\",\n      \"sanity_check\": {\n        \"indicateur\": \"Kandil 2012 (S2) — analyse institutionnelle SCAF + El-Ghobashy 2012 (S1) — perception populaire armée\",\n        \"valeur_indicateur\": \"Armée = institution la plus « respectée » en Égypte (sondages 2011 : ~70% confiance) mais confiance ≠ légitimité gouvernementale ; emprise économique militaire ~25-40% PIB perçue comme prédatrice\",\n        \"coherence\": \"À VÉRIFIER — paradoxe confiance/légitimité : la confiance populaire dans l'armée (haute) ne se traduit pas en légitimité institutionnelle gouvernementale (faible). L_t = 0.28 retient la légitimité gouvernementale, pas la confiance symbolique.\"\n      }\n    }\n  },\n  \"commandes_mises_a_jour\": {\n    \"E\": 0.65,\n    \"gamma\": 0.48,\n    \"R\": 0.38,\n    \"Mob\": 0.18,\n    \"Rc\": 0.60,\n    \"Rn\": 0.35\n  },\n  \"L0_mis_a_jour\": 0.28,\n  \"resume_coherence\": \"Les scores V6.2 codés pour WP-C2-1 Égypte 2011 sont cohérents avec la trajectoire attendue (b) Répression réussie via la séquence (a)→(e)→(b). E_split = 0.65 documente la fracture militaro-économique structurelle qui rend la mobilisation Tahrir inévitable mais insuffisante pour renverser le bloc SCAF. γ = 0.48 reflète l'organisation partielle de l'opposition (FM structurés, Tahrir fragmenté) — assez pour déclencher la phase (a) mais insuffisant pour consolider une alternative gouvernementale durable face au SCAF. Cs = 0.18 confirme l'effondrement de légitimité Moubarak qui déclenche la phase (a), tandis que L_t = 0.28 capture le calcul institutionnel du SCAF : légitimité gouvernementale faible mais suffisante pour orchestrer la transition Morsi (phase e) puis le coup Sissi (phase b). A_r_c = 0.60 en T=0 (régime Moubarak) est cohérent avec la montée vers ~0.85 lors de Rabaa 2013 — la trajectoire (b) finale est bien déterminée par la reconstitution de R via Q5_stab extérieur (12 Mds Gulf) et le calcul L(t) institutionnel du SCAF, non par A_r_c pur en T=0, ce qui ancre correctement la loi physique C2 de ce WP.\"\n}\n```",
+  "json_parse": {
+    "codeur": "CONV-E",
+    "date_codage": "2026-09-30",
+    "variables_codees": {
+      "E_split": {
+        "valeur": 0.65,
+        "justification": "La fracture élite/base est structurée par le contrôle militaro-économique du SCAF (estimé à 25-40% du PIB selon Kandil 2012, S2), opposé à une coalition hétérogène : jeunesse urbaine diplômée (chômage 25-30% chez les 15-29 ans, BM 2010), Frères Musulmans et classes populaires. El-Ghobashy (S1) documente la cristallisation de cette fracture dès 2010 : l'élite militaro-économique constitue un bloc cohérent face à une base fragmentée mais massivement mobilisée. V-DEM Egypt 2010 (S6) situe le power concentration index à un niveau élevé, cohérent avec E_split ≈ 0.65 — légèrement en-dessous du plafond pour refléter la fragmentation interne de l'opposition (Tahrir ≠ FM ≠ libéraux).",
+        "sanity_check": {
+          "indicateur": "V-DEM elite power index Egypt 2010 + part PIB contrôlée par entreprises militaires (Kandil 2012)",
+          "valeur_indicateur": "SCAF ~25-40% PIB ; Gini Égypte 2010 ≈ 31 (BM) — inégalités modérées mais concentration sectorielle militaire très élevée",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "gamma": {
+        "valeur": 0.48,
+        "justification": "γ reflète la cohésion culturelle de l'élite égyptienne globale en 2010-2011 : les Frères Musulmans disposent d'une organisation décennale dense (réseau de mosquées, associations caritatives, cellules locales — Wickham 2013, S3), mais l'élite au sens large est profondément fragmentée entre SCAF, appareil civil moubarkiste, FM et mouvements Tahrir. El-Ghobashy (S1) souligne que la révolution est « morcelée » dès l'origine : pas de direction unifiée, pas de doctrine commune entre les composantes de l'opposition. γ ≈ 0.48 traduit une organisation partielle (FM structurés) compensée par la fragmentation des autres composantes élitaires, légèrement sous la valeur normative de 0.50.",
+        "sanity_check": {
+          "indicateur": "Degré d'organisation Frères Musulmans 2011 (Wickham 2013) + structuration mouvements Tahrir (El-Ghobashy 2012)",
+          "valeur_indicateur": "FM : organisation décennale avec réseau social dense ; Tahrir : coalitions ad hoc sans structure permanente (6 Avril, Kefaya — organisations légères)",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "A_d_eff": {
+        "valeur": 3.8,
+        "justification": "La capacité redistributive de l'État égyptien en 2010 repose quasi-exclusivement sur les subventions alimentaires (pain subventionné) et énergétiques, représentant environ 8% du PIB selon la Banque mondiale (S5), mais ces transferts sont partiellement captés par les élites et les entreprises militaires. Le Egypt Economic Monitor BM 2010-2014 (S5) documente un appareil administratif fonctionnel mais corrompu, avec des dépenses publiques totales autour de 30-32% du PIB — dont une part significative absorbée par les salaires de la fonction publique (6 millions d'agents) sans effet redistributif réel vers les plus pauvres. A_d_eff ≈ 3.8/10 traduit un État capable de maintenir des mécanismes redistributifs minimaux (subventions structurelles) mais dont l'efficacité redistributive effective est fortement limitée par la corruption et la capture par les réseaux militaro-économiques.",
+        "sanity_check": {
+          "indicateur": "BM Egypt dépenses publiques/PIB 2010 + subventions alimentaires/énergie (Egypt Economic Monitor S5)",
+          "valeur_indicateur": "Subventions ~8% PIB 2010 ; dépenses publiques ~31% PIB ; IDH Égypte 2010 = 0.644 (rang 101/169 PNUD)",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "A_r_c": {
+        "valeur": 0.6,
+        "justification": "La répression classique du régime Moubarak en T=0 (2010) est structurellement assurée par la Sécurité d'État (SSI/Amn al-Dawla) avec une capacité répressive documentée : torture systématique, détentions arbitraires, état d'urgence permanent depuis 1981 (Freedom House 2010, S7 ; V-DEM physical violence index Egypt 2010, S6). Kandil (S2) documente la structure duale police/armée : la SSI assure la répression quotidienne tandis que l'armée reste en retrait stratégique. A_r_c ≈ 0.60 en T=0 reflète une capacité répressive élevée mais non maximale — le régime Moubarak évite la répression de masse visible pour préserver sa légitimité internationale, contrairement à la phase Sissi post-Rabaa 2013 où A_r_c atteindrait ~0.85.",
+        "sanity_check": {
+          "indicateur": "V-DEM physical violence index Egypt 2010 + Freedom House Egypt 2010 (S6, S7)",
+          "valeur_indicateur": "Freedom House Egypt 2010 : Not Free (score 5.5/7) ; V-DEM liberal democracy index 2010 : 0.07/1 ; état d'urgence continu depuis 1981",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "Cs": {
+        "valeur": 0.18,
+        "justification": "La crédibilité du régime Moubarak en T=0 (2010) est effondrée : 30 ans de règne autoritaire, chômage structurel des jeunes diplômés (25-30% chez les 15-29 ans), corruption endémique documentée (Égypte classée 98e/178 sur l'indice de perception de la corruption Transparency International 2010), et succession dynastique en préparation (Gamal Moubarak). El-Ghobashy (S1) et V-DEM (S6) convergent sur une légitimité populaire quasi-nulle : Arab Barometer Egypt 2010 situe l'approbation du régime sous 25%, et les élections législatives de novembre 2010 (fraude massive documentée) ont achevé de délégitimer le processus électoral. Cs ≈ 0.18 traduit un régime maintenu par la coercition et la rente pétrolière, non par la légitimité.",
+        "sanity_check": {
+          "indicateur": "Arab Barometer Egypt 2010 + Transparency International CPI Egypt 2010 + V-DEM electoral democracy index 2010 (S6)",
+          "valeur_indicateur": "Approbation Moubarak < 25% (Arab Barometer 2010) ; CPI Égypte 2010 : 3.1/10 (rang 98/178) ; V-DEM electoral democracy index 2010 : 0.12/1",
+          "coherence": "CONFIRMÉ"
+        }
+      },
+      "L_t": {
+        "valeur": 0.28,
+        "justification": "La légitimité institutionnelle de l'armée égyptienne (SCAF) en T=0 est distincte de celle du régime Moubarak : l'armée bénéficie d'un capital symbolique résiduel (héros de 1973, institution nationale) mais son emprise économique (25-40% du PIB selon Kandil 2012, S2) est perçue comme prédatrice par la population. El-Ghobashy (S1) et Kandil (S2) documentent que le SCAF calcule sa position en termes d'intérêts institutionnels, non de légitimité populaire — ce qui est précisément le mécanisme L(t) économique institutionnel identifié comme défi MEPA de ce WP. L_t ≈ 0.28 en T=0 reflète une légitimité institutionnelle faible mais non nulle, cohérente avec la trajectoire (a)→(e)→(b) : le SCAF dispose d'assez de légitimité résiduelle pour orchestrer la transition Morsi puis le coup Sissi, mais pas assez pour gouverner directement sans passer par une phase électorale intermédiaire.",
+        "sanity_check": {
+          "indicateur": "Kandil 2012 (S2) — analyse institutionnelle SCAF + El-Ghobashy 2012 (S1) — perception populaire armée",
+          "valeur_indicateur": "Armée = institution la plus « respectée » en Égypte (sondages 2011 : ~70% confiance) mais confiance ≠ légitimité gouvernementale ; emprise économique militaire ~25-40% PIB perçue comme prédatrice",
+          "coherence": "À VÉRIFIER — paradoxe confiance/légitimité : la confiance populaire dans l'armée (haute) ne se traduit pas en légitimité institutionnelle gouvernementale (faible). L_t = 0.28 retient la légitimité gouvernementale, pas la confiance symbolique."
+        }
+      }
+    },
+    "commandes_mises_a_jour": {
+      "E": 0.65,
+      "gamma": 0.48,
+      "R": 0.38,
+      "Mob": 0.18,
+      "Rc": 0.6,
+      "Rn": 0.35
+    },
+    "L0_mis_a_jour": 0.28,
+    "resume_coherence": "Les scores V6.2 codés pour WP-C2-1 Égypte 2011 sont cohérents avec la trajectoire attendue (b) Répression réussie via la séquence (a)→(e)→(b). E_split = 0.65 documente la fracture militaro-économique structurelle qui rend la mobilisation Tahrir inévitable mais insuffisante pour renverser le bloc SCAF. γ = 0.48 reflète l'organisation partielle de l'opposition (FM structurés, Tahrir fragmenté) — assez pour déclencher la phase (a) mais insuffisant pour consolider une alternative gouvernementale durable face au SCAF. Cs = 0.18 confirme l'effondrement de légitimité Moubarak qui déclenche la phase (a), tandis que L_t = 0.28 capture le calcul institutionnel du SCAF : légitimité gouvernementale faible mais suffisante pour orchestrer la transition Morsi (phase e) puis le coup Sissi (phase b). A_r_c = 0.60 en T=0 (régime Moubarak) est cohérent avec la montée vers ~0.85 lors de Rabaa 2013 — la trajectoire (b) finale est bien déterminée par la reconstitution de R via Q5_stab extérieur (12 Mds Gulf) et le calcul L(t) institutionnel du SCAF, non par A_r_c pur en T=0, ce qui ancre correctement la loi physique C2 de ce WP."
+  }
+}
