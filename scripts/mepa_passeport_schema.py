@@ -19,9 +19,27 @@ Rétrocompatibilité :
   - Champs NC : inchangés. Ajout de psi_noyau et gamma_local dans la liste des
     NC bloquantes V7.
 
-Version          : 3.0.2
+Version          : 3.0.4
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, sys, hashlib, datetime, os (stdlib uniquement)
+
+Changelog 3.0.4 :
+  - mepa_version.audit : "mepa_node2_audit_v7 v3.0" → "v3.0.1". Le Nœud 2 a été
+    modifié pour l'Erratum §5.1 (propagation de _provenance_llm et _conv_e_meta,
+    exemption de _provenance_llm dans _CLES_PIPELINE du contrôle C9). Aucun
+    changement des contrôles C1-C15. Remplace 3.0.3, jamais déployée.
+
+Changelog 3.0.3 (Erratum Certification V7.0 du 2026-09-29, §5.1) :
+  - provenance_ia.temperature : SUPPRIMÉ. La valeur 0.0 était écrite en dur et
+    inexacte pour CONV-E, 8a, 6b et 13 (aucun paramètre transmis à l'API).
+    Les paramètres LLM réellement transmis sont enregistrés par nœud dans
+    provenance_llm_par_noeud, renseigné par le pipeline n8n (Nœud 15) à partir
+    des objets de requête eux-mêmes.
+  - mepa_version.protocole : AJOUT. Identifiant de la version de protocole
+    d'exécution (V7.0-P2 = température transmise et enregistrée par nœud,
+    sortie brute CONV-E archivée). Les 6 pilotes relèvent de V7.0-P1 et ne
+    sont pas régénérés (passeports figés, cf. Erratum §1).
+  Aucun changement de gate, de hash, ni de valeur scientifique.
 
 Changelog 3.0.2 (correctif D5 — désync a_r_c_eff_calc) :
   - a_r_c_eff_calc est PRODUIT par le runner dans result['v7_alpha'], mais le
@@ -97,13 +115,15 @@ from typing import Optional
 MEPA_SCRIPTS_DIR = os.environ.get("MEPA_SCRIPTS_DIR", "/data/mepa/scripts")
 MEPA_OUTPUT_DIR  = os.environ.get("MEPA_OUTPUT_DIR",  "/data/mepa/outputs")
 
-# ── Métadonnées IA codeur (traçabilité provenance) — inchangées V6.2 ─────────
+# ── Métadonnées IA codeur (traçabilité provenance) ───────────────────────────
+# v3.0.3 : aucun paramètre d'inférence n'est déclaré ici. Ils sont enregistrés
+# par nœud, depuis le payload réellement transmis (provenance_llm_par_noeud).
 IA_CODEUR = {
     "modele":           "claude-sonnet-4-6",
     "famille":          "Claude 4",
     "fournisseur":      "Anthropic",
     "role_pipeline":    "CONV-E (Historien-Codeur) / CONV-B (Auditeur) / CONV-A (Rédacteur)",
-    "temperature":      0.0,
+    "parametres_inference": "par nœud — voir provenance_llm_par_noeud (valeurs lues sur la requête effectivement transmise)",
     "protocole":        "Double aveugle n8n — étanchéité informationnelle garantie par le workflow",
     "note":             (
         "Les valeurs codées sont produites sous protocole d'inférence contrôlé "
@@ -118,9 +138,11 @@ MEPA_VERSION_META = {
     "label":            "MEPA V7-alpha rev. 2.1",
     "runner":           "mepa_runner_v3_v7 v3.0 (LSODA)",
     "runner_legacy":    "mepa_runner_v2_gamma v2.1.1 (Euler dt=1, cas V6.2)",
-    "audit":            "mepa_node2_audit_v7 v3.0",
+    "audit":            "mepa_node2_audit_v7 v3.0.1",
     "kappa_calc":       "mepa_kappa_calculator v3.0",
-    "passeport":        "mepa_passeport_schema v3.0.2",
+    "passeport":        "mepa_passeport_schema v3.0.4",
+    "protocole":        "V7.0-P2",
+    "protocole_ref":    "Erratum Certification V7.0 (2026-09-29) §5.1 — T=0 transmis et enregistré par nœud, conv_e_raw archivé",
     "constants":        "mepa_constants v1.3.0",
     "whitelist":        "mepa_whitelist_keys v3.0.0",
     "cadre_theorique":  "MEPA_cadre_theorique_V7_alpha_rev2_1.docx",

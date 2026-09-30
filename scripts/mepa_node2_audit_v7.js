@@ -16,8 +16,11 @@
 //   - Chemins canoniques /data/mepa/scripts/ via MEPA_SCRIPTS_DIR. [RESOUT ARCH-015]
 //   - Labels D4 etendus a 10 labels (ajout (α) V7).
 //   - Nouvelles variables V7 propagees dans runner_config.variables_v7.
-// Version          : 3.0.0
+// Version          : 3.0.1
 // MEPA version     : 7.0-alpha rev. 2.1
+// Changelog :
+//   3.0.1 — Erratum §5.1 : propagation _provenance_llm / _conv_e_meta ;
+//           _provenance_llm ajouté à _CLES_PIPELINE (C9). Contrôles C1-C15 inchangés.
 // Corrections V3.0.0 vs V2.1.0 :
 //   [V7-N1] Ajout du label "(α) Cristallisation sacrificielle d'État" dans LABELS_D4.
 //   [V7-N2] C14 NOUVEAU — Validation du codage null positif de psi_cible (regle E3 rev. 2.1).
@@ -67,7 +70,9 @@ const _CLES_PIPELINE = new Set([
   // Préfixes pipeline
   "_pipe_zone","_pipe_seq_idx","_pipe_fiche_v7",
   // Flag injecté par Nœud B (MEPA_FICHE_V7) ou séquenceur — lu via _raw_input, retiré du root
-  "fiche_v7"
+  "fiche_v7",
+  // Provenance LLM par nœud (Erratum V7.0 §5.1) — champ pipeline, retiré avant C9
+  "_provenance_llm"
 ]);
 // t_max, theta_C, theta_I : acceptés à la racine pour compat V6.2
 // (ils sont aussi dans params — les deux niveaux sont valides)
@@ -417,7 +422,7 @@ const nc_non_bloquantes_det = [];
 
 const audit_log = {
   timestamp: new Date().toISOString(),
-  version_audit: "3.0.0",
+  version_audit: "3.0.1",
   mepa_version: "7.0-alpha rev. 2.1",
   wp_id: null,
   fiche_v7: false,
@@ -924,6 +929,9 @@ return [{
     runner_cmd,
     n1_cmd,
     llm_context,
+    // Erratum V7.0 §5.1 — propagation des champs pipeline CONV-E
+    _conv_e_meta:    _raw_input._conv_e_meta ?? null,
+    _provenance_llm: _raw_input._provenance_llm || {},
     message: (
       `[AUDIT OK] ${wp_id} - ${fiche_v7 ? "V7 (15 controles)" : "V6.2 (13 controles)"} passes` +
       (warnings.length > 0 ? ` (${warnings.length} warning(s))` : "") +
