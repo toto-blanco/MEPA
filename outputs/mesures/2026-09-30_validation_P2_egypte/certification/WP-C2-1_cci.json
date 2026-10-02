@@ -1,0 +1,537 @@
+{
+  "wp_id": "WP-C2-1",
+  "codeur_a": "CONV-E",
+  "codeur_b": "CONV-B",
+  "est_v7": true,
+  "mepa_version": "7.0-alpha rev. 2.1",
+  "cci": 0.9018,
+  "kappa": 0.9018,
+  "cci_detail": {
+    "icc": 0.9018,
+    "ci_low": 0.6958,
+    "ci_high": 0.9707,
+    "F": 19.3655,
+    "p": 0,
+    "n": 12
+  },
+  "kappa_sa": 0,
+  "kappa_m_r": 1,
+  "variables_nc": [],
+  "nc_bloquantes": [],
+  "n_nc": 0,
+  "verdict": "CERTIFIÉ",
+  "seuils": {
+    "cci_certifie": 0.7,
+    "cci_global_cert": 0.75,
+    "cci_revision": 0.5
+  },
+  "n_variables": 15,
+  "n_continues_scorables": 12,
+  "n_accords_seuil": 7,
+  "n_desaccords": 8,
+  "Po_seuil": 0.4667,
+  "detail_variables": [
+    {
+      "variable": "E_split",
+      "type": "continue",
+      "val_a": 0.65,
+      "val_b": 0.82,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.17,
+      "seuil": 0.15,
+      "friction": 1.1333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "gamma",
+      "type": "continue",
+      "val_a": 0.48,
+      "val_b": 0.72,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.24,
+      "seuil": 0.15,
+      "friction": 1.6,
+      "friction_outlier": false
+    },
+    {
+      "variable": "A_d_eff",
+      "type": "continue",
+      "val_a": 3.8,
+      "val_b": 3.5,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0.3,
+      "seuil": 1.5,
+      "friction": 0.2,
+      "friction_outlier": false
+    },
+    {
+      "variable": "A_r_c",
+      "type": "continue",
+      "val_a": 0.6,
+      "val_b": 0.72,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0.12,
+      "seuil": 0.15,
+      "friction": 0.8,
+      "friction_outlier": false
+    },
+    {
+      "variable": "A_r_ne",
+      "type": "continue",
+      "val_a": 0.35,
+      "val_b": 0.55,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.2,
+      "seuil": 0.15,
+      "friction": 1.3333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "Cs",
+      "type": "continue",
+      "val_a": 0.18,
+      "val_b": 0.35,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.17,
+      "seuil": 0.15,
+      "friction": 1.1333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "L_t",
+      "type": "continue",
+      "val_a": 0.28,
+      "val_b": 0.28,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0,
+      "seuil": 0.15,
+      "friction": 0,
+      "friction_outlier": false
+    },
+    {
+      "variable": "EROI",
+      "type": "continue",
+      "val_a": 3.75,
+      "val_b": 4.2,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0.45,
+      "seuil": 1.5,
+      "friction": 0.3,
+      "friction_outlier": false
+    },
+    {
+      "variable": "Sa",
+      "type": "categorielle",
+      "val_a": 6,
+      "val_b": 4,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 1,
+      "seuil": "exact",
+      "friction": null,
+      "friction_outlier": false
+    },
+    {
+      "variable": "m_r",
+      "type": "categorielle",
+      "val_a": 1,
+      "val_b": 1,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0,
+      "seuil": "exact",
+      "friction": null,
+      "friction_outlier": false
+    },
+    {
+      "variable": "mu_m",
+      "type": "continue",
+      "val_a": 0.5,
+      "val_b": 0.78,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.28,
+      "seuil": 0.15,
+      "friction": 1.8667,
+      "friction_outlier": false
+    },
+    {
+      "variable": "phi",
+      "type": "continue",
+      "val_a": 0.55,
+      "val_b": 0.62,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0.07,
+      "seuil": 0.15,
+      "friction": 0.4667,
+      "friction_outlier": false
+    },
+    {
+      "variable": "psi_noyau",
+      "type": "continue",
+      "val_a": 0.03,
+      "val_b": 0.18,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.15,
+      "seuil": 0.05,
+      "friction": 3,
+      "friction_outlier": true
+    },
+    {
+      "variable": "psi_cible",
+      "type": "continue_ou_null",
+      "val_a": null,
+      "val_b": 0.72,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": false,
+      "accord": false,
+      "ecart": null,
+      "seuil": 0.05,
+      "friction": null,
+      "friction_outlier": false
+    },
+    {
+      "variable": "gamma_local",
+      "type": "continue",
+      "val_a": 0.75,
+      "val_b": 0.72,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": true,
+      "ecart": 0.03,
+      "seuil": 0.1,
+      "friction": 0.3,
+      "friction_outlier": false
+    }
+  ],
+  "cci_par_variable": {
+    "E_split": {
+      "cci": null,
+      "ecart": 0.17,
+      "ecart_norm": 1.1333,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "gamma": {
+      "cci": null,
+      "ecart": 0.24,
+      "ecart_norm": 1.6,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "A_d_eff": {
+      "cci": null,
+      "ecart": 0.3,
+      "ecart_norm": 0.2,
+      "accord_seuil": true,
+      "nc": false
+    },
+    "A_r_c": {
+      "cci": null,
+      "ecart": 0.12,
+      "ecart_norm": 0.8,
+      "accord_seuil": true,
+      "nc": false
+    },
+    "A_r_ne": {
+      "cci": null,
+      "ecart": 0.2,
+      "ecart_norm": 1.3333,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "Cs": {
+      "cci": null,
+      "ecart": 0.17,
+      "ecart_norm": 1.1333,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "L_t": {
+      "cci": null,
+      "ecart": 0,
+      "ecart_norm": 0,
+      "accord_seuil": true,
+      "nc": false
+    },
+    "EROI": {
+      "cci": null,
+      "ecart": 0.45,
+      "ecart_norm": 0.3,
+      "accord_seuil": true,
+      "nc": false
+    },
+    "Sa": {
+      "cci": null,
+      "nc": false,
+      "ecart": 1
+    },
+    "m_r": {
+      "cci": null,
+      "nc": false,
+      "ecart": 0
+    },
+    "mu_m": {
+      "cci": null,
+      "ecart": 0.28,
+      "ecart_norm": 1.8667,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "phi": {
+      "cci": null,
+      "ecart": 0.07,
+      "ecart_norm": 0.4667,
+      "accord_seuil": true,
+      "nc": false
+    },
+    "psi_noyau": {
+      "cci": null,
+      "ecart": 0.15,
+      "ecart_norm": 3,
+      "accord_seuil": false,
+      "nc": false
+    },
+    "psi_cible": {
+      "cci": null,
+      "nc": false,
+      "ecart": null
+    },
+    "gamma_local": {
+      "cci": null,
+      "ecart": 0.03,
+      "ecart_norm": 0.3,
+      "accord_seuil": true,
+      "nc": false
+    }
+  },
+  "friction_vecteur": {
+    "E_split": 1.1333,
+    "gamma": 1.6,
+    "A_d_eff": 0.2,
+    "A_r_c": 0.8,
+    "A_r_ne": 1.3333,
+    "Cs": 1.1333,
+    "L_t": 0,
+    "EROI": 0.3,
+    "mu_m": 1.8667,
+    "phi": 0.4667,
+    "psi_noyau": 3,
+    "gamma_local": 0.3
+  },
+  "desaccords": [
+    {
+      "variable": "E_split",
+      "type": "continue",
+      "val_a": 0.65,
+      "val_b": 0.82,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.17,
+      "seuil": 0.15,
+      "friction": 1.1333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "gamma",
+      "type": "continue",
+      "val_a": 0.48,
+      "val_b": 0.72,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.24,
+      "seuil": 0.15,
+      "friction": 1.6,
+      "friction_outlier": false
+    },
+    {
+      "variable": "A_r_ne",
+      "type": "continue",
+      "val_a": 0.35,
+      "val_b": 0.55,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.2,
+      "seuil": 0.15,
+      "friction": 1.3333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "Cs",
+      "type": "continue",
+      "val_a": 0.18,
+      "val_b": 0.35,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.17,
+      "seuil": 0.15,
+      "friction": 1.1333,
+      "friction_outlier": false
+    },
+    {
+      "variable": "Sa",
+      "type": "categorielle",
+      "val_a": 6,
+      "val_b": 4,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 1,
+      "seuil": "exact",
+      "friction": null,
+      "friction_outlier": false
+    },
+    {
+      "variable": "mu_m",
+      "type": "continue",
+      "val_a": 0.5,
+      "val_b": 0.78,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.28,
+      "seuil": 0.15,
+      "friction": 1.8667,
+      "friction_outlier": false
+    },
+    {
+      "variable": "psi_noyau",
+      "type": "continue",
+      "val_a": 0.03,
+      "val_b": 0.18,
+      "nc": false,
+      "nc_a": false,
+      "nc_b": false,
+      "scorable": true,
+      "accord": false,
+      "ecart": 0.15,
+      "seuil": 0.05,
+      "friction": 3,
+      "friction_outlier": true
+    }
+  ],
+  "instructions_resolution": [
+    {
+      "variable": "E_split",
+      "action": "MOYENNE_AUTO",
+      "detail": "Écart 0.17 ≤ 2×seuil (0.3) — moyenne automatique = 0.735"
+    },
+    {
+      "variable": "gamma",
+      "action": "MOYENNE_AUTO",
+      "detail": "Écart 0.24 ≤ 2×seuil (0.3) — moyenne automatique = 0.6"
+    },
+    {
+      "variable": "A_r_ne",
+      "action": "MOYENNE_AUTO",
+      "detail": "Écart 0.2 ≤ 2×seuil (0.3) — moyenne automatique = 0.45"
+    },
+    {
+      "variable": "Cs",
+      "action": "MOYENNE_AUTO",
+      "detail": "Écart 0.17 ≤ 2×seuil (0.3) — moyenne automatique = 0.265"
+    },
+    {
+      "variable": "Sa",
+      "action": "CONFRONTATION_CATEGORIELLE",
+      "detail": "Variable catégorielle — désaccord obligatoire à trancher par sources primaires"
+    },
+    {
+      "variable": "mu_m",
+      "action": "MOYENNE_AUTO",
+      "detail": "Écart 0.28 ≤ 2×seuil (0.3) — moyenne automatique = 0.64"
+    },
+    {
+      "variable": "psi_noyau",
+      "action": "CONFRONTATION_SOURCES",
+      "detail": "Écart 0.15 > 2×seuil (0.1) — confrontation des sources requise"
+    }
+  ],
+  "valeurs_finales_provisoires": {
+    "E_split": 0.735,
+    "gamma": 0.6,
+    "A_d_eff": 3.8,
+    "A_r_c": 0.6,
+    "A_r_ne": 0.45,
+    "Cs": 0.265,
+    "L_t": 0.28,
+    "EROI": 3.75,
+    "Sa": null,
+    "m_r": 1,
+    "mu_m": 0.64,
+    "phi": 0.55,
+    "psi_noyau": null,
+    "psi_cible": null,
+    "gamma_local": 0.75
+  },
+  "note_methodologique": "CCI ICC(3,1) two-way mixed consistency (Shrout & Fleiss, 1979). Calculé sur les variables continues normalisées par leur plage corpus. κ de Cohen maintenu pour Sa (catégorielle). κ de Cohen aussi pour m_r (V7 — catégorielle ordinale à 3 niveaux). Variables V7 continues (mu_m, phi, psi_noyau, gamma_local) incluses dans le CCI global. psi_cible avec null positif traité comme accord sur règle E3 rev. 2.1. Le CCI par variable individuelle nécessite le corpus multi-WP (mepa_friction_profile.json). La reproductibilité mesurée est conditionnelle au modèle LLM — non une indépendance absolue inter-codeurs (Addendum V6.2 Pilier 1 / Cadre V7-α rev. 2.1 §2ter)."
+}

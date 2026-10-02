@@ -1,0 +1,41 @@
+{
+  "wp_id": "WP-C2-1",
+  "audit_c1_c5": {
+    "C1": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Conformité numérique vérifiée. t_bascule=null ✓ (texte S2.3 : 'null — aucune bascule F > R détectée'). dC_rel=null ✓ (texte S2.3 : 'null — Non calculable — absence de bascule'). dI_rel=null ✓ (texte S2.3 : 'null — Non calculable — absence de bascule'). FR_max=0.3159 ✓ (texte S2.2 tableau t=300 : '0.3159', confirmé S2.3 et S5). Toutes les valeurs numériques clés du rapport correspondent exactement aux valeurs fournies dans le _result.json de référence."
+    },
+    "C2": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Nomenclature conforme. Aucun 'g' isolé détecté. Le symbole γ (U+03B3) est utilisé dans le texte rédactionnel (S1.2 tableau colonne Symbole, S3.2, S5, S7.2). La notation 'gamma' en JSON n'est pas présente dans le texte rédigé. Les labels D4 ne sont pas applicables à ce WP (pas de variable D4 référencée). La divergence γ_local=0.75 >> γ=0.48 est correctement documentée avec la mention 'Divergence légitime' en S1.2. La variable γ_local est distinctement nommée et justifiée. Aucune anomalie de nomenclature détectée."
+    },
+    "C3": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence CONV-E vérifiée. Les 9 variables V6.2 (E_split=0.65, γ=0.48, A_d_eff=3.8, A_r_c=0.60, A_r_ne=0.35, Cs=0.18, L(t)=0.28, EROI=3.75, Sa=6) et les 6 variables V7 (M_r=1, μ_m=0.50, Φ=0.55, Ψ_noyau=0.03, Ψ_cible=null, γ_local=0.75) sont cohérentes entre S1.2, S1.3, S2.1, S2.3 et S5. Les paramètres p1–p13 sont dérivés de manière cohérente depuis les variables codées. CCI=null non pénalisé conformément à la note protocole (CONV-B CCI non déclenché). Aucune incohérence entre valeurs citées dans le rapport et variables codées CONV-E."
+    },
+    "C4": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Contrôle narrative smoothing §4.3 : la trajectoire simulée (b) Répression réussie est identique à la trajectoire attendue (b) Répression réussie — aucune divergence traj_diagn != attendue. Le contrôle C4 porte donc sur l'absence de divergence à documenter, ce qui est le cas nominal. Aucun narrative smoothing détecté : le rapport ne contient pas de justification a posteriori par l'histoire pour expliquer une divergence inexistante. Les explications historiques présentes en S6/S7 sont autorisées par le protocole §4.3. La mention 'Potentielle zone de réfutation' est correctement utilisée en S7.1 dans le cadre des bornes de réfutation RF1–RF3, non comme justification d'une divergence. Aucune anomalie C4."
+    },
+    "C5": {
+      "statut": "OK",
+      "anomalies": [],
+      "detail": "Cohérence stress-tests vérifiée. Stress N1 : scénario optimiste (b) Répression réussie ✓, scénario pessimiste (d) Effondrement progressif ✓ — cohérents avec les valeurs runner (R+0.08 → b, R-0.08 → d). Stress N2 — 8 combinaisons documentées en S4.2 correspondent exactement aux valeurs runner : E+0.1→(b)✓, E-0.1→(b)✓, R+0.08→(b)✓, R-0.08→(d)✓, EROI+0.5→(b)✓, EROI-0.5→(b)✓, Rc+0.1→(b)✓, Rc-0.1→(b)✓. Verdict MÉTASTABLE en S4.1 et S4.3 cohérent avec verdict.robustesse (7/8 combinaisons (b), 1/8 (d)). Note : la mention 'sensibilité N1 marquée NON_CALCULÉ' en S4.3 est une anomalie mineure de formulation (le N1 est en réalité calculé et documenté en S4.1) mais non bloquante car les valeurs N1 sont correctement reportées. Aucune anomalie bloquante C5."
+    }
+  },
+  "score_checklist": 5,
+  "verdict": "CERTIFIE",
+  "instructions_revision": [],
+  "anomalies": [
+    {
+      "code": "C5-MINOR-01",
+      "severite": "non_bloquante",
+      "localisation": "S4.3",
+      "description": "La phrase 'La sensibilité N1 est marquée NON_CALCULÉ dans les données du runner' est factuellement incorrecte : les valeurs N1 sont calculées et documentées en S4.1 (optimiste→b, pessimiste→d). Cette formulation crée une confusion entre l'absence d'un champ nommé 'sensibilite_N1' dans le JSON runner et l'absence de calcul N1. Correction recommandée : supprimer ou reformuler cette phrase pour éviter l'ambiguïté."
+    }
+  ]
+}
