@@ -1,0 +1,409 @@
+{
+ "meta": {
+  "wp_id": "WP-I4-1",
+  "cas": "Allemagne nazie",
+  "cluster": "C2",
+  "trajectoire_attendue": "(α) Cristallisation sacrificielle d'État",
+  "sa": 7,
+  "sa_modulator": "p6 × 1.5 (Sa=7 famille souche)",
+  "cmd_type": "linear_dynamic",
+  "integration": "LSODA (scipy solve_ivp rtol=1e-6 atol=1e-9)",
+  "nomenclature": "V7-alpha-rev2.1-gamma (cmd[\"gamma\"] = γ)",
+  "runner_version": "mepa_runner_v3_v7_v3.0.0",
+  "mepa_version": "7.0-alpha rev. 2.1",
+  "fiche_v7": true,
+  "generated_at": "2026-10-02T22:45:05.739574+00:00",
+  "nc_bloquantes": [],
+  "nc_non_bloquantes": [],
+  "statut_nc": "OK",
+  "theta_C_effectif": 0.3,
+  "theta_I_effectif": 0.22,
+  "y0_normalise": [
+   1.3,
+   0.2,
+   0.1,
+   2.5
+  ],
+  "variables_v7": {
+   "m_r": {
+    "valeur": 2,
+    "source_id": "Todd 1990 (S4) ; Todd 2017 (S7)",
+    "justification": "Allemagne 1933 = Stade 2 (religion en transition zombie). Le protestantisme et le catholicisme ont perdu une part de leur fonction institutionnelle structurante mais conservent des effets sociaux résiduels (identité confessionnelle, structures mentales, antijudaïsme chrétien sédimenté). La matrice religieuse n'est plus active au sens du Stade 1 mais pas encore dissoute (Stade 3). M_r=2, non M_r=1 : c'est sur ce substrat zombie que se greffe le mécanisme sacrificiel racialisé (matrice séculière). M_r ∈ {1,2} requis pour C1 : satisfait."
+   },
+   "mu_m": {
+    "valeur": 0.85,
+    "source_id": "Evans 2003 (S1) ; Kershaw 1998 (S3)",
+    "justification": "μ_m = 0.85, bande [0.80–1.00] : polarisation mimétique maximale avec désignation d'un ennemi démographique. Les Juifs sont désignés publiquement comme ennemi racial absolu (lois de Nuremberg 1935, Der Stürmer, propagande d'État). Valeur au plafond programme (μ_m_max_programme = 0.85, partagé avec Rwanda) : les deux cas sont paradigmatiques de la désignation démographique totale. μ_m > μ_m* = 0.60 requis pour C1 : satisfait. (Ne pas confondre avec le paramètre dynamique μ ≈ 0.38.)"
+   },
+   "phi": {
+    "valeur": 0.3,
+    "source_id": "Evans 2003 (S1) ; valeur pré-enregistrée Décision V7-D1 rev.4 §5.1",
+    "justification": "Φ = 0.30, bande [0.20–0.40] : monopole dominant avec résidus pluralistes tardivement réprimés. Valeur codée à l'ONSET de la cristallisation (1933) : la Gleichschaltung est en cours mais des poches symboliques subsistent encore (presse confessionnelle, partis en voie d'interdiction, Églises) avant l'alignement complet. Valeur pré-enregistrée par la Décision V7-D1 rev.4 §5.1 pour le calcul de C2 : σ(Φ=0.30) = 0.018×(1+1.7×0.30) = 0.0275. NOTE QG : la grille Φ de CONV-E.md cite « Allemagne 1935-1945 (Gleichschaltung) » en bande [0.00–0.20] — cet exemple décrit la phase consolidée, pas l'onset 1933 codé ici. À harmoniser (distinction onset vs consolidation), analogue à la correction Φ Rwanda. Sans incidence sur C2 : l'échec est robuste (0.0055 < 0.0226 même à Φ=0.15)."
+   },
+   "psi_noyau": {
+    "valeur": 0.01,
+    "source_id": "NSDAP Parteistatistik 1933 (S8) ; Recensement 1933 (S8)",
+    "justification": "Ψ_noyau codée ≈ 0.01 conformément à la règle pré-enregistrée par la Décision V7-D1 rev. 4 §5 (NSDAP ≈ 800 000 membres formels / 66 M d'Allemands = 1.2 %). SONT EXCLUS du comptage, conformément à la définition stricte : les votants NSDAP de mars 1933 (~43 %, le vote n'est pas un engagement actif soutenu), les sympathisants passifs, et la population « sous contrôle » après 1934 (la contrainte n'est pas l'adhésion). Cette valeur entraîne un ÉCHEC ATTENDU sur la condition C2 de la branche (α) : Ψ_noyau × γ_local = 0.01 × 0.55 = 0.0055 < σ(Φ=0.30) ≈ 0.0275. Échec documenté comme limite théorique du cadre V7-α rev. 2.1 §2ter.7. Le rapport CONV-A correspondant DEVRA contenir les Réserves 1 et 2 du §4bis de la Décision V7-D1 rev. 4 (« Anomalie documentée » + « Hypothèse théorique sous contrainte »). Élargir Ψ_noyau pour sauver C2 serait la rationalisation post-hoc que le protocole V7-C3 condamne : la limite est assumée, pas masquée."
+   },
+   "psi_cible": {
+    "valeur": 0.008,
+    "source_id": "Recensement allemand juin 1933 (S8) ; Evans 2003 (S1)",
+    "justification": "Ψ_cible = 0.008 : les Juifs sont désignés publiquement par le noyau NSDAP comme cible démographique unique du mécanisme sacrificiel — désignation raciale (critère d'appartenance), publique (lois de Nuremberg, presse d'État) et dominante. Proportion ≈ 525 000 Juifs / 66 M d'Allemands en 1933 (recensement de 1933) = 0.008. Valeur non-null : condition C3 de la branche (α) satisfaite. Cohérent avec μ_m = 0.85 (la règle de cohérence impose Ψ_cible non-null si μ_m > 0.80)."
+   },
+   "gamma_local": {
+    "valeur": 0.55,
+    "source_id": "Kershaw 1998 (S3) ; Evans 2003 (S1)",
+    "justification": "γ_local = 0.55, bande [0.40–0.60] : organisation structurée du noyau NSDAP — parti discipliné doté d'une doctrine raciale unifiée, SA structurée, hiérarchie fonctionnelle et chaîne de commandement opérationnelle. γ_local mesure la discipline du seul noyau organisé, distincte de γ (V6.2 = cohésion de l'élite globale, ≈ 0.55 ici aussi mais conceptuellement séparée et laissée intacte au socle V6.2 sur décision QG). Le noyau est très discipliné (γ_local élevé) mais sa base est extrêmement restreinte (Ψ_noyau = 0.01) : la discipline ne compense pas la base — c'est précisément la limite illustrée par l'échec C2."
+   }
+  }
+ },
+ "simulation": {
+  "traj": "(b) Répression réussie",
+  "branche_annotation": "EXPLICATIVE",
+  "t_bascule": null,
+  "dC_rel": null,
+  "dI_rel": null,
+  "dCdt_bascule": null,
+  "FR_bascule": null,
+  "F_bascule": null,
+  "R_bascule": null,
+  "FR_max": 0.3118,
+  "FR_final": 0.1478,
+  "I_min_sim": 2.5,
+  "I_final": 8.2222,
+  "C_max": 0.1218,
+  "C_final": 0.0759,
+  "S_final": 0.7875,
+  "L_final": 0.3149,
+  "theta_C_used": 0.3,
+  "theta_I_used": 0.22,
+  "tableau_S2": [
+   {
+    "t": 0,
+    "S": 1.3,
+    "L": 0.2,
+    "C": 0.1,
+    "I": 2.5,
+    "F": 0.2573,
+    "R": 1.5294,
+    "FR": 0.1682,
+    "note": ""
+   },
+   {
+    "t": 25,
+    "S": 0.9019,
+    "L": 0.3635,
+    "C": 0.1015,
+    "I": 3.4777,
+    "F": 0.3874,
+    "R": 1.6872,
+    "FR": 0.2296,
+    "note": ""
+   },
+   {
+    "t": 50,
+    "S": 0.813,
+    "L": 0.3258,
+    "C": 0.0819,
+    "I": 4.0196,
+    "F": 0.3382,
+    "R": 1.7622,
+    "FR": 0.1919,
+    "note": ""
+   },
+   {
+    "t": 75,
+    "S": 0.7932,
+    "L": 0.3173,
+    "C": 0.0773,
+    "I": 4.4642,
+    "F": 0.3269,
+    "R": 1.8187,
+    "FR": 0.1797,
+    "note": ""
+   },
+   {
+    "t": 100,
+    "S": 0.7888,
+    "L": 0.3155,
+    "C": 0.0762,
+    "I": 4.8871,
+    "F": 0.3244,
+    "R": 1.8692,
+    "FR": 0.1735,
+    "note": ""
+   },
+   {
+    "t": 150,
+    "S": 0.7876,
+    "L": 0.3149,
+    "C": 0.076,
+    "I": 5.7221,
+    "F": 0.3237,
+    "R": 1.9608,
+    "FR": 0.1651,
+    "note": ""
+   },
+   {
+    "t": 200,
+    "S": 0.7875,
+    "L": 0.3149,
+    "C": 0.0759,
+    "I": 6.5556,
+    "F": 0.3236,
+    "R": 2.0437,
+    "FR": 0.1584,
+    "note": ""
+   },
+   {
+    "t": 250,
+    "S": 0.7875,
+    "L": 0.3149,
+    "C": 0.0759,
+    "I": 7.3889,
+    "F": 0.3236,
+    "R": 2.1198,
+    "FR": 0.1527,
+    "note": ""
+   },
+   {
+    "t": 300,
+    "S": 0.7875,
+    "L": 0.3149,
+    "C": 0.0759,
+    "I": 8.2222,
+    "F": 0.3236,
+    "R": 2.1904,
+    "FR": 0.1478,
+    "note": ""
+   }
+  ],
+  "v7_alpha_diagnostic": {
+   "b_explicative": true,
+   "C_max": 0.1218,
+   "chute_C": 0.3765,
+   "Cs_val": 0.3,
+   "Rc_Rn": 1.05
+  },
+  "rampe_mod_mimetique_active": false,
+  "chute_C_metric": 0.3765,
+  "chute_I_metric": 0.0,
+  "integrator": "LSODA"
+ },
+ "stress_n1": {
+  "optimiste": {
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  "pessimiste": {
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  }
+ },
+ "stress_n2": [
+  {
+   "label": "E+0.1",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "E-0.1",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "R+0.08",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "R-0.08",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "EROI+0.5",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "EROI-0.5",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "Rc+0.1",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  },
+  {
+   "label": "Rc-0.1",
+   "traj": "(b) Répression réussie",
+   "dC_rel": null,
+   "dI_rel": null
+  }
+ ],
+ "verdict": {
+  "robustesse": "ROBUSTE",
+  "trajectoire_diagn": "(b) Répression réussie",
+  "branche_annotation": "EXPLICATIVE",
+  "concordance_attendue": false,
+  "trajs_set_n1": [
+   "(b) Répression réussie"
+  ]
+ },
+ "v7_alpha": {
+  "precheck": {
+   "c1": true,
+   "c2": false,
+   "c3": true,
+   "c4": false,
+   "all_satisfied": false,
+   "a_r_c_eff": 0.7,
+   "sigma_phi": 0.02718,
+   "produit_c2": 0.0055,
+   "details": {
+    "c1": "M_r=2 in {1,2}: True, mu_m=0.85 > 0.6: True",
+    "c2": "psi_noyau=0.01 × gamma_local=0.55 = 0.005500 > sigma(phi=0.3) = 0.027180: False",
+    "c3": "psi_cible=0.008, non-null: True",
+    "c4": "A_r_c=0.35, A_r_ne=0.7, A_r_c_eff=0.7000 > 0.7: False"
+   }
+  },
+  "rampe_active": false,
+  "a_r_c_eff_calc": 0.7
+ },
+ "non_regression_t1_t5": {
+  "wp_id": "WP-I4-1",
+  "T1_t_bascule": {
+   "lsoda": null,
+   "euler": null,
+   "pass": true
+  },
+  "T2_C_max": {
+   "lsoda": 0.1218,
+   "euler": 0.1244,
+   "pass": true
+  },
+  "T3_chute_I": {
+   "lsoda": 0.0,
+   "euler": 0.0,
+   "pass": true
+  },
+  "T4_FR_max": {
+   "lsoda": 0.3118,
+   "euler": 0.3227,
+   "pass": true
+  },
+  "T5_traj": {
+   "lsoda": "(b) Répression réussie",
+   "euler": "(b) Répression réussie",
+   "pass": true
+  },
+  "all_pass": true
+ },
+ "advisory_dev1": {
+  "$advisory": true,
+  "statut": "ADVISORY_DEV1_NONCALIBRE",
+  "module_version": "mepa_dev1_advisory_v7 v1.0.0",
+  "disclaimer": "VALEUR INDICATIVE — paramètres NON CALIBRÉS (c_Ω, θ, S*_ref advisory). Ne pas utiliser pour inférence, codage ou décision de trajectoire. Diagnostic Dev 1 V6.3 — précurseur de la dette Dev 2 (V7).",
+  "omega_mode": "I",
+  "i_t0_utilise": 2.5,
+  "i_tmax_utilise": 8.2222,
+  "R_code_A_d_eff": 0.25,
+  "a_d_max_advisory_flag": false,
+  "ecart_R_code_moins_a_d_max": -5.772038,
+  "interpretation_flag": "R_codé ≤ A_d_max dérivé : pas d'écart advisory détecté au pas initial.",
+  "calcul_t0": {
+   "EROI_utilise": 13.0,
+   "net_energy_fraction": 0.923077,
+   "Y_proxy": 0.923077,
+   "omega_source": "I(t)_direct",
+   "Omega_valeur": 2.5,
+   "C_maintenance": 0.275619,
+   "S_etoile_NONCALIBRE": 0.547458,
+   "eta_D_proxy_gamma": 0.55,
+   "a_d_max_normalise": 0.602204,
+   "a_d_max_advisory_NONCALIBRE": 6.022038
+  },
+  "calcul_tmax": {
+   "EROI_utilise": 18.0,
+   "net_energy_fraction": 0.944444,
+   "Y_proxy": 0.944444,
+   "omega_source": "I(t)_direct",
+   "Omega_valeur": 8.2222,
+   "C_maintenance": 1.375067,
+   "S_etoile_NONCALIBRE": -0.530622,
+   "eta_D_proxy_gamma": 0.55,
+   "a_d_max_normalise": 0.0,
+   "a_d_max_advisory_NONCALIBRE": 0.0
+  },
+  "params_utilises_NONCALIBRE": {
+   "C_OMEGA": 0.08,
+   "THETA": 1.35,
+   "C_SUB": 0.1,
+   "SA_REF": 4.0,
+   "S_REF": 0.5,
+   "ECHELLE_A_D": 10.0
+  },
+  "mapping_note": "R_codé = cmd.R (A_d_eff mappé sur cmd.R en C9b). La commensurabilité R_codé ↔ A_d_max dérivé est elle-même un choix advisory provisoire (cf. CV9). Échelle alignée sur [0,10].",
+  "regime_S_etoile": null
+ },
+ "params": {
+  "p1": 0.08,
+  "p2": 0.045,
+  "p2b": 0.06,
+  "p3": 0.02,
+  "p4": 0.4,
+  "p5": 0.05,
+  "p6": 0.18,
+  "p7": 0.04,
+  "p8": 0.03,
+  "p9": 0.06,
+  "p10": 0.8,
+  "p11a": 0.6,
+  "p11b": 0.15,
+  "p13": 1.2,
+  "lam": 0.68,
+  "mu": 0.38,
+  "nu": 0.62,
+  "rho": 0.06,
+  "theta_C": 0.3,
+  "theta_I": 0.22
+ },
+ "cmd_base": {
+  "T": 0.9,
+  "Mob": 0.2,
+  "R": 0.25,
+  "Ref": 0.1,
+  "Rc": 0.35,
+  "Rn": 0.7,
+  "E": 0.75,
+  "gamma": 0.55,
+  "EROI": 13,
+  "Pop": 1
+ },
+ "cmd_linear": {
+  "note": "C2 croissant — EROI_start/EROI_end obligatoire pour C2 avec variation documentée. Croissance linéaire 8.0→18.0 sur 300 pas.",
+  "EROI": {
+   "start": 8,
+   "end": 18
+  }
+ },
+ "y0": [
+  1.3,
+  0.2,
+  0.1,
+  2.5
+ ],
+ "t_max": 300,
+ "_warnings": []
+}

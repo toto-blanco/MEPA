@@ -1,0 +1,591 @@
+{
+ "objet": "Diagnostic R pré-enregistré — Décision QG 2026-09-30 §5 et message QG (séries A et B)",
+ "methode": "runner seul (mepa_runner_v3_v7.py), constantes réelles (MEPA_SCRIPTS_DIR=/mnt/project), sans LLM ni passeport ; entrées = result.json de juin ; Sa=7 : p6 archivé divisé par 1.5 avant run (modulateur réappliqué par le runner) ; reproduction au bit près vérifiée à R d origine avant variation",
+ "runner_sha256": "64308e17fb2610d5868312d97d7fc4790f933d62b69d0b5333ea68022c0a73aa",
+ "constants_sha256": "154ed376cde09218ef322492876fb1b3fa44244a0cf55c005ac3c7d045721a59",
+ "script_sha256": "e24594a568144e750b27e4d362dba49fc9d27f89bc70a8ef572170d6c52aebf2",
+ "entrees": {
+  "WP-I10-1": {
+   "rapport_juin_sha256": "6e97cb1a6ea6b1fc1f0e99f67efcf0d0df32ef35a3cd86dac7e713037ab91a43",
+   "A_d_eff_juin": 1.5,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "5d6d6c566f7c0b6c6c5c7c8b821f2b2177688d9d1d1a90951dd6724a173e06a2",
+   "A_d_eff_juillet": 1.5,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "877b94719f62220e178757be312a795180d158fd11a33775d5102cd012edd228"
+  },
+  "WP-I4-1": {
+   "rapport_juin_sha256": "d16e4ff975014b340330a46b0bd577fe4931fa51825400b719b00a2255724670",
+   "A_d_eff_juin": 2.5,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "648b57d2c5c0c65fddec5a595069818680d4ae6c8e5c1e16ad20e3376edf1101",
+   "A_d_eff_juillet": 2.5,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "cf02e5e51afc2bea04c7be16e9df00288ed0b7ea06435618aa1598a46c38b2b4"
+  },
+  "WP-F10-1": {
+   "rapport_juin_sha256": "d0f8ca389d14397e83aac0b0a21cf1251aea077b8f1fdba6ed14e587663c87c6",
+   "A_d_eff_juin": 3.5,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "fe697117cc874ba32c69f92908baef656fbdaa5371bc4a5c2ff591fc64db49e2",
+   "A_d_eff_juillet": 3.5,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "4bfd9b05fcaf3b30215586a5328764760cb8da6955217684ed896ebc67594ea6"
+  },
+  "WP-F1-1": {
+   "rapport_juin_sha256": "8a7f7d47c51358af499e2f06b519e9c5d920c8bfd04325efbc296f979f088480",
+   "A_d_eff_juin": 4.5,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "9ea09ff6d1a1bc65a22f9b1515f5af24ef818599c96b5973259afafcc5ac34ee",
+   "A_d_eff_juillet": 4.5,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "be9dedf9d388f372abc712aa176e321e62d0876433ba89fdca11de6b76db7ac4"
+  },
+  "WP-C1-1": {
+   "rapport_juin_sha256": "9674a6c06eda496d02979fe5c7c3d18745e6bbbacc3ec5ff2b9d35c8773f094b",
+   "A_d_eff_juin": 1.4,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "528daad1ccb9d207d83cdf40ebab8d3e25e27ca1136b9e65ba3217e45115b6d0",
+   "A_d_eff_juillet": 1.4,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "786bb770770737dc344993b9be9d7b1bc4a3583cd2af8dc7e79459db952aec38"
+  },
+  "WP-C2-1": {
+   "rapport_juin_sha256": "f81bdc7d61a890b60f19556c1d68cc8fb781ff2bc25da4389c77e3b79d01b293",
+   "A_d_eff_juin": 3.8,
+   "provenance_juin": "indirecte (aucune empreinte de rapport dans les passeports de juin)",
+   "rapport_juillet_sha256": "cd5e6c21494b13ec8d73f9e37e141503a1f716df35108207674108505d1ebd0a",
+   "A_d_eff_juillet": 3.5,
+   "provenance_juillet": "authentifiée (= rapport_md_sha256 des passeports du 3 juillet)",
+   "result_juin_sha256": "f482abeceec8a774119f2b3837b7f57580ed9160b4165a6ee51fac53102940c8"
+  }
+ },
+ "resultats": [
+  {
+   "wp": "WP-I10-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.15,
+   "origine": {
+    "traj": "(α) Cristallisation sacrificielle d'État",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(α) Cristallisation sacrificielle d'État"
+    ],
+    "stress_n1": {
+     "optimiste": "(α) Cristallisation sacrificielle d'État",
+     "pessimiste": "(α) Cristallisation sacrificielle d'État"
+    },
+    "stress_n2": {
+     "E+0.1": "(α) Cristallisation sacrificielle d'État",
+     "E-0.1": "(α) Cristallisation sacrificielle d'État",
+     "R+0.08": "(α) Cristallisation sacrificielle d'État",
+     "R-0.08": "(α) Cristallisation sacrificielle d'État",
+     "EROI+0.5": "(α) Cristallisation sacrificielle d'État",
+     "EROI-0.5": "(α) Cristallisation sacrificielle d'État",
+     "Rc+0.1": "(α) Cristallisation sacrificielle d'État",
+     "Rc-0.1": "(α) Cristallisation sacrificielle d'État"
+    },
+    "C_max": 1.6587,
+    "FR_max": 1.7601,
+    "t_bascule": 7,
+    "R_simule": 0.15,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 1.5,
+    "R": 0.15,
+    "traj": "(α) Cristallisation sacrificielle d'État",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(α) Cristallisation sacrificielle d'État"
+    ],
+    "stress_n1": {
+     "optimiste": "(α) Cristallisation sacrificielle d'État",
+     "pessimiste": "(α) Cristallisation sacrificielle d'État"
+    },
+    "stress_n2": {
+     "E+0.1": "(α) Cristallisation sacrificielle d'État",
+     "E-0.1": "(α) Cristallisation sacrificielle d'État",
+     "R+0.08": "(α) Cristallisation sacrificielle d'État",
+     "R-0.08": "(α) Cristallisation sacrificielle d'État",
+     "EROI+0.5": "(α) Cristallisation sacrificielle d'État",
+     "EROI-0.5": "(α) Cristallisation sacrificielle d'État",
+     "Rc+0.1": "(α) Cristallisation sacrificielle d'État",
+     "Rc-0.1": "(α) Cristallisation sacrificielle d'État"
+    },
+    "C_max": 1.6587,
+    "FR_max": 1.7601,
+    "t_bascule": 7,
+    "R_simule": 0.15,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 1.5,
+    "R": 0.15,
+    "traj": "(α) Cristallisation sacrificielle d'État",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(α) Cristallisation sacrificielle d'État"
+    ],
+    "stress_n1": {
+     "optimiste": "(α) Cristallisation sacrificielle d'État",
+     "pessimiste": "(α) Cristallisation sacrificielle d'État"
+    },
+    "stress_n2": {
+     "E+0.1": "(α) Cristallisation sacrificielle d'État",
+     "E-0.1": "(α) Cristallisation sacrificielle d'État",
+     "R+0.08": "(α) Cristallisation sacrificielle d'État",
+     "R-0.08": "(α) Cristallisation sacrificielle d'État",
+     "EROI+0.5": "(α) Cristallisation sacrificielle d'État",
+     "EROI-0.5": "(α) Cristallisation sacrificielle d'État",
+     "Rc+0.1": "(α) Cristallisation sacrificielle d'État",
+     "Rc-0.1": "(α) Cristallisation sacrificielle d'État"
+    },
+    "C_max": 1.6587,
+    "FR_max": 1.7601,
+    "t_bascule": 7,
+    "R_simule": 0.15,
+    "warnings": []
+   }
+  },
+  {
+   "wp": "WP-I4-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.3,
+   "origine": {
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1145,
+    "FR_max": 0.3044,
+    "t_bascule": null,
+    "R_simule": 0.3,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 2.5,
+    "R": 0.25,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1218,
+    "FR_max": 0.3118,
+    "t_bascule": null,
+    "R_simule": 0.25,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 2.5,
+    "R": 0.25,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1218,
+    "FR_max": 0.3118,
+    "t_bascule": null,
+    "R_simule": 0.25,
+    "warnings": []
+   }
+  },
+  {
+   "wp": "WP-F10-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.2,
+   "origine": {
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1639,
+    "FR_max": 0.2908,
+    "t_bascule": null,
+    "R_simule": 0.2,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 3.5,
+    "R": 0.35,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1338,
+    "FR_max": 0.269,
+    "t_bascule": null,
+    "R_simule": 0.35,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 3.5,
+    "R": 0.35,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(b) Répression réussie"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1338,
+    "FR_max": 0.269,
+    "t_bascule": null,
+    "R_simule": 0.35,
+    "warnings": []
+   }
+  },
+  {
+   "wp": "WP-F1-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.3,
+   "origine": {
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "MÉTASTABLE",
+    "trajs_set_n1": [
+     "(b) Répression réussie",
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.11,
+    "FR_max": 0.2933,
+    "t_bascule": null,
+    "R_simule": 0.3,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 4.5,
+    "R": 0.45,
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.1051,
+    "FR_max": 0.2893,
+    "t_bascule": null,
+    "R_simule": 0.45,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 4.5,
+    "R": 0.45,
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.1051,
+    "FR_max": 0.2893,
+    "t_bascule": null,
+    "R_simule": 0.45,
+    "warnings": []
+   }
+  },
+  {
+   "wp": "WP-C1-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.15,
+   "origine": {
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.2842,
+    "FR_max": 0.8893,
+    "t_bascule": null,
+    "R_simule": 0.15,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 1.4,
+    "R": 0.14,
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.2875,
+    "FR_max": 0.8987,
+    "t_bascule": null,
+    "R_simule": 0.14,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 1.4,
+    "R": 0.14,
+    "traj": "(d) Effondrement progressif",
+    "robustesse_N1": "ROBUSTE",
+    "trajs_set_n1": [
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(d) Effondrement progressif",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(d) Effondrement progressif",
+     "EROI-0.5": "(d) Effondrement progressif",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(d) Effondrement progressif"
+    },
+    "C_max": 0.2875,
+    "FR_max": 0.8987,
+    "t_bascule": null,
+    "R_simule": 0.14,
+    "warnings": []
+   }
+  },
+  {
+   "wp": "WP-C2-1",
+   "reproduction_bit_pres": true,
+   "R_origine": 0.25,
+   "origine": {
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "MÉTASTABLE",
+    "trajs_set_n1": [
+     "(b) Répression réussie",
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(b) Répression réussie",
+     "pessimiste": "(d) Effondrement progressif"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(b) Répression réussie",
+     "R+0.08": "(b) Répression réussie",
+     "R-0.08": "(d) Effondrement progressif",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(b) Répression réussie",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.146,
+    "FR_max": 0.3139,
+    "t_bascule": null,
+    "R_simule": 0.25,
+    "warnings": []
+   },
+   "A_juin": {
+    "A_d_eff": 3.8,
+    "R": 0.38,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "MÉTASTABLE",
+    "trajs_set_n1": [
+     "(b) Répression réussie",
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1213,
+    "FR_max": 0.2787,
+    "t_bascule": null,
+    "R_simule": 0.38,
+    "warnings": []
+   },
+   "B_juillet": {
+    "A_d_eff": 3.5,
+    "R": 0.35,
+    "traj": "(b) Répression réussie",
+    "robustesse_N1": "MÉTASTABLE",
+    "trajs_set_n1": [
+     "(b) Répression réussie",
+     "(d) Effondrement progressif"
+    ],
+    "stress_n1": {
+     "optimiste": "(d) Effondrement progressif",
+     "pessimiste": "(b) Répression réussie"
+    },
+    "stress_n2": {
+     "E+0.1": "(b) Répression réussie",
+     "E-0.1": "(d) Effondrement progressif",
+     "R+0.08": "(d) Effondrement progressif",
+     "R-0.08": "(b) Répression réussie",
+     "EROI+0.5": "(b) Répression réussie",
+     "EROI-0.5": "(b) Répression réussie",
+     "Rc+0.1": "(d) Effondrement progressif",
+     "Rc-0.1": "(b) Répression réussie"
+    },
+    "C_max": 0.1262,
+    "FR_max": 0.2828,
+    "t_bascule": null,
+    "R_simule": 0.35,
+    "warnings": []
+   }
+  }
+ ]
+}

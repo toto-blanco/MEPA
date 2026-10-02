@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "wp_id": "WP-F10-1",
+    "cas": "Commune de Paris",
+    "cluster": "C2",
+    "trajectoire_attendue": "(a) Rupture transformatrice",
+    "sa": 4,
+    "sa_modulator": "p6 nominal (Sa=4)",
+    "cmd_type": "static",
+    "integration": "LSODA (scipy solve_ivp rtol=1e-6 atol=1e-9)",
+    "nomenclature": "V7-alpha-rev2.1-gamma (cmd[\"gamma\"] = γ)",
+    "runner_version": "mepa_runner_v3_v7_v3.0.0",
+    "mepa_version": "7.0-alpha rev. 2.1",
+    "fiche_v7": true,
+    "generated_at": "2026-06-19T19:12:51.765736+00:00",
+    "nc_bloquantes": [],
+    "nc_non_bloquantes": [],
+    "statut_nc": "OK",
+    "theta_C_effectif": 0.3,
+    "theta_I_effectif": 0.22,
+    "y0_normalise": [
+      1.2,
+      0.32,
+      0.1,
+      3
+    ],
+    "variables_v7": {
+      "m_r": {
+        "valeur": 2,
+        "source_id": "Todd 1990 (S4)",
+        "justification": "France 1871 = Stade 2 (catholicisme en transition zombie). Après le Kulturkampf européen et la montée de l'anticléricalisme républicain, le catholicisme français conserve une fonction culturelle résiduelle mais a perdu sa centralité institutionnelle structurante — la Commune elle-même est fortement anticléricale (décret de séparation Église/État du 2 avril 1871, exécution d'otages ecclésiastiques). M_r=2, non M_r=1. M_r ∈ {1,2} : ce volet de C1 est satisfait (l'échec de C1 viendra de μ_m, voir précheck)."
+      },
+      "mu_m": {
+        "valeur": 0.5,
+        "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5)",
+        "justification": "μ_m = 0.50, bande [0.40–0.60] : polarisation politique forte (Versaillais vs Communards, guerre civile, Semaine sanglante) MAIS sans désignation d'une cible démographique. L'antagonisme est politique et de classe, mimétique au sens girardien (deux gouvernements rivaux), mais ne franchit pas le seuil de la désignation d'un ennemi démographique homogène que μ_m mesure dans le cadre de C1. μ_m = 0.50 < μ_m* = 0.60 : la sous-condition mimétique de C1 N'EST PAS franchie. Valeur codée aux sources, NON ajustée vers le haut pour faire passer C1 (CONV-E.md L292)."
+      },
+      "phi": {
+        "valeur": 0.65,
+        "source_id": "Ross 2015 (S2) ; Rougerie 1971 (S5)",
+        "justification": "Φ = 0.65, bande [0.60–0.80] : pluralisme symbolique interne fort. La Commune est traversée par des courants concurrents non hiérarchisés — Jacobins, Blanquistes, Proudhoniens, Anarchistes — avec une presse abondante et libre et des débats ouverts au sein du Conseil. Aucun monopole symbolique : c'est l'antithèse de la saturation médiatique d'un noyau sacrificiel. Φ élevé → σ(Φ) élevé → seuil de C2 rehaussé. C'est le pluralisme intérieur (pas une opposition externe) qui définit cette valeur."
+      },
+      "psi_noyau": {
+        "valeur": 0.1,
+        "source_id": "Rougerie 1971 (S5) ; Lissagaray 1876 (S1) ; Merriman 2014 (S7)",
+        "justification": "Ψ_noyau = 0.10, bande [0.08–0.12] : membres actifs des comités de section et fédérés de la Garde nationale engagés, rapportés à la population parisienne. Le noyau actif est NUMÉRIQUEMENT correct (engagement réel et soutenu sur 72 jours), ce qui distingue ce cas de l'Allemagne nazie : ici l'échec de C2 ne vient PAS d'un noyau trop petit, mais de γ_local trop bas (désorganisation interne). C'est un mode d'échec C2 différent, qui démontre la sensibilité de C2 aux deux facteurs."
+      },
+      "psi_cible": {
+        "valeur": null,
+        "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5) ; Lissagaray 1876 (S1) ; Merriman 2014 (S7)",
+        "justification": null
+      },
+      "gamma_local": {
+        "valeur": 0.18,
+        "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5) ; Lissagaray 1876 (S1)",
+        "justification": "γ_local = 0.18, bande [0.20–0.40] basse (limite inférieure) : désorganisation interne marquée. Comités de section multiples en compétition (Jacobins, Blanquistes, Proudhoniens), absence de doctrine unifiée et de commandement central effectif sur les 72 jours, décisions improvisées, conflits Comité de salut public vs minorité fédéraliste. Le noyau est nombreux (Ψ_noyau=0.10) mais indiscipliné : γ_local trop bas pour franchir C2. Ici γ_local ≈ γ (V6.2 = 0.15) car les deux convergent bas pour ce cas — pas de divergence noyau/élite."
+      }
+    }
+  },
+  "simulation": {
+    "traj": "(b) Répression réussie",
+    "branche_annotation": "CATCHALL",
+    "t_bascule": null,
+    "dC_rel": null,
+    "dI_rel": null,
+    "dCdt_bascule": null,
+    "FR_bascule": null,
+    "F_bascule": null,
+    "R_bascule": null,
+    "FR_max": 0.2908,
+    "FR_final": 0.2404,
+    "I_min_sim": 3,
+    "I_final": 3,
+    "C_max": 0.1639,
+    "C_final": 0.1368,
+    "S_final": 0.857,
+    "L_final": 0.3427,
+    "theta_C_used": 0.3,
+    "theta_I_used": 0.22,
+    "tableau_S2": [
+      {
+        "t": 0,
+        "S": 1.2,
+        "L": 0.32,
+        "C": 0.1,
+        "I": 3,
+        "F": 0.3254,
+        "R": 1.5731,
+        "FR": 0.2069,
+        "note": ""
+      },
+      {
+        "t": 25,
+        "S": 0.9313,
+        "L": 0.3743,
+        "C": 0.1591,
+        "I": 3,
+        "F": 0.4227,
+        "R": 1.5731,
+        "FR": 0.2687,
+        "note": ""
+      },
+      {
+        "t": 50,
+        "S": 0.8714,
+        "L": 0.3488,
+        "C": 0.1425,
+        "I": 3,
+        "F": 0.3882,
+        "R": 1.5731,
+        "FR": 0.2468,
+        "note": ""
+      },
+      {
+        "t": 75,
+        "S": 0.858,
+        "L": 0.3431,
+        "C": 0.1372,
+        "I": 3,
+        "F": 0.3789,
+        "R": 1.5731,
+        "FR": 0.2409,
+        "note": ""
+      },
+      {
+        "t": 80,
+        "S": 0.857,
+        "L": 0.3427,
+        "C": 0.1368,
+        "I": 3,
+        "F": 0.3782,
+        "R": 1.5731,
+        "FR": 0.2404,
+        "note": ""
+      }
+    ],
+    "v7_alpha_diagnostic": {
+      "fallback_catchall": true
+    },
+    "rampe_mod_mimetique_active": false,
+    "chute_C_metric": 0.1658,
+    "chute_I_metric": 0,
+    "integrator": "LSODA"
+  },
+  "stress_n1": {
+    "optimiste": {
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    "pessimiste": {
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  },
+  "stress_n2": [
+    {
+      "label": "E+0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "E-0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R+0.08",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "R-0.08",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI+0.5",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "EROI-0.5",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc+0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    },
+    {
+      "label": "Rc-0.1",
+      "traj": "(b) Répression réussie",
+      "dC_rel": null,
+      "dI_rel": null
+    }
+  ],
+  "verdict": {
+    "robustesse": "ROBUSTE",
+    "trajectoire_diagn": "(b) Répression réussie",
+    "branche_annotation": "CATCHALL",
+    "concordance_attendue": false,
+    "trajs_set_n1": [
+      "(b) Répression réussie"
+    ]
+  },
+  "v7_alpha": {
+    "precheck": {
+      "c1": false,
+      "c2": false,
+      "c3": false,
+      "c4": true,
+      "all_satisfied": false,
+      "a_r_c_eff": 0.8,
+      "sigma_phi": 0.03789,
+      "produit_c2": 0.018,
+      "details": {
+        "c1": "M_r=2 in {1,2}: True, mu_m=0.5 > 0.6: False",
+        "c2": "psi_noyau=0.1 × gamma_local=0.18 = 0.018000 > sigma(phi=0.65) = 0.037890: False",
+        "c3": "psi_cible=None, non-null: False",
+        "c4": "A_r_c=0.8, A_r_ne=0.0, A_r_c_eff=0.8000 > 0.7: True"
+      }
+    },
+    "rampe_active": false,
+    "a_r_c_eff_calc": 0.8
+  },
+  "non_regression_t1_t5": {
+    "wp_id": "WP-F10-1",
+    "T1_t_bascule": {
+      "lsoda": null,
+      "euler": null,
+      "pass": true
+    },
+    "T2_C_max": {
+      "lsoda": 0.1639,
+      "euler": 0.1657,
+      "pass": true
+    },
+    "T3_chute_I": {
+      "lsoda": 0,
+      "euler": 0,
+      "pass": true
+    },
+    "T4_FR_max": {
+      "lsoda": 0.2908,
+      "euler": 0.2923,
+      "pass": true
+    },
+    "T5_traj": {
+      "lsoda": "(b) Répression réussie",
+      "euler": "(b) Répression réussie",
+      "pass": true
+    },
+    "all_pass": true
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "cmd_base": {
+    "T": 0.95,
+    "Mob": 0.25,
+    "R": 0.2,
+    "Ref": 0.1,
+    "Rc": 0.8,
+    "Rn": 0,
+    "E": 0.63,
+    "gamma": 0.15,
+    "EROI": 7,
+    "Pop": 1
+  },
+  "cmd_linear": {},
+  "y0": [
+    1.2,
+    0.32,
+    0.1,
+    3
+  ],
+  "t_max": 80
+}
