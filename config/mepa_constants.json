@@ -1,10 +1,11 @@
 {
-  "$schema": "mepa-constants-v1.3",
+  "$schema": "mepa-constants-v1.4",
   "$meta": {
     "statut": "ETENDU V7",
     "cible": "/data/mepa/scripts/mepa_constants.json",
     "retrocompatibilite": "V1.3.0 préserve intégralement la structure V1.2.3. Tous les champs V6.2 existants sont inchangés. Les nouveaux champs V7 sont ajoutés sous des clés dédiées (variables_v7_alpha_rev2_1, hyperparametres_v7_alpha_rev2_1, intervalles_tolerance_v7_gamma) pour ne pas casser les scripts V6.2 qui ne les liront pas. Les scripts V7-β liront ces nouvelles clés via une logique de fallback vers les valeurs V6.2 si les clés V7 sont absentes.",
-    "version": "1.3.0",
+    "version": "1.4.0",
+    "changelog_1_4_0": "Décision QG 2026-09-30 §4 : seuils_validation.kappa_sa retiré (seuil sans effet sur aucun verdict). Sa et m_r sont suivis par des indicateurs d'accord binaires (accord_sa, accord_m_r), sans seuil. Le κ de Cohen sera calculé au niveau du corpus.",
     "mepa_version": "7.0-alpha rev. 2.1",
     "description": "Source unique de vérité pour les bornes paramétriques, seuils de validation et constantes de simulation MEPA. Étendue en V1.3.0 pour intégrer les hyperparamètres V7-α rev. 2.1 (trajectoire α Cristallisation sacrificielle d'État, branche b explicative, clause de repli A_r_c_eff). Chargée au démarrage par mepa_runner_v3_v7.py, mepa_kappa_calculator.py, mepa_node2_audit_v7.js. Chaque fichier embarque un fallback interne identique à ce fichier.",
     "references": [
@@ -22,20 +23,13 @@
     "note_v1_3": "V1.3.0 : Extension V7-α rev. 2.1. Ajout du label '(α) Cristallisation sacrificielle d'État' dans labels_trajectoire_d4 (10e label, source : cadre théorique V7-α rev. 2.1 §2ter). Ajout des sections variables_v7_alpha_rev2_1 (six nouvelles variables M_r, mu_m, phi, psi_noyau, psi_cible, gamma_local), hyperparametres_v7_alpha_rev2_1 (sigma_base, alpha_phi, mu_m_etoile, modulateurs rampe en trois phases, coefficient A_r_c_eff, seuils branche b explicative), et intervalles_tolerance_v7_gamma (10 intervalles pré-enregistrés selon Décision V7-D1 rev. 4 §5.3). Aucune modification des sections V6.2 existantes."
   },
   "seuils_validation": {
-    "$description": "Seuils de validation inter-codeurs. CCI pour variables continues ; κ pour Sa (catégorielle).",
+    "$description": "Seuils de validation inter-codeurs. CCI pour les variables continues. Sa et m_r : indicateurs d'accord binaires sans seuil (Décision QG 2026-09-30 §4).",
     "cci": {
       "$description": "CCI two-way mixed, single measures, consistency — ICC(3,1). Shrout & Fleiss (1979).",
       "certifie": 0.7,
       "revision": 0.5,
       "rejet": 0.0,
       "note": "CCI ≥ 0.70 → CERTIFIÉ | 0.50 ≤ CCI < 0.70 → RÉVISION | CCI < 0.50 → REJET"
-    },
-    "kappa_sa": {
-      "$description": "κ de Cohen pour Sa (variable catégorielle — {2, 4, 6, 7}). Maintenu distinct du CCI.",
-      "certifie": 0.7,
-      "revision": 0.5,
-      "rejet": 0.0,
-      "note": "Sa est catégorielle ordinale à 4 niveaux — κ reste la métrique correcte."
     },
     "cci_global": {
       "$description": "CCI global multi-variables. Seuil de certification global d'une fiche.",

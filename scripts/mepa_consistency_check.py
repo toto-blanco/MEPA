@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 mepa_consistency_check.py
-Version          : 1.0.0
+Version          : 1.1.0
+Changelog 1.1.0 : seuils_validation.kappa_sa retiré du périmètre (Décision QG 2026-09-30 §4).
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, os, sys, importlib (stdlib uniquement)
 
@@ -21,7 +22,7 @@ OBJET (cible D1/D2 de l'audit CTO)
   PARTIELS volontaires), chaque copie à la source de vérité.
 
   Sous-ensemble vérifié :
-    - seuils_validation.{cci,kappa_sa,cci_global}.{certifie,revision}
+    - seuils_validation.{cci,cci_global}.{certifie,revision}
     - seuil_cci de chaque variable (variables_mepa + variables_v7_alpha_rev2_1)
     - SEUIL_CCI_CERTIFIE / SEUIL_CCI_GLOBAL_CERT / SEUIL_REVISION (passeport)
 
@@ -48,8 +49,6 @@ DEFAULT_SCRIPTS_DIR = os.environ.get("MEPA_SCRIPTS_DIR", "/data/mepa/scripts")
 CERT_THRESHOLD_PATHS = [
     ("seuils_validation", "cci", "certifie"),
     ("seuils_validation", "cci", "revision"),
-    ("seuils_validation", "kappa_sa", "certifie"),
-    ("seuils_validation", "kappa_sa", "revision"),
     ("seuils_validation", "cci_global", "certifie"),
     ("seuils_validation", "cci_global", "revision"),
 ]

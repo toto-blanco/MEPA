@@ -19,9 +19,19 @@ Rétrocompatibilité :
   - Champs NC : inchangés. Ajout de psi_noyau et gamma_local dans la liste des
     NC bloquantes V7.
 
-Version          : 3.0.4
+Version          : 3.0.5
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, sys, hashlib, datetime, os (stdlib uniquement)
+
+Changelog 3.0.5 (Décision QG 2026-09-30, §4) :
+  - certification.kappa_sa → accord_sa, certification.kappa_m_r → accord_m_r.
+    Indicateurs d'accord binaires sur un seul WP (pas des κ de Cohen).
+    Source : rapport du calculateur v3.1.0 (clés accord_sa / accord_m_r).
+  - note_methodologie : mention « κ maintenu pour Sa » remplacée.
+  - mepa_version : kappa_calc v3.1.0, constants v1.4.0.
+  - enrich_from_audit : repli sur l'alias 'kappa' supprimé (alias retiré du
+    calculateur v3.1.0, règle D3).
+  Les passeports pilotes (V7.0-P1) ne sont pas régénérés. Aucun gate modifié.
 
 Changelog 3.0.4 :
   - mepa_version.audit : "mepa_node2_audit_v7 v3.0" → "v3.0.1". Le Nœud 2 a été
@@ -139,11 +149,11 @@ MEPA_VERSION_META = {
     "runner":           "mepa_runner_v3_v7 v3.0 (LSODA)",
     "runner_legacy":    "mepa_runner_v2_gamma v2.1.1 (Euler dt=1, cas V6.2)",
     "audit":            "mepa_node2_audit_v7 v3.0.1",
-    "kappa_calc":       "mepa_kappa_calculator v3.0",
-    "passeport":        "mepa_passeport_schema v3.0.4",
+    "kappa_calc":       "mepa_kappa_calculator v3.1.0",
+    "passeport":        "mepa_passeport_schema v3.0.5",
     "protocole":        "V7.0-P2",
     "protocole_ref":    "Erratum Certification V7.0 (2026-09-29) §5.1 — T=0 transmis et enregistré par nœud, conv_e_raw archivé",
-    "constants":        "mepa_constants v1.3.0",
+    "constants":        "mepa_constants v1.4.0",
     "whitelist":        "mepa_whitelist_keys v3.0.0",
     "cadre_theorique":  "MEPA_cadre_theorique_V7_alpha_rev2_1.docx",
     "decision_gouvernance": "MEPA_Decision_V7_D1_rev4.md",
@@ -390,8 +400,8 @@ def generer_passeport(
 
     # ── Certification inter-codeurs ───────────────────────────────────────────
     cci_global  = None
-    kappa_sa    = None
-    kappa_m_r   = None
+    accord_sa   = None
+    accord_m_r  = None
     variables_nc = []
     nc_bloquantes = []
     friction_vecteur = {}
@@ -400,8 +410,8 @@ def generer_passeport(
 
     if cci_rapport:
         cci_global    = cci_rapport.get("cci")
-        kappa_sa      = cci_rapport.get("kappa_sa")
-        kappa_m_r     = cci_rapport.get("kappa_m_r")
+        accord_sa     = cci_rapport.get("accord_sa")
+        accord_m_r    = cci_rapport.get("accord_m_r")
         variables_nc  = cci_rapport.get("variables_nc", [])
         nc_bloquantes = cci_rapport.get("nc_bloquantes", [])
         friction_vecteur = cci_rapport.get("friction_vecteur", {})
@@ -465,8 +475,8 @@ def generer_passeport(
         # ── § 2 : Certification inter-codeurs ─────────────────────────────────
         "certification": {
             "cci":              cci_global,
-            "kappa_sa":         kappa_sa,
-            "kappa_m_r":        kappa_m_r,
+            "accord_sa":        accord_sa,
+            "accord_m_r":       accord_m_r,
             "verdict_cci":      verdict_cci,
             "variables_nc":     variables_nc,
             "nc_bloquantes":    nc_bloquantes,
@@ -475,7 +485,8 @@ def generer_passeport(
             "note_methodologie": (
                 "CCI ICC(3,1) two-way mixed consistency (Shrout & Fleiss, 1979). "
                 "Reproductibilité conditionnelle au modèle LLM — non indépendance absolue. "
-                "κ maintenu pour Sa (catégorielle ordinale à 4 niveaux). "
+                "Sa et m_r : indicateurs d'accord binaires sur ce seul WP (accord_sa, accord_m_r), "
+                "pas des κ de Cohen ; κ calculé au niveau du corpus. "
                 + ("NC bloquantes V7 étendues à psi_noyau et gamma_local "
                    "(sans ces valeurs, condition C2 branche α non évaluable). "
                    if est_v7 else "")
@@ -735,8 +746,8 @@ def passeport_depuis_result(result: dict, result_path: str = "?") -> dict:
         },
         "certification": {
             "cci":              None,
-            "kappa_sa":         None,
-            "kappa_m_r":        None,
+            "accord_sa":        None,
+            "accord_m_r":       None,
             "verdict_cci":      "NON_CALCULÉ",
             "variables_nc":     variables_nc,
             "nc_bloquantes":    nc_bloquantes,
@@ -781,18 +792,18 @@ def enrich_from_audit(passeport: dict, audit_result: dict) -> dict:
 
     Paramètres :
       passeport    : dict passeport (issu de generer_passeport)
-      audit_result : dict avec clés : cci, kappa_sa, kappa_m_r, verdict, anomalies
+      audit_result : dict avec clés : cci, accord_sa, accord_m_r, verdict, anomalies
 
     Retourne le passeport enrichi.
     """
     if "certification" not in passeport:
         passeport["certification"] = {}
 
-    # cci : champ réel du calculateur. Fallback sur l'ancien alias 'kappa'
-    # pour les appelants antérieurs à 3.0.1 (le calculateur émet les deux).
-    passeport["certification"]["cci"]         = audit_result.get("cci", audit_result.get("kappa"))
-    passeport["certification"]["kappa_sa"]    = audit_result.get("kappa_sa")
-    passeport["certification"]["kappa_m_r"]   = audit_result.get("kappa_m_r")
+    # cci : champ réel du calculateur (l'alias 'kappa' n'existe plus depuis le
+    # calculateur v3.1.0).
+    passeport["certification"]["cci"]         = audit_result.get("cci")
+    passeport["certification"]["accord_sa"]   = audit_result.get("accord_sa")
+    passeport["certification"]["accord_m_r"]  = audit_result.get("accord_m_r")
     passeport["certification"]["verdict_cci"] = audit_result.get("verdict", "NON_CALCULÉ")
     passeport["certification"]["anomalies"]   = audit_result.get("anomalies", [])
 

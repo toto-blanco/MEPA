@@ -18,7 +18,16 @@ Rétrocompatibilité :
   - Le format du rapport de sortie est INCHANGÉ dans sa structure V6.2 —
     il contient juste plus de variables dans 'detail_variables' si la fiche est V7.
 
-Version          : 3.0.0
+Version          : 3.1.0
+Changelog 3.1.0 (Décision QG 2026-09-30, §4) :
+  - kappa_sa → accord_sa, kappa_m_r → accord_m_r. Ce sont des indicateurs
+    d'accord BINAIRES calculés sur un seul WP (1.0 = accord, 0.0 = désaccord,
+    null = non évaluable). Ce ne sont pas des κ de Cohen (non calculable sur
+    un cas unique). Le κ de Cohen sera calculé au niveau du corpus (phase 0).
+  - SEUIL_KAPPA_SA et seuils_validation.kappa_sa retirés : seuil sans effet
+    sur aucun verdict. Aucun changement du CCI ni du verdict.
+  - Alias "kappa" (= cci, compatibilité V6.1) retiré du rapport : aucun
+    consommateur ne le lit plus (règle D3).
 MEPA version     : 7.0-alpha rev. 2.1
 Dépendances      : json, sys, math, os, numpy, scipy (V6.2 inchangées)
 
@@ -58,7 +67,7 @@ Rôle dans le pipeline WF1 :
   Entrées :
     - fiche_A.json (CONV-E) et fiche_B.json (CONV-B) — au même format JSON
   Sortie :
-    - rapport CCI avec champs cci, kappa_sa, variables_nc, verdict, 
+    - rapport CCI avec champs cci, accord_sa, accord_m_r, variables_nc, verdict, 
       friction_vecteur, detail_variables, valeurs_finales_provisoires
 
 Usage :
@@ -122,7 +131,6 @@ def _charger_constants() -> dict:
             # --- Seuils V6.2 (inchangés) ---
             "seuils_validation": {
                 "cci":        {"certifie": 0.70, "revision": 0.50},
-                "kappa_sa":   {"certifie": 0.70, "revision": 0.50},
                 "cci_global": {"certifie": 0.75, "revision": 0.55},
                 "friction_outlier_seuil": {"valeur": 2.0},
             },
@@ -171,7 +179,6 @@ SEUIL_CERTIFIE   = SEUILS["cci"]["certifie"]        # 0.70
 SEUIL_REVISION   = SEUILS["cci"]["revision"]         # 0.50
 SEUIL_CERTIFIE_G = SEUILS["cci_global"]["certifie"]  # 0.75
 SEUIL_REVISION_G = SEUILS["cci_global"]["revision"]  # 0.55
-SEUIL_KAPPA_SA   = SEUILS["kappa_sa"]["certifie"]    # 0.70
 
 
 # ── EXTRACTION DE VALEUR DEPUIS FICHE (étendue V7) ───────────────────────────
@@ -380,7 +387,7 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
     Point d'entrée principal. Calcule le CCI inter-codeurs entre deux fiches MEPA.
 
     Retourne le rapport complet compatible avec :
-      - mepa_passeport_schema.py v3.0 (champs 'cci', 'kappa_sa', 'variables_nc')
+      - mepa_passeport_schema.py v3.0 (champs 'cci', 'accord_sa', 'accord_m_r', 'variables_nc')
       - mepa_friction_profile.json (champ 'friction_vecteur')
       - mepa_node2_audit_v7.js (champ 'variables_nc' pour contrôle C13)
 
@@ -523,19 +530,21 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
     cci_global_result = _cci_global_depuis_details(details)
     cci_global        = cci_global_result["icc"] if cci_global_result else None
 
-    # ── Phase 4 : κ de Cohen pour Sa ──────────────────────────────────────────
+    # ── Phase 4 : indicateur d'accord binaire pour Sa (un seul WP) ────────────
+    # Pas un κ de Cohen : 1.0 = même valeur chez les deux codeurs, 0.0 sinon,
+    # None = non évaluable. Le κ de Cohen se calcule au niveau du corpus.
     sa_detail  = next((r for r in details if r["variable"] == "Sa"), None)
-    kappa_sa   = None
+    accord_sa  = None
 
     if sa_detail and not sa_detail["nc"] and sa_detail["scorable"]:
-        kappa_sa = 1.0 if sa_detail["accord"] else 0.0
+        accord_sa = 1.0 if sa_detail["accord"] else 0.0
 
-    # ── Phase 4bis : κ pour m_r (nouveau V7) ──────────────────────────────────
-    kappa_m_r = None
+    # ── Phase 4bis : indicateur d'accord binaire pour m_r (V7) ────────────────
+    accord_m_r = None
     if est_v7:
         mr_detail = next((r for r in details if r["variable"] == "m_r"), None)
         if mr_detail and not mr_detail["nc"] and mr_detail["scorable"]:
-            kappa_m_r = 1.0 if mr_detail["accord"] else 0.0
+            accord_m_r = 1.0 if mr_detail["accord"] else 0.0
 
     # ── Phase 5 : verdict global ──────────────────────────────────────────────
     if nc_bloquantes:
@@ -622,10 +631,9 @@ def calculer_cci(path_a: str, path_b: str) -> dict:
 
         # ── Scores principaux ────────────────────────────────────────────────
         "cci":                cci_global,
-        "kappa":              cci_global,  # alias compatibilité V6.1 → V6.2
         "cci_detail":         cci_global_result,
-        "kappa_sa":           kappa_sa,
-        "kappa_m_r":          kappa_m_r,  # V7 — nouveau
+        "accord_sa":          accord_sa,   # indicateur binaire, un seul WP
+        "accord_m_r":         accord_m_r,  # indicateur binaire, un seul WP (V7)
 
         # ── NC ────────────────────────────────────────────────────────────────
         "variables_nc":       variables_nc,
@@ -707,11 +715,11 @@ def afficher_rapport(rapport: dict) -> None:
     else:
         print(f"  CCI global = N/A  →  {rapport['verdict']}")
 
-    if rapport['kappa_sa'] is not None:
-        print(f"  κ (Sa)     = {rapport['kappa_sa']:.4f}")
+    if rapport['accord_sa'] is not None:
+        print(f"  Accord Sa  = {rapport['accord_sa']:.0f}  (binaire, un seul WP)")
 
-    if est_v7 and rapport.get('kappa_m_r') is not None:
-        print(f"  κ (m_r)    = {rapport['kappa_m_r']:.4f}")
+    if est_v7 and rapport.get('accord_m_r') is not None:
+        print(f"  Accord m_r = {rapport['accord_m_r']:.0f}  (binaire, un seul WP)")
 
     # Variables NC
     if rapport['variables_nc']:
@@ -774,9 +782,8 @@ if __name__ == "__main__":
         print()
         print("Sorties JSON clés :")
         print("  cci              → score CCI global [0,1]")
-        print("  kappa            → alias cci (compatibilité V6.1)")
-        print("  kappa_sa         → κ Cohen pour Sa")
-        print("  kappa_m_r        → κ Cohen pour m_r (V7)")
+        print("  accord_sa        → accord binaire des deux codeurs sur Sa (un seul WP)")
+        print("  accord_m_r       → accord binaire des deux codeurs sur m_r (V7, un seul WP)")
         print("  variables_nc     → liste des variables NC détectées")
         print("  nc_bloquantes    → variables NC qui bloquent la simulation")
         print("  verdict          → CERTIFIÉ | RÉVISION | REJET | DONNÉES_INSUFFISANTES")
