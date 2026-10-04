@@ -5,7 +5,8 @@ MEPA V7 — Test de non-régression T6 : invariance à la segmentation de la ram
 ================================================================================
 Statut      : garde-fou T6 (issu de l'audit externe Juin 2026) — v1.1 : chemins du dépôt,
               entrées certifiées pour Rwanda, exécutable par pytest
-Cible        : /data/mepa/scripts/mepa_test_rampe_segmentation.py
+              v1.2 : règle T1 alignée sur le runner (un seul t_bascule None = échec)
+Cible        : tests/test_t6_rampe_segmentation.py (dépôt mepa)
 MEPA version : 7.0-alpha rev. 2.1
 
 CONTEXTE
@@ -78,7 +79,12 @@ P_DEFAULTS = dict(p1=0.08, p2=0.045, p2b=0.06, p3=0.02, p4=0.40,
 # ── Cas-tests : rampe FORCÉE active (on teste la primitive d'intégration) ────
 CAS = [
     {
-        # Entrées certifiées V7.0-P1 (result.json du 19 juin 2026, sha256 b47bb3c5…)
+        # Entrées certifiées V7.0-P1 : valeurs du result.json du 19 juin 2026, lues dans la copie
+        # versionnée outputs/mesures/2026-10-02_diagnostic_R/entrees/result_juin/WP-I10-1_result_juin.json
+        # (sha256 877b94719f62220e178757be312a795180d158fd11a33775d5102cd012edd228). L'original tel qu'écrit par le runner
+        # (sha256 b47bb3c5…, inscrit au passeport) ne diffère que par la mise en forme : 7 nombres
+        # écrits 1.0 au lieu de 1, valeurs identiques. L'empreinte canonique diffère aussi (entier
+        # contre flottant) : seules les valeurs font foi pour ce test.
         "wp_id": "WP-I10-1", "cas": "Rwanda (entrées certifiées)", "sa": 6, "t_max": 400,
         "params_override": {"p5": 0.20, "lam": 0.72},
         "cmd": dict(T=1.0, Mob=0.05, R=0.15, Ref=0.1, Rc=0.9, Rn=0.1,
@@ -126,6 +132,17 @@ def _metrics(Y, ts, cmd_fn, p, hp, t_max):
             "FR_max": max(FR), "chute_I": chute_I}
 
 
+def _t1(tbA, tbB):
+    """Règle T1 alignée sur le runner (mepa_runner_v3_v7.py, comparaison T1-T5) :
+    deux valeurs → |écart| ≤ 5 pas ; deux None → succès ; un seul None → échec."""
+    if tbA is not None and tbB is not None:
+        d = abs(tbA - tbB)
+        return d <= TOL["T1_t_bascule_pas"], d
+    if tbA is None and tbB is None:
+        return True, 0
+    return False, f"un seul t_bascule défini (monobloc={tbA}, segmenté={tbB})"
+
+
 def run_case(case):
     hp = R._get_hyperparams_v7()
     p = _build_p(case); p6_base = p["p6"]; t_max = case["t_max"]
@@ -164,7 +181,7 @@ def run_case(case):
     mB = _metrics(B, ts, cmd_fn, p, hp, t_max)
 
     tbA, tbB = mA["t_bascule"], mB["t_bascule"]
-    t1 = (abs(tbA - tbB) if (tbA is not None and tbB is not None) else 0)
+    t1_ok, t1 = _t1(tbA, tbB)
     t2 = abs(mA["C_max"] - mB["C_max"]) / max(abs(mB["C_max"]), 1e-9)
     t3 = abs(mA["chute_I"] - mB["chute_I"])
     t4 = abs(mA["FR_max"] - mB["FR_max"]) / max(abs(mB["FR_max"]), 1e-9)
@@ -172,7 +189,7 @@ def run_case(case):
     max_state = float(np.max(np.abs(A.y - B)))
 
     checks = {
-        "T1_t_bascule": (t1 <= TOL["T1_t_bascule_pas"], t1),
+        "T1_t_bascule": (t1_ok, t1),
         "T2_C_max":     (t2 <= TOL["T2_C_max_rel"], round(t2, 6)),
         "T3_chute_I":   (t3 <= TOL["T3_chute_I_abs"], round(t3, 6)),
         "T4_FR_max":    (t4 <= TOL["T4_FR_max_rel"], round(t4, 6)),
