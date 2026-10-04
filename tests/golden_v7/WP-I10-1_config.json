@@ -1,0 +1,106 @@
+{
+  "wp_id": "WP-I10-1",
+  "cas": "Rwanda — Génocide et reconstruction 1990-2010",
+  "cluster": "C1",
+  "trajectoire_attendue": "(α) Cristallisation sacrificielle d'État",
+  "sa": 6,
+  "y0": [
+    1.5,
+    0.12,
+    0.1,
+    1.5
+  ],
+  "cmd": {
+    "T": 1,
+    "Mob": 0.05,
+    "R": 0.15,
+    "Ref": 0.1,
+    "Rc": 0.9,
+    "Rn": 0.1,
+    "E": 0.82,
+    "gamma": 0.55,
+    "EROI": 3,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "EROI statique dans cluster C1 — EROI_start=EROI_end=3.0 par conformité C11.",
+    "EROI": {
+      "start": 3,
+      "end": 3
+    }
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.2,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.72,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "$note": "Paramètres de calibration spécifiques WP-I10-1 Rwanda. Surchargent les P_DEFAULTS du Node 2 pour capturer la dynamique génocidaire non-standard (deux phases Phase 1 t<100 / Phase 2 t>100). Seuls les paramètres qui dévient des P_DEFAULTS sont listés ici — tous les autres restent aux valeurs génériques du Node 2.",
+    "p5_note": "Flux C ← L (mobilisation collective → capital institutionnel). P_DEFAULT=0.05 insuffisant pour capturer l'intensité de la cohésion génocidaire Interahamwe (Phase 1). Valeur 0.20 = 4× le défaut, justifiée par l'organisation paramilitaire documentée (Prunier 1995, S1 ; Des Forges HRW 1999, S2). Dans plage corpus [0.01, 0.80] — mepa_constants.json.",
+    "lam_note": "Poids λ de L dans F(t) = C + λ·L·(1 + μ·γ·E). P_DEFAULT=0.68. Valeur 0.72 = borne haute de la plage autorisée [0.60, 0.75] — prompt V3-gamma Partie 2 §3. Justifiée par la loyauté exceptionnelle des FAR et milices Interahamwe comme amplificateur de force dans Phase 1 (refus total de négociation, exécution systématique). Dans plage corpus admissible.",
+    "$validation": {
+      "trajectoire_produite": "(a) Rupture transformatrice",
+      "tb": 8,
+      "dC_rel": 0.599,
+      "dI_rel": 0.0616,
+      "FR_max": 1.2765,
+      "robustesse_N1": "ROBUSTE",
+      "trajs_N1": [
+        "(a) Rupture transformatrice",
+        "(a) Rupture transformatrice",
+        "(a) Rupture transformatrice"
+      ],
+      "date_calibration": "2026-03-16",
+      "autorite": "Architecte Système MEPA V6.2 — audit production WP-I10-1"
+    },
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "t_max": 400,
+  "fiche_v7": true,
+  "variables_v7": {
+    "m_r": {
+      "valeur": 1,
+      "source_id": "Todd 1990 (S4) ; Longman 2010 (S8)",
+      "justification": "Rwanda 1994 = Stade 1 (religion active). M_r mesure le rôle structural de la matrice religieuse : au Rwanda, le christianisme (~90 % de la population, catholiques et protestants) structure encore les institutions civiles, l'école et la morale publique en 1994. Longman 2010 documente l'imbrication des Églises dans l'appareil social — au point de leur complicité organisationnelle dans le génocide. M_r ∈ {1,2} requis pour C1 : satisfait."
+    },
+    "mu_m": {
+      "valeur": 0.85,
+      "source_id": "Prunier 1995 (S1) ; Chrétien 1995 (S9)",
+      "justification": "μ_m = 0.85, bande [0.80–1.00] : polarisation mimétique maximale avec désignation d'un ennemi démographique. Le discours public (RTLM, Kangura) désigne ouvertement les Tutsis comme « inyenzi » (cafards) à éliminer ; Chrétien 1995 documente l'appel systématique à la purge dans les médias contrôlés. Valeur pré-enregistrée μ_m_max_programme (ancre corpus V7). μ_m > μ_m* = 0.60 requis pour C1 : satisfait. (Ne pas confondre avec le paramètre dynamique μ ≈ 0.38.)"
+    },
+    "phi": {
+      "valeur": 0.15,
+      "source_id": "Chrétien 1995 (S9) ; ancre corpus V7 (Φ_min_programme)",
+      "justification": "Φ = 0.15, bande [0.00–0.20] : monopole symbolique quasi-complet du noyau Hutu Power. RTLM et Kangura saturent l'espace médiatique intérieur ; la seule voix concurrente (Radio Muhabura) est une radio d'opposition EXTERNE émise depuis les zones FPR, pas un pluralisme intérieur toléré. Valeur pré-enregistrée Φ_min_programme (ancre corpus V7). Φ bas = mécanisme sacrificiel facilité, σ(Φ) faible. Correction QG actée : l'exemple Rwanda de la grille Φ de CONV-E.md (anciennement bande [0.20–0.40]) est reclassé en [0.00–0.20], distinction radio d'opposition externe vs pluralisme intérieur."
+    },
+    "psi_noyau": {
+      "valeur": 0.05,
+      "source_id": "Straus 2006 (S2) ; Des Forges 1999 (S10)",
+      "justification": "Ψ_noyau = 0.05, bande [0.01–0.05] : engagement actif soutenu de l'appareil génocidaire mobilisé (Interahamwe entraînés + cadres MRND/CDR + administrateurs et auxiliaires organisant les tueries). Codage élargi pré-enregistré (Ψ_noyau_max_programme = 0.05, lecture Straus 2006). Le noyau d'auteurs effectifs estimé par Straus (~175 000–200 000) rapporté à ~7 M d'habitants donne ~0.025–0.03 ; l'élargissement à l'ensemble de l'appareil mobilisé (encadrement, miliciens auxiliaires) atteint le plafond programme 0.05. Sont exclus du comptage les votants, sympathisants passifs et populations contraintes. Valeur au plafond corpus : à surveiller en audit κ."
+    },
+    "psi_cible": {
+      "valeur": 0.15,
+      "source_id": "Recensement colonial ; Prunier 1995 (S1) ; Des Forges 1999 (S10)",
+      "justification": "Ψ_cible = 0.15 : les Tutsis sont désignés PUBLIQUEMENT par le noyau Hutu Power comme cible démographique unique du mécanisme sacrificiel — désignation ethnique (critère d'appartenance, pas adversaire politique conjoncturel), publique (RTLM, Kangura) et dominante. Proportion ≈ 14–18 % de la population (recensement colonial), codée 0.15. Valeur non-null : condition C3 de la branche (α) satisfaite. Cohérent avec μ_m = 0.85 (la règle de cohérence impose Ψ_cible non-null si μ_m > 0.80)."
+    },
+    "gamma_local": {
+      "valeur": 0.55,
+      "source_id": "Prunier 1995 (S1) ; Straus 2006 (S2) ; Des Forges 1999 (S10)",
+      "justification": "γ_local = 0.55, bande [0.40–0.60] : organisation structurée du seul noyau Hutu Power (MRND + CDR + Interahamwe), avec doctrine commune du « travail » (euphémisme génocidaire), entraînement militaire des miliciens, hiérarchie fonctionnelle et coordination opérationnelle avec l'armée régulière (FAR). γ_local mesure la discipline du noyau, distincte de γ (V6.2, cohésion de l'élite globale, fragmentée ≈ 0.35 entre Akazu, opposition et modérés). Les deux valeurs divergent volontairement — cas canonique du protocole V7."
+    }
+  }
+}

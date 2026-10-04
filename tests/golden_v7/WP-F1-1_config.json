@@ -1,0 +1,88 @@
+{
+  "wp_id": "WP-F1-1",
+  "cas": "Rome — Crise du IIIe siècle",
+  "cluster": "C1",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "sa": 4,
+  "y0": [
+    1.0,
+    0.55,
+    0.1,
+    3.5
+  ],
+  "cmd": {
+    "T": 0.8,
+    "Mob": 0.1,
+    "R": 0.3,
+    "Ref": 0.1,
+    "Rc": 0.5,
+    "Rn": 0,
+    "E": 0.2,
+    "gamma": 0.25,
+    "EROI": 3.15,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE. Déclin linéaire 4.5→1.8 sur 300 pas.",
+    "EROI": {
+      "start": 4.5,
+      "end": 1.8
+    }
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "t_max": 300,
+  "fiche_v7": true,
+  "variables_v7": {
+    "m_r": {
+      "valeur": 1,
+      "source_id": "Todd 1990 (S4)",
+      "justification": "Rome IIIe = Stade 1 (religion civique active). La religion polythéiste d'État (culte impérial, sacrifices publics, collèges sacerdotaux) structure encore les institutions et la morale publique : l'édit de Dèce (250) imposant le sacrifice universel aux dieux atteste que la matrice religieuse est institutionnellement contraignante. M_r=1. RÉSERVE SOURCE : la grille Todd est calibrée sur le christianisme européen ; le mapping au polythéisme romain est approximatif. Sans incidence sur C1, qui échoue de toute façon par μ_m."
+    },
+    "mu_m": {
+      "valeur": 0.25,
+      "source_id": "Gibbon (S1) ; Tainter 1988 (S5)",
+      "justification": "μ_m = 0.25, bande [0.20–0.40] : polarisation modérée. La crise est multi-causale et diffuse ; aucun discours public ne désigne un « eux » coupable unique. Les persécutions chrétiennes sont ponctuelles et non érigées en polarisation mimétique structurante. μ_m = 0.25 < μ_m* = 0.60 : la sous-condition mimétique de C1 N'EST PAS franchie."
+    },
+    "phi": {
+      "valeur": 0.5,
+      "source_id": "Brown (contexte) ; Tainter 1988 (S5)",
+      "justification": "Φ = 0.50, bande [0.40–0.60] : pluralisme symbolique partiel. L'espace symbolique romain juxtapose le culte civique d'État, de multiples cultes orientaux et à mystères, les écoles philosophiques et un christianisme montant — aucun monopole d'un noyau organisé. RÉSERVE SOURCE : la mesure du « pluralisme symbolique » pour une société pré-moderne est approximative (pas d'indices médiatiques). Non décisif : C2 échoue largement par Ψ_noyau et γ_local quasi-nuls."
+    },
+    "psi_noyau": {
+      "valeur": 0.02,
+      "source_id": "Tainter 1988 (S5) ; Ward-Perkins 2005 (S6)",
+      "justification": "Ψ_noyau = 0.02, bande [0.01–0.05] basse : il n'existe AUCUN noyau organisé porteur d'un mécanisme sacrificiel. L'effondrement est systémique et impersonnel (surcharge de complexité, défaillance fiscale et militaire), pas l'œuvre d'une avant-garde mobilisée autour d'une purge. Valeur quasi-nulle reflétant l'absence de noyau, non un noyau réduit."
+    },
+    "psi_cible": {
+      "valeur": null,
+      "source_id": "Gibbon (S1) ; Wickham 2009 (S2) ; Tainter 1988 (S5) ; Ward-Perkins 2005 (S6)",
+      "justification": null
+    },
+    "gamma_local": {
+      "valeur": 0.1,
+      "source_id": "Tainter 1988 (S5) ; Gibbon (S1)",
+      "justification": "γ_local = 0.10, bande [0.00–0.20] : aucun noyau organisé, donc pas de discipline doctrinale ni de commandement central porteur d'un mécanisme sacrificiel. Corollaire de Ψ_noyau quasi-nul. γ_local ≈ γ (V6.2 = 0.25) — convergence basse, pas de divergence noyau/élite (il n'y a pas de noyau)."
+    }
+  }
+}

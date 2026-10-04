@@ -1,0 +1,88 @@
+{
+  "wp_id": "WP-I4-1",
+  "cas": "Allemagne nazie",
+  "cluster": "C2",
+  "trajectoire_attendue": "(α) Cristallisation sacrificielle d'État",
+  "sa": 7,
+  "y0": [
+    1.3,
+    0.2,
+    0.1,
+    2.5
+  ],
+  "cmd": {
+    "T": 0.9,
+    "Mob": 0.2,
+    "R": 0.3,
+    "Ref": 0.1,
+    "Rc": 0.35,
+    "Rn": 0.7,
+    "E": 0.75,
+    "gamma": 0.55,
+    "EROI": 13,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "C2 croissant — EROI_start/EROI_end obligatoire pour C2 avec variation documentée. Croissance linéaire 8.0→18.0 sur 300 pas.",
+    "EROI": {
+      "start": 8,
+      "end": 18
+    }
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "t_max": 300,
+  "fiche_v7": true,
+  "variables_v7": {
+    "m_r": {
+      "valeur": 2,
+      "source_id": "Todd 1990 (S4) ; Todd 2017 (S7)",
+      "justification": "Allemagne 1933 = Stade 2 (religion en transition zombie). Le protestantisme et le catholicisme ont perdu une part de leur fonction institutionnelle structurante mais conservent des effets sociaux résiduels (identité confessionnelle, structures mentales, antijudaïsme chrétien sédimenté). La matrice religieuse n'est plus active au sens du Stade 1 mais pas encore dissoute (Stade 3). M_r=2, non M_r=1 : c'est sur ce substrat zombie que se greffe le mécanisme sacrificiel racialisé (matrice séculière). M_r ∈ {1,2} requis pour C1 : satisfait."
+    },
+    "mu_m": {
+      "valeur": 0.85,
+      "source_id": "Evans 2003 (S1) ; Kershaw 1998 (S3)",
+      "justification": "μ_m = 0.85, bande [0.80–1.00] : polarisation mimétique maximale avec désignation d'un ennemi démographique. Les Juifs sont désignés publiquement comme ennemi racial absolu (lois de Nuremberg 1935, Der Stürmer, propagande d'État). Valeur au plafond programme (μ_m_max_programme = 0.85, partagé avec Rwanda) : les deux cas sont paradigmatiques de la désignation démographique totale. μ_m > μ_m* = 0.60 requis pour C1 : satisfait. (Ne pas confondre avec le paramètre dynamique μ ≈ 0.38.)"
+    },
+    "phi": {
+      "valeur": 0.3,
+      "source_id": "Evans 2003 (S1) ; valeur pré-enregistrée Décision V7-D1 rev.4 §5.1",
+      "justification": "Φ = 0.30, bande [0.20–0.40] : monopole dominant avec résidus pluralistes tardivement réprimés. Valeur codée à l'ONSET de la cristallisation (1933) : la Gleichschaltung est en cours mais des poches symboliques subsistent encore (presse confessionnelle, partis en voie d'interdiction, Églises) avant l'alignement complet. Valeur pré-enregistrée par la Décision V7-D1 rev.4 §5.1 pour le calcul de C2 : σ(Φ=0.30) = 0.018×(1+1.7×0.30) = 0.0275. NOTE QG : la grille Φ de CONV-E.md cite « Allemagne 1935-1945 (Gleichschaltung) » en bande [0.00–0.20] — cet exemple décrit la phase consolidée, pas l'onset 1933 codé ici. À harmoniser (distinction onset vs consolidation), analogue à la correction Φ Rwanda. Sans incidence sur C2 : l'échec est robuste (0.0055 < 0.0226 même à Φ=0.15)."
+    },
+    "psi_noyau": {
+      "valeur": 0.01,
+      "source_id": "NSDAP Parteistatistik 1933 (S8) ; Recensement 1933 (S8)",
+      "justification": "Ψ_noyau codée ≈ 0.01 conformément à la règle pré-enregistrée par la Décision V7-D1 rev. 4 §5 (NSDAP ≈ 800 000 membres formels / 66 M d'Allemands = 1.2 %). SONT EXCLUS du comptage, conformément à la définition stricte : les votants NSDAP de mars 1933 (~43 %, le vote n'est pas un engagement actif soutenu), les sympathisants passifs, et la population « sous contrôle » après 1934 (la contrainte n'est pas l'adhésion). Cette valeur entraîne un ÉCHEC ATTENDU sur la condition C2 de la branche (α) : Ψ_noyau × γ_local = 0.01 × 0.55 = 0.0055 < σ(Φ=0.30) ≈ 0.0275. Échec documenté comme limite théorique du cadre V7-α rev. 2.1 §2ter.7. Le rapport CONV-A correspondant DEVRA contenir les Réserves 1 et 2 du §4bis de la Décision V7-D1 rev. 4 (« Anomalie documentée » + « Hypothèse théorique sous contrainte »). Élargir Ψ_noyau pour sauver C2 serait la rationalisation post-hoc que le protocole V7-C3 condamne : la limite est assumée, pas masquée."
+    },
+    "psi_cible": {
+      "valeur": 0.008,
+      "source_id": "Recensement allemand juin 1933 (S8) ; Evans 2003 (S1)",
+      "justification": "Ψ_cible = 0.008 : les Juifs sont désignés publiquement par le noyau NSDAP comme cible démographique unique du mécanisme sacrificiel — désignation raciale (critère d'appartenance), publique (lois de Nuremberg, presse d'État) et dominante. Proportion ≈ 525 000 Juifs / 66 M d'Allemands en 1933 (recensement de 1933) = 0.008. Valeur non-null : condition C3 de la branche (α) satisfaite. Cohérent avec μ_m = 0.85 (la règle de cohérence impose Ψ_cible non-null si μ_m > 0.80)."
+    },
+    "gamma_local": {
+      "valeur": 0.55,
+      "source_id": "Kershaw 1998 (S3) ; Evans 2003 (S1)",
+      "justification": "γ_local = 0.55, bande [0.40–0.60] : organisation structurée du noyau NSDAP — parti discipliné doté d'une doctrine raciale unifiée, SA structurée, hiérarchie fonctionnelle et chaîne de commandement opérationnelle. γ_local mesure la discipline du seul noyau organisé, distincte de γ (V6.2 = cohésion de l'élite globale, ≈ 0.55 ici aussi mais conceptuellement séparée et laissée intacte au socle V6.2 sur décision QG). Le noyau est très discipliné (γ_local élevé) mais sa base est extrêmement restreinte (Ψ_noyau = 0.01) : la discipline ne compense pas la base — c'est précisément la limite illustrée par l'échec C2."
+    }
+  }
+}

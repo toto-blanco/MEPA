@@ -1,0 +1,88 @@
+{
+  "wp_id": "WP-C1-1",
+  "cas": "Haïti — Crise post-séisme et dissolution institutionnelle 2010-2024",
+  "cluster": "C1",
+  "trajectoire_attendue": "(d) Effondrement progressif",
+  "sa": 4,
+  "y0": [
+    1.5,
+    0.18,
+    0.05,
+    1.5
+  ],
+  "cmd": {
+    "T": 1.2,
+    "Mob": 0.1,
+    "R": 0.15,
+    "Ref": 0.05,
+    "Rc": 0.58,
+    "Rn": 0,
+    "E": 0.72,
+    "gamma": 0.22,
+    "EROI": 1.5,
+    "Pop": 1
+  },
+  "cmd_linear": {
+    "note": "C1 — EROI_start/EROI_end OBLIGATOIRE pour cluster C1 dynamique.",
+    "EROI": {
+      "start": 1.2,
+      "end": 2
+    }
+  },
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "t_max": 300,
+  "fiche_v7": true,
+  "variables_v7": {
+    "m_r": {
+      "valeur": 1,
+      "source_id": "Todd 1990 (S4)",
+      "justification": "Haïti = Stade 1 (religion active). Catholicisme, protestantisme évangélique en expansion et Vodou structurent fortement la vie quotidienne, l'identité et la morale publique. Matrice religieuse socialement active. M_r ∈ {1,2} satisfait ; C1 échoue néanmoins par μ_m."
+    },
+    "mu_m": {
+      "valeur": 0.3,
+      "source_id": "V-DEM (S5) ; Freedom House (S6)",
+      "justification": "μ_m = 0.30, bande [0.20–0.40] : polarisation modérée. Conflits politiques et prédation des gangs, mais aucune désignation publique d'un ennemi démographique unique. La conflictualité est fragmentée (gangs rivaux, factions politiques) sans « nous/eux » mimétique structurant. μ_m = 0.30 < μ_m* = 0.60 : sous-condition C1 non franchie."
+    },
+    "phi": {
+      "valeur": 0.65,
+      "source_id": "V-DEM (S5) ; Freedom House (S6) ; ancre corpus V7 (Φ_max_programme)",
+      "justification": "Φ = 0.65, bande [0.60–0.80] : pluralisme médiatique élevé. Paysage radiophonique et médiatique haïtien dense et fragmenté, multiples voix concurrentes, aucun monopole symbolique. Valeur pré-enregistrée Φ_max_programme (ancre corpus V7). Φ élevé → σ(Φ) élevé → seuil C2 rehaussé."
+    },
+    "psi_noyau": {
+      "valeur": 0.04,
+      "source_id": "Schuller & Morales (S3) ; Farmer 2011 (S4)",
+      "justification": "Ψ_noyau = 0.04, bande [0.01–0.05] : pas de noyau idéologique organisé porteur d'un mécanisme sacrificiel. Les gangs sont des acteurs criminels FRAGMENTÉS et concurrents (motivation prédatrice/territoriale), pas une avant-garde unifiée portant une purge démographique. Valeur reflétant des acteurs armés actifs mais non sacrificiels."
+    },
+    "psi_cible": {
+      "valeur": null,
+      "source_id": "Banque mondiale (S1) ; Schuller & Morales (S3) ; Farmer 2011 (S4) ; V-DEM (S5) ; Freedom House (S6)",
+      "justification": null
+    },
+    "gamma_local": {
+      "valeur": 0.15,
+      "source_id": "Schuller & Morales (S3) ; V-DEM (S5)",
+      "justification": "γ_local = 0.15, bande [0.00–0.20] : aucun noyau organisé discipliné porteur d'un mécanisme sacrificiel. Les gangs ont une organisation interne locale mais sont mutuellement concurrents, sans doctrine commune ni commandement central unifié. γ_local ≈ γ (V6.2 = 0.25), convergence basse."
+    }
+  }
+}

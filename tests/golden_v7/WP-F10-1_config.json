@@ -1,0 +1,82 @@
+{
+  "wp_id": "WP-F10-1",
+  "cas": "Commune de Paris",
+  "cluster": "C2",
+  "trajectoire_attendue": "(a) Rupture transformatrice",
+  "sa": 4,
+  "y0": [
+    1.2,
+    0.32,
+    0.1,
+    3.0
+  ],
+  "cmd": {
+    "T": 0.95,
+    "Mob": 0.25,
+    "R": 0.2,
+    "Ref": 0.1,
+    "Rc": 0.8,
+    "Rn": 0,
+    "E": 0.63,
+    "gamma": 0.15,
+    "EROI": 7,
+    "Pop": 1
+  },
+  "cmd_linear": {},
+  "params": {
+    "p1": 0.08,
+    "p2": 0.045,
+    "p2b": 0.06,
+    "p3": 0.02,
+    "p4": 0.4,
+    "p5": 0.05,
+    "p6": 0.12,
+    "p7": 0.04,
+    "p8": 0.03,
+    "p9": 0.06,
+    "p10": 0.8,
+    "p11a": 0.6,
+    "p11b": 0.15,
+    "p13": 1.2,
+    "lam": 0.68,
+    "mu": 0.38,
+    "nu": 0.62,
+    "rho": 0.06,
+    "theta_C": 0.3,
+    "theta_I": 0.22
+  },
+  "t_max": 80,
+  "fiche_v7": true,
+  "variables_v7": {
+    "m_r": {
+      "valeur": 2,
+      "source_id": "Todd 1990 (S4)",
+      "justification": "France 1871 = Stade 2 (catholicisme en transition zombie). Après le Kulturkampf européen et la montée de l'anticléricalisme républicain, le catholicisme français conserve une fonction culturelle résiduelle mais a perdu sa centralité institutionnelle structurante — la Commune elle-même est fortement anticléricale (décret de séparation Église/État du 2 avril 1871, exécution d'otages ecclésiastiques). M_r=2, non M_r=1. M_r ∈ {1,2} : ce volet de C1 est satisfait (l'échec de C1 viendra de μ_m, voir précheck)."
+    },
+    "mu_m": {
+      "valeur": 0.5,
+      "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5)",
+      "justification": "μ_m = 0.50, bande [0.40–0.60] : polarisation politique forte (Versaillais vs Communards, guerre civile, Semaine sanglante) MAIS sans désignation d'une cible démographique. L'antagonisme est politique et de classe, mimétique au sens girardien (deux gouvernements rivaux), mais ne franchit pas le seuil de la désignation d'un ennemi démographique homogène que μ_m mesure dans le cadre de C1. μ_m = 0.50 < μ_m* = 0.60 : la sous-condition mimétique de C1 N'EST PAS franchie. Valeur codée aux sources, NON ajustée vers le haut pour faire passer C1 (CONV-E.md L292)."
+    },
+    "phi": {
+      "valeur": 0.65,
+      "source_id": "Ross 2015 (S2) ; Rougerie 1971 (S5)",
+      "justification": "Φ = 0.65, bande [0.60–0.80] : pluralisme symbolique interne fort. La Commune est traversée par des courants concurrents non hiérarchisés — Jacobins, Blanquistes, Proudhoniens, Anarchistes — avec une presse abondante et libre et des débats ouverts au sein du Conseil. Aucun monopole symbolique : c'est l'antithèse de la saturation médiatique d'un noyau sacrificiel. Φ élevé → σ(Φ) élevé → seuil de C2 rehaussé. C'est le pluralisme intérieur (pas une opposition externe) qui définit cette valeur."
+    },
+    "psi_noyau": {
+      "valeur": 0.1,
+      "source_id": "Rougerie 1971 (S5) ; Lissagaray 1876 (S1) ; Merriman 2014 (S7)",
+      "justification": "Ψ_noyau = 0.10, bande [0.08–0.12] : membres actifs des comités de section et fédérés de la Garde nationale engagés, rapportés à la population parisienne. Le noyau actif est NUMÉRIQUEMENT correct (engagement réel et soutenu sur 72 jours), ce qui distingue ce cas de l'Allemagne nazie : ici l'échec de C2 ne vient PAS d'un noyau trop petit, mais de γ_local trop bas (désorganisation interne). C'est un mode d'échec C2 différent, qui démontre la sensibilité de C2 aux deux facteurs."
+    },
+    "psi_cible": {
+      "valeur": null,
+      "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5) ; Lissagaray 1876 (S1) ; Merriman 2014 (S7)",
+      "justification": null
+    },
+    "gamma_local": {
+      "valeur": 0.18,
+      "source_id": "Tombs 1981 (S3) ; Rougerie 1971 (S5) ; Lissagaray 1876 (S1)",
+      "justification": "γ_local = 0.18, bande [0.20–0.40] basse (limite inférieure) : désorganisation interne marquée. Comités de section multiples en compétition (Jacobins, Blanquistes, Proudhoniens), absence de doctrine unifiée et de commandement central effectif sur les 72 jours, décisions improvisées, conflits Comité de salut public vs minorité fédéraliste. Le noyau est nombreux (Ψ_noyau=0.10) mais indiscipliné : γ_local trop bas pour franchir C2. Ici γ_local ≈ γ (V6.2 = 0.15) car les deux convergent bas pour ce cas — pas de divergence noyau/élite."
+    }
+  }
+}

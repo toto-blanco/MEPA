@@ -1,0 +1,53 @@
+{
+  "$description": "Golden V7 : runs de certification V7.0-P1 (19-22 juin 2026). result.json = fichiers tels qu'écrits par le runner, empreinte = hash_integrite.result_json_sha256 du passeport. config = entrées du runner, extraites une fois de ces résultats.",
+  "cas": {
+    "WP-I10-1": {
+      "result": "WP-I10-1_result.json",
+      "result_sha256": "b47bb3c50c9e6e177221eb62d469c97a441eebf2630241d33d41be3b66456c1b",
+      "generated_at": "2026-06-19T18:50:03.873619+00:00",
+      "config": "WP-I10-1_config.json",
+      "config_sha256": "c7aa2705d9a665c5337e248537198e9e994286d3a523f7ca59a50554ede2e2be",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    },
+    "WP-I4-1": {
+      "result": "WP-I4-1_result.json",
+      "result_sha256": "864ff406743933b25448779ae3b9b96c19e95d6661245a23882fc7d06545ecb6",
+      "generated_at": "2026-06-19T19:33:06.198525+00:00",
+      "config": "WP-I4-1_config.json",
+      "config_sha256": "a9d23a7579616c10b53cdfc430eaa529b32a64ee42048428d64996523c34450c",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    },
+    "WP-F10-1": {
+      "result": "WP-F10-1_result.json",
+      "result_sha256": "a939df5d14146f3b2721136f50288cc01e7fda1d77c6b10b0aecb1ea3807ee45",
+      "generated_at": "2026-06-19T19:12:51.765736+00:00",
+      "config": "WP-F10-1_config.json",
+      "config_sha256": "a25fd8176043c5440644129f036bc1759608e8783c52b741763d00bfbcaf3f54",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    },
+    "WP-F1-1": {
+      "result": "WP-F1-1_result.json",
+      "result_sha256": "15c2fb284091892499fa94d44c6de0b1e73c239b1c2832f046908d5841c7a3cb",
+      "generated_at": "2026-06-19T19:07:13.979505+00:00",
+      "config": "WP-F1-1_config.json",
+      "config_sha256": "49db801d9bf5aa16d4ffa26295f06608a94c1331dee7f8d9733a0dfb277ec35e",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    },
+    "WP-C1-1": {
+      "result": "WP-C1-1_result.json",
+      "result_sha256": "786bb770770737dc344993b9be9d7b1bc4a3583cd2af8dc7e79459db952aec38",
+      "generated_at": "2026-06-19T22:55:33.904682+00:00",
+      "config": "WP-C1-1_config.json",
+      "config_sha256": "d98f7ec5e92b4664270d2ffc59e1a028bade63c254f7570a0acb919ea7b4c6ad",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    },
+    "WP-C2-1": {
+      "result": "WP-C2-1_result.json",
+      "result_sha256": "535cd3c497236d7611d8a2e3ebf8583da544668fdc1af5580c245191dc7c09c9",
+      "generated_at": "2026-06-22T10:29:30.208174+00:00",
+      "config": "WP-C2-1_config.json",
+      "config_sha256": "07ba125cf5d4f1b6f0fb489d88639de252b5582eb3f4b09b17719055d483b3c4",
+      "source": "passeport V7.0-P1, hash_integrite.result_json_sha256"
+    }
+  }
+}
