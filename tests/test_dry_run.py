@@ -14,7 +14,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent / "tools"))
 import dry_run_pipeline as drp
 
-CONFIG_DIR = Path(__file__).parent.parent / "config"
+CONFIG_DIR = Path(__file__).parent.parent / "config" / "v6.2"   # fiches V6.2 depuis la réorganisation
 
 FICHE_EGYPTE = CONFIG_DIR / "WP-C2-1_Egypte2011_v62.json"
 FICHE_HAITI  = CONFIG_DIR / "WP-C1-1_Haiti_v62.json"

@@ -11,6 +11,7 @@ Usage :
     pytest tests/ -v
 """
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -79,6 +80,16 @@ def test_golden(wp_id, fiche_path, generate_golden):
         f"  hash current : {current_hash}\n"
         f"  traj golden  : {golden.get('simulation', {}).get('traj')}\n"
         f"  traj current : {stable.get('simulation', {}).get('traj')}"
+    )
+
+
+def test_golden_couverture():
+    """Chaque fichier golden a sa fiche, et chaque fiche a son golden (pas de perte silencieuse)."""
+    ids_fiches = {wid for wid, _ in FICHES}
+    ids_golden = {p.name[:-len("_result.json")] for p in GOLDEN_DIR.glob("*_result.json")}
+    assert ids_fiches == ids_golden, (
+        f"fiches sans golden : {sorted(ids_fiches - ids_golden)} ; "
+        f"golden sans fiche : {sorted(ids_golden - ids_fiches)}"
     )
 
 
@@ -231,51 +242,68 @@ def _make_minimal_result(wp_id: str = "WP-C2-1") -> dict:
     return run_wp(config)
 
 
-def test_passeport_modele_env_var(monkeypatch):
-    """MEPA_IA_MODEL=claude-test → provenance_ia['modele'] == 'claude-test'."""
-    monkeypatch.setenv("MEPA_IA_MODEL", "claude-test")
-    # Recharger le module pour que os.environ.get() soit réévalué
-    importlib.reload(passeport_schema)
-
+def test_passeport_provenance_par_noeud():
+    """Erratum Certification V7.0 §5.1 : aucun paramètre d'inférence n'est écrit en dur dans
+    provenance_ia ; il renvoie à provenance_llm_par_noeud, renseigné par le pipeline (Nœud 15).
+    Remplace test_passeport_modele_env_var (mécanisme MEPA_IA_MODEL retiré)."""
     result    = _make_minimal_result()
     passeport = passeport_schema.passeport_depuis_result(result)
-
-    assert passeport["provenance_ia"]["modele"] == "claude-test", (
-        f"modele attendu 'claude-test', obtenu '{passeport['provenance_ia']['modele']}'"
+    prov      = passeport["provenance_ia"]
+    assert "temperature" not in prov, "provenance_ia ne doit plus déclarer de température en dur"
+    assert "provenance_llm_par_noeud" in prov.get("parametres_inference", ""), (
+        f"parametres_inference doit renvoyer à provenance_llm_par_noeud, obtenu : {prov.get('parametres_inference')!r}"
     )
-
-    # Restaurer l'état du module après le test
-    monkeypatch.delenv("MEPA_IA_MODEL", raising=False)
-    importlib.reload(passeport_schema)
+    assert prov.get("modele"), "provenance_ia.modele vide"
 
 
+@pytest.mark.skip(reason=(
+    "Mécanisme retiré par l'Erratum Certification V7.0 §5.1 : le modèle n'est plus lu dans "
+    "_conv_e_meta par le schéma ; la provenance réelle est enregistrée nœud par nœud par le "
+    "pipeline (provenance_llm_par_noeud, Nœud 15) et vérifiée au run de validation."
+))
 def test_passeport_modele_conv_e_meta():
-    """_conv_e_meta dans result → prioritaire sur env var."""
-    result = _make_minimal_result()
-    result["_conv_e_meta"] = {"modele": "claude-opus-custom"}
+    """_conv_e_meta dans result → prioritaire sur env var (comportement V6.2, retiré)."""
 
-    passeport = passeport_schema.passeport_depuis_result(result)
 
-    assert passeport["provenance_ia"]["modele"] == "claude-opus-custom", (
-        f"_conv_e_meta non prioritaire : obtenu '{passeport['provenance_ia']['modele']}'"
-    )
+def _version(texte: str) -> tuple:
+    """'3.0' → (3, 0, 0) : comparaison stricte, complétée par des zéros."""
+    parts = [int(x) for x in re.findall(r"\d+", texte)]
+    return tuple((parts + [0, 0, 0])[:3])
 
 
 def test_passeport_versions_reelles():
-    """mepa_version reflète les versions réelles des scripts (runner 2.1.1, constants 1.2.3)."""
-    result    = _make_minimal_result()
-    passeport = passeport_schema.passeport_depuis_result(result)
-    mv        = passeport["mepa_version"]
+    """Les étiquettes de mepa_version du passeport correspondent aux versions réelles des
+    fichiers du dépôt (en-tête « Version : » des scripts, $meta.version des JSON).
+    Détecte une étiquette restée en retard après une modification de script."""
+    from _mepa_helpers import SCRIPTS_DIR, CONFIG_DIR
+    result = _make_minimal_result()
+    mv     = passeport_schema.passeport_depuis_result(result)["mepa_version"]
 
-    assert "2.1.1" in mv["runner"], (
-        f"runner attendu contenir '2.1.1', obtenu '{mv['runner']}'"
-    )
-    assert "2.1.1" in mv["audit"], (
-        f"audit attendu contenir '2.1.1', obtenu '{mv['audit']}'"
-    )
-    assert "1.2.3" in mv["constants"], (
-        f"constants attendu contenir '1.2.3', obtenu '{mv['constants']}'"
-    )
+    def en_tete(fichier):
+        t = (SCRIPTS_DIR / fichier).read_text(encoding="utf-8")[:6000]
+        m = re.search(r"Version\s*:\s*([0-9]+(?:\.[0-9]+)+)", t)
+        assert m, f"pas de ligne « Version : » dans {fichier}"
+        return m.group(1)
+
+    def meta(fichier):
+        return json.loads((CONFIG_DIR / fichier).read_text(encoding="utf-8"))["$meta"]["version"]
+
+    reelles = {
+        "runner":        en_tete("mepa_runner_v3_v7.py"),
+        "runner_legacy": en_tete("mepa_runner_v2_gamma.py"),
+        "audit":         en_tete("mepa_node2_audit_v7.js"),
+        "kappa_calc":    en_tete("mepa_kappa_calculator.py"),
+        "passeport":     en_tete("mepa_passeport_schema.py"),
+        "constants":     meta("mepa_constants.json"),
+        "whitelist":     meta("mepa_whitelist_keys.json"),
+    }
+    ecarts = {}
+    for cle, reelle in reelles.items():
+        m = re.search(r"v([0-9]+(?:\.[0-9]+)+)", mv[cle])
+        etiquette = m.group(1) if m else None
+        if etiquette is None or _version(etiquette) != _version(reelle):
+            ecarts[cle] = (mv[cle], reelle)
+    assert not ecarts, f"étiquette ≠ version réelle : {ecarts}"
 
 
 def test_passeport_structure_valide():
@@ -287,12 +315,12 @@ def test_passeport_structure_valide():
     ]
     result    = _make_minimal_result()
     passeport = passeport_schema.passeport_depuis_result(result)
-
     manquantes = [k for k in CLES_OBLIGATOIRES if k not in passeport]
     assert not manquantes, f"Clés obligatoires manquantes dans le passeport : {manquantes}"
-
+    # Résultat V6.2 (runner v2_gamma) → schéma v2.0 ; résultat V7 → v3.0.
     assert passeport["$schema"] == "mepa-passeport-v2.0", (
         f"$schema inattendu : '{passeport['$schema']}'"
     )
     assert passeport["provenance_ia"].get("modele"), "provenance_ia.modele vide"
-    assert passeport["mepa_version"].get("label") == "MEPA V6.2 Fortifiée"
+    # mepa_version décrit la chaîne d'outils en service (V7), quelle que soit la fiche.
+    assert passeport["mepa_version"].get("label") == passeport_schema.MEPA_VERSION_META["label"]

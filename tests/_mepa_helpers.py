@@ -14,6 +14,8 @@ from pathlib import Path
 REPO_ROOT  = Path(__file__).parent.parent
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 CONFIG_DIR  = REPO_ROOT / "config"
+# Fiches V6.2 : rangées dans config/v6.2/ depuis la réorganisation du dépôt.
+FICHES_V62_DIR = CONFIG_DIR / "v6.2"
 GOLDEN_DIR  = Path(__file__).parent / "golden"
 
 # scripts/ sur sys.path pour l'import du runner
@@ -136,15 +138,19 @@ def collect_fiches() -> list:
     Garantit l'unicité des IDs et des fichiers golden.
     """
     result = []
-    for p in sorted(glob.glob(str(CONFIG_DIR / "WP-*.json"))):
+    for p in sorted(glob.glob(str(FICHES_V62_DIR / "WP-*.json"))):
         with open(p, encoding="utf-8") as f:
             d = json.load(f)
         result.append((d.get("wp_id", Path(p).stem), p))
-    for p in sorted(glob.glob(str(CONFIG_DIR / "fiche_etalon_*.json"))):
+    for p in sorted(glob.glob(str(FICHES_V62_DIR / "fiche_etalon_*.json"))):
         with open(p, encoding="utf-8") as f:
             d = json.load(f)
         test_id = d.get("wp_id", Path(p).stem) + "_etalon"
         result.append((test_id, p))
+    # Garde-fou : une collecte vide ne doit jamais passer en silence
+    # (sinon les tests paramétrés disparaissent sans aucun échec visible).
+    if not result:
+        raise RuntimeError(f"collect_fiches : aucune fiche trouvée dans {FICHES_V62_DIR}")
     return result
 
 
